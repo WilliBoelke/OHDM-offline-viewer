@@ -40,6 +40,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ohdmlogo" />
 
+
         <android.support.constraint.ConstraintLayout
             android:id="@+id/cv3"
             android:layout_width="0dp"
@@ -103,7 +104,6 @@
                 app:layout_constraintStart_toEndOf="@+id/activatedMapFile"
                 app:layout_constraintTop_toTopOf="@+id/activatedMapFile" />
         </android.support.constraint.ConstraintLayout>
-
 
         <Button
             android:id="@+id/buttonSave"
