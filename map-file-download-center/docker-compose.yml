@@ -1,0 +1,16 @@
+version: "3.3"
+services:
+  vsftpd:
+    container_name: vsftpd
+    image: panubo/vsftpd
+    ports:
+      - "21:21"
+      - "4559-4564:4559-4564"
+    restart: always
+    environment:
+      FTP_USER: ohdm
+      FTP_PASSWORD: ohdm
+      FTP_USERS_ROOT:
+    network_mode: "host"
+    volumes:
+      - /opt/ohdm:/srv/ohdm
