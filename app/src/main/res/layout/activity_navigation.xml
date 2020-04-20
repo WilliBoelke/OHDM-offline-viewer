@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/ohdmColor"
-    tools:context=".Activities.NavigationActivity">
+    tools:context=".Fragments.NavigationActivity">
 
     <org.osmdroid.views.MapView
         android:id="@+id/map"

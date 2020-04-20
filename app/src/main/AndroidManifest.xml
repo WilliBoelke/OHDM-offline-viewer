@@ -17,17 +17,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.BottomNavigationActivity"></activity>
-        <activity android:name=".Activities.MapDownloadActivity" />
-        <activity android:name=".Activities.AboutActivity" />
-        <activity android:name=".Activities.HomeActivity">
+        <activity android:name=".MainActivityPackage.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.NavigationActivity" />
+        <activity android:name=".Fragments.MapDownloadFragment" />
+        <activity android:name=".Fragments.AboutActivity" />
+        <activity android:name=".Fragments.NavigationActivity" />
     </application>
 
 </manifest>
