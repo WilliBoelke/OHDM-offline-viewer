@@ -42,7 +42,6 @@ public class HomeFragment extends Fragment {
     private View view;
 
     // onCreateView is just here to create the ViewInstance
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

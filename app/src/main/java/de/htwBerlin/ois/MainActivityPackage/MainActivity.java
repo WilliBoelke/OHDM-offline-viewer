@@ -2,13 +2,13 @@ package de.htwBerlin.ois.MainActivityPackage;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,8 +20,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import de.htwBerlin.ois.Fragments.AboutFragment;
 import de.htwBerlin.ois.Fragments.HomeFragment;
 import de.htwBerlin.ois.Fragments.MapDownloadFragment;
+import de.htwBerlin.ois.Fragments.OptionsFragment;
 import de.htwBerlin.ois.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -55,6 +57,20 @@ public class MainActivity extends AppCompatActivity {
     {
         getMenuInflater().inflate(R.menu.actionbar_menu, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.ab_menu_about:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AboutFragment()).commit();
+                break;
+
+            case R.id.ab_menu_settings:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new OptionsFragment()).commit();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**
