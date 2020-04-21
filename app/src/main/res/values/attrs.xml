@@ -12,12 +12,17 @@
 
 
     <declare-styleable name="ds">
+        <!-- Color for foreground elements like cards, ListView items or menus-->
         <attr name="foreground" format="color"/>
+        <!-- Color for the layout background-->
         <attr name="backgroundColor" format="color"/>
+        <!--the ohdm color for accents-->
         <attr name="accent" format="color"/>
+        <!-- Color for primary Buttons-->
         <attr name="primary" format="color"/>
+        <!-- Color for secondary Buttons-->
         <attr name="secondary" format="color"/>
+        <!-- Color for primary texts-->
         <attr name="text" format="color"/>
-        <attr name="tint" format="color"/>
     </declare-styleable>
 </resources>

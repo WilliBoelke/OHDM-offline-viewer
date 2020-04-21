@@ -1,25 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-
-
-    <color name="primary_light">#8079BC01</color>
-    <color name="secondary_light">#0B5E0E</color>
-    <color name="accent_light">#77B900</color>
-    <color name="primary_dark">#8079BC01</color>
-    <color name="secondary_dark">#0B5E0E</color>
-    <color name="accent_dark">#77B900</color>
-
+    <!-- Light Mode colors :-->
+    <!-- Color for primary Buttons-->
+    <color name="primary_light">#0B5E0E</color>
+    <!-- Color for secondary Buttons-->
+    <color name="secondary_light">#E77CB342</color>
+    <!-- Color for the layout background-->
     <color name="background_light">#EDEDED</color>
+    <!-- Color for foreground elements like cards, ListView items or menus-->
     <color name="foreground_light">#C2EDEDED</color>
-    <color name="background_dark">#F1171717</color>
-    <color name="foreground_dark">#8A5A5A5A</color>
-
-    <color name="text_dark">#F1FFFFFF</color>
-    <color name="textSecondary_dark">#98CACACA</color>
+    <!-- Color for primary texts-->
     <color name="text_light">#F1000000</color>
+    <!-- Color for secondary texts-->
     <color name="textSecondary_light">#362B2A2A</color>
 
-    <color name="ohdmColor">#77B900</color>
-    <color name="black_overlay">#66000000</color>
+    <!-- Dark Mode colors :-->
+    <!-- Color for primary Buttons-->
+    <color name="primary_dark">#8079BC01</color>
+    <!-- Color for secondary Buttons-->
+    <color name="secondary_dark">#0B5E0E</color>
+    <!-- Color for the layout background-->
+    <color name="background_dark">#F1171717</color>
+    <!-- Color for foreground elements like cards, ListView items or menus-->
+    <color name="foreground_dark">#8A5A5A5A</color>
+    <!-- Color for primary texts-->
+    <color name="text_dark">#F1FFFFFF</color>
+    <!-- Color for secondary texts-->
+    <color name="textSecondary_dark">#98CACACA</color>
+
+    <!--the ohdm color for accents-->
+    <color name="ohdm_accent_color">#77B900</color>
 </resources>

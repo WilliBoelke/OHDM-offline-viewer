@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/ohdmColor"
+    android:background="@color/ohdm_accent_color"
     tools:context=".Activities.NavigationActivity">
 
     <org.osmdroid.views.MapView

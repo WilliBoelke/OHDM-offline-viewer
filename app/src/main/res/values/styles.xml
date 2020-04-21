@@ -4,7 +4,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="backgroundColor">@color/background_light</item>
         <item name="foreground">@color/foreground_light</item>
-        <item name="accent">@color/accent_light</item>
+        <item name="accent">@color/ohdm_accent_color</item>
         <item name="primary">@color/primary_light</item>
         <item name="secondary">@color/secondary_light</item>
         <item name="text">@color/text_light</item>
@@ -14,7 +14,7 @@
     <style name="LightTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="backgroundColor">@color/background_light</item>
         <item name="foreground">@color/foreground_light</item>
-        <item name="accent">@color/accent_light</item>
+        <item name="accent">@color/ohdm_accent_color</item>
         <item name="primary">@color/primary_light</item>
         <item name="secondary">@color/secondary_light</item>
         <item name="text">@color/text_light</item>
@@ -24,7 +24,7 @@
     <style name="DarkTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="backgroundColor">@color/background_dark</item>
         <item name="foreground">@color/foreground_dark</item>
-        <item name="accent">@color/accent_dark</item>
+        <item name="accent">@color/ohdm_accent_color</item>
         <item name="primary">@color/primary_dark</item>
         <item name="secondary">@color/secondary_dark</item>
         <item name="text">@color/text_dark</item>

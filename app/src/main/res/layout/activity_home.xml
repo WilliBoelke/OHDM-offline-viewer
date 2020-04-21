@@ -11,7 +11,7 @@
         android:id="@+id/bottom_navigation"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="?android:attr/windowBackground"
+        android:background="?attr/foreground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +40,7 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ohdmlogo" />
+            app:srcCompat="@drawable/htw_logo" />
 
 
         <android.support.constraint.ConstraintLayout
@@ -116,7 +116,7 @@
             android:layout_marginTop="32dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/button_border"
-            android:backgroundTint="@color/accent_light"
+            android:backgroundTint="?attr/primary"
             android:gravity="center"
             android:text="Save and navigate!"
             app:layout_constraintEnd_toEndOf="parent"

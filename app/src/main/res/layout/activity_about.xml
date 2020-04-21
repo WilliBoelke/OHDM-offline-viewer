@@ -12,7 +12,7 @@
         android:id="@+id/bottom_navigation"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="?android:attr/windowBackground"
+        android:background="?attr/foreground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +42,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/headline1_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -50,12 +50,12 @@
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
                     android:text="OHDM .."
                     android:textAlignment="center"
-                    android:textColor="@color/accent_light"
-                    android:textSize="24sp"
+                    android:textColor="?attr/accent"
+                    android:textSize="@dimen/h1"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/info1_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -66,26 +66,24 @@
                     android:textAlignment="center"
                     android:textAllCaps="false"
                     android:textColor="?attr/text"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
+                    android:textSize="@dimen/primary_font_size"
                     android:typeface="normal" />
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/headline2_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginTop="@dimen/activity_horizontal_margin"
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:gravity="center"
                     android:text="OHDM Offline Viewer .."
                     android:textAlignment="center"
-                    android:textColor="@color/accent_light"
-                    android:textSize="24sp"
+                    android:textColor="?attr/accent"
+                    android:textSize="@dimen/h1"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/info2_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -96,24 +94,22 @@
                     android:textAlignment="center"
                     android:textAllCaps="false"
                     android:textColor="?attr/text"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:typeface="normal"
-                    tools:layout_editor_absoluteY="332dp" />
+                    android:textSize="@dimen/primary_font_size"
+                    android:typeface="normal" />
 
                 <ImageView
-                    android:id="@+id/imageView"
+                    android:id="@+id/htw_logo_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="150dp"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginTop="@dimen/activity_horizontal_margin"
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    app:srcCompat="@drawable/htwlogo"
+                    app:srcCompat="@drawable/htw_logo"
                     tools:layout_editor_absoluteX="6dp"
                     tools:layout_editor_absoluteY="231dp" />
 
                 <ImageView
-                    android:id="@+id/imageView2"
+                    android:id="@+id/ohdm_öogo_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
