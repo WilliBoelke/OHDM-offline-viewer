@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/backgroundColor"
-    tools:context=".Activities.AboutActivity">
+    tools:context=".Fragments.AboutFragment">
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_navigation"

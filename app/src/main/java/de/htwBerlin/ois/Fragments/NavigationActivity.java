@@ -1,4 +1,4 @@
-package de.htwBerlin.ois.Activities;
+package de.htwBerlin.ois.Fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -12,8 +12,6 @@ import org.mapsforge.map.layer.cache.TileCache;
 import org.mapsforge.map.layer.renderer.TileRendererLayer;
 import org.mapsforge.map.reader.MapFile;
 import org.mapsforge.map.rendertheme.InternalRenderTheme;
-import org.osmdroid.api.IMapController;
-import org.osmdroid.util.GeoPoint;
 
 import java.io.File;
 
@@ -22,14 +20,16 @@ import de.htwBerlin.ois.FileStructure.MapFileSingleton;
 /**
  * Map Activity, which displays the actual Map File
  */
-public class NavigationActivity extends Activity {
+public class NavigationActivity extends Activity
+{
 
     private static final String TAG = "NavigationActivity";
 
     private MapView mapView = null;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         AndroidGraphicFactory.createInstance(getApplication());
 
@@ -39,7 +39,8 @@ public class NavigationActivity extends Activity {
     /**
      * Initializes the mapView
      */
-    private void setUpMap(){
+    private void setUpMap()
+    {
         mapView = new MapView(this);
         setContentView(mapView);
 
@@ -47,15 +48,12 @@ public class NavigationActivity extends Activity {
         mapView.getMapScaleBar().setVisible(true);
         mapView.setBuiltInZoomControls(true);
 
-        TileCache tileCache = AndroidUtil.createTileCache(this, "mapcache",
-                mapView.getModel().displayModel.getTileSize(), 1f,
-                mapView.getModel().frameBufferModel.getOverdrawFactor());
+        TileCache tileCache = AndroidUtil.createTileCache(this, "mapcache", mapView.getModel().displayModel.getTileSize(), 1f, mapView.getModel().frameBufferModel.getOverdrawFactor());
 
         File ohdmFile = MapFileSingleton.getInstance().getFile();
         MapDataStore mapDataStore = new MapFile(ohdmFile);
 
-        TileRendererLayer tileRendererLayer = new TileRendererLayer(tileCache, mapDataStore,
-                mapView.getModel().mapViewPosition, AndroidGraphicFactory.INSTANCE);
+        TileRendererLayer tileRendererLayer = new TileRendererLayer(tileCache, mapDataStore, mapView.getModel().mapViewPosition, AndroidGraphicFactory.INSTANCE);
         tileRendererLayer.setXmlRenderTheme(InternalRenderTheme.DEFAULT);
 
         mapView.getLayerManager().getLayers().add(tileRendererLayer);
@@ -64,27 +62,32 @@ public class NavigationActivity extends Activity {
     }
 
     @Override
-    protected void onStart() {
+    protected void onStart()
+    {
         super.onStart();
     }
 
     @Override
-    protected void onResume() {
+    protected void onResume()
+    {
         super.onResume();
     }
 
     @Override
-    protected void onPause() {
+    protected void onPause()
+    {
         super.onPause();
     }
 
     @Override
-    protected void onStop() {
+    protected void onStop()
+    {
         super.onStop();
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onDestroy()
+    {
         super.onDestroy();
     }
 }

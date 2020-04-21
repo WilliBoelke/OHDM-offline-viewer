@@ -39,4 +39,9 @@
         .. was developed in 2019 by students during a course by Mr. Schwotzer. It shall serve as a prototype to display maps stored in OHDM for the first time.
     </string>
 
+
+    <!-- Options Activity Strings:  -->
+    <string name="DarkMode">Enable or Disable the Darkmode</string>
+
+
 </resources>
