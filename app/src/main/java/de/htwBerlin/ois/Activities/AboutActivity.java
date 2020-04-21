@@ -1,11 +1,12 @@
 package de.htwBerlin.ois.Activities;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.bottomnavigation.LabelVisibilityMode;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -13,30 +14,48 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.htwBerlin.ois.R;
 
-public class AboutActivity extends AppCompatActivity {
+public class AboutActivity extends AppCompatActivity
+{
 
     private static final String TAG = "AboutActivity";
-    @BindView(R.id.bottom_navigation) BottomNavigationView bottom_navigation;
+    @BindView(R.id.bottom_navigation)
+    BottomNavigationView bottom_navigation;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
+
+        //Darkmode/LightMode
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+        {
+            setTheme(R.style.DarkTheme);
+        }
+        else
+        {
+            setTheme(R.style.LightTheme);
+        }
+
         setContentView(R.layout.activity_about);
         ButterKnife.bind(this);
         setUpBottomNavigation();
     }
 
-    private void setUpBottomNavigation() {
+    private void setUpBottomNavigation()
+    {
         bottom_navigation.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_LABELED);
         Menu menu = bottom_navigation.getMenu();
         MenuItem menuItem = menu.getItem(3);
         menuItem.setChecked(true);
 
-        bottom_navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        bottom_navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
+        {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem)
+            {
 
-                switch (menuItem.getItemId()){
+                switch (menuItem.getItemId())
+                {
                     case R.id.nav_about:
                         break;
                     case R.id.nav_navigation:
@@ -51,7 +70,6 @@ public class AboutActivity extends AppCompatActivity {
                         Intent startIntent = new Intent(AboutActivity.this, HomeActivity.class);
                         startActivity(startIntent);
                         break;
-
                 }
                 return false;
             }
@@ -59,27 +77,32 @@ public class AboutActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
+    protected void onStart()
+    {
         super.onStart();
     }
 
     @Override
-    protected void onResume() {
+    protected void onResume()
+    {
         super.onResume();
     }
 
     @Override
-    protected void onPause() {
+    protected void onPause()
+    {
         super.onPause();
     }
 
     @Override
-    protected void onStop() {
+    protected void onStop()
+    {
         super.onStop();
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onDestroy()
+    {
         super.onDestroy();
     }
 }

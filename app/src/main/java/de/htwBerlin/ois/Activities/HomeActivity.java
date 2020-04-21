@@ -12,12 +12,15 @@ import android.support.design.bottomnavigation.LabelVisibilityMode;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import java.io.File;
@@ -42,11 +45,13 @@ import de.htwBerlin.ois.R;
  *
  * @author morelly_t1
  */
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity
+{
 
     private static final String TAG = "HomeActivity";
     private static final String MAP_FILE_PATH = Environment.getExternalStorageDirectory().toString() + "/OHDM";
     private static final int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
+
 
     private Set<File> mapFiles;
 
@@ -58,23 +63,59 @@ public class HomeActivity extends AppCompatActivity {
     Button buttonSave;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
+
+        //Darkmode/LightMode
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+        {
+            setTheme(R.style.DarkTheme);
+        }
+        else
+        {
+            setTheme(R.style.LightTheme);
+        }
+
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
-
         fillDropDownFiles();
         setUpBottomNavigation();
         checkPermissions();
+
+        Switch darkModeToggle = findViewById(R.id.switch2);
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+        {
+            darkModeToggle.setChecked(true);
+        }
+        darkModeToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            {
+                if (isChecked)
+                {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    reset();
+                }
+                else
+                {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    reset();
+                }
+            }
+        });
     }
 
     /**
      * Creates OHDM Folder if not exists
      */
-    private void createOhdmDirectory() {
+    private void createOhdmDirectory()
+    {
         File dir = new File(MAP_FILE_PATH);
         boolean status = true;
-        if (!dir.exists()) {
+        if (!dir.exists())
+        {
             status = dir.mkdirs();
             if (status)
                 Toast.makeText(getApplicationContext(), "Created OHDM Directory.", Toast.LENGTH_SHORT).show();
@@ -86,22 +127,27 @@ public class HomeActivity extends AppCompatActivity {
     /**
      * Initializes Dropdown menu with .map-files
      */
-    private void fillDropDownFiles() {
+    private void fillDropDownFiles()
+    {
         mapFiles = findMapFiles();
         Log.i(TAG, "found " + mapFiles.size() + " .map-files");
         List<String> list = new ArrayList<String>();
 
-        if (mapFiles.size() > 0) {
-            for (File file : mapFiles) {
+        if (mapFiles.size() > 0)
+        {
+            for (File file : mapFiles)
+            {
                 list.add(file.getName());
                 Log.i(TAG, "added " + file.getName() + " to dropdown");
             }
         }
 
         List<String> listSorted = list.stream().collect(Collectors.<String>toList());
-        Collections.sort(listSorted, new Comparator<String>() {
+        Collections.sort(listSorted, new Comparator<String>()
+        {
             @Override
-            public int compare(String s1, String s2) {
+            public int compare(String s1, String s2)
+            {
                 return s1.compareTo(s2);
             }
         });
@@ -116,16 +162,22 @@ public class HomeActivity extends AppCompatActivity {
      *
      * @return
      */
-    protected Set<File> findMapFiles() {
+    protected Set<File> findMapFiles()
+    {
         Set<File> maps = new HashSet<>();
-        try {
-            for (File osmfile : new File(MAP_FILE_PATH).listFiles()) {
-                if (osmfile.getName().endsWith(".map")) {
+        try
+        {
+            for (File osmfile : new File(MAP_FILE_PATH).listFiles())
+            {
+                if (osmfile.getName().endsWith(".map"))
+                {
                     Log.i(TAG, "osmfile: " + osmfile.getName());
                     maps.add(osmfile);
                 }
             }
-        } catch (NullPointerException e) {
+        }
+        catch (NullPointerException e)
+        {
             Log.i(TAG, "No map files located.");
         }
         return maps;
@@ -134,13 +186,17 @@ public class HomeActivity extends AppCompatActivity {
     /**
      * Sets Listener for Buttom Navigation Bar
      */
-    private void setUpBottomNavigation() {
+    private void setUpBottomNavigation()
+    {
         bottom_navigation.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_LABELED);
-        bottom_navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        bottom_navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
+        {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem)
+            {
 
-                switch (menuItem.getItemId()) {
+                switch (menuItem.getItemId())
+                {
                     case R.id.nav_about:
                         Intent aboutIntent = new Intent(HomeActivity.this, AboutActivity.class);
                         startActivity(aboutIntent);
@@ -162,18 +218,22 @@ public class HomeActivity extends AppCompatActivity {
      * Checks necessary permissions
      * Source https://programtalk.com/vs/osmdroid/osmdroid-forge-app/src/main/java/org/osmdroid/forge/app/MainActivity.java/
      */
-    private void checkPermissions() {
+    private void checkPermissions()
+    {
         List<String> permissions = new ArrayList<>();
         String message = "OHDM Offline Viewer permissions:";
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
             permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
             message += "\nStorage access to store map Files.";
         }
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+        {
             permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
             message += "\nLocation to show user location.";
         }
-        if (!permissions.isEmpty()) {
+        if (!permissions.isEmpty())
+        {
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
             String[] params = permissions.toArray(new String[permissions.size()]);
             requestPermissions(params, REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
@@ -181,36 +241,44 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
+    protected void onStart()
+    {
         fillDropDownFiles();
         super.onStart();
     }
 
     @Override
-    protected void onResume() {
+    protected void onResume()
+    {
         fillDropDownFiles();
         super.onResume();
     }
 
     @Override
-    protected void onPause() {
+    protected void onPause()
+    {
         super.onPause();
     }
 
     @Override
-    protected void onStop() {
+    protected void onStop()
+    {
         super.onStop();
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onDestroy()
+    {
         super.onDestroy();
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS: {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
+    {
+        switch (requestCode)
+        {
+            case REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS:
+            {
                 Map<String, Integer> perms = new HashMap<>();
 
                 perms.put(Manifest.permission.ACCESS_FINE_LOCATION, PackageManager.PERMISSION_GRANTED);
@@ -222,15 +290,21 @@ public class HomeActivity extends AppCompatActivity {
                 Boolean location = perms.get(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
                 Boolean storage = perms.get(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
 
-                if (location && storage) {
+                if (location && storage)
+                {
                     Toast.makeText(HomeActivity.this, "All permissions granted", Toast.LENGTH_SHORT).show();
-                } else if (location) {
+                }
+                else if (location)
+                {
                     Toast.makeText(this, "Storage permission is required to store map files to reduce data usage and for offline usage.", Toast.LENGTH_LONG).show();
-                } else if (storage) {
+                }
+                else if (storage)
+                {
                     Toast.makeText(this, "Location permission is required to show the user's location on map.", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(HomeActivity.this, "Storage permission is required to store map tiles to reduce data usage and for offline usage." +
-                            "\nLocation permission is required to show the user's location on map.", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Toast.makeText(HomeActivity.this, "Storage permission is required to store map tiles to reduce data usage and for offline usage." + "\nLocation permission is required to show the user's location on map.", Toast.LENGTH_SHORT).show();
                 }
                 createOhdmDirectory();
             }
@@ -241,22 +315,28 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.buttonSave)
-    public void onClickSaveButton() {
-        if (mapFiles.size() == 0) {
+    public void onClickSaveButton()
+    {
+        if (mapFiles.size() == 0)
+        {
             final AlertDialog alertDialog = new AlertDialog.Builder(HomeActivity.this).create();
             alertDialog.setTitle("No Map Files found!");
-            alertDialog.setMessage("Either store map files in OHDM directory in internal Storage." +
-                    " Or Download available maps (see Tab \"Maps\").");
-            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
+            alertDialog.setMessage("Either store map files in OHDM directory in internal Storage." + " Or Download available maps (see Tab \"Maps\").");
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener()
+            {
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    dialog.dismiss();
+                }
+            });
             alertDialog.show();
-        } else {
-            for (File file : mapFiles) {
-                if (file.getName().equals(spinnerMapFile.getSelectedItem().toString())) {
+        }
+        else
+        {
+            for (File file : mapFiles)
+            {
+                if (file.getName().equals(spinnerMapFile.getSelectedItem().toString()))
+                {
                     Log.i(TAG, "User has choosen " + spinnerMapFile.getSelectedItem().toString());
                     Log.i(TAG, "using " + file.getName() + " as mapfile");
                     MapFileSingleton mapFile = MapFileSingleton.getInstance();
@@ -273,5 +353,12 @@ public class HomeActivity extends AppCompatActivity {
     {
         getMenuInflater().inflate(R.menu.actionbar_menu, menu);
         return true;
+    }
+
+    private void reset()
+    {
+        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

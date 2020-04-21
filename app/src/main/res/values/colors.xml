@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorPrimary_Light">#8079BC01</color>
-    <color name="colorPrimaryDark_Light">#0B5E0E</color>
-    <color name="colorAccent_Light">#77B900</color>
-    <color name="colorPrimary_Dark">#8079BC01</color>
-    <color name="colorPrimaryDark_Dark">#0B5E0E</color>
-    <color name="colorAccent_Dark">#77B900</color>
 
-    <color name="backgroundColor_Light">#EDEDED</color>
-    <color name="foregroundColor_Light">#C2EDEDED</color>
 
-    <color name="backgroundColor_Dark">#F1202020</color>
-    <color name="foregroundColor_Dark">#98202020</color>
+    <color name="primary_light">#8079BC01</color>
+    <color name="secondary_light">#0B5E0E</color>
+    <color name="accent_light">#77B900</color>
+    <color name="primary_dark">#8079BC01</color>
+    <color name="secondary_dark">#0B5E0E</color>
+    <color name="accent_dark">#77B900</color>
+
+    <color name="background_light">#EDEDED</color>
+    <color name="foreground_light">#C2EDEDED</color>
+    <color name="background_dark">#F1171717</color>
+    <color name="foreground_dark">#8A5A5A5A</color>
+
+    <color name="text_dark">#F1FFFFFF</color>
+    <color name="textSecondary_dark">#98CACACA</color>
+    <color name="text_light">#F1000000</color>
+    <color name="textSecondary_light">#362B2A2A</color>
 
     <color name="ohdmColor">#77B900</color>
     <color name="black_overlay">#66000000</color>

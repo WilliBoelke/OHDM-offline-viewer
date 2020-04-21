@@ -22,8 +22,10 @@
         android:id="@+id/innerConstraintLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:background="?attr/backgroundColor"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -48,8 +50,8 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:background="@color/foregroundColor_Light"
-            android:backgroundTint="@color/foregroundColor_Light"
+            android:background="?attr/foreground"
+            android:backgroundTint="?attr/foreground"
             android:backgroundTintMode="add"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -67,6 +69,7 @@
                 android:text="@string/Home_Usage"
                 android:textAlignment="center"
                 android:textAllCaps="false"
+                android:textColor="?attr/text"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:typeface="normal"
@@ -85,8 +88,7 @@
                 android:layout_marginBottom="8dp"
                 android:text="current Map: "
                 android:textAlignment="center"
-                android:textColor="@color/colorAccent_Light"
-                android:textColorHighlight="@color/colorAccent_Light"
+                android:textColor="?attr/text"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -99,6 +101,7 @@
                 android:layout_height="0dp"
                 android:layout_marginEnd="8dp"
                 android:spinnerMode="dropdown"
+                android:textColor="?attr/text"
                 app:layout_constraintBottom_toBottomOf="@+id/activatedMapFile"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/activatedMapFile"
@@ -108,18 +111,29 @@
         <Button
             android:id="@+id/buttonSave"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="20sp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/button_border"
-            android:backgroundTint="@color/colorAccent_Light"
+            android:backgroundTint="@color/accent_light"
             android:gravity="center"
             android:text="Save and navigate!"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cv3" />
+
+        <Switch
+            android:id="@+id/switch2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:text="Switch"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
     </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

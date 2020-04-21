@@ -3,9 +3,9 @@
     android:layout_height="500dp" android:layout_width="500dp">
 
     <gradient
-        android:startColor="@color/colorPrimary_Dark"
-        android:centerColor="@color/colorAccent_Light"
-        android:endColor="@color/colorPrimaryDark_Dark"
+        android:startColor="?attr/primary"
+        android:centerColor="?attr/accent"
+        android:endColor="?attr/secondary"
         android:angle="360"/>
 
     <padding android:left="2dp"

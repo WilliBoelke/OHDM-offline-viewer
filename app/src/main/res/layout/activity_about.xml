@@ -5,6 +5,7 @@
     android:id="@+id/outerConstraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/backgroundColor"
     tools:context=".Activities.AboutActivity">
 
     <android.support.design.widget.BottomNavigationView
@@ -49,7 +50,7 @@
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
                     android:text="OHDM .."
                     android:textAlignment="center"
-                    android:textColor="@color/colorAccent_Light"
+                    android:textColor="@color/accent_light"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
@@ -64,6 +65,7 @@
                     android:text="@string/About_Text"
                     android:textAlignment="center"
                     android:textAllCaps="false"
+                    android:textColor="?attr/text"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:typeface="normal" />
@@ -78,7 +80,7 @@
                     android:gravity="center"
                     android:text="OHDM Offline Viewer .."
                     android:textAlignment="center"
-                    android:textColor="@color/colorAccent_Light"
+                    android:textColor="@color/accent_light"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
@@ -93,6 +95,7 @@
                     android:text="@string/About_APP"
                     android:textAlignment="center"
                     android:textAllCaps="false"
+                    android:textColor="?attr/text"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:typeface="normal"
