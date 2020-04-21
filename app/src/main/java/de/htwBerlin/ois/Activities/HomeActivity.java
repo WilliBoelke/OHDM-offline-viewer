@@ -55,11 +55,11 @@ public class HomeActivity extends AppCompatActivity
 
     private Set<File> mapFiles;
 
-    @BindView(R.id.mapFileDropDown)
+    @BindView(R.id.map_file_dropdown)
     Spinner spinnerMapFile;
     @BindView(R.id.bottom_navigation)
     BottomNavigationView bottom_navigation;
-    @BindView(R.id.buttonSave)
+    @BindView(R.id.save_button)
     Button buttonSave;
 
     @Override
@@ -83,7 +83,7 @@ public class HomeActivity extends AppCompatActivity
         setUpBottomNavigation();
         checkPermissions();
 
-        Switch darkModeToggle = findViewById(R.id.switch2);
+        Switch darkModeToggle = findViewById(R.id.dark_mode_switch);
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
         {
             darkModeToggle.setChecked(true);
@@ -314,7 +314,7 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-    @OnClick(R.id.buttonSave)
+    @OnClick(R.id.save_button)
     public void onClickSaveButton()
     {
         if (mapFiles.size() == 0)
