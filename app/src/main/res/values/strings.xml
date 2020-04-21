@@ -39,4 +39,7 @@
         .. was developed in 2019 by students during a course by Mr. Schwotzer. It shall serve as a prototype to display maps stored in OHDM for the first time.
     </string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
