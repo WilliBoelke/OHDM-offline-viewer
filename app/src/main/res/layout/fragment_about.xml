@@ -147,6 +147,56 @@
 
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/content_card3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/activity_horizontal_margin">
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/foreground"
+                    android:backgroundTint="?attr/foreground"
+                    android:backgroundTintMode="add"
+                    android:elevation="20dp"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <TextView
+                        android:id="@+id/headline3_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/activity_horizontal_margin"
+                        android:text="@string/find_us"
+                        android:textAlignment="center"
+                        android:textColor="?attr/accent"
+                        android:textSize="@dimen/h1"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/info3_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/activity_horizontal_margin"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center"
+                        android:text="https://github.com/OpenHistoricalDataMap"
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textColor="?attr/text"
+                        android:textSize="@dimen/primary_font_size"
+                        android:typeface="normal"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/headline3_tv" />
+
+                </android.support.constraint.ConstraintLayout>
+            </android.support.v7.widget.CardView>
         </LinearLayout>
     </ScrollView>
 

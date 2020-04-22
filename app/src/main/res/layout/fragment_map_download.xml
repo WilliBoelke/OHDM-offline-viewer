@@ -5,11 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="?attr/backgroundColor"
+    android:backgroundTint="?attr/backgroundColor"
     tools:context=".Fragments.MapDownloadFragment">
 
-    <ListView
-        android:id="@+id/downladRecycler"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/available_maps_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
 </RelativeLayout>

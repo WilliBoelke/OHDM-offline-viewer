@@ -6,28 +6,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import de.htwBerlin.ois.FTP.FtpTaskFileDownloading;
 import de.htwBerlin.ois.R;
 
 /**
  * ListView adapter that holds ohdmFiles
+ * Since we started to use a recycler view we don't need that for now
+ * I will let it stay here in case someone needs it in the Future// Willi
  *
  * @author morelly_t1
  */
-public class OhdmFileAdapter extends ArrayAdapter<OhdmFile> {
+@Deprecated
+public class OhdmFileListViewAdapter extends ArrayAdapter<OhdmFile> {
 
     private static final String TAG = "OhdmFileAdapter";
 
     private Context context;
     private int resource;
 
-    public OhdmFileAdapter(Context context, int resource, ArrayList<OhdmFile> ohdmFiles) {
+    public OhdmFileListViewAdapter(Context context, int resource, ArrayList<OhdmFile> ohdmFiles) {
         super(context, resource, ohdmFiles);
         this.context = context;
         this.resource = resource;
@@ -44,9 +44,11 @@ public class OhdmFileAdapter extends ArrayAdapter<OhdmFile> {
         LayoutInflater inflater = LayoutInflater.from(context);
         convertView = inflater.inflate(resource, parent, false);
 
-        TextView tvFileName = (TextView) convertView.findViewById(R.id.tvFileName);
-        TextView tvFileSize = (TextView) convertView.findViewById(R.id.tvFileSize);
-        TextView tvCreationDate = (TextView) convertView.findViewById(R.id.tvCreationDate);
+        TextView tvFileName = (TextView) convertView.findViewById(R.id.map_name_tv);
+        TextView tvFileSize = (TextView) convertView.findViewById(R.id.map_size_tv);
+        TextView tvCreationDate = (TextView) convertView.findViewById(R.id.date_of_creation_tv);
+
+        /*
         final Button buttonDownloadFile = (Button) convertView.findViewById(R.id.buttonDownloadFile);
         final ProgressBar progressBar = (ProgressBar) convertView.findViewById(R.id.progressBar);
 
@@ -59,12 +61,12 @@ public class OhdmFileAdapter extends ArrayAdapter<OhdmFile> {
                 disableButton(buttonDownloadFile);
             }
         });
-
+*/
         tvFileName.setText(fileName);
         tvFileSize.setText((int) (double) (fileSize / 1024) + " MB");
         tvCreationDate.setText(creationDate);
 
-        if (isDownloaded) disableButton(buttonDownloadFile);
+        //  if (isDownloaded) disableButton(buttonDownloadFile);
 
         return convertView;
     }

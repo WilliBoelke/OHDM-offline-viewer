@@ -8,9 +8,9 @@
     <string name="menu_send">Seinden</string>
     <string name="menu_settings">Einstellungen</string>
     <string name="menu_about">Über uns</string>
-    <string name="about_ohdm_offline_viewer">"        ...wurde im Jahr 2019 von Studenten der HTW Berlin unter der Leitung von Prof. Schwotzer entwickelt. Es soll als Prototyp dienen um in OHDM gespeicherte Karten offline zu Speichern und Darzustellen. "</string>
-    <string name="home_usage">"  Um dir deine eigenen Karten anzuschauen, verschiebe sie einfach auf dein Handy in den ordner \"OHDM\" Du kannst dir auch Karten von OHDM im Karten Tab der App anschauen und Herunterladen."</string>
-    <string name="dark_mode">nacht Modus ein- und auschalten</string>
+    <string name="about_ohdm_offline_viewer">"        ...wurde im Jahr 2019 von Studenten der HTW Berlin unter der Leitung von Prof. Schwotzer entwickelt. Es soll als Prototyp dienen um in OHDM verfügbare Karten offline zu Speichern und Darzustellen. "</string>
+    <string name="home_usage">"  Um dir deine eigenen Karten anzuschauen, verschiebe sie eingach auf den Handy in den Ordner \"OHDM\" Du kannst dir auch Karten von OHDM im Karten Tab der App anschauen und herunterladen."</string>
+    <string name="dark_mode">Nacht Modus ein- und auschalten</string>
     <string name="menu_gallery">Gallerie</string>
     <string name="about_ohdm">"       ...Speichert jährlich Open Street Map (OSM) Karten. Dies macht es zum ersten System welches historische Karten verarbeitet."</string>
     <string name="menu_tools">Tools</string>
@@ -19,4 +19,5 @@
     <string name="navigation_drawer_close">Schließe navigation drawer</string>
     <string name="save_map_button">Speichern und Navigieren</string>
     <string name="current_map">"ausgewählte Karte : "</string>
+    <string name="find_us">hier kannst du uns finden</string>
 </resources>
