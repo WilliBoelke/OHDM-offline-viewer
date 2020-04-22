@@ -23,7 +23,7 @@
     <!-- Color for the layout background-->
     <color name="background_dark">#F1171717</color>
     <!-- Color for foreground elements like cards, ListView items or menus-->
-    <color name="foreground_dark">#8A5A5A5A</color>
+    <color name="foreground_dark">#DB302E2E</color>
     <!-- Color for primary texts-->
     <color name="text_dark">#F1FFFFFF</color>
     <!-- Color for secondary texts-->
