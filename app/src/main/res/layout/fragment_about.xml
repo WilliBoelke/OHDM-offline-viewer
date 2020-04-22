@@ -16,109 +16,152 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/innerConstraintLayout"
         app:menu="@menu/bottom_navigation_bar" />
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/innerConstraintLayout"
-        android:layout_width="0dp"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:orientation="vertical">
 
-            <LinearLayout
+            <android.support.v7.widget.CardView
+                android:id="@+id/content_card1"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="16dp">
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?attr/foreground"
+                    android:backgroundTint="?attr/foreground"
+                    android:backgroundTintMode="add"
+                    android:elevation="20dp"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <TextView
+                        android:id="@+id/headline1_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/activity_horizontal_margin"
+                        android:text="OHDM .."
+                        android:textAlignment="center"
+                        android:textColor="?attr/accent"
+                        android:textSize="@dimen/h1"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:layout_conversion_absoluteHeight="78dp"
+                        tools:layout_conversion_absoluteWidth="361dp" />
+
+                    <TextView
+                        android:id="@+id/info1_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/activity_horizontal_margin"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:gravity="center"
+                        android:text="@string/About_Text"
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textColor="?attr/text"
+                        android:textSize="@dimen/primary_font_size"
+                        android:typeface="normal"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/headline1_tv"
+                        tools:layout_conversion_absoluteHeight="78dp"
+                        tools:layout_conversion_absoluteWidth="361dp" />
+
+                </android.support.constraint.ConstraintLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/content_card2"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="16dp">
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?attr/foreground"
+                    android:backgroundTint="?attr/foreground"
+                    android:backgroundTintMode="add"
+                    android:elevation="20dp"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <TextView
+                        android:id="@+id/headline2_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/activity_horizontal_margin"
+                        android:text="OHDM Offline Viewer .."
+                        android:textAlignment="center"
+                        android:textColor="?attr/accent"
+                        android:textSize="@dimen/h1"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/info2_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_margin="@dimen/activity_horizontal_margin"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:gravity="center"
+                        android:text="@string/About_APP"
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textColor="?attr/text"
+                        android:textSize="@dimen/primary_font_size"
+                        android:typeface="normal"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/headline2_tv" />
+
+                </android.support.constraint.ConstraintLayout>
+            </android.support.v7.widget.CardView>
+
+            <ImageView
+                android:id="@+id/htw_logo_iv"
+                android:layout_width="wrap_content"
                 android:layout_height="150dp"
-                android:orientation="vertical">
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                app:srcCompat="@drawable/htw_logo"
+                tools:layout_editor_absoluteX="6dp"
+                tools:layout_editor_absoluteY="231dp" />
 
-                <TextView
-                    android:id="@+id/headline1_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginTop="@dimen/activity_horizontal_margin"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:text="OHDM .."
-                    android:textAlignment="center"
-                    android:textColor="?attr/accent"
-                    android:textSize="@dimen/h1"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/info1_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginTop="@dimen/activity_horizontal_margin"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:gravity="center"
-                    android:text="@string/About_Text"
-                    android:textAlignment="center"
-                    android:textAllCaps="false"
-                    android:textColor="?attr/text"
-                    android:textSize="@dimen/primary_font_size"
-                    android:typeface="normal" />
-
-                <TextView
-                    android:id="@+id/headline2_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginTop="@dimen/activity_horizontal_margin"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:text="OHDM Offline Viewer .."
-                    android:textAlignment="center"
-                    android:textColor="?attr/accent"
-                    android:textSize="@dimen/h1"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/info2_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginTop="@dimen/activity_horizontal_margin"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:gravity="center"
-                    android:text="@string/About_APP"
-                    android:textAlignment="center"
-                    android:textAllCaps="false"
-                    android:textColor="?attr/text"
-                    android:textSize="@dimen/primary_font_size"
-                    android:typeface="normal" />
-
-                <ImageView
-                    android:id="@+id/htw_logo_iv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="150dp"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginTop="@dimen/activity_horizontal_margin"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    app:srcCompat="@drawable/htw_logo"
-                    tools:layout_editor_absoluteX="6dp"
-                    tools:layout_editor_absoluteY="231dp" />
-
-                <ImageView
-                    android:id="@+id/ohdm_öogo_iv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginTop="@dimen/activity_horizontal_margin"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    app:srcCompat="@drawable/ohdmlogo2" />
-            </LinearLayout>
-        </ScrollView>
-    </android.support.constraint.ConstraintLayout>
-
-
+            <ImageView
+                android:id="@+id/ohdm_öogo_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                app:srcCompat="@drawable/ohdmlogo2" />
+        </LinearLayout>
+    </ScrollView>
 </android.support.constraint.ConstraintLayout>

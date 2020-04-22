@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Darkmode/LightMode
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+        if (getApplicationContext().getSharedPreferences(OptionsFragment.SETTINGS_SHARED_PREFERENCES, 0).getBoolean(OptionsFragment.DARK_MODE, false) == true)
         {
             setTheme(R.style.DarkTheme);
         }

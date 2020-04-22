@@ -3,13 +3,13 @@
 
     <!-- Light Mode colors :-->
     <!-- Color for primary Buttons-->
-    <color name="primary_light">#0B5E0E</color>
+    <color name="primary_light">#09A50E</color>
     <!-- Color for secondary Buttons-->
-    <color name="secondary_light">#E77CB342</color>
+    <color name="secondary_light">#8AFA8E</color>
     <!-- Color for the layout background-->
-    <color name="background_light">#EDEDED</color>
+    <color name="background_light">#C2FFFDF8</color>
     <!-- Color for foreground elements like cards, ListView items or menus-->
-    <color name="foreground_light">#C2EDEDED</color>
+    <color name="foreground_light">#FFFFFF</color>
     <!-- Color for primary texts-->
     <color name="text_light">#F1000000</color>
     <!-- Color for secondary texts-->
@@ -17,9 +17,9 @@
 
     <!-- Dark Mode colors :-->
     <!-- Color for primary Buttons-->
-    <color name="primary_dark">#8079BC01</color>
+    <color name="primary_dark">#067009</color>
     <!-- Color for secondary Buttons-->
-    <color name="secondary_dark">#0B5E0E</color>
+    <color name="secondary_dark">#3B803D</color>
     <!-- Color for the layout background-->
     <color name="background_dark">#F1171717</color>
     <!-- Color for foreground elements like cards, ListView items or menus-->
