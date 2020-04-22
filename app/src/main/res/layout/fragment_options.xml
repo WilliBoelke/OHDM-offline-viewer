@@ -36,7 +36,7 @@
                 android:layout_marginTop="@dimen/card_inner_margin"
                 android:layout_marginBottom="@dimen/card_inner_margin"
                 android:gravity="center"
-                android:text="@string/DarkMode"
+                android:text="@string/dark_mode"
                 android:textAlignment="center"
                 android:textAllCaps="false"
                 android:textColor="?attr/text"
