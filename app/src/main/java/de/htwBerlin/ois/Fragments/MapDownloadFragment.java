@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +11,8 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import de.htwBerlin.ois.FTP.AsyncResponse;
 import de.htwBerlin.ois.FTP.FtpEndpointSingleton;
-import de.htwBerlin.ois.FTP.FtpTaskFileListing;
 import de.htwBerlin.ois.FileStructure.OhdmFile;
-import de.htwBerlin.ois.FileStructure.OhdmFileAdapter;
-import de.htwBerlin.ois.MainActivityPackage.Database;
 import de.htwBerlin.ois.R;
 
 /**

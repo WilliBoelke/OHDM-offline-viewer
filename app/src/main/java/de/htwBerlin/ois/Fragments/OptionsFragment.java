@@ -3,10 +3,8 @@ package de.htwBerlin.ois.Fragments;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
-import de.htwBerlin.ois.MainActivityPackage.Database;
 import de.htwBerlin.ois.MainActivityPackage.MainActivity;
 import de.htwBerlin.ois.R;
 
@@ -108,7 +105,8 @@ public class OptionsFragment extends Fragment
     private void reset()
     {
         Log.v(TAG, "Reset Activity ");
-        Intent intent = new Intent(Database.mainContext, MainActivity.class);
+        Intent intent = new Intent(getActivity().getApplicationContext(), MainActivity.class);
+        intent.putExtra("Fragment", 1);
         startActivity(intent);
     }
 }

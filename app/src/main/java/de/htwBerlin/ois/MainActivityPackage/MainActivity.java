@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Darkmode/LightMode
+        //Get settings from SharedPrefs
         if (getApplicationContext().getSharedPreferences(OptionsFragment.SETTINGS_SHARED_PREFERENCES, 0).getBoolean(OptionsFragment.DARK_MODE, false) == true)
         {
             setTheme(R.style.DarkTheme);
@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
         checkPermissions();
         createOhdmDirectory();
 
-        Database.mainContext = this;
 
         // setting up the BottomNavigationView with Listener
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
@@ -99,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.nav_download:
                     selectedFragment = new MapDownloadFragment();
                     break;
-
                 case R.id.nav_navigation:
                     //selectedFragment = new NavigationFragment();
                     break;
