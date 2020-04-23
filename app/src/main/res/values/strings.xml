@@ -54,6 +54,21 @@
         Enable or Disable the Darkmode
     </string>
 
+    <string name="permission_access_location">
+        Allow OHDM to access you location
+    </string>
+
+    <string name="permission_access_location_further_info">
+        We dont safe or use any of your private data!
+    </string>
+
+    <string name="permission_write_local_storage">
+        Allow us to write into your devise storage
+    </string>
+
+    <string name="permission_write_local_storage_further_info">
+        We need this to safe maps onto your local devise
+    </string>
     <!-- Toolbar Menu Activity Strings:  -->
 
     <string name="menu_settings">

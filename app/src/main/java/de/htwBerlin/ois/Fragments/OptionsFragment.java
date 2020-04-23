@@ -1,16 +1,25 @@
 package de.htwBerlin.ois.Fragments;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import de.htwBerlin.ois.MainActivityPackage.MainActivity;
 import de.htwBerlin.ois.R;
@@ -30,8 +39,13 @@ public class OptionsFragment extends Fragment
     public static final String DARK_MODE = "darkmode_settings";
     //String to get the app settings SharedPreferences
     public static final String SETTINGS_SHARED_PREFERENCES = "OHDMViewerSettings";
+    private static final int ACCESS_LOCATION_PERMISSION = 34;
+    private static final int WRITE_STORAGE_PERMISSION = 56;
+    private static final int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
     //The DarkMode toggle
     private Switch darkModeToggle;
+    private Switch allowLocationToggle;
+    private Switch allowWriteLocalStorageToggle;
 
     /**
      * Empty Constructor
@@ -47,11 +61,70 @@ public class OptionsFragment extends Fragment
         view = inflater.inflate(R.layout.fragment_options, container, false);
         prefs = getActivity().getApplicationContext().getSharedPreferences(SETTINGS_SHARED_PREFERENCES, 0);
 
-      this.setUpDarkModeToggle();
+        this.setUpDarkModeToggle();
+        this.setupAllowAccessLocationToggle();
+        this.setupAllowWriteLocalStorageToggle();
 
         // Inflate the layout for this fragment
         return view;
     }
+
+    private void setupAllowWriteLocalStorageToggle()
+    {
+        allowWriteLocalStorageToggle = view.findViewById(R.id.allow_write_storage_switch);
+        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),  Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+        {
+            allowWriteLocalStorageToggle.setChecked(true);
+        }
+
+        allowWriteLocalStorageToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            {
+                if (isChecked)
+                {
+                    List<String> permissions = new ArrayList<>();
+                    permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                    String[] params = permissions.toArray(new String[permissions.size()]);
+                    requestPermissions(params, WRITE_STORAGE_PERMISSION);
+                }
+                else
+                {
+                    //TODO
+                }
+            }
+        });
+    }
+
+    private void setupAllowAccessLocationToggle()
+    {
+        allowLocationToggle = view.findViewById(R.id.allow_access_location_switch);
+        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+        {
+            allowLocationToggle.setChecked(true);
+        }
+
+        allowLocationToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            {
+                if (isChecked)
+                {
+                    List<String> permissions = new ArrayList<>();
+                    permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
+                    String[] params = permissions.toArray(new String[permissions.size()]);
+                    requestPermissions(params, ACCESS_LOCATION_PERMISSION);
+                }
+                else
+                {
+                    //TODO
+                }
+            }
+        });
+    }
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState)
@@ -108,5 +181,24 @@ public class OptionsFragment extends Fragment
         Intent intent = new Intent(getActivity().getApplicationContext(), MainActivity.class);
         intent.putExtra("Fragment", 1);
         startActivity(intent);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
+    {
+        switch (requestCode)
+        {
+            case ACCESS_LOCATION_PERMISSION:
+            {
+                Toast.makeText(getActivity().getApplicationContext(), "Location access granted", Toast.LENGTH_SHORT).show();
+            }
+            break;
+            case WRITE_STORAGE_PERMISSION:
+            {
+                Toast.makeText(getActivity().getApplicationContext(), "Allowed to access local storage", Toast.LENGTH_SHORT).show();
+            }
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 }

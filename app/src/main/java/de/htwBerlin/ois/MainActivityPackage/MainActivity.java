@@ -2,9 +2,11 @@ package de.htwBerlin.ois.MainActivityPackage;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -137,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
      * Checks necessary permissions
      * Source https://programtalk.com/vs/osmdroid/osmdroid-forge-app/src/main/java/org/osmdroid/forge/app/MainActivity.java/
      */
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void checkPermissions() {
         List<String> permissions = new ArrayList<>();
         String message = "OHDM Offline Viewer permissions:";
