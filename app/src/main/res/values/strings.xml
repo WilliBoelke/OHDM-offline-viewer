@@ -1,45 +1,82 @@
 <resources>
+
+    <!-- General:  -->
+
     <string name="app_name">OHDM Offline Viewer</string>
     <string name="OHDM">Open Historical Data Map</string>
-
-    <string name="title_activity_fullscreen">FullscreenActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="title_activity_tmp">TmpActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
-    <string name="menu_settings">Einstellungen</string>
-    <string name="menu_about">About</string>
-    <string name="title_activity_bottom_navigation">BottomNavigationActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
 
-    <string name="Home_Usage">To view your own maps, simply move them to your mobile phone in the "OHDM" folder.
-        Otherwise, you can view and download available maps in the "Maps" tab.</string>
+    <!-- About Activity Strings:  -->
 
-    <string name="About_Text">.. stores annual Open Street Map (OSM) maps.
+    <string name="about_ohdm_offline_viewer">
+        .. was developed in 2019 by students during a course by Mr. Schwotzer. It shall serve as a prototype to display maps stored in OHDM for the first time.
+    </string>
+    <string name="about_ohdm">
+        .. stores annual Open Street Map (OSM) maps.
         This makes it the first system that can process historical maps.
         OHDM was founded in 2016 under the leadership of Prof. Schwotzer at the Hochschule für Technik und Wirtschaft in Berlin.
         Since then, numerous final theses and Open Source projects have been created on an OHDM basis.
     </string>
-
-    <string name="About_APP">
-        .. was developed in 2019 by students during a course by Mr. Schwotzer. It shall serve as a prototype to display maps stored in OHDM for the first time.
+    <string name="find_us">
+        find us here
     </string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Home Activity Strings:  -->
+
+    <string name="home_usage">
+        To view your own maps, simply move them to your mobile phone in the "OHDM" folder.
+        Otherwise, you can view and download available maps in the "Maps" tab.
+    </string>
+
+    <string name="save_map_button">
+        Save and Navigate
+    </string>
+
+    <string name="current_map">
+        current map:
+    </string>
+
+    <!-- Options Activity Strings:  -->
+
+    <string name="dark_mode">
+        Enable or Disable the Darkmode
+    </string>
+
+    <string name="permission_access_location">
+        Allow OHDM to access you location
+    </string>
+
+    <string name="permission_access_location_further_info">
+        We dont safe or use any of your private data!
+    </string>
+
+    <string name="permission_write_local_storage">
+        Allow us to write into your devise storage
+    </string>
+
+    <string name="permission_write_local_storage_further_info">
+        We need this to safe maps onto your local devise
+    </string>
+    <!-- Toolbar Menu Activity Strings:  -->
+
+    <string name="menu_settings">
+        Settings
+    </string>
+
+    <string name="menu_about">
+        About
+    </string>
 
 </resources>

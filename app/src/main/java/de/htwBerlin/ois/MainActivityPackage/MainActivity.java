@@ -2,13 +2,16 @@ package de.htwBerlin.ois.MainActivityPackage;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,12 +40,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Get settings from SharedPrefs
+        if (getApplicationContext().getSharedPreferences(OptionsFragment.SETTINGS_SHARED_PREFERENCES, 0).getBoolean(OptionsFragment.DARK_MODE, false) == true)
+        {
+            setTheme(R.style.DarkTheme);
+        }
+        else
+        {
+            setTheme(R.style.LightTheme);
+        }
+
         setContentView(R.layout.activity_main);
 
         checkPermissions();
         createOhdmDirectory();
 
-        Database.mainContext = this;
 
         // setting up the BottomNavigationView with Listener
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
@@ -88,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.nav_download:
                     selectedFragment = new MapDownloadFragment();
                     break;
-
                 case R.id.nav_navigation:
                     //selectedFragment = new NavigationFragment();
                     break;
@@ -128,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
      * Checks necessary permissions
      * Source https://programtalk.com/vs/osmdroid/osmdroid-forge-app/src/main/java/org/osmdroid/forge/app/MainActivity.java/
      */
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void checkPermissions() {
         List<String> permissions = new ArrayList<>();
         String message = "OHDM Offline Viewer permissions:";

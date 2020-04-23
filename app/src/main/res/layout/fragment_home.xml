@@ -2,60 +2,54 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/outerConstraintLayout"
+    android:id="@+id/outer_constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/backgroundColor"
     tools:context=".Fragments.HomeFragment">
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/innerConstraintLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/ohdmLogo"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ohdmlogo" />
+    <ImageView
+        android:id="@+id/ohdm_logo_iv"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/htw_logo" />
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/content_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ohdm_logo_iv">
 
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/cv3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:background="@color/foregroundColor_Light"
-            android:backgroundTint="@color/foregroundColor_Light"
+            android:background="?attr/foreground"
+            android:backgroundTint="?attr/foreground"
             android:backgroundTintMode="add"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ohdmLogo">
-
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="20dp"
+            app:layout_constraintEnd_toEndOf="parent">
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/info_tv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_margin="@dimen/activity_horizontal_margin"
                 android:gravity="center"
-                android:text="@string/Home_Usage"
+                android:text="@string/home_usage"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textSize="16sp"
-                android:textStyle="bold"
+                android:textColor="?attr/text"
+                android:textSize="@dimen/primary_font_size"
                 android:typeface="normal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -64,50 +58,55 @@
                 tools:layout_conversion_absoluteWidth="361dp" />
 
             <TextView
-                android:id="@+id/activatedMapFile"
+                android:id="@+id/current_map_tv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="current Map: "
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:text="@string/current_map"
                 android:textAlignment="center"
-                android:textColor="@color/colorAccent_Light"
-                android:textColorHighlight="@color/colorAccent_Light"
-                android:textSize="20sp"
+                android:textColor="?attr/text"
+                android:textSize="@dimen/primary_font_size"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                app:layout_constraintTop_toBottomOf="@+id/info_tv" />
 
             <Spinner
-                android:id="@+id/mapFileDropDown"
+                android:id="@+id/map_file_dropdown"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="16dp"
                 android:spinnerMode="dropdown"
-                app:layout_constraintBottom_toBottomOf="@+id/activatedMapFile"
+                android:textColor="?attr/text"
+                app:layout_constraintBottom_toBottomOf="@+id/current_map_tv"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/activatedMapFile"
-                app:layout_constraintTop_toTopOf="@+id/activatedMapFile" />
+                app:layout_constraintStart_toEndOf="@+id/current_map_tv"
+                app:layout_constraintTop_toTopOf="@+id/current_map_tv" />
         </android.support.constraint.ConstraintLayout>
 
+    </android.support.v7.widget.CardView>
 
-        <Button
-            android:id="@+id/buttonSave"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/button_border"
-            android:backgroundTint="@color/colorAccent_Light"
-            android:gravity="center"
-            android:text="Save and navigate!"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cv3" />
-    </android.support.constraint.ConstraintLayout>
+    <Button
+        android:id="@+id/save_button"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/primary_button_height"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:background="?attr/primary"
+        android:gravity="center"
+        android:text="@string/save_map_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/content_card" />
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/foreground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_navigation_bar" />
 
 </android.support.constraint.ConstraintLayout>

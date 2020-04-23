@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import de.htwBerlin.ois.MainActivityPackage.Database;
 import de.htwBerlin.ois.MainActivityPackage.MainActivity;
 import de.htwBerlin.ois.R;
 
@@ -47,17 +46,17 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_home, container, false);
-
         return view;
     }
+
 
     // on ActivityCreated can be seen as "onCreate"
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        spinnerMapFile = view.findViewById(R.id.mapFileDropDown);
-        buttonSave = view.findViewById(R.id.buttonSave);
+        spinnerMapFile = view.findViewById(R.id.map_file_dropdown);
+        buttonSave = view.findViewById(R.id.save_button);
 
         //TODO : needs a new implementation
         //fillDropDownFiles();
@@ -106,7 +105,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(Database.mainContext, R.layout.spinner_item, listSorted);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(), R.layout.spinner_item, listSorted);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerMapFile.setAdapter(dataAdapter);
     }
@@ -137,6 +136,7 @@ public class HomeFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
     }
+
 
     /*
     @OnClick(R.id.buttonSave)
