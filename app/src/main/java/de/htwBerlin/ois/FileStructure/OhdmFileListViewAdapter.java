@@ -6,10 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import de.htwBerlin.ois.FTP.FtpTaskFileDownloading;
 import de.htwBerlin.ois.R;
 
 /**
@@ -48,7 +51,7 @@ public class OhdmFileListViewAdapter extends ArrayAdapter<OhdmFile> {
         TextView tvFileSize = (TextView) convertView.findViewById(R.id.map_size_tv);
         TextView tvCreationDate = (TextView) convertView.findViewById(R.id.date_of_creation_tv);
 
-        /*
+
         final Button buttonDownloadFile = (Button) convertView.findViewById(R.id.buttonDownloadFile);
         final ProgressBar progressBar = (ProgressBar) convertView.findViewById(R.id.progressBar);
 
@@ -61,12 +64,12 @@ public class OhdmFileListViewAdapter extends ArrayAdapter<OhdmFile> {
                 disableButton(buttonDownloadFile);
             }
         });
-*/
+
         tvFileName.setText(fileName);
         tvFileSize.setText((int) (double) (fileSize / 1024) + " MB");
         tvCreationDate.setText(creationDate);
 
-        //  if (isDownloaded) disableButton(buttonDownloadFile);
+        if (isDownloaded) disableButton(buttonDownloadFile);
 
         return convertView;
     }

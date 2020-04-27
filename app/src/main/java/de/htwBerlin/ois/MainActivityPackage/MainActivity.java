@@ -11,7 +11,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,9 +22,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import de.htwBerlin.ois.FileStructure.MapFileSingleton;
 import de.htwBerlin.ois.Fragments.AboutFragment;
 import de.htwBerlin.ois.Fragments.HomeFragment;
 import de.htwBerlin.ois.Fragments.MapDownloadFragment;
+import de.htwBerlin.ois.Fragments.NavigationFragment;
 import de.htwBerlin.ois.Fragments.OptionsFragment;
 import de.htwBerlin.ois.R;
 
@@ -101,7 +102,14 @@ public class MainActivity extends AppCompatActivity {
                     selectedFragment = new MapDownloadFragment();
                     break;
                 case R.id.nav_navigation:
-                    //selectedFragment = new NavigationFragment();
+                    if (MapFileSingleton.getInstance().getFile() != null)
+                    {
+                        selectedFragment = new NavigationFragment();
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(), "You need to choose a map", Toast.LENGTH_LONG).show();
+                    }
                     break;
 
                 default:

@@ -1,7 +1,11 @@
 package de.htwBerlin.ois.Fragments;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import org.mapsforge.core.model.LatLong;
 import org.mapsforge.map.android.graphics.AndroidGraphicFactory;
@@ -16,24 +20,34 @@ import org.mapsforge.map.rendertheme.InternalRenderTheme;
 import java.io.File;
 
 import de.htwBerlin.ois.FileStructure.MapFileSingleton;
+import de.htwBerlin.ois.R;
 
 /**
  * Map Activity, which displays the actual Map File
  */
-public class NavigationActivity extends Activity
+public class NavigationFragment extends Fragment
 {
-
     private static final String TAG = "NavigationActivity";
-
     private MapView mapView = null;
+    private View view;
+
+    /**
+     * Empty Constructor
+     */
+    public NavigationFragment()
+    {
+        // Required empty public constructor
+    }
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        AndroidGraphicFactory.createInstance(getApplication());
+        view = inflater.inflate(R.layout.activity_navigation, container, false);
+        AndroidGraphicFactory.createInstance(getActivity().getApplication());
 
         setUpMap();
+        return view;
     }
 
     /**
@@ -41,14 +55,15 @@ public class NavigationActivity extends Activity
      */
     private void setUpMap()
     {
-        mapView = new MapView(this);
-        setContentView(mapView);
+        Log.i(TAG, "setting up map");
+        mapView = new MapView(getActivity().getApplicationContext());
+        getActivity().setContentView(mapView);
 
         mapView.setClickable(true);
         mapView.getMapScaleBar().setVisible(true);
         mapView.setBuiltInZoomControls(true);
 
-        TileCache tileCache = AndroidUtil.createTileCache(this, "mapcache", mapView.getModel().displayModel.getTileSize(), 1f, mapView.getModel().frameBufferModel.getOverdrawFactor());
+        TileCache tileCache = AndroidUtil.createTileCache(getActivity().getApplicationContext(), "mapcache", mapView.getModel().displayModel.getTileSize(), 1f, mapView.getModel().frameBufferModel.getOverdrawFactor());
 
         File ohdmFile = MapFileSingleton.getInstance().getFile();
         MapDataStore mapDataStore = new MapFile(ohdmFile);
@@ -62,32 +77,34 @@ public class NavigationActivity extends Activity
     }
 
     @Override
-    protected void onStart()
+    public void onStart()
     {
         super.onStart();
     }
 
     @Override
-    protected void onResume()
+    public void onResume()
     {
         super.onResume();
     }
 
     @Override
-    protected void onPause()
+    public void onPause()
     {
         super.onPause();
     }
 
     @Override
-    protected void onStop()
+    public void onStop()
     {
         super.onStop();
     }
 
     @Override
-    protected void onDestroy()
+    public void onDestroy()
     {
         super.onDestroy();
     }
+
+
 }

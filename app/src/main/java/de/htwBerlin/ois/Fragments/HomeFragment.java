@@ -1,8 +1,12 @@
 package de.htwBerlin.ois.Fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +25,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import de.htwBerlin.ois.FileStructure.MapFileSingleton;
 import de.htwBerlin.ois.MainActivityPackage.MainActivity;
 import de.htwBerlin.ois.R;
 
@@ -32,12 +37,9 @@ import de.htwBerlin.ois.R;
 public class HomeFragment extends Fragment {
 
     private Set<File> mapFiles;
-
     private static final String TAG = "HomeFragment";
-
     private Spinner spinnerMapFile;
     private Button buttonSave;
-
     private View view;
 
     // onCreateView is just here to create the ViewInstance
@@ -51,6 +53,7 @@ public class HomeFragment extends Fragment {
 
 
     // on ActivityCreated can be seen as "onCreate"
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -58,8 +61,41 @@ public class HomeFragment extends Fragment {
         spinnerMapFile = view.findViewById(R.id.map_file_dropdown);
         buttonSave = view.findViewById(R.id.save_button);
 
-        //TODO : needs a new implementation
-        //fillDropDownFiles();
+        buttonSave.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if (mapFiles.size() == 0)
+                {
+                    final AlertDialog alertDialog = new AlertDialog.Builder(getActivity().getApplicationContext()).create();
+                    alertDialog.setTitle("No Map Files found!");
+                    alertDialog.setMessage("Either store map files in OHDM directory in internal Storage." + " Or Download available maps (see Tab \"Maps\").");
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener()
+                    {
+                        public void onClick(DialogInterface dialog, int which)
+                        {
+                            dialog.dismiss();
+                        }
+                    });
+                    alertDialog.show();
+                }
+                else
+                {
+                    for (File file : mapFiles)
+                    {
+                        if (file.getName().equals(spinnerMapFile.getSelectedItem().toString()))
+                        {
+                            Log.i(TAG, "User has choosen " + spinnerMapFile.getSelectedItem().toString());
+                            Log.i(TAG, "using " + file.getName() + " as mapfile");
+                            MapFileSingleton mapFile = MapFileSingleton.getInstance();
+                            mapFile.setFile(file);
+                        }
+                    }
+                }
+            }
+        });
+        fillDropDownFiles();
     }
 
     /**
@@ -85,6 +121,7 @@ public class HomeFragment extends Fragment {
     /**
      * Initializes Dropdown menu with .map-files
      */
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void fillDropDownFiles() {
         mapFiles = findMapFiles();
         Log.i(TAG, "found " + mapFiles.size() + " .map-files");
@@ -110,15 +147,17 @@ public class HomeFragment extends Fragment {
         spinnerMapFile.setAdapter(dataAdapter);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onStart() {
-        //fillDropDownFiles(); TODO
+        fillDropDownFiles();
         super.onStart();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onResume() {
-        //fillDropDownFiles(); TODO
+        fillDropDownFiles();
         super.onResume();
     }
 
@@ -137,34 +176,4 @@ public class HomeFragment extends Fragment {
         super.onDestroy();
     }
 
-
-    /*
-    @OnClick(R.id.buttonSave)
-    public void onClickSaveButton() {
-        if (mapFiles.size() == 0) {
-            final AlertDialog alertDialog = new AlertDialog.Builder(this.getContext()).create();
-            alertDialog.setTitle("No Map Files found!");
-            alertDialog.setMessage("Either store map files in OHDM directory in internal Storage." +
-                    " Or Download available maps (see Tab \"Maps\").");
-            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-            alertDialog.show();
-        } else {
-            for (File file : mapFiles) {
-                if (file.getName().equals(spinnerMapFile.getSelectedItem().toString())) {
-                    Log.i(TAG, "User has choosen " + spinnerMapFile.getSelectedItem().toString());
-                    Log.i(TAG, "using " + file.getName() + " as mapfile");
-                    MapFileSingleton mapFile = MapFileSingleton.getInstance();
-                    mapFile.setFile(file);
-                }
-            }
-            Intent navigationIntent = new Intent(HomeFragment.this, NavigationActivity.class);
-            startActivity(navigationIntent);
-        }
-    }
-    */
 }
