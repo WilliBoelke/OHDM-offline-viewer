@@ -26,7 +26,6 @@ public class OhdmFileSwipeToDownloadCallback extends ItemTouchHelper.SimpleCallb
         redBackground = new ColorDrawable(Color.RED);
         greenBackground = new ColorDrawable(Color.GREEN);
         mClearPaint = new Paint();
-
     }
 
     @Override
@@ -88,6 +87,4 @@ public class OhdmFileSwipeToDownloadCallback extends ItemTouchHelper.SimpleCallb
         c.drawRect(left, top, right, bottom, mClearPaint);
 
     }
-
-
 }

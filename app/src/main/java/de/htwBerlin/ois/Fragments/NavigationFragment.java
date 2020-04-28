@@ -27,8 +27,17 @@ import de.htwBerlin.ois.R;
  */
 public class NavigationFragment extends Fragment
 {
-    private static final String TAG = "NavigationActivity";
+    /**
+     * Log tag
+     */
+    private final String TAG = this.getClass().getSimpleName();
+    /**
+     * The MapView (MapsForge)
+     */
     private MapView mapView = null;
+    /**
+     * The view
+     */
     private View view;
 
     /**
@@ -74,36 +83,6 @@ public class NavigationFragment extends Fragment
         mapView.getLayerManager().getLayers().add(tileRendererLayer);
         mapView.setZoomLevel((byte) 12);
         mapView.setCenter(new LatLong(52.517037, 13.38886));
-    }
-
-    @Override
-    public void onStart()
-    {
-        super.onStart();
-    }
-
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause()
-    {
-        super.onPause();
-    }
-
-    @Override
-    public void onStop()
-    {
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroy()
-    {
-        super.onDestroy();
     }
 
 
