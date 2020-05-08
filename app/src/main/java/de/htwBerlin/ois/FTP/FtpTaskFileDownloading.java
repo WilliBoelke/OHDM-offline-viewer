@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
-import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -27,7 +26,8 @@ import de.htwBerlin.ois.FileStructure.OhdmFile;
  *
  * @author morelly_t1
  */
-public class FtpTaskFileDownloading extends AsyncTask<OhdmFile, Integer, Long> {
+public class FtpTaskFileDownloading extends AsyncTask<OhdmFile, Integer, Long>
+{
 
     private static final String TAG = "FtpTaskFileListing";
     private static final String MAP_FILE_PATH = Environment.getExternalStorageDirectory().toString() + "/OHDM";
@@ -36,23 +36,27 @@ public class FtpTaskFileDownloading extends AsyncTask<OhdmFile, Integer, Long> {
     private WeakReference<Context> context;
     private FTPClient ftpClient;
 
-    public FtpTaskFileDownloading(ProgressBar progressbar, Context context) {
+    public FtpTaskFileDownloading(ProgressBar progressbar, Context context)
+    {
         this.progressBar = new WeakReference<ProgressBar>(progressbar);
         this.context = new WeakReference<Context>(context);
     }
 
     @Override
-    protected void onPreExecute() {
-        ProgressBar progressBar = this.progressBar.get();
-        progressBar.setVisibility(View.VISIBLE);
+    protected void onPreExecute()
+    {
+        //  ProgressBar progressBar = this.progressBar.get();
+        // progressBar.setVisibility(View.VISIBLE);
         ftpClient = new FTPClient();
         super.onPreExecute();
     }
 
     @Override
-    protected Long doInBackground(OhdmFile... ohdmFile) {
+    protected Long doInBackground(OhdmFile... ohdmFile)
+    {
 
-        try {
+        try
+        {
             ftpClient.connect(FtpEndpointSingleton.getInstance().getServerIp(), FtpEndpointSingleton.getInstance().getServerPort());
             ftpClient.login(FtpEndpointSingleton.getInstance().getFtpUser(), FtpEndpointSingleton.getInstance().getFtpPassword());
             ftpClient.enterLocalPassiveMode();
@@ -71,7 +75,8 @@ public class FtpTaskFileDownloading extends AsyncTask<OhdmFile, Integer, Long> {
             int bytesRead;
             double progress;
 
-            while (-1 != (bytesRead = inputStream.read(bytesArray))) {
+            while (-1 != (bytesRead = inputStream.read(bytesArray)))
+            {
                 total += bytesRead;
                 progress = ((total * 100) / (ohdmFile[0].getFileSize() * 1024));
                 outputStream.write(bytesArray, 0, bytesRead);
@@ -84,17 +89,27 @@ public class FtpTaskFileDownloading extends AsyncTask<OhdmFile, Integer, Long> {
             outputStream.close();
             inputStream.close();
 
-        } catch (SocketException e) {
+        }
+        catch (SocketException e)
+        {
             Log.e(TAG, "doInBackground, SocketException; " + e.getMessage());
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             Log.e(TAG, "doInBackground, IOException; " + e.getMessage());
-        } finally {
-            try {
-                if (ftpClient.isConnected()) {
+        }
+        finally
+        {
+            try
+            {
+                if (ftpClient.isConnected())
+                {
                     ftpClient.logout();
                     ftpClient.disconnect();
                 }
-            } catch (IOException e) {
+            }
+            catch (IOException e)
+            {
                 Log.e(TAG, "Error in finally " + e.getMessage());
             }
         }
@@ -102,12 +117,14 @@ public class FtpTaskFileDownloading extends AsyncTask<OhdmFile, Integer, Long> {
     }
 
     @Override
-    protected void onProgressUpdate(Integer... params) {
+    protected void onProgressUpdate(Integer... params)
+    {
         if (this.progressBar.get() != null) this.progressBar.get().setProgress(params[0]);
     }
 
     @Override
-    protected void onPostExecute(Long params) {
+    protected void onPostExecute(Long params)
+    {
         Context context = this.context.get();
         Toast.makeText(context, "Download Finished!", Toast.LENGTH_SHORT).show();
     }

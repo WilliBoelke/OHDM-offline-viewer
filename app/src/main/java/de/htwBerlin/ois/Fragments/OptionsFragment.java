@@ -17,28 +17,37 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import de.htwBerlin.ois.MainActivityPackage.MainActivity;
 import de.htwBerlin.ois.R;
 
 /**
- * This fragment represents a Options/ Settings  Page
+ * Fragment to show the applications settings
  * @author willi
  */
 public class OptionsFragment extends Fragment
 {
-    private View view;
-    //LogTag String
-    private static final String TAG = "NavigationActivity";
-    //The Shared preferences
-    private SharedPreferences prefs ;
-    //String to get the DarkMode boolean from the SharedPreferences
+    /**
+     * Key to get the DarkMode boolean from the SharedPreferences
+     */
     public static final String DARK_MODE = "darkmode_settings";
-    //String to get the app settings SharedPreferences
+    /**
+     * SharedPreferences name
+     */
     public static final String SETTINGS_SHARED_PREFERENCES = "OHDMViewerSettings";
+    /**
+     * Log tag
+     */
+    private final String TAG = getClass().getSimpleName();
+    /**
+     * the view
+     */
+    private View view;
+    /**
+     * SharedPreferences to quickly store and access user settings
+     */
+    private SharedPreferences prefs ;
     private static final int ACCESS_LOCATION_PERMISSION = 34;
     private static final int WRITE_STORAGE_PERMISSION = 56;
     private static final int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
@@ -59,16 +68,23 @@ public class OptionsFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         view = inflater.inflate(R.layout.fragment_options, container, false);
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState)
+    {
+        super.onActivityCreated(savedInstanceState);
         prefs = getActivity().getApplicationContext().getSharedPreferences(SETTINGS_SHARED_PREFERENCES, 0);
 
         this.setUpDarkModeToggle();
         this.setupAllowAccessLocationToggle();
         this.setupAllowWriteLocalStorageToggle();
-
-        // Inflate the layout for this fragment
-        return view;
     }
 
+    /**
+     * Setup the allowWriteLocalStorage Switch
+     */
     private void setupAllowWriteLocalStorageToggle()
     {
         allowWriteLocalStorageToggle = view.findViewById(R.id.allow_write_storage_switch);
@@ -91,12 +107,15 @@ public class OptionsFragment extends Fragment
                 }
                 else
                 {
-                    //TODO
+                    //TODO withdraw permission
                 }
             }
         });
     }
 
+    /**
+     * Setup the allowAccessLocation Switch
+     */
     private void setupAllowAccessLocationToggle()
     {
         allowLocationToggle = view.findViewById(R.id.allow_access_location_switch);
@@ -119,17 +138,10 @@ public class OptionsFragment extends Fragment
                 }
                 else
                 {
-                    //TODO
+                    //TODO withdraw permission
                 }
             }
         });
-    }
-
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState)
-    {
-        super.onActivityCreated(savedInstanceState);
     }
 
     /**
@@ -173,7 +185,7 @@ public class OptionsFragment extends Fragment
     }
 
     /**
-     * reloads the MainActivity to enable/disable the darkmode
+     * reloads the MainActivity  in order to enable/disable the darkmode
      */
     private void reset()
     {

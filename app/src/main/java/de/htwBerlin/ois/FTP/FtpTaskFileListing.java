@@ -22,7 +22,8 @@ import de.htwBerlin.ois.FileStructure.OhdmFile;
  *
  * @author morelly_t1
  */
-public class FtpTaskFileListing extends AsyncTask<Void, Void, String> {
+public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
+{
 
     private static final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy HH:mm");
     private static final String TAG = "FtpTaskFileListing";
@@ -32,22 +33,26 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String> {
     private AsyncResponse delegate;
     private WeakReference<Context> context;
 
-    public FtpTaskFileListing(AsyncResponse asyncResponse, Context context) {
+    public FtpTaskFileListing(AsyncResponse asyncResponse, Context context)
+    {
         this.delegate = asyncResponse;
         this.context = new WeakReference<Context>(context);
     }
 
     @Override
-    protected void onPreExecute() {
+    protected void onPreExecute()
+    {
         ftpClient = new FTPClient();
         ohdmFiles = new ArrayList<>();
         super.onPreExecute();
     }
 
     @Override
-    protected String doInBackground(Void... params) {
+    protected String doInBackground(Void... params)
+    {
 
-        try {
+        try
+        {
             ftpClient.connect(FtpEndpointSingleton.getInstance().getServerIp(), FtpEndpointSingleton.getInstance().getServerPort());
             ftpClient.login(FtpEndpointSingleton.getInstance().getFtpUser(), FtpEndpointSingleton.getInstance().getFtpPassword());
             ftpClient.enterLocalPassiveMode();
@@ -57,24 +62,35 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String> {
             Log.i(TAG, "change working dir to ohdm: " + status);
 
 
-            for (FTPFile ftpFile : ftpClient.listFiles()) {
+            for (FTPFile ftpFile : ftpClient.listFiles())
+            {
                 Date date = ftpFile.getTimestamp().getTime();
                 OhdmFile ohdm = new OhdmFile(ftpFile.getName(), (ftpFile.getSize() / 1024), sdf.format(date.getTime()), Boolean.FALSE);
                 ohdmFiles.add(ohdm);
                 Log.i(TAG, ohdm.toString());
             }
 
-        } catch (SocketException e) {
+        }
+        catch (SocketException e)
+        {
             Log.e(TAG, "doInBackground, SocketException; " + e.getMessage());
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             Log.e(TAG, "doInBackground, IOException; " + e.getMessage());
-        } finally {
-            try {
-                if (ftpClient.isConnected()) {
+        }
+        finally
+        {
+            try
+            {
+                if (ftpClient.isConnected())
+                {
                     ftpClient.logout();
                     ftpClient.disconnect();
                 }
-            } catch (IOException e) {
+            }
+            catch (IOException e)
+            {
                 Log.e(TAG, "Error in finally " + e.getMessage());
             }
         }
@@ -82,14 +98,18 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String> {
     }
 
     @Override
-    protected void onProgressUpdate(Void... params) {
+    protected void onProgressUpdate(Void... params)
+    {
     }
 
     @Override
-    protected void onPostExecute(String result) {
+    protected void onPostExecute(String result)
+    {
         Context context = this.context.get();
-        if (ohdmFiles.size() == 0 )  Toast.makeText(context, "Download Service not available", Toast.LENGTH_SHORT).show();
-        else                        Toast.makeText(context, "Found " + ohdmFiles.size()  + " maps!", Toast.LENGTH_SHORT).show();
+        if (ohdmFiles.size() == 0)
+            Toast.makeText(context, "Download Service not available", Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(context, "Found " + ohdmFiles.size() + " maps!", Toast.LENGTH_SHORT).show();
         delegate.getOhdmFiles(this.ohdmFiles);
     }
 }

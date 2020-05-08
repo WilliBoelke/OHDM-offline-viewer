@@ -10,47 +10,30 @@ import android.view.ViewGroup;
 
 import de.htwBerlin.ois.R;
 
-public class AboutFragment extends Fragment {
+/**
+ * Fragment showing about OHDM information
+ * Can be reached by the user via the Toolbars 3-dod menu
+ */
+public class AboutFragment extends Fragment
+{
 
-    private static final String TAG = "AboutActivity";
-
+    /**
+     * Log tag
+     */
+    private final String TAG = this.getClass().getSimpleName();
+    /**
+     * Fragments view
+     */
     private View view;
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    {
+        //inflating the view
         view = inflater.inflate(R.layout.fragment_about, container, false);
         return view;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
 
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
 }

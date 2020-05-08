@@ -24,34 +24,76 @@ import de.htwBerlin.ois.R;
  */
 public class MapDownloadFragment extends Fragment {
 
-    private static final String TAG = "MapDownloadActivity";
-
+    /**
+     * FTP Server IP address
+     */
     private static final String FTP_SERVER_IP = "";
+    /**
+     * FTP Server port
+     */
     private static final Integer FTP_PORT = 21;
+    /**
+     * FTP Server username
+     */
     private static final String FTP_USER = "";
+    /**
+     * FTP Server password
+     */
     private static final String FTP_PASSWORD = "";
-
+    /**
+     * Log tag
+     */
+    private final String TAG = this.getClass().getSimpleName();
+    /**
+     * RecyclerView to display the downloadable maps
+     */
     private RecyclerView recyclerView;
+    /**
+     * The RecyclerViews LayoutManager
+     */
     private RecyclerView.LayoutManager recyclerLayoutManager;
+    /**
+     * The RecyclerAdapter
+     */
     private OhdmFileRecyclerAdapter recyclerAdapter;
+    /**
+     * ArrayList of OHDMFiles, to be displayed in the RecyclerView
+     */
     private ArrayList<OhdmFile> ohdmFiles;
     private ItemTouchHelper itemTouchHelper;
     private FtpEndpointSingleton ftpEndpointSingleton;
-
-
+    /**
+     * The view
+     */
     private View view;
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    {
+        // inflating the view
         view = inflater.inflate(R.layout.fragment_map_download, container, false);
-
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        this.setupRecyclerView();
+        this.initializeFTPSingleton();
+        this.listFTPFiles();
+    }
+
+    /**
+     * Setup the RecyclerView :
+     * <p>
+     * Filling it with OHDMFiles
+     * Setup Swipe gestures
+     * Setup onItemClickListener
+     */
+    private void setupRecyclerView()
+    {
 
         //ohdmFiles = new ArrayList<>();
         //listView = view.findViewById(R.id.downladRecycler);
@@ -78,21 +120,14 @@ public class MapDownloadFragment extends Fragment {
             ohdmFiles.add(two);
             ohdmFiles.add(three);
             ohdmFiles.add(four);
-
-            recyclerLayoutManager = new LinearLayoutManager(this.getContext());
-            recyclerAdapter = new OhdmFileRecyclerAdapter(this.getContext(), ohdmFiles, R.layout.download_recycler_item);
-            itemTouchHelper = new ItemTouchHelper(new OhdmFileSwipeToDownloadCallback(recyclerAdapter));
-            itemTouchHelper.attachToRecyclerView(recyclerView);
-            recyclerView.setLayoutManager(recyclerLayoutManager);
-            recyclerView.setAdapter(recyclerAdapter);
-            recyclerAdapter.notifyDataSetChanged();
-
         }
-
-
-        initializeFTPSingleton();
-        listFTPFiles();
-
+        recyclerLayoutManager = new LinearLayoutManager(this.getContext());
+        recyclerAdapter = new OhdmFileRecyclerAdapter(this.getContext(), ohdmFiles, R.layout.download_recycler_item);
+        itemTouchHelper = new ItemTouchHelper(new OhdmFileSwipeToDownloadCallback(recyclerAdapter));
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+        recyclerView.setLayoutManager(recyclerLayoutManager);
+        recyclerView.setAdapter(recyclerAdapter);
+        recyclerAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -112,30 +147,4 @@ public class MapDownloadFragment extends Fragment {
     private void listFTPFiles() {
         //ftpTaskFileListing.execute();
     }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
 }
