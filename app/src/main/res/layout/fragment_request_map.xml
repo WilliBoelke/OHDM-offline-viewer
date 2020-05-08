@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/outer_constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,67 +8,22 @@
     android:backgroundTintMode="add">
 
     <android.support.constraint.ConstraintLayout
+        android:id="@id/outer_constraint_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@id/outer_constraint_layout">
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/content_card_info"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        app:cardElevation="10dp"
-        app:cardCornerRadius="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="?attr/foreground"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/info_tv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/card_inner_margin"
-                android:layout_marginTop="@dimen/card_inner_margin"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="@dimen/card_inner_margin"
-                android:gravity="center"
-                android:text="@string/request_map_info"
-                android:textAlignment="center"
-                android:textAllCaps="false"
-                android:textColor="?attr/text"
-                android:textSize="@dimen/primary_font_size"
-                android:typeface="normal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </android.support.constraint.ConstraintLayout>
-    </android.support.v7.widget.CardView>
-
+        android:layout_height="match_parent">
 
         <android.support.v7.widget.CardView
-            android:id="@+id/content_card_coordinates"
-            app:cardElevation="10dp"
-            app:cardCornerRadius="5dp"
+            android:id="@+id/content_card_info"
             android:layout_width="0dp"
-            android:layout_height="300dp"
-            android:layout_margin="@dimen/activity_horizontal_margin"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="24dp"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="10dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/content_card_name">
+            app:layout_constraintTop_toTopOf="parent">
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -79,163 +33,233 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <EditText
-                    android:id="@+id/coord_y3_et"
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text="hint"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/coord_x3_et"
-                    tools:text="coord4" />
-
-                <EditText
-                    android:id="@+id/coord_y4_et"
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text="hint"
-                    app:layout_constraintBottom_toTopOf="@+id/coord_x4_et"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:text="coord4" />
-
-                <EditText
-                    android:id="@+id/coord_x4_et"
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text="hint"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/coord_y4_et"
-                    tools:text="coord4" />
-
-                <EditText
-                    android:id="@+id/coord_x3_et"
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text="hint"
-                    app:layout_constraintBottom_toTopOf="@+id/coord_x4_et"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    tools:text="coord4" />
-
-                <EditText
-                    android:id="@+id/coord_x1_et"
-                    android:layout_width="70dp"
+                <TextView
+                    android:id="@+id/info_tv"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text="coord1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/coord_y1_et" />
-
-                <EditText
-                    android:id="@+id/coord_y1_et"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text="coord2"
-                    app:layout_constraintStart_toEndOf="@+id/coord_x1_et"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="coord2" />
-
-                <EditText
-                    android:id="@+id/coord_x2_et"
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text="coord3"
+                    android:layout_marginBottom="@dimen/card_inner_margin"
+                    android:fontFamily="@font/comfortaa"
+                    android:gravity="center"
+                    android:text="@string/request_map_info"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textColor="?attr/text"
+                    android:textSize="@dimen/primary_font_size"
+                    android:typeface="normal"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/coord_y2_et"
-                    tools:text="coord3" />
-
-                <EditText
-                    android:id="@+id/coord_y2_et"
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text="hint"
-                    app:layout_constraintEnd_toStartOf="@+id/coord_x2_et"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="coord4" />
-
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/content_card_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:cardElevation="10dp"
-        app:cardCornerRadius="5dp"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/content_card_info">
 
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <android.support.v7.widget.CardView
+            android:id="@+id/content_card_coordinates"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="32dp"
             android:background="?attr/foreground"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/content_card_date_picer"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/name_et">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/foreground"
+                android:fontFamily="@font/comfortaa"
+                android:gravity="center"
+                android:text="Enter longitude and latitude for each corner of the map"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="?attr/text"
+                android:textSize="@dimen/primary_font_size"
+                android:typeface="normal" />
+        </android.support.v7.widget.CardView>
+
+        <EditText
+            android:id="@+id/name_et"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="24dp"
+            android:background="?attr/edit_text_background"
+            android:ems="10"
+            android:fontFamily="@font/comfortaa"
+            android:hint="enter a name"
+            android:inputType="textPersonName"
+            android:textColor="?attr/text"
+            android:textColorHint="?attr/text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/content_card_info" />
 
 
-            <EditText
-                android:id="@+id/name_et"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Name"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <EditText
+            android:id="@+id/coord_x1_et"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:background="?attr/edit_text_background"
+            android:ems="10"
+            android:fontFamily="@font/comfortaa"
+            android:hint="X1"
+            android:inputType="textPersonName"
+            android:textAlignment="center"
+            android:textColor="?attr/text"
+            android:textColorHint="?attr/text"
+            app:layout_constraintEnd_toStartOf="@+id/content_card_coordinates"
+            app:layout_constraintTop_toTopOf="@+id/content_card_coordinates" />
 
-        </android.support.constraint.ConstraintLayout>
-    </android.support.v7.widget.CardView>
+        <EditText
+            android:id="@+id/coord_y1_et"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="8dp"
+            android:background="?attr/edit_text_background"
+            android:ems="10"
+            android:fontFamily="@font/comfortaa"
+            android:hint="Y1"
+            android:inputType="textPersonName"
+            android:textAlignment="center"
+            android:textColor="?attr/text"
+            android:textColorHint="?attr/text"
+            app:layout_constraintBottom_toTopOf="@+id/content_card_coordinates"
+            app:layout_constraintStart_toStartOf="@+id/content_card_coordinates"
+            app:layout_constraintTop_toBottomOf="@+id/name_et" />
+
+        <EditText
+            android:id="@+id/coord_x2_et"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="?attr/edit_text_background"
+            android:ems="10"
+            android:fontFamily="@font/comfortaa"
+            android:hint="X2"
+            android:inputType="textPersonName"
+            android:textAlignment="center"
+            android:textColor="?attr/text"
+            android:textColorHint="?attr/text"
+            app:layout_constraintStart_toEndOf="@+id/content_card_coordinates"
+            app:layout_constraintTop_toTopOf="@+id/content_card_coordinates" />
+
+
+        <EditText
+            android:id="@+id/coord_y2_et"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="8dp"
+            android:background="?attr/edit_text_background"
+            android:ems="10"
+            android:fontFamily="@font/comfortaa"
+            android:hint="Y2"
+            android:inputType="textPersonName"
+            android:textAlignment="center"
+            android:textColor="?attr/text"
+            android:textColorHint="?attr/text"
+            app:layout_constraintBottom_toTopOf="@+id/content_card_coordinates"
+            app:layout_constraintEnd_toEndOf="@+id/content_card_coordinates"
+            app:layout_constraintTop_toBottomOf="@+id/name_et" />
+
+        <EditText
+            android:id="@+id/coord_x3_et"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="?attr/edit_text_background"
+            android:ems="10"
+            android:fontFamily="@font/comfortaa"
+            android:hint="X3"
+            android:inputType="textPersonName"
+            android:textAlignment="center"
+            android:textColor="?attr/text"
+            android:textColorHint="?attr/text"
+            app:layout_constraintBottom_toBottomOf="@+id/content_card_coordinates"
+            app:layout_constraintStart_toEndOf="@+id/content_card_coordinates" />
+
+        <EditText
+            android:id="@+id/coord_y3_et"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="?attr/edit_text_background"
+            android:ems="10"
+            android:fontFamily="@font/comfortaa"
+            android:hint="Y3"
+            android:inputType="textPersonName"
+            android:textAlignment="center"
+            android:textColor="?attr/text"
+            android:textColorHint="?attr/text"
+            app:layout_constraintEnd_toEndOf="@+id/content_card_coordinates"
+            app:layout_constraintTop_toBottomOf="@+id/content_card_coordinates" />
+
+        <EditText
+            android:id="@+id/coord_y4_et"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="?attr/edit_text_background"
+            android:ems="10"
+            android:fontFamily="@font/comfortaa"
+            android:hint="Y4"
+            android:inputType="textPersonName"
+            android:textAlignment="center"
+            android:textColor="?attr/text"
+            android:textColorHint="?attr/text"
+            app:layout_constraintStart_toStartOf="@+id/content_card_coordinates"
+            app:layout_constraintTop_toBottomOf="@+id/content_card_coordinates" />
+
+
+        <EditText
+            android:id="@+id/coord_x4_et"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="?attr/edit_text_background"
+            android:ems="10"
+            android:fontFamily="@font/comfortaa"
+            android:hint="X4"
+            android:inputType="textPersonName"
+            android:textAlignment="center"
+            android:textColor="?attr/text"
+            android:textColorHint="?attr/text"
+            app:layout_constraintBottom_toBottomOf="@+id/content_card_coordinates"
+            app:layout_constraintEnd_toStartOf="@+id/content_card_coordinates" />
 
         <android.support.v7.widget.CardView
             android:id="@+id/content_card_date_picer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:cardElevation="10dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="24dp"
+            android:background="?attr/foreground"
             app:cardCornerRadius="5dp"
-            android:layout_margin="@dimen/activity_horizontal_margin"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
+            app:cardElevation="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/content_card_coordinates">
+            app:layout_constraintTop_toBottomOf="@+id/coord_y3_et">
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="?attr/foreground"
-
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -245,7 +269,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="24dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
                     android:datePickerMode="spinner"
@@ -259,14 +283,34 @@
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+        <Button
+            android:id="@+id/request_button"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/primary_button_height"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/primary_button"
+            android:elevation="10dp"
+            android:fontFamily="@font/comfortaa"
+            android:gravity="center"
+            android:text="Submit Request"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/content_card_date_picer" />
 
+        <View
+            android:layout_width="40dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="24dp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/request_button"></View>
+
     </android.support.constraint.ConstraintLayout>
+
+
 </ScrollView>

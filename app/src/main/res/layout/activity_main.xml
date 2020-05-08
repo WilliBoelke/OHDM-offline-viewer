@@ -17,7 +17,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="?attr/foreground"
-        app:menu="@menu/bottom_navigation_bar"
+        app:menu="@menu/bottom_navigation_menu"
+        app:itemBackground="?attr/foreground"
+        app:itemTextColor="?attr/text"
+        app:itemIconTint="?attr/text"
+        app:elevation="8dp"
         />
 
 

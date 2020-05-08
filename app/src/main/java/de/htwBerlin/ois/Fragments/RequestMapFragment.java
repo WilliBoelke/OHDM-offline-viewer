@@ -61,7 +61,6 @@ public class RequestMapFragment extends Fragment
     {
         super.onActivityCreated(savedInstanceState);
 
-
         datePicker = view.findViewById(R.id.simpleDatePicker);
         //no calender view
         datePicker.setCalendarViewShown(false);
@@ -76,14 +75,6 @@ public class RequestMapFragment extends Fragment
         coordx4 = view.findViewById(R.id.coord_x4_et);
         coordy4 = view.findViewById(R.id.coord_y4_et);
     }
-
-
-
-
-
-
-
-
 
 
     private String getCoordinatesAsString()

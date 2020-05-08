@@ -13,7 +13,9 @@
         android:id="@+id/ohdm_logo_iv"
         android:layout_width="0dp"
         android:layout_height="150dp"
-        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,11 +24,13 @@
 
     <android.support.v7.widget.CardView
         android:id="@+id/content_card"
-        app:cardElevation="10dp"
-        app:cardCornerRadius="5dp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="24dp"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,14 +48,16 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/activity_horizontal_margin"
 
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/comfortaa"
                 android:gravity="center"
                 android:text="@string/home_usage"
                 android:textAlignment="center"
                 android:textAllCaps="false"
                 android:textColor="?attr/text"
+
                 android:textSize="@dimen/primary_font_size"
                 android:typeface="normal"
-
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -63,6 +69,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/activity_horizontal_margin"
+                android:fontFamily="@font/comfortaa"
                 android:text="@string/current_map"
                 android:textAlignment="center"
                 android:textColor="?attr/text"
@@ -91,27 +98,17 @@
         android:id="@+id/save_button"
         android:layout_width="0dp"
         android:layout_height="@dimen/primary_button_height"
-        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/primary_button"
         android:elevation="10dp"
-        android:background="?attr/primary"
+        android:fontFamily="@font/comfortaa"
         android:gravity="center"
         android:text="@string/save_map_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/content_card" />
-
-
-
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="?attr/foreground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_navigation_bar" />
-
 
 </android.support.constraint.ConstraintLayout>
