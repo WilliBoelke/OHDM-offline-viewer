@@ -1,7 +1,5 @@
 package de.htwBerlin.ois.Fragments;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -148,17 +147,7 @@ public class HomeFragment extends Fragment
             {
                 if (mapFiles.size() == 0)
                 {
-                    final AlertDialog alertDialog = new AlertDialog.Builder(getActivity().getApplicationContext()).create();
-                    alertDialog.setTitle("No Map Files found!");
-                    alertDialog.setMessage("Either store map files in OHDM directory in internal Storage." + " Or Download available maps (see Tab \"Maps\").");
-                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener()
-                    {
-                        public void onClick(DialogInterface dialog, int which)
-                        {
-                            dialog.dismiss();
-                        }
-                    });
-                    alertDialog.show();
+                    Toast.makeText(getActivity().getApplicationContext(), "You need to choose a map", Toast.LENGTH_LONG).show();
                 }
                 else
                 {
