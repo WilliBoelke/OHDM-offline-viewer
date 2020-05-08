@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
-import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -46,8 +45,8 @@ public class FtpTaskFileDownloading extends AsyncTask<OhdmFile, Integer, Long>
     @Override
     protected void onPreExecute()
     {
-        ProgressBar progressBar = this.progressBar.get();
-        progressBar.setVisibility(View.VISIBLE);
+        //  ProgressBar progressBar = this.progressBar.get();
+        // progressBar.setVisibility(View.VISIBLE);
         ftpClient = new FTPClient();
         super.onPreExecute();
     }

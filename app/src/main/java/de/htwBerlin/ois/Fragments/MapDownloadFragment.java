@@ -160,7 +160,7 @@ public class MapDownloadFragment extends Fragment {
      * executes list files async task
      */
     private void listFTPFiles() {
-        // ftpTaskFileListing.execute();
+        //ftpTaskFileListing.execute();
     }
 
 
