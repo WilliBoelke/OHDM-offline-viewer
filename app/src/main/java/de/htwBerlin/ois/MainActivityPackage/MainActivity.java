@@ -1,7 +1,9 @@
 package de.htwBerlin.ois.MainActivityPackage;
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -24,6 +26,7 @@ import java.util.Map;
 
 import de.htwBerlin.ois.FileStructure.MapFileSingleton;
 import de.htwBerlin.ois.Fragments.AboutFragment;
+import de.htwBerlin.ois.Fragments.FAQFragment;
 import de.htwBerlin.ois.Fragments.HomeFragment;
 import de.htwBerlin.ois.Fragments.MapDownloadFragment;
 import de.htwBerlin.ois.Fragments.NavigationFragment;
@@ -83,6 +86,9 @@ public class MainActivity extends AppCompatActivity
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AboutFragment()).commit();
                 break;
 
+            case R.id.ab_menu_faq:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FAQFragment()).commit();
+                break;
             case R.id.ab_menu_settings:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new OptionsFragment()).commit();
                 break;

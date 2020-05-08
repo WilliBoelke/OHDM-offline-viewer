@@ -18,7 +18,6 @@
         android:layout_alignParentBottom="true"
         android:background="?attr/foreground"
         app:menu="@menu/bottom_navigation_bar"
-
         />
 
 

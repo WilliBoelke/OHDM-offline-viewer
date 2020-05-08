@@ -60,23 +60,35 @@ public class RequestMapFragment extends Fragment
     public void onActivityCreated(@Nullable Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
-        this.setupDatePicker();
 
 
+        datePicker = view.findViewById(R.id.simpleDatePicker);
+        //no calender view
+        datePicker.setCalendarViewShown(false);
         name = view.findViewById(R.id.name_et);
+
+        coordx1 = view.findViewById(R.id.coord_x1_et);
+        coordy1 = view.findViewById(R.id.coord_y1_et);
+        coordx2 = view.findViewById(R.id.coord_x2_et);
+        coordy2 = view.findViewById(R.id.coord_y2_et);
+        coordx3 = view.findViewById(R.id.coord_x3_et);
+        coordy3 = view.findViewById(R.id.coord_y3_et);
+        coordx4 = view.findViewById(R.id.coord_x4_et);
+        coordy4 = view.findViewById(R.id.coord_y4_et);
     }
 
 
 
-    /**
-     * Setup for the date picker
-     */
-    private void setupDatePicker()
-    {
-        datePicker = view.findViewById(R.id.simpleDatePicker);
-        //no calender view
-        datePicker.setCalendarViewShown(false);
 
+
+
+
+
+
+
+    private String getCoordinatesAsString()
+    {
+        return null;
     }
 
     /**
