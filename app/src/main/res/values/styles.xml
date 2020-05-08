@@ -5,9 +5,9 @@
         <item name="backgroundColor">@color/background_light</item>
         <item name="foreground">@color/foreground_light</item>
         <item name="accent">@color/ohdm_accent_color</item>
-        <item name="primary">@color/primary_light</item>
-        <item name="secondary">@color/secondary_light</item>
-        <item name="text">@color/text_light</item>
+        <item name="colorPrim">@color/primary_light</item>
+        <item name="colorSecondary">@color/secondary_light</item>
+        <item name="textColorPrimary">@color/text_light</item>
 
 
         <item name="bottom_nav_icon_map_download">@drawable/bottom_nav_icon_download_white</item>
@@ -20,10 +20,10 @@
         <item name="backgroundColor">@color/background_light</item>
         <item name="foreground">@color/foreground_light</item>
         <item name="accent">@color/ohdm_accent_color</item>
-        <item name="primary">@color/primary_light</item>
-        <item name="secondary">@color/secondary_light</item>
-        <item name="text">@color/text_light</item>
-
+        <item name="colorPrim">@color/primary_light</item>
+        <item name="colorSecondary">@color/secondary_light</item>
+        <item name="textColorPrimary">@color/text_light</item>
+        <item name="textColorSecondary">#F13E3B3B</item>
         <item name="bottom_nav_icon_map_download">@drawable/bottom_nav_icon_download_black</item>
         <item name="bottom_nav_icon_home">@drawable/bottom_nav_icon_home_black</item>
         <item name="bottom_nav_icon_navigation">@drawable/bottom_nav_icon_navigation_black</item>
@@ -35,9 +35,10 @@
         <item name="backgroundColor">@color/background_dark</item>
         <item name="foreground">#3C3C3C</item>
         <item name="accent">@color/ohdm_accent_color</item>
-        <item name="primary">@color/primary_dark</item>
-        <item name="secondary">@color/secondary_dark</item>
-        <item name="text">@color/text_dark</item>
+        <item name="colorPrim">@color/primary_dark</item>
+        <item name="colorSecondary">@color/secondary_dark</item>
+        <item name="textColorPrimary">@color/text_dark</item>
+        <item name="textColorSecondary">#F1A5A5A5</item>
         <item name="bottom_nav_icon_map_download">@drawable/bottom_nav_icon_download_white</item>
         <item name="bottom_nav_icon_home">@drawable/bottom_nav_icon_home_white</item>
         <item name="bottom_nav_icon_navigation">@drawable/bottom_nav_icon_navigation_white</item>
