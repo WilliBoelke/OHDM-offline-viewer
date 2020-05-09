@@ -146,7 +146,7 @@ public class MapDownloadFragment extends Fragment
             @Override
             public void onClick(View v)
             {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new RequestMapFragment()).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new RequestMapFragment()).addToBackStack(null).commit();
             }
         });
     }

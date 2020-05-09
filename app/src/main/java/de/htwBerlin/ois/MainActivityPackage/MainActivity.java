@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity
             // ... also commit
             try
             {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).addToBackStack(null).commit();
             }
             catch (NullPointerException e)
             {
@@ -102,14 +102,14 @@ public class MainActivity extends AppCompatActivity
         switch (item.getItemId())
         {
             case R.id.ab_menu_about:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AboutFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AboutFragment()).addToBackStack(null).commit();
                 break;
 
             case R.id.ab_menu_faq:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FAQFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FAQFragment()).addToBackStack(null).commit();
                 break;
             case R.id.ab_menu_settings:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new OptionsFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new OptionsFragment()).addToBackStack(null).commit();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -146,12 +146,12 @@ public class MainActivity extends AppCompatActivity
         if (intent.getIntExtra("Fragment", 0) == OptionsFragment.ID)
         {
             //if we came her from the resetz method in the options fragment, we want the options fragment to appear again
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new OptionsFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new OptionsFragment()).addToBackStack(null).commit();
         }
         else
         {
             // giving first defaultFragment to the FragmentManager
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, defaultFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, defaultFragment).addToBackStack(null).commit();
         }
     }
 
