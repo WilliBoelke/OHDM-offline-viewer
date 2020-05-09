@@ -136,14 +136,16 @@ public class HomeFragment extends Fragment
 
 
     @Override
-    public void onStart() {
+    public void onStart()
+    {
 
         super.onStart();
     }
 
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
     }
 

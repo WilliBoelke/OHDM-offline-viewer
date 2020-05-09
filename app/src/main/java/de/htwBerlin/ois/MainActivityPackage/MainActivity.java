@@ -1,9 +1,7 @@
 package de.htwBerlin.ois.MainActivityPackage;
 
 import android.Manifest;
-import android.app.ActionBar;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -36,66 +34,10 @@ import de.htwBerlin.ois.R;
 public class MainActivity extends AppCompatActivity
 {
 
-    private BottomNavigationView bottomNav;
-    private Fragment defaultFragment = new HomeFragment();
-
     public static final String MAP_FILE_PATH = Environment.getExternalStorageDirectory().toString() + "/OHDM";
     private static final int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        //Get settings from SharedPrefs
-        if (getApplicationContext().getSharedPreferences(OptionsFragment.SETTINGS_SHARED_PREFERENCES, 0).getBoolean(OptionsFragment.DARK_MODE, false) == true)
-        {
-            setTheme(R.style.DarkTheme);
-        }
-        else
-        {
-            setTheme(R.style.LightTheme);
-        }
-
-        setContentView(R.layout.activity_main);
-
-        checkPermissions();
-        createOhdmDirectory();
-
-
-        // setting up the BottomNavigationView with Listener
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
-        bottomNav.setOnNavigationItemSelectedListener(navListener);
-
-        // giving first defaultFragment to the FragmentManager
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, defaultFragment).commit();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        getMenuInflater().inflate(R.menu.actionbar_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case R.id.ab_menu_about:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AboutFragment()).commit();
-                break;
-
-            case R.id.ab_menu_faq:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FAQFragment()).commit();
-                break;
-            case R.id.ab_menu_settings:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new OptionsFragment()).commit();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
+    private String TAG = getClass().getSimpleName();
+    private Fragment defaultFragment = new HomeFragment();
     /**
      * Bottom Nav Listener
      */
@@ -137,12 +79,70 @@ public class MainActivity extends AppCompatActivity
             }
             catch (NullPointerException e)
             {
-                Log.e("MainActivity_initFragment", "onNavigationItemSelected: Fragment was null ", e);
+                Log.e(TAG, "onNavigationItemSelected: Fragment was null ", e);
             }
             // return true to tell that everything did go right
             return true;
         }
     };
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        //Get settings from SharedPrefs
+        if (getApplicationContext().getSharedPreferences(OptionsFragment.SETTINGS_SHARED_PREFERENCES, 0).getBoolean(OptionsFragment.DARK_MODE, false) == true)
+        {
+            setTheme(R.style.DarkTheme);
+        }
+        else
+        {
+            setTheme(R.style.LightTheme);
+        }
+
+        setContentView(R.layout.activity_main);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            checkPermissions();
+        }
+        createOhdmDirectory();
+
+
+        // setting up the BottomNavigationView with Listener
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
+        bottomNav.setOnNavigationItemSelectedListener(navListener);
+
+        // giving first defaultFragment to the FragmentManager
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, defaultFragment).commit();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.actionbar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.ab_menu_about:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AboutFragment()).commit();
+                break;
+
+            case R.id.ab_menu_faq:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FAQFragment()).commit();
+                break;
+            case R.id.ab_menu_settings:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new OptionsFragment()).commit();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     /**
      * Creates OHDM Folder if not exists
@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity
     private void createOhdmDirectory()
     {
         File dir = new File(MAP_FILE_PATH);
-        boolean status = true;
+        boolean status;
         if (!dir.exists())
         {
             status = dir.mkdirs();

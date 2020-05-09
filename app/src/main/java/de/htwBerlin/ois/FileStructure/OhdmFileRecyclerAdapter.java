@@ -35,8 +35,7 @@ public class OhdmFileRecyclerAdapter extends RecyclerView.Adapter<OhdmFileRecycl
     public OhdmFileViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i)
     {
         View view = LayoutInflater.from(parent.getContext()).inflate(ressource, parent, false);
-        OhdmFileRecyclerAdapter.OhdmFileViewHolder ohdmFileViewHolder = new OhdmFileRecyclerAdapter.OhdmFileViewHolder(view, this.onItemClickListener);
-        return ohdmFileViewHolder;
+        return new OhdmFileRecyclerAdapter.OhdmFileViewHolder(view, this.onItemClickListener);
     }
 
     @Override
@@ -64,11 +63,6 @@ public class OhdmFileRecyclerAdapter extends RecyclerView.Adapter<OhdmFileRecycl
         this.onItemClickListener = listener;
     }
 
-    public interface OnItemClickListener
-    {
-        void onItemClick(int position);
-    }
-
     /**
      * The map download task, called from the swipe left in {@link OhdmFileSwipeToDownloadCallback}
      *
@@ -89,6 +83,11 @@ public class OhdmFileRecyclerAdapter extends RecyclerView.Adapter<OhdmFileRecycl
         Toast.makeText(context, "Deleting " + getFile(position).getFilename(), Toast.LENGTH_SHORT).show();
 
         notifyDataSetChanged();
+    }
+
+    public interface OnItemClickListener
+    {
+        void onItemClick(int position);
     }
 
     protected static class OhdmFileViewHolder extends RecyclerView.ViewHolder

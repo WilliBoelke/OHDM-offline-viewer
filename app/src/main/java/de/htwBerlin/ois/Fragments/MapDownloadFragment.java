@@ -23,7 +23,8 @@ import de.htwBerlin.ois.R;
 /**
  * This Activity represents a small map file download center
  */
-public class MapDownloadFragment extends Fragment {
+public class MapDownloadFragment extends Fragment
+{
 
     /**
      * FTP Server IP address
@@ -79,7 +80,8 @@ public class MapDownloadFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState)
+    {
         super.onActivityCreated(savedInstanceState);
 
         this.setupRecyclerView();
@@ -112,7 +114,7 @@ public class MapDownloadFragment extends Fragment {
         //TODO placeholder to be deleted
         {
             recyclerView = view.findViewById(R.id.available_maps_recycler);
-            ohdmFiles = new ArrayList<OhdmFile>();
+            ohdmFiles = new ArrayList<>();
             Long size = new Long(122);
             OhdmFile one = new OhdmFile("Berlin", size, "12.12.3400", false);
             OhdmFile two = new OhdmFile("Frankfurt", size, "12.12.3400", true);
@@ -148,7 +150,8 @@ public class MapDownloadFragment extends Fragment {
     /**
      * Initializes FTP Endpoint singleton
      */
-    private void initializeFTPSingleton() {
+    private void initializeFTPSingleton()
+    {
         ftpEndpointSingleton = FtpEndpointSingleton.getInstance();
         ftpEndpointSingleton.setFtpPassword(FTP_PASSWORD);
         ftpEndpointSingleton.setFtpUser(FTP_USER);
@@ -159,7 +162,8 @@ public class MapDownloadFragment extends Fragment {
     /**
      * executes list files async task
      */
-    private void listFTPFiles() {
+    private void listFTPFiles()
+    {
         //ftpTaskFileListing.execute();
     }
 

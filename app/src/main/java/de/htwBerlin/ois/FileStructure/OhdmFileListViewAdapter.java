@@ -23,20 +23,23 @@ import de.htwBerlin.ois.R;
  * @author morelly_t1
  */
 @Deprecated
-public class OhdmFileListViewAdapter extends ArrayAdapter<OhdmFile> {
+public class OhdmFileListViewAdapter extends ArrayAdapter<OhdmFile>
+{
 
     private static final String TAG = "OhdmFileAdapter";
 
     private Context context;
     private int resource;
 
-    public OhdmFileListViewAdapter(Context context, int resource, ArrayList<OhdmFile> ohdmFiles) {
+    public OhdmFileListViewAdapter(Context context, int resource, ArrayList<OhdmFile> ohdmFiles)
+    {
         super(context, resource, ohdmFiles);
         this.context = context;
         this.resource = resource;
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent)
+    {
         final String fileName = getItem(position).getFilename();
         Long fileSize = getItem(position).getFileSize();
         String creationDate = getItem(position).getCreationDate();
@@ -47,17 +50,19 @@ public class OhdmFileListViewAdapter extends ArrayAdapter<OhdmFile> {
         LayoutInflater inflater = LayoutInflater.from(context);
         convertView = inflater.inflate(resource, parent, false);
 
-        TextView tvFileName = (TextView) convertView.findViewById(R.id.map_name_tv);
-        TextView tvFileSize = (TextView) convertView.findViewById(R.id.map_size_tv);
-        TextView tvCreationDate = (TextView) convertView.findViewById(R.id.date_of_creation_tv);
+        TextView tvFileName = convertView.findViewById(R.id.map_name_tv);
+        TextView tvFileSize = convertView.findViewById(R.id.map_size_tv);
+        TextView tvCreationDate = convertView.findViewById(R.id.date_of_creation_tv);
 
 
-        final Button buttonDownloadFile = (Button) convertView.findViewById(R.id.buttonDownloadFile);
-        final ProgressBar progressBar = (ProgressBar) convertView.findViewById(R.id.progressBar);
+        final Button buttonDownloadFile = convertView.findViewById(R.id.buttonDownloadFile);
+        final ProgressBar progressBar = convertView.findViewById(R.id.progressBar);
 
-        buttonDownloadFile.setOnClickListener(new View.OnClickListener() {
+        buttonDownloadFile.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 FtpTaskFileDownloading ftpTaskFileDownloading = new FtpTaskFileDownloading(progressBar, context);
                 Toast.makeText(getContext(), "Downloading " + fileName, Toast.LENGTH_SHORT).show();
                 ftpTaskFileDownloading.execute(ohdmFile);
@@ -76,9 +81,11 @@ public class OhdmFileListViewAdapter extends ArrayAdapter<OhdmFile> {
 
     /**
      * disables a button
+     *
      * @param button
      */
-    private void disableButton(Button button) {
+    private void disableButton(Button button)
+    {
         button.setEnabled(Boolean.FALSE);
     }
 }

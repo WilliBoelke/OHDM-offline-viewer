@@ -3,55 +3,15 @@ package de.htwBerlin.ois.FTP;
 public class FtpEndpointSingleton
 {
 
+    private static FtpEndpointSingleton ftpEndpointSingleton = null;
     private String serverIp;
     private Integer serverPort;
     private String ftpUser;
     private String ftpPassword;
-    private static FtpEndpointSingleton ftpEndpointSingleton = null;
 
     private FtpEndpointSingleton()
     {
 
-    }
-
-    public String getServerIp()
-    {
-        return serverIp;
-    }
-
-    public void setServerIp(String serverIp)
-    {
-        this.serverIp = serverIp;
-    }
-
-    public Integer getServerPort()
-    {
-        return serverPort;
-    }
-
-    public void setServerPort(Integer serverPort)
-    {
-        this.serverPort = serverPort;
-    }
-
-    public String getFtpUser()
-    {
-        return ftpUser;
-    }
-
-    public void setFtpUser(String ftpUser)
-    {
-        this.ftpUser = ftpUser;
-    }
-
-    public String getFtpPassword()
-    {
-        return ftpPassword;
-    }
-
-    public void setFtpPassword(String ftpPassword)
-    {
-        this.ftpPassword = ftpPassword;
     }
 
     public static FtpEndpointSingleton getFtpEndpointSingleton()
@@ -68,5 +28,45 @@ public class FtpEndpointSingleton
     {
         if (ftpEndpointSingleton == null) ftpEndpointSingleton = new FtpEndpointSingleton();
         return ftpEndpointSingleton;
+    }
+
+    protected String getServerIp()
+    {
+        return serverIp;
+    }
+
+    public void setServerIp(String serverIp)
+    {
+        this.serverIp = serverIp;
+    }
+
+    protected Integer getServerPort()
+    {
+        return serverPort;
+    }
+
+    public void setServerPort(Integer serverPort)
+    {
+        this.serverPort = serverPort;
+    }
+
+    protected String getFtpUser()
+    {
+        return ftpUser;
+    }
+
+    public void setFtpUser(String ftpUser)
+    {
+        this.ftpUser = ftpUser;
+    }
+
+    protected String getFtpPassword()
+    {
+        return ftpPassword;
+    }
+
+    public void setFtpPassword(String ftpPassword)
+    {
+        this.ftpPassword = ftpPassword;
     }
 }
