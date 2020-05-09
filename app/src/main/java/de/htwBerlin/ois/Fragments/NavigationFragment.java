@@ -41,6 +41,11 @@ public class NavigationFragment extends Fragment
      * The view
      */
     private View view;
+    /**
+     * Fragment ID used to identify the fragment
+     * (for example by putting the ID into the Intent extra )
+     */
+    public static int ID = 2;
 
     /**
      * Empty Constructor

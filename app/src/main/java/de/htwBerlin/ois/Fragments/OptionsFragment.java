@@ -45,6 +45,11 @@ public class OptionsFragment extends Fragment
      */
     private final String TAG = getClass().getSimpleName();
     /**
+     * Fragment ID used to identify the fragment
+     * (for example by putting the ID into the Intent extra )
+     */
+    public static int ID = 1;
+    /**
      * the view
      */
     private View view;
@@ -52,7 +57,9 @@ public class OptionsFragment extends Fragment
      * SharedPreferences to quickly store and access user settings
      */
     private SharedPreferences prefs;
-    //The DarkMode toggle
+    /**
+     * Dark mode toggle
+     */
     private Switch darkModeToggle;
     private Switch allowLocationToggle;
     private Switch allowWriteLocalStorageToggle;

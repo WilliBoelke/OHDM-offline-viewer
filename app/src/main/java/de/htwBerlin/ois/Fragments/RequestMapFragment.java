@@ -14,6 +14,12 @@ import de.htwBerlin.ois.R;
 public class RequestMapFragment extends Fragment
 {
     /**
+     * Fragment ID used to identify the fragment
+     * (for example by putting the ID into the Intent extra )
+     */
+    public static int ID = 3;
+
+    /**
      * The View
      */
     private View view;

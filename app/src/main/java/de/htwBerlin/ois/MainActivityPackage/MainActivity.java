@@ -1,6 +1,7 @@
 package de.htwBerlin.ois.MainActivityPackage;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -38,6 +39,8 @@ public class MainActivity extends AppCompatActivity
     private static final int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
     private String TAG = getClass().getSimpleName();
     private Fragment defaultFragment = new HomeFragment();
+
+
     /**
      * Bottom Nav Listener
      */
@@ -86,6 +89,31 @@ public class MainActivity extends AppCompatActivity
         }
     };
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.actionbar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.ab_menu_about:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AboutFragment()).commit();
+                break;
+
+            case R.id.ab_menu_faq:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FAQFragment()).commit();
+                break;
+            case R.id.ab_menu_settings:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new OptionsFragment()).commit();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -114,34 +142,17 @@ public class MainActivity extends AppCompatActivity
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
-        // giving first defaultFragment to the FragmentManager
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, defaultFragment).commit();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        getMenuInflater().inflate(R.menu.actionbar_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
+        Intent intent = getIntent();
+        if (intent.getIntExtra("Fragment", 0) == OptionsFragment.ID)
         {
-            case R.id.ab_menu_about:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AboutFragment()).commit();
-                break;
-
-            case R.id.ab_menu_faq:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FAQFragment()).commit();
-                break;
-            case R.id.ab_menu_settings:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new OptionsFragment()).commit();
-                break;
+            //if we came her from the resetz method in the options fragment, we want the options fragment to appear again
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new OptionsFragment()).commit();
         }
-        return super.onOptionsItemSelected(item);
+        else
+        {
+            // giving first defaultFragment to the FragmentManager
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, defaultFragment).commit();
+        }
     }
 
     /**
