@@ -82,7 +82,7 @@ public class NavigationFragment extends Fragment
             mapDataStore = new MapFile(ohdmFile);
 
             TileRendererLayer tileRendererLayer = new TileRendererLayer(tileCache, mapDataStore, mapView.getModel().mapViewPosition, AndroidGraphicFactory.INSTANCE);
-            tileRendererLayer.setXmlRenderTheme(InternalRenderTheme.DEFAULT);
+            tileRendererLayer.setXmlRenderTheme(InternalRenderTheme.OSMARENDER);
 
             mapView.getLayerManager().getLayers().add(tileRendererLayer);
             mapView.setZoomLevel((byte) 12);

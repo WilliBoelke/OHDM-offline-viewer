@@ -5,7 +5,7 @@
     <!-- Color for primary Buttons-->
     <color name="primary_light">#50EC36</color>
     <!-- Color for secondary Buttons-->
-    <color name="secondary_light">#50EC36</color>
+    <color name="secondary_light">#339722</color>
     <!-- Color for the layout background-->
     <color name="background_light">#FAF9F7</color>
     <!-- Color for foreground elements like cards, ListView items or menus-->
@@ -19,7 +19,7 @@
     <!-- Color for primary Buttons-->
     <color name="primary_dark">#50EC36</color>
     <!-- Color for secondary Buttons-->
-    <color name="secondary_dark">#50EC36</color>
+    <color name="secondary_dark">#339722</color>
     <!-- Color for the layout background-->
     <color name="background_dark">#2E2E2E</color>
     <!-- Color for foreground elements like cards, ListView items or menus-->
@@ -30,5 +30,5 @@
     <color name="textSecondary_dark">#98CACACA</color>
 
     <!--the ohdm color for accents-->
-    <color name="ohdm_accent_color">#77B900</color>
+    <color name="ohdm_accent_color">#50EC36</color>
 </resources>
