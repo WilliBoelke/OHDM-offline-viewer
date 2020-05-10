@@ -135,31 +135,36 @@ public class MainActivity extends AppCompatActivity
 
         setContentView(R.layout.activity_main);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        {
-            checkPermissions();
-        }
-        createOhdmDirectory();
-
-
         // setting up the BottomNavigationView with Listener
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
+        //Open the correct fragment
         Intent intent = getIntent();
         if (intent.getStringExtra("Fragment") != null)
         {
             if (intent.getStringExtra("Fragment").equals(OptionsFragment.ID))
             {
-                //if we came her from the resetz method in the options fragment, we want the options fragment to appear again
+                //if we came her from the reset method in the options fragment, we want the options fragment to appear again
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new OptionsFragment()).addToBackStack(OptionsFragment.ID).commit();
             }
+
         }
         else
         {
             // giving first defaultFragment to the FragmentManager
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, defaultFragment).addToBackStack(null).commit();
+            if (savedInstanceState == null)
+            {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, defaultFragment).addToBackStack(null).commit();
+            }
         }
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            checkPermissions();
+        }
+        createOhdmDirectory();
     }
 
     /**
