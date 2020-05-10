@@ -50,19 +50,23 @@ public class MainActivity extends AppCompatActivity
         public boolean onNavigationItemSelected(@NonNull MenuItem item)
         {
             Fragment selectedFragment = null;
+            String id = null;
             // switch ... case to select the right Fragment to start
             switch (item.getItemId())
             {
                 case R.id.nav_home:
                     selectedFragment = new HomeFragment();
+                    id = HomeFragment.ID;
                     break;
                 case R.id.nav_download:
                     selectedFragment = new MapDownloadFragment();
+                    id = HomeFragment.ID;
                     break;
                 case R.id.nav_navigation:
                     if (MapFileSingleton.getInstance().getFile() != null)
                     {
                         selectedFragment = new NavigationFragment();
+                        id = NavigationFragment.ID;
                     }
                     else
                     {
@@ -78,7 +82,7 @@ public class MainActivity extends AppCompatActivity
             // ... also commit
             try
             {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).addToBackStack(null).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).addToBackStack(id).commit();
             }
             catch (NullPointerException e)
             {
@@ -102,14 +106,14 @@ public class MainActivity extends AppCompatActivity
         switch (item.getItemId())
         {
             case R.id.ab_menu_about:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AboutFragment()).addToBackStack(null).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AboutFragment()).addToBackStack(AboutFragment.ID).commit();
                 break;
 
             case R.id.ab_menu_faq:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FAQFragment()).addToBackStack(null).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FAQFragment()).addToBackStack(FAQFragment.ID).commit();
                 break;
             case R.id.ab_menu_settings:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new OptionsFragment()).addToBackStack(null).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new OptionsFragment()).addToBackStack(OptionsFragment.ID).commit();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -143,10 +147,13 @@ public class MainActivity extends AppCompatActivity
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
         Intent intent = getIntent();
-        if (intent.getIntExtra("Fragment", 0) == OptionsFragment.ID)
+        if (intent.getStringExtra("Fragment") != null)
         {
-            //if we came her from the resetz method in the options fragment, we want the options fragment to appear again
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new OptionsFragment()).addToBackStack(null).commit();
+            if (intent.getStringExtra("Fragment").equals(OptionsFragment.ID))
+            {
+                //if we came her from the resetz method in the options fragment, we want the options fragment to appear again
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new OptionsFragment()).addToBackStack(OptionsFragment.ID).commit();
+            }
         }
         else
         {
@@ -196,6 +203,7 @@ public class MainActivity extends AppCompatActivity
             requestPermissions(params, REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
         }
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)

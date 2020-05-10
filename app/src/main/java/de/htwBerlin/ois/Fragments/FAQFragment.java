@@ -21,7 +21,7 @@ public class FAQFragment extends Fragment
      * Fragment ID used to identify the fragment
      * (for example by putting the ID into the Intent extra )
      */
-    public static int ID = 6;
+    public static String ID = "FAQ";
     private final String TAG = this.getClass().getSimpleName();
     private View view;
 

@@ -18,20 +18,24 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <android.support.v7.widget.CardView
-                android:id="@+id/content_card1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:id="@+id/content_card3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="24dp"
                 app:cardCornerRadius="5dp"
-                app:cardElevation="10dp">
+                app:cardElevation="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/content_card1">
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
@@ -41,10 +45,68 @@
                     app:layout_constraintEnd_toEndOf="parent">
 
                     <TextView
-                        android:id="@+id/headline1_tv"
-                        android:layout_width="match_parent"
+                        android:id="@+id/headline3_tv"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/activity_horizontal_margin"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/comfortaa"
+                        android:text="@string/find_us"
+                        android:textAlignment="center"
+                        android:textColor="?attr/accent"
+                        android:textSize="@dimen/h1"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/info3_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="8dp"
+                        android:fontFamily="@font/comfortaa"
+                        android:gravity="center"
+                        android:text="https://github.com/OpenHistoricalDataMap"
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textColor="?attr/textColorPrimary"
+                        android:textSize="@dimen/primary_font_size"
+                        android:typeface="normal"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/headline3_tv" />
+
+                </android.support.constraint.ConstraintLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/content_card1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="24dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/foreground"
+                    android:elevation="20dp"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <TextView
+                        android:id="@+id/headline1_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
                         android:fontFamily="@font/comfortaa"
                         android:text="OHDM .."
                         android:textAlignment="center"
@@ -53,15 +115,14 @@
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:layout_conversion_absoluteHeight="78dp"
-                        tools:layout_conversion_absoluteWidth="361dp" />
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/info1_tv"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/activity_horizontal_margin"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
                         android:fontFamily="@font/comfortaa"
                         android:gravity="center"
                         android:text="@string/about_ohdm"
@@ -72,15 +133,14 @@
                         android:typeface="normal"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/headline1_tv"
-                        tools:layout_conversion_absoluteHeight="78dp"
-                        tools:layout_conversion_absoluteWidth="361dp" />
+                        app:layout_constraintTop_toBottomOf="@+id/headline1_tv" />
 
                     <ImageView
                         android:id="@+id/ohdm_öogo_iv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/activity_horizontal_margin"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -92,24 +152,29 @@
 
             <android.support.v7.widget.CardView
                 android:id="@+id/content_card2"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="24dp"
                 app:cardCornerRadius="5dp"
-                app:cardElevation="10dp">
+                app:cardElevation="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/content_card3">
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:backgroundTintMode="add"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/foreground"
                     android:elevation="20dp"
                     app:layout_constraintEnd_toEndOf="parent">
 
                     <TextView
                         android:id="@+id/headline2_tv"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/activity_horizontal_margin"
+                        android:layout_marginTop="8dp"
                         android:fontFamily="@font/comfortaa"
                         android:text="OHDM Offline Viewer .."
                         android:textAlignment="center"
@@ -124,7 +189,9 @@
                         android:id="@+id/info2_tv"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/activity_horizontal_margin"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
                         android:fontFamily="@font/comfortaa"
                         android:gravity="center"
                         android:text="@string/about_ohdm_offline_viewer"
@@ -141,69 +208,31 @@
                     <ImageView
                         android:id="@+id/htw_logo_iv"
                         android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_margin="@dimen/activity_horizontal_margin"
+                        android:layout_height="150dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/info2_tv"
+                        app:layout_constraintVertical_bias="0.0"
                         app:srcCompat="@drawable/logo_htw" />
 
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/content_card3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/activity_horizontal_margin"
-                app:cardCornerRadius="5dp"
-                app:cardElevation="10dp">
-
-                <android.support.constraint.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/foreground"
-                    android:elevation="20dp"
-                    app:layout_constraintEnd_toEndOf="parent">
-
-                    <TextView
-                        android:id="@+id/headline3_tv"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/activity_horizontal_margin"
-                        android:fontFamily="@font/comfortaa"
-                        android:text="@string/find_us"
-                        android:textAlignment="center"
-                        android:textColor="?attr/accent"
-                        android:textSize="@dimen/h1"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/info3_tv"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/activity_horizontal_margin"
-                        android:layout_marginTop="16dp"
-                        android:fontFamily="@font/comfortaa"
-                        android:gravity="center"
-                        android:text="https://github.com/OpenHistoricalDataMap"
-                        android:textAlignment="center"
-                        android:textAllCaps="false"
-                        android:textColor="?attr/textColorPrimary"
-                        android:textSize="@dimen/primary_font_size"
-                        android:typeface="normal"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/headline3_tv" />
-
-                </android.support.constraint.ConstraintLayout>
-            </android.support.v7.widget.CardView>
-        </LinearLayout>
+            <View
+                android:id="@+id/view"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/content_card2" />
+        </android.support.constraint.ConstraintLayout>
     </ScrollView>
-
 </android.support.constraint.ConstraintLayout>

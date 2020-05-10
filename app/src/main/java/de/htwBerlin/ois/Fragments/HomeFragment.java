@@ -34,7 +34,7 @@ public class HomeFragment extends Fragment
      * Fragment ID used to identify the fragment
      * (for example by putting the ID into the Intent extra )
      */
-    public static int ID = 5;
+    public static String ID = "Home";
     /**
      * Log tag
      */
@@ -92,6 +92,7 @@ public class HomeFragment extends Fragment
         if (!mapFiles.isEmpty())
         {
             view.findViewById(R.id.content_card_home_info).setVisibility(View.INVISIBLE);
+            view.findViewById(R.id.ohdm_logo_iv).setVisibility(View.INVISIBLE);
             localMapsRecyclerView.setVisibility(View.VISIBLE);
             recyclerLayoutManager = new LinearLayoutManager(this.getContext());
             recyclerAdapter = new LocalMapsRecyclerAdapter(this.getContext(), mapFiles, R.layout.download_recycler_item);

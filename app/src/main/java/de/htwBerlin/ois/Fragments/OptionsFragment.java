@@ -48,7 +48,7 @@ public class OptionsFragment extends Fragment
      * Fragment ID used to identify the fragment
      * (for example by putting the ID into the Intent extra )
      */
-    public static int ID = 1;
+    public static String ID = "Options";
     /**
      * the view
      */
@@ -199,7 +199,7 @@ public class OptionsFragment extends Fragment
     {
         Log.v(TAG, "Reset Activity ");
         Intent intent = new Intent(getActivity().getApplicationContext(), MainActivity.class);
-        intent.putExtra("Fragment", 1);
+        intent.putExtra("Fragment", ID);
         startActivity(intent);
     }
 
