@@ -41,6 +41,70 @@ public class MainActivity extends AppCompatActivity
     private Fragment defaultFragment = new HomeFragment();
 
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        //Get settings from SharedPrefs
+        if (getApplicationContext().getSharedPreferences(OptionsFragment.SETTINGS_SHARED_PREFERENCES, 0).getBoolean(OptionsFragment.DARK_MODE, false) == true)
+        {
+            setTheme(R.style.DarkTheme);
+        }
+        else
+        {
+            setTheme(R.style.LightTheme);
+        }
+
+        setContentView(R.layout.activity_main);
+
+        // setting up the BottomNavigationView with Listener
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
+        bottomNav.setOnNavigationItemSelectedListener(navListener);
+
+        //Open the correct fragment
+        Intent intent = getIntent();
+        if (intent.getStringExtra("Fragment") != null)
+        {
+            if (intent.getStringExtra("Fragment").equals(OptionsFragment.ID))
+            {
+                //if we came her from the reset method in the options fragment, we want the options fragment to appear again
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new OptionsFragment()).addToBackStack(OptionsFragment.ID).commit();
+            }
+
+        }
+        else
+        {
+            // giving first defaultFragment to the FragmentManager
+            if (savedInstanceState == null)
+            {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, defaultFragment).addToBackStack(null).commit();
+            }
+        }
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            checkPermissions();
+        }
+        createOhdmDirectory();
+    }
+
+    /**
+     * Creates OHDM Folder if not exists
+     */
+    private void createOhdmDirectory()
+    {
+        File dir = new File(MAP_FILE_PATH);
+        boolean status;
+        if (!dir.exists())
+        {
+            status = dir.mkdirs();
+            if (status) Toast.makeText(this, "Created OHDM Directory.", Toast.LENGTH_SHORT).show();
+            else Toast.makeText(this, "Couldn't create OHDM Directory.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
     /**
      * Bottom Nav Listener
      */
@@ -119,68 +183,6 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        //Get settings from SharedPrefs
-        if (getApplicationContext().getSharedPreferences(OptionsFragment.SETTINGS_SHARED_PREFERENCES, 0).getBoolean(OptionsFragment.DARK_MODE, false) == true)
-        {
-            setTheme(R.style.DarkTheme);
-        }
-        else
-        {
-            setTheme(R.style.LightTheme);
-        }
-
-        setContentView(R.layout.activity_main);
-
-        // setting up the BottomNavigationView with Listener
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
-        bottomNav.setOnNavigationItemSelectedListener(navListener);
-
-        //Open the correct fragment
-        Intent intent = getIntent();
-        if (intent.getStringExtra("Fragment") != null)
-        {
-            if (intent.getStringExtra("Fragment").equals(OptionsFragment.ID))
-            {
-                //if we came her from the reset method in the options fragment, we want the options fragment to appear again
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new OptionsFragment()).addToBackStack(OptionsFragment.ID).commit();
-            }
-
-        }
-        else
-        {
-            // giving first defaultFragment to the FragmentManager
-            if (savedInstanceState == null)
-            {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, defaultFragment).addToBackStack(null).commit();
-            }
-        }
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        {
-            checkPermissions();
-        }
-        createOhdmDirectory();
-    }
-
-    /**
-     * Creates OHDM Folder if not exists
-     */
-    private void createOhdmDirectory()
-    {
-        File dir = new File(MAP_FILE_PATH);
-        boolean status;
-        if (!dir.exists())
-        {
-            status = dir.mkdirs();
-            if (status) Toast.makeText(this, "Created OHDM Directory.", Toast.LENGTH_SHORT).show();
-            else Toast.makeText(this, "Couldn't create OHDM Directory.", Toast.LENGTH_SHORT).show();
-        }
-    }
 
     /**
      * Checks necessary permissions

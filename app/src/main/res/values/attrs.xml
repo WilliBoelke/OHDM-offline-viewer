@@ -22,5 +22,6 @@
         <attr name="bottom_nav_icon_home" format="reference" />
         <attr name="bottom_nav_icon_navigation" format="reference" />
         <attr name="edit_text_background" format="reference" />
+        <attr name="switch_primary" format="reference" />
     </declare-styleable>
 </resources>

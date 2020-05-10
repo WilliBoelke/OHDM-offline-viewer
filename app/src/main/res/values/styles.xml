@@ -28,6 +28,7 @@
         <item name="bottom_nav_icon_home">@drawable/bottom_nav_icon_home_black</item>
         <item name="bottom_nav_icon_navigation">@drawable/bottom_nav_icon_navigation_black</item>
         <item name="edit_text_background">@drawable/edit_text_background_white</item>
+        <item name="switch_primary">@drawable/switch_primary_white</item>
     </style>
 
     <!-- Dark/Night theme. -->
@@ -43,6 +44,7 @@
         <item name="bottom_nav_icon_home">@drawable/bottom_nav_icon_home_white</item>
         <item name="bottom_nav_icon_navigation">@drawable/bottom_nav_icon_navigation_white</item>
         <item name="edit_text_background">@drawable/edit_text_background_black</item>
+        <item name="switch_primary">@drawable/switch_primary_black</item>
     </style>
 
     <style name="RightNav">
