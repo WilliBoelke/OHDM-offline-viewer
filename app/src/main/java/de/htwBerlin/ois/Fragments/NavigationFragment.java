@@ -1,6 +1,12 @@
 package de.htwBerlin.ois.Fragments;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,9 +26,12 @@ import org.mapsforge.map.reader.header.MapFileException;
 import org.mapsforge.map.rendertheme.InternalRenderTheme;
 
 import java.io.File;
+import java.util.List;
 
 import de.htwBerlin.ois.FileStructure.MapFileSingleton;
 import de.htwBerlin.ois.R;
+
+import static android.content.Context.LOCATION_SERVICE;
 
 /**
  * Map Activity, which displays the actual Map File
@@ -46,6 +55,10 @@ public class NavigationFragment extends Fragment
      * (for example by putting the ID into the Intent extra )
      */
     public static String ID = "Navigation";
+    /**
+     *
+     */
+    private FloatingActionButton locateFab;
 
     /**
      * Empty Constructor
@@ -61,10 +74,11 @@ public class NavigationFragment extends Fragment
         super.onCreate(savedInstanceState);
         view = inflater.inflate(R.layout.activity_navigation, container, false);
         AndroidGraphicFactory.createInstance(getActivity().getApplication());
-
+        setUpLocateFab();
         setUpMap();
         return view;
     }
+
 
     /**
      * Initializes the mapView
@@ -76,7 +90,6 @@ public class NavigationFragment extends Fragment
 
         mapView.setClickable(true);
         mapView.getMapScaleBar().setVisible(true);
-        mapView.setBuiltInZoomControls(true);
 
         TileCache tileCache = AndroidUtil.createTileCache(getActivity().getApplicationContext(), "mapcache", mapView.getModel().displayModel.getTileSize(), 1f, mapView.getModel().frameBufferModel.getOverdrawFactor());
 
@@ -98,6 +111,58 @@ public class NavigationFragment extends Fragment
             Toast.makeText(getActivity().getApplicationContext(), "Your map file is invalid", Toast.LENGTH_LONG).show();
         }
 
+    }
+
+    private void setUpLocateFab()
+    {
+        locateFab = view.findViewById(R.id.locate_fab);
+        locateFab.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+                {
+
+                    Location location = getLastKnownLocation();
+                    double longitude = location.getLongitude();
+                    double latitude = location.getLatitude();
+                    mapView.setCenter(new LatLong(latitude, longitude));
+                    mapView.setZoomLevel((byte) 16);
+                }
+                else
+                {
+                    //TODO toast
+                }
+            }
+        });
+
+    }
+
+    private Location getLastKnownLocation()
+    {
+        LocationManager mLocationManager = (LocationManager) getActivity().getApplicationContext().getApplicationContext().getSystemService(LOCATION_SERVICE);
+        List<String> providers = mLocationManager.getProviders(true);
+        Location bestLocation = null;
+        for (String provider : providers)
+        {
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+            {
+                //just here to dismiss the warning/ error ...checked it before
+                return null;
+            }
+            Location l = mLocationManager.getLastKnownLocation(provider);
+            if (l == null)
+            {
+                continue;
+            }
+            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy())
+            {
+                // Found best last known location: %s", l);
+                bestLocation = l;
+            }
+        }
+        return bestLocation;
     }
 
 

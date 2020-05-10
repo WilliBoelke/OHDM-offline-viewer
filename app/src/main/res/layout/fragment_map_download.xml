@@ -25,7 +25,7 @@
         android:layout_marginBottom="16dp"
         android:backgroundTint="?attr/accent"
         android:clickable="true"
-        android:src="@drawable/add_icon_white"
+        android:src="@drawable/icon_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </android.support.constraint.ConstraintLayout>
