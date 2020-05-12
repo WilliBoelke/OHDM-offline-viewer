@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
@@ -27,6 +28,7 @@ public class RequestMapFragment extends Fragment
      * Date picker to let the user pick the date of the map
      */
     private DatePicker datePicker;
+    private Button requestButton;
 
     /**
      * Coordinate pair 1 / upper left corner
@@ -71,7 +73,7 @@ public class RequestMapFragment extends Fragment
         //no calender view
         datePicker.setCalendarViewShown(false);
         name = view.findViewById(R.id.name_et);
-
+        requestButton = view.findViewById(R.id.request_button);
         coordx1 = view.findViewById(R.id.coord_x1_et);
         coordy1 = view.findViewById(R.id.coord_y1_et);
         coordx2 = view.findViewById(R.id.coord_x2_et);

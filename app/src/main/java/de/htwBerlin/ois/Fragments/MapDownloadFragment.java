@@ -8,13 +8,16 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
+import de.htwBerlin.ois.FTP.AsyncResponse;
 import de.htwBerlin.ois.FTP.FtpEndpointSingleton;
+import de.htwBerlin.ois.FTP.FtpTaskFileListing;
 import de.htwBerlin.ois.FileStructure.OhdmFile;
 import de.htwBerlin.ois.FileStructure.OhdmFileRecyclerAdapter;
 import de.htwBerlin.ois.FileStructure.OhdmFileSwipeToDownloadCallback;
@@ -33,19 +36,19 @@ public class MapDownloadFragment extends Fragment
     /**
      * FTP Server IP address
      */
-    private static final String FTP_SERVER_IP = "";
+    private static final String FTP_SERVER_IP = "192.168.178.27";
     /**
      * FTP Server port
      */
-    private static final Integer FTP_PORT = 21;
+    private static final Integer FTP_PORT = 8080;
     /**
      * FTP Server username
      */
-    private static final String FTP_USER = "";
+    private static final String FTP_USER = "ohdm";
     /**
      * FTP Server password
      */
-    private static final String FTP_PASSWORD = "";
+    private static final String FTP_PASSWORD = "ohdm";
     /**
      * Log tag
      */
@@ -87,9 +90,8 @@ public class MapDownloadFragment extends Fragment
     public void onActivityCreated(@Nullable Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
-
-        this.setupRecyclerView();
         this.initializeFTPSingleton();
+        this.setupRecyclerView();
         this.listFTPFiles();
     }
 
@@ -103,39 +105,26 @@ public class MapDownloadFragment extends Fragment
     private void setupRecyclerView()
     {
 
-        //ohdmFiles = new ArrayList<>();
-        //listView = view.findViewById(R.id.downladRecycler);
-        /* private FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(new AsyncResponse() {
-        @Override
-        public void getOhdmFiles(ArrayList<OhdmFile> files) {
-            ohdmFiles.addAll(files);
-            Log.i(TAG, "received " + files.size() + " files.");
-            OhdmFileAdapter adapter = new OhdmFileAdapter(Database.mainContext.getApplicationContext(), R.layout.adapter_view_layout, ohdmFiles);
-            listView.setAdapter(adapter);
-        }
-    }, this);
-    */
-        //TODO placeholder to be deleted
-        {
-            recyclerView = view.findViewById(R.id.available_maps_recycler);
-            ohdmFiles = new ArrayList<>();
-            Long size = new Long(122);
-            OhdmFile one = new OhdmFile("Berlin", size, "12.12.3400", false);
-            OhdmFile two = new OhdmFile("Frankfurt", size, "12.12.3400", true);
-            OhdmFile three = new OhdmFile("Köln", size, "12.12.3400", true);
-            OhdmFile four = new OhdmFile("München", size, "12.12.3400", false);
-            ohdmFiles.add(one);
-            ohdmFiles.add(two);
-            ohdmFiles.add(three);
-            ohdmFiles.add(four);
-        }
+        recyclerView = view.findViewById(R.id.available_maps_recycler);
+        ohdmFiles = new ArrayList<>();
         recyclerLayoutManager = new LinearLayoutManager(this.getContext());
-        recyclerAdapter = new OhdmFileRecyclerAdapter(this.getContext(), ohdmFiles, R.layout.download_recycler_item);
         itemTouchHelper = new ItemTouchHelper(new OhdmFileSwipeToDownloadCallback(recyclerAdapter));
         itemTouchHelper.attachToRecyclerView(recyclerView);
         recyclerView.setLayoutManager(recyclerLayoutManager);
+        recyclerAdapter = new OhdmFileRecyclerAdapter(getActivity().getApplicationContext(), ohdmFiles, R.layout.download_recycler_item);
         recyclerView.setAdapter(recyclerAdapter);
-        recyclerAdapter.notifyDataSetChanged();
+
+        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(new AsyncResponse()
+        {
+            @Override
+            public void getOhdmFiles(ArrayList<OhdmFile> files)
+            {
+                ohdmFiles.addAll(files);
+                Log.i(TAG, "received " + files.size() + " files.");
+                recyclerAdapter.notifyDataSetChanged();
+            }
+        }, getActivity());
+        ftpTaskFileListing.execute();
 
 
         //FloatingActionButton
@@ -175,7 +164,6 @@ public class MapDownloadFragment extends Fragment
     @Override
     public void onStart()
     {
-
         super.onStart();
     }
 

@@ -70,8 +70,7 @@ public class OhdmFileRecyclerAdapter extends RecyclerView.Adapter<OhdmFileRecycl
      */
     public void downloadTask(int position)
     {
-        //TODO get progressBar
-        FtpTaskFileDownloading ftpTaskFileDownloading = new FtpTaskFileDownloading(progressBar, context);
+        FtpTaskFileDownloading ftpTaskFileDownloading = new FtpTaskFileDownloading(context);
         Toast.makeText(context, "Downloading " + getFile(position).getFilename(), Toast.LENGTH_SHORT).show();
         ftpTaskFileDownloading.execute(getFile(position));
         notifyDataSetChanged();

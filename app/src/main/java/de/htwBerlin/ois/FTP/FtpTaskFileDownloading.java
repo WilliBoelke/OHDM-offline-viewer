@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.apache.commons.net.ftp.FTP;
@@ -32,13 +31,11 @@ public class FtpTaskFileDownloading extends AsyncTask<OhdmFile, Integer, Long>
     private static final String TAG = "FtpTaskFileListing";
     private static final String MAP_FILE_PATH = Environment.getExternalStorageDirectory().toString() + "/OHDM";
 
-    private WeakReference<ProgressBar> progressBar;
     private WeakReference<Context> context;
     private FTPClient ftpClient;
 
-    public FtpTaskFileDownloading(ProgressBar progressbar, Context context)
+    public FtpTaskFileDownloading(Context context)
     {
-        this.progressBar = new WeakReference<ProgressBar>(progressbar);
         this.context = new WeakReference<Context>(context);
     }
 
@@ -119,7 +116,7 @@ public class FtpTaskFileDownloading extends AsyncTask<OhdmFile, Integer, Long>
     @Override
     protected void onProgressUpdate(Integer... params)
     {
-        if (this.progressBar.get() != null) this.progressBar.get().setProgress(params[0]);
+        //if (this.progressBar.get() != null) this.progressBar.get().setProgress(params[0]);
     }
 
     @Override

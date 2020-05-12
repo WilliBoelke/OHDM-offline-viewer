@@ -59,6 +59,8 @@ public class NavigationFragment extends Fragment
      *
      */
     private FloatingActionButton locateFab;
+    private FloatingActionButton zoomInFab;
+    private FloatingActionButton zoomOutFab;
 
     /**
      * Empty Constructor
@@ -75,6 +77,7 @@ public class NavigationFragment extends Fragment
         view = inflater.inflate(R.layout.activity_navigation, container, false);
         AndroidGraphicFactory.createInstance(getActivity().getApplication());
         setUpLocateFab();
+        setUpZoomFabs();
         setUpMap();
         return view;
     }
@@ -125,14 +128,22 @@ public class NavigationFragment extends Fragment
                 {
 
                     Location location = getLastKnownLocation();
-                    double longitude = location.getLongitude();
-                    double latitude = location.getLatitude();
-                    mapView.setCenter(new LatLong(latitude, longitude));
-                    mapView.setZoomLevel((byte) 16);
+                    try
+                    {
+                        double longitude = location.getLongitude();
+                        double latitude = location.getLatitude();
+                        mapView.setCenter(new LatLong(latitude, longitude));
+                        mapView.setZoomLevel((byte) 16);
+                    }
+                    catch (NullPointerException e)
+                    {
+                        Log.e(TAG, "Lat or Long was null");
+                        Toast.makeText(getActivity().getApplicationContext(), "Location not found", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else
                 {
-                    //TODO toast
+                    Toast.makeText(getActivity().getApplicationContext(), "We need access to your location", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -164,6 +175,13 @@ public class NavigationFragment extends Fragment
         }
         return bestLocation;
     }
+
+
+    private void setUpZoomFabs()
+    {
+
+    }
+
 
 
 }
