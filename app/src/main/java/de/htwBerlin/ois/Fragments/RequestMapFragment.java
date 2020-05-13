@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import de.htwBerlin.ois.FTP.HTTPRequestNewMap;
 import de.htwBerlin.ois.R;
@@ -86,15 +87,20 @@ public class RequestMapFragment extends Fragment
         coordx4 = view.findViewById(R.id.coord_x4_et);
         coordy4 = view.findViewById(R.id.coord_y4_et);
 
+
         requestButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                HTTPRequestNewMap httpRequestNewMap = new HTTPRequestNewMap(getDatePickerValuesAsString(), getCoordinatesAsString(), name.getText().toString());
-                httpRequestNewMap.execute();
+                if (checkForNullName() == true && checkForNullCoordinates() == true)
+                {
+                    HTTPRequestNewMap httpRequestNewMap = new HTTPRequestNewMap(getDatePickerValuesAsString(), getCoordinatesAsString(), name.getText().toString());
+                    httpRequestNewMap.execute();
+                }
             }
         });
+
     }
 
 
@@ -144,5 +150,62 @@ public class RequestMapFragment extends Fragment
         Log.i(TAG, "getCoordinatesAsString: String created");
         Log.i(TAG, "getCoordinatesAsString: result: " + stringBuilder.toString());
         return stringBuilder.toString();
+    }
+
+
+    private boolean checkForNullName()
+    {
+        if (name.getText().toString().length() == 0)
+        {
+            Toast.makeText(getActivity().getApplicationContext(), "Please enter a name ", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+
+    private boolean checkForNullCoordinates()
+    {
+        if (coordx1.getText().toString().length() == 0)
+        {
+            Toast.makeText(getActivity(), "Please insert the Coordinate X1 ", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (coordy1.getText().toString().length() == 0)
+        {
+            Toast.makeText(getActivity(), "Please insert the Coordinate Y1 ", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (coordx2.getText().toString().length() == 0)
+        {
+            Toast.makeText(getActivity(), "Please insert the Coordinate X2 ", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (coordy2.getText().toString().length() == 0)
+        {
+            Toast.makeText(getActivity(), "Please insert the Coordinate Y2", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (coordx3.getText().toString().length() == 0)
+        {
+            Toast.makeText(getActivity(), "Please insert the Coordinate X3 ", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (coordy3.getText().toString().length() == 0)
+        {
+            Toast.makeText(getActivity(), "Please insert the Coordinate Y3 ", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (coordx4.getText().toString().length() == 0)
+        {
+            Toast.makeText(getActivity(), "Please insert the Coordinate X4 ", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (coordy4.getText().toString().length() == 0)
+        {
+            Toast.makeText(getActivity(), "Please insert the Coordinate Y4 ", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 }
