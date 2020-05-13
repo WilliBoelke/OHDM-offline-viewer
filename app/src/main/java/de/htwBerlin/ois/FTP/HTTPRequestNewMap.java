@@ -100,7 +100,7 @@ public class HTTPRequestNewMap extends AsyncTask<Void, Void, String>
     private String buildParamsString()
     {
         StringBuilder sb = new StringBuilder();
-        sb.append("?name=");
+        sb.append("name=");
         sb.append(this.name);
         sb.append("&coords=");
         sb.append(this.coordinates);
