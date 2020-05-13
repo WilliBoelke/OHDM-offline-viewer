@@ -17,6 +17,12 @@ import java.text.SimpleDateFormat;
 import javax.net.ssl.HttpsURLConnection;
 
 
+/**
+ * AsyncTask to make a HTTP Request to the Server
+ * <p>
+ * The request contains name, coordinates and a date.
+ * The server will the create that map and make it available
+ */
 public class HTTPRequestNewMap extends AsyncTask<Void, Void, String>
 {
     private static final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy HH:mm");
@@ -24,11 +30,15 @@ public class HTTPRequestNewMap extends AsyncTask<Void, Void, String>
     private String date;
     private String coordinates;
     private String name;
-    private HttpURLConnection client;
     private AsyncResponse delegate;
     private URL url;
 
-
+    /**
+     * Public constructor
+     * @param date
+     * @param coordinates
+     * @param name
+     */
     public HTTPRequestNewMap(String date, String coordinates, String name)
     {
         this.date = date;
@@ -97,6 +107,12 @@ public class HTTPRequestNewMap extends AsyncTask<Void, Void, String>
         System.out.printf("response");
     }
 
+    /**
+     * Builds a string as accepted by the server
+     * example:
+     * name=mapname&coords=13.005,15.123_13.005,15.123_13.005,15.123_13.005,15.123_13.005,15.123&date=2117-12-11
+     * @return the String
+     */
     private String buildParamsString()
     {
         StringBuilder sb = new StringBuilder();
@@ -113,6 +129,7 @@ public class HTTPRequestNewMap extends AsyncTask<Void, Void, String>
     @Override
     protected String doInBackground(Void... params)
     {
+
         request();
         return null;
     }

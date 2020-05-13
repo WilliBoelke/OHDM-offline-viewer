@@ -153,6 +153,11 @@ public class RequestMapFragment extends Fragment
     }
 
 
+    /**
+     * Check if a name was entered by the user
+     *
+     * @return
+     */
     private boolean checkForNullName()
     {
         if (name.getText().toString().length() == 0)
@@ -164,6 +169,10 @@ public class RequestMapFragment extends Fragment
     }
 
 
+    /**
+     * Check if the user entered all necessary coordinates
+     * @return
+     */
     private boolean checkForNullCoordinates()
     {
         if (coordx1.getText().toString().length() == 0)
