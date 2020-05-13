@@ -3,6 +3,7 @@ package de.htwBerlin.ois.Fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +11,12 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
+import de.htwBerlin.ois.FTP.HTTPRequestNewMap;
 import de.htwBerlin.ois.R;
 
 public class RequestMapFragment extends Fragment
 {
+    private final String TAG = this.getClass().getSimpleName();
     /**
      * Fragment ID used to identify the fragment
      * (for example by putting the ID into the Intent extra )
@@ -82,13 +85,18 @@ public class RequestMapFragment extends Fragment
         coordy3 = view.findViewById(R.id.coord_y3_et);
         coordx4 = view.findViewById(R.id.coord_x4_et);
         coordy4 = view.findViewById(R.id.coord_y4_et);
+
+        requestButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                HTTPRequestNewMap httpRequestNewMap = new HTTPRequestNewMap(getDatePickerValuesAsString(), getCoordinatesAsString(), name.getText().toString());
+                httpRequestNewMap.execute();
+            }
+        });
     }
 
-
-    private String getCoordinatesAsString()
-    {
-        return null;
-    }
 
     /**
      * Building a formatted string (jjjj-mm-dd), as its needed by the server
@@ -106,6 +114,35 @@ public class RequestMapFragment extends Fragment
         stringBuilder.append("-");
         stringBuilder.append(datePicker.getDayOfMonth());
 
+        return stringBuilder.toString();
+    }
+
+    private String getCoordinatesAsString()
+    {
+        Log.i(TAG, "getCoordinatesAsString: creating coordinates string ...");
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(coordx1.getText().toString().trim());
+        stringBuilder.append(",");
+        stringBuilder.append(coordy1.getText().toString().trim());
+        stringBuilder.append("_");
+        stringBuilder.append(coordx2.getText().toString().trim());
+        stringBuilder.append(",");
+        stringBuilder.append(coordy2.getText().toString().trim());
+        stringBuilder.append("_");
+        stringBuilder.append(coordx3.getText().toString().trim());
+        stringBuilder.append(",");
+        stringBuilder.append(coordy3.getText().toString().trim());
+        stringBuilder.append("_");
+        stringBuilder.append(coordx4.getText().toString().trim());
+        stringBuilder.append(",");
+        stringBuilder.append(coordy4.getText().toString().trim());
+        stringBuilder.append("_");
+        stringBuilder.append(coordx2.getText().toString().trim());
+        stringBuilder.append(",");
+        stringBuilder.append(coordy2.getText().toString().trim());
+        stringBuilder.append("_");
+        Log.i(TAG, "getCoordinatesAsString: String created");
+        Log.i(TAG, "getCoordinatesAsString: result: " + stringBuilder.toString());
         return stringBuilder.toString();
     }
 }

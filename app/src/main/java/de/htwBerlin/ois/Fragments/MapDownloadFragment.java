@@ -36,19 +36,19 @@ public class MapDownloadFragment extends Fragment
     /**
      * FTP Server IP address
      */
-    private static final String FTP_SERVER_IP = "192.168.178.27";
+    private static final String FTP_SERVER_IP = "10.0.2.2";
     /**
      * FTP Server port
      */
-    private static final Integer FTP_PORT = 8080;
+    private static final Integer FTP_PORT = 5000;
     /**
      * FTP Server username
      */
-    private static final String FTP_USER = "ohdm";
+    private static final String FTP_USER = "ohdmOffViewer";
     /**
      * FTP Server password
      */
-    private static final String FTP_PASSWORD = "ohdm";
+    private static final String FTP_PASSWORD = "H!3r0glyph Sat3llite Era$er";
     /**
      * Log tag
      */

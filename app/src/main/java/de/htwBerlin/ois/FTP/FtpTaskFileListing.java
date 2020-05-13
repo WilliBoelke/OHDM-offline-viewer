@@ -56,6 +56,7 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
             Log.i(TAG, "Try to connect with FTP Server: ");
             ftpClient.connect(FtpEndpointSingleton.getInstance().getServerIp(), FtpEndpointSingleton.getInstance().getServerPort());
             ftpClient.login(FtpEndpointSingleton.getInstance().getFtpUser(), FtpEndpointSingleton.getInstance().getFtpPassword());
+            Log.i(TAG, "login succesfull");
             ftpClient.enterLocalPassiveMode();
             Log.i(TAG, "Reply Code: " + ftpClient.getReplyCode());
 
@@ -113,5 +114,11 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
         else
             Toast.makeText(context, "Found " + ohdmFiles.size() + " maps!", Toast.LENGTH_SHORT).show();
         delegate.getOhdmFiles(this.ohdmFiles);
+    }
+
+
+    public void insertMockFDPClient(FTPClient mockFtpClient)
+    {
+        this.ftpClient = mockFtpClient;
     }
 }
