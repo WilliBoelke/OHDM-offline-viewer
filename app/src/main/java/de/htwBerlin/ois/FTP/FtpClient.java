@@ -2,6 +2,7 @@ package de.htwBerlin.ois.FTP;
 
 import android.util.Log;
 
+import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
@@ -80,6 +81,7 @@ public class FtpClient
                     Log.e(TAG, "Could not login to FTP Server");
                     return 2;
                 }
+                client.setFileType(FTP.BINARY_FILE_TYPE);
             }
             catch (SocketException e)
             {
@@ -138,7 +140,6 @@ public class FtpClient
      */
     public void downloadFile(String remoteFileName, String downloadPath) throws IOException
     {
-
 
         File downloadFile = new File(MAP_FILE_PATH, remoteFileName);
         OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(downloadFile));

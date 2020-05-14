@@ -1,9 +1,7 @@
 package de.htwBerlin.ois.FileStructure;
 
-public class RightSwipeCallback
+public interface RightSwipeCallback
 {
-    public void onRightSwipe(int position)
-    {
+     void onRightSwipe(int position);
 
-    }
 }
