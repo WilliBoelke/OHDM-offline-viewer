@@ -42,9 +42,6 @@ public class FtpTaskFileDownloading extends AsyncTask<OhdmFile, Integer, Long>
     @Override
     protected void onPreExecute()
     {
-        // ProgressBar progressBar = this.progressBar.get();
-        // progressBar.setVisibility(View.VISIBLE);
-        ftpClient = new FTPClient();
         super.onPreExecute();
     }
 

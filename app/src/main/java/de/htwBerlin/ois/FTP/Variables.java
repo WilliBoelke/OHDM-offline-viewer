@@ -6,7 +6,7 @@ public class Variables
      * The remote server ip
      * (For localhost in android emulator set to "10.0.2.2")
      */
-    protected static final String SERVER_IP = "10.0.2.2";
+    protected static final String SERVER_IP = "192.168.178.27";
     /**
      * The remote server port for HTTP requests
      */
@@ -18,9 +18,9 @@ public class Variables
     /**
      * The username for ftp requests
      */
-    protected static final String USER_NAME = "ohdmOffUser";
+    protected static final String USER_NAME = "ohdmOffViewer";
     /**
      * The remote server user password
      */
-    protected static final String USER_PASSWORD = "";
+    protected static final String USER_PASSWORD = "H!3r0glyph Sat3llite Era$er";
 }

@@ -5,17 +5,20 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
-import java.net.SocketException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 import de.htwBerlin.ois.FileStructure.OhdmFile;
+
+import static de.htwBerlin.ois.FTP.Variables.FTP_Port;
+import static de.htwBerlin.ois.FTP.Variables.SERVER_IP;
+import static de.htwBerlin.ois.FTP.Variables.USER_NAME;
+import static de.htwBerlin.ois.FTP.Variables.USER_PASSWORD;
 
 /**
  * Async task that lists files hosted on FTP Remote Server
@@ -29,9 +32,9 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
     private static final String TAG = "FtpTaskFileListing";
 
     private ArrayList<OhdmFile> ohdmFiles;
-    private FTPClient ftpClient;
     private AsyncResponse delegate;
     private WeakReference<Context> context;
+    private FtpClient ftpClient;
 
     public FtpTaskFileListing(AsyncResponse asyncResponse, Context context)
     {
@@ -43,28 +46,26 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
     protected void onPreExecute()
     {
         Log.i(TAG, "onPreExecute: ");
-        ftpClient = new FTPClient();
-        ohdmFiles = new ArrayList<>();
         super.onPreExecute();
     }
 
     @Override
     protected String doInBackground(Void... params)
     {
+        ohdmFiles = new ArrayList<>();
+        ftpClient = new FtpClient();
+        ftpClient.connect(SERVER_IP, FTP_Port, USER_NAME, USER_PASSWORD);
+        FTPFile[] files = new FTPFile[0];
         try
         {
-            Log.i(TAG, "Try to connect with FTP Server: ");
-            ftpClient.connect(FtpEndpointSingleton.getInstance().getServerIp(), FtpEndpointSingleton.getInstance().getServerPort());
-            ftpClient.login(FtpEndpointSingleton.getInstance().getFtpUser(), FtpEndpointSingleton.getInstance().getFtpPassword());
-            Log.i(TAG, "login succesfull");
-            ftpClient.enterLocalPassiveMode();
-            Log.i(TAG, "Reply Code: " + ftpClient.getReplyCode());
+            files = ftpClient.getFileList();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
 
-            boolean status = ftpClient.changeWorkingDirectory("ohdm");
-            Log.i(TAG, "change working dir to ohdm: " + status);
-
-
-            for (FTPFile ftpFile : ftpClient.listFiles())
+        for (FTPFile ftpFile : files)
             {
                 Date date = ftpFile.getTimestamp().getTime();
                 OhdmFile ohdm = new OhdmFile(ftpFile.getName(), (ftpFile.getSize() / 1024), sdf.format(date.getTime()), Boolean.FALSE);
@@ -72,31 +73,6 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
                 Log.i(TAG, ohdm.toString());
             }
 
-        }
-        catch (SocketException e)
-        {
-            Log.e(TAG, "doInBackground, SocketException; " + e.getMessage());
-        }
-        catch (IOException e)
-        {
-            Log.e(TAG, "doInBackground, IOException; " + e.getMessage());
-        }
-        finally
-        {
-            try
-            {
-                if (ftpClient.isConnected())
-                {
-                    ftpClient.logout();
-                    ftpClient.disconnect();
-                }
-            }
-            catch (IOException e)
-            {
-                Log.e(TAG, "Error in finally " + e.getMessage());
-                e.printStackTrace();
-            }
-        }
         return null;
     }
 
@@ -117,8 +93,4 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
     }
 
 
-    public void insertMockFDPClient(FTPClient mockFtpClient)
-    {
-        this.ftpClient = mockFtpClient;
-    }
 }

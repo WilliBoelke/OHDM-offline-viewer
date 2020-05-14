@@ -42,7 +42,7 @@ public class OhdmFileSwipeToDownloadCallback extends ItemTouchHelper.SimpleCallb
         }
         else if (direction == ItemTouchHelper.RIGHT)
         {
-            mAdapter.deleteTask(position);
+            // mAdapter.deleteTask(position);
         }
 
     }
@@ -69,7 +69,6 @@ public class OhdmFileSwipeToDownloadCallback extends ItemTouchHelper.SimpleCallb
             actualIColor.setBounds(itemView.getRight() + ((int) dX) - backgroundCornerOffset,
 
                     itemView.getTop(), itemView.getRight(), itemView.getBottom());
-
         }
         else
         {

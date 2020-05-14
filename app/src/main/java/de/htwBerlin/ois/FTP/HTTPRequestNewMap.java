@@ -16,6 +16,9 @@ import java.text.SimpleDateFormat;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import static de.htwBerlin.ois.FTP.Variables.HTTP_PORT;
+import static de.htwBerlin.ois.FTP.Variables.SERVER_IP;
+
 
 /**
  * AsyncTask to make a HTTP Request to the Server
@@ -52,7 +55,7 @@ public class HTTPRequestNewMap extends AsyncTask<Void, Void, String>
         Log.i(TAG, "onPreExecute: ");
         try
         {
-            url = new URL("http://10.0.2.2:8080/request");
+            url = new URL("http://" + SERVER_IP + ":" + HTTP_PORT + "/request");
         }
         catch (MalformedURLException e)
         {
