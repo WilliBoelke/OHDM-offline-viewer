@@ -59,7 +59,6 @@ public class FtpClient
 
             try
             {
-
                 client.connect(server, port);
                 // After connection attempt, you should check the reply code to verify
                 // success.

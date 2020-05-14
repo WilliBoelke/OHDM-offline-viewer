@@ -67,10 +67,6 @@ public class OhdmFileRecyclerAdapter extends RecyclerView.Adapter<OhdmFileRecycl
         void onItemClick(int position);
     }
 
-    public interface OnDownloadChangeNotify
-    {
-        void onDownloadProgress(ProgressBar progressBar);
-    }
 
     protected static class OhdmFileViewHolder extends RecyclerView.ViewHolder
     {
@@ -78,7 +74,6 @@ public class OhdmFileRecyclerAdapter extends RecyclerView.Adapter<OhdmFileRecycl
         public TextView nameTextView;
         public TextView sizeTextView;
         public TextView dateTextView;
-        public ProgressBar progressBar;
 
 
         public OhdmFileViewHolder(@NonNull View itemView, final OhdmFileRecyclerAdapter.OnItemClickListener listener)
@@ -87,7 +82,6 @@ public class OhdmFileRecyclerAdapter extends RecyclerView.Adapter<OhdmFileRecycl
             sizeTextView = itemView.findViewById(R.id.map_size_tv);
             nameTextView = itemView.findViewById(R.id.map_name_tv);
             dateTextView = itemView.findViewById(R.id.date_of_creation_tv);
-            progressBar = itemView.findViewById(R.id.download_progress);
 
 
             itemView.setOnClickListener(new View.OnClickListener()
