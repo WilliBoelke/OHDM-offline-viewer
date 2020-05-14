@@ -10,9 +10,12 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.SocketException;
+
+import static de.htwBerlin.ois.MainActivityPackage.MainActivity.MAP_FILE_PATH;
 
 public class FtpClient
 {
@@ -135,13 +138,30 @@ public class FtpClient
      */
     public void downloadFile(String remoteFileName, String downloadPath) throws IOException
     {
-        // Download File using retrieveFile(String, OutputStream)
-        OutputStream fileOutputStream = new BufferedOutputStream(new FileOutputStream(new File(downloadPath)));
-        boolean success = client.retrieveFile(remoteFileName, fileOutputStream);
-        fileOutputStream.close();
 
-        if (success) Log.i(TAG, "File " + remoteFileName + " has been downloaded successfully.");
-        else Log.e(TAG, "couldn't download " + remoteFileName + "from server!");
+
+        File downloadFile = new File(MAP_FILE_PATH, remoteFileName);
+        OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(downloadFile));
+        InputStream inputStream = client.retrieveFileStream(remoteFileName);
+        byte[] bytesArray = new byte[4096];
+
+        long total = 0;
+        int bytesRead;
+        double progress;
+
+        while (-1 != (bytesRead = inputStream.read(bytesArray)))
+        {
+            total += bytesRead;
+            progress = ((total * 100) / (23 * 1024));
+            outputStream.write(bytesArray, 0, bytesRead);
+            Log.i(TAG, "Download progress " + (int) progress);
+        }
+
+        if (client.completePendingCommand()) Log.i(TAG, "File Download successful");
+
+        outputStream.close();
+        inputStream.close();
+
 
     }
 

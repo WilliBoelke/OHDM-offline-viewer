@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import de.htwBerlin.ois.FTP.FtpTaskFileDownloading;
 import de.htwBerlin.ois.R;
 
 public class OhdmFileRecyclerAdapter extends RecyclerView.Adapter<OhdmFileRecyclerAdapter.OhdmFileViewHolder>
@@ -63,18 +62,6 @@ public class OhdmFileRecyclerAdapter extends RecyclerView.Adapter<OhdmFileRecycl
         this.onItemClickListener = listener;
     }
 
-    /**
-     * The map download task, called from the swipe left in {@link OhdmFileSwipeToDownloadCallback}
-     *
-     * @param position
-     */
-    public void downloadTask(int position)
-    {
-        FtpTaskFileDownloading ftpTaskFileDownloading = new FtpTaskFileDownloading(context);
-        Toast.makeText(context, "Downloading " + getFile(position).getFilename(), Toast.LENGTH_SHORT).show();
-        ftpTaskFileDownloading.execute(getFile(position));
-        notifyDataSetChanged();
-    }
 
     public void deleteTask(int position)
     {

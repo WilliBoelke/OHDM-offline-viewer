@@ -17,10 +17,12 @@ import java.util.ArrayList;
 
 import de.htwBerlin.ois.FTP.AsyncResponse;
 import de.htwBerlin.ois.FTP.FtpEndpointSingleton;
+import de.htwBerlin.ois.FTP.FtpTaskFileDownloading;
 import de.htwBerlin.ois.FTP.FtpTaskFileListing;
+import de.htwBerlin.ois.FileStructure.LeftSwipeCallback;
 import de.htwBerlin.ois.FileStructure.OhdmFile;
 import de.htwBerlin.ois.FileStructure.OhdmFileRecyclerAdapter;
-import de.htwBerlin.ois.FileStructure.OhdmFileSwipeToDownloadCallback;
+import de.htwBerlin.ois.FileStructure.RecyclerViewItemSwipeGestures;
 import de.htwBerlin.ois.R;
 
 /**
@@ -108,7 +110,16 @@ public class MapDownloadFragment extends Fragment
         recyclerView = view.findViewById(R.id.available_maps_recycler);
         ohdmFiles = new ArrayList<>();
         recyclerLayoutManager = new LinearLayoutManager(this.getContext());
-        itemTouchHelper = new ItemTouchHelper(new OhdmFileSwipeToDownloadCallback(recyclerAdapter));
+        itemTouchHelper = new ItemTouchHelper(new RecyclerViewItemSwipeGestures(recyclerAdapter, new LeftSwipeCallback()
+        {
+            @Override
+            public void onLeftSwipe(int position)
+            {
+                FtpTaskFileDownloading ftpTaskFileDownloading = new FtpTaskFileDownloading(getActivity().getApplicationContext());
+                ftpTaskFileDownloading.execute(ohdmFiles.get(position));
+                recyclerAdapter.notifyDataSetChanged();
+            }
+        }));
         itemTouchHelper.attachToRecyclerView(recyclerView);
         recyclerView.setLayoutManager(recyclerLayoutManager);
         recyclerAdapter = new OhdmFileRecyclerAdapter(getActivity().getApplicationContext(), ohdmFiles, R.layout.download_recycler_item);

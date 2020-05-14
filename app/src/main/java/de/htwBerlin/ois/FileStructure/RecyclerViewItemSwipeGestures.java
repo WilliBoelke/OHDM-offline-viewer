@@ -9,20 +9,44 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
 
-public class OhdmFileSwipeToDownloadCallback extends ItemTouchHelper.SimpleCallback
+public class RecyclerViewItemSwipeGestures extends ItemTouchHelper.SimpleCallback
 {
     private final ColorDrawable redBackground;
     private final ColorDrawable greenBackground;
+    private LeftSwipeCallback leftSwipeCallback;
+    private RightSwipeCallback rightSwipeCallback;
     private OhdmFileRecyclerAdapter mAdapter;
     private ColorDrawable actualIColor;
 
-    public OhdmFileSwipeToDownloadCallback(OhdmFileRecyclerAdapter adapter)
+    public RecyclerViewItemSwipeGestures(OhdmFileRecyclerAdapter adapter, LeftSwipeCallback onLeftSwipe)
     {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         mAdapter = adapter;
         actualIColor = new ColorDrawable(Color.GREEN);
         redBackground = new ColorDrawable(Color.RED);
         greenBackground = new ColorDrawable(Color.GREEN);
+        this.leftSwipeCallback = onLeftSwipe;
+    }
+
+    public RecyclerViewItemSwipeGestures(OhdmFileRecyclerAdapter adapter, RightSwipeCallback onRightSwipe)
+    {
+        super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
+        mAdapter = adapter;
+        actualIColor = new ColorDrawable(Color.GREEN);
+        redBackground = new ColorDrawable(Color.RED);
+        greenBackground = new ColorDrawable(Color.GREEN);
+        this.rightSwipeCallback = onRightSwipe;
+    }
+
+    public RecyclerViewItemSwipeGestures(OhdmFileRecyclerAdapter adapter, RightSwipeCallback onRightSwipe, LeftSwipeCallback onLeftSwipe)
+    {
+        super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
+        mAdapter = adapter;
+        actualIColor = new ColorDrawable(Color.GREEN);
+        redBackground = new ColorDrawable(Color.RED);
+        greenBackground = new ColorDrawable(Color.GREEN);
+        this.rightSwipeCallback = onRightSwipe;
+        this.leftSwipeCallback = onLeftSwipe;
     }
 
     @Override
@@ -36,13 +60,19 @@ public class OhdmFileSwipeToDownloadCallback extends ItemTouchHelper.SimpleCallb
     {
         int position = viewHolder.getAdapterPosition();
 
-        if (direction == ItemTouchHelper.LEFT)
+        if (leftSwipeCallback != null)
         {
-            mAdapter.downloadTask(position);
+            if (direction == ItemTouchHelper.LEFT)
+            {
+                this.leftSwipeCallback.onLeftSwipe(position);
+            }
         }
-        else if (direction == ItemTouchHelper.RIGHT)
+        if (rightSwipeCallback != null)
         {
-            // mAdapter.deleteTask(position);
+            if (direction == ItemTouchHelper.RIGHT)
+            {
+                this.rightSwipeCallback.onRightSwipe(position);
+            }
         }
 
     }
@@ -62,6 +92,7 @@ public class OhdmFileSwipeToDownloadCallback extends ItemTouchHelper.SimpleCallb
             actualIColor = redBackground;
             actualIColor.setBounds(itemView.getLeft(), itemView.getTop(), itemView.getLeft() + ((int) dX) + backgroundCornerOffset, itemView.getBottom());
         }
+
         // Swiping to the left
         else if (dX < 0)
         {

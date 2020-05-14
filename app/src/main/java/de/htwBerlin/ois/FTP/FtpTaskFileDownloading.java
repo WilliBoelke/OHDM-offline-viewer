@@ -6,19 +6,15 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
-import org.apache.commons.net.ftp.FTP;
-import org.apache.commons.net.ftp.FTPClient;
-
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.lang.ref.WeakReference;
-import java.net.SocketException;
 
 import de.htwBerlin.ois.FileStructure.OhdmFile;
+
+import static de.htwBerlin.ois.FTP.Variables.FTP_Port;
+import static de.htwBerlin.ois.FTP.Variables.SERVER_IP;
+import static de.htwBerlin.ois.FTP.Variables.USER_NAME;
+import static de.htwBerlin.ois.FTP.Variables.USER_PASSWORD;
 
 /**
  * Asynctask that downloads files from FTP Remote server
@@ -32,7 +28,7 @@ public class FtpTaskFileDownloading extends AsyncTask<OhdmFile, Integer, Long>
     private static final String MAP_FILE_PATH = Environment.getExternalStorageDirectory().toString() + "/OHDM";
 
     private WeakReference<Context> context;
-    private FTPClient ftpClient;
+    private FtpClient ftpClient;
 
     public FtpTaskFileDownloading(Context context)
     {
@@ -49,63 +45,15 @@ public class FtpTaskFileDownloading extends AsyncTask<OhdmFile, Integer, Long>
     protected Long doInBackground(OhdmFile... ohdmFile)
     {
 
+        ftpClient = new FtpClient();
+        ftpClient.connect(SERVER_IP, FTP_Port, USER_NAME, USER_PASSWORD);
         try
         {
-            ftpClient.connect(FtpEndpointSingleton.getInstance().getServerIp(), FtpEndpointSingleton.getInstance().getServerPort());
-            ftpClient.login(FtpEndpointSingleton.getInstance().getFtpUser(), FtpEndpointSingleton.getInstance().getFtpPassword());
-            ftpClient.enterLocalPassiveMode();
-            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
-            Log.i(TAG, "Reply Code: " + ftpClient.getReplyCode());
-
-            boolean status = ftpClient.changeWorkingDirectory("ohdm");
-            Log.i(TAG, "change working dir to ohdm: " + status);
-
-            File downloadFile = new File(MAP_FILE_PATH, ohdmFile[0].getFilename());
-            OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(downloadFile));
-            InputStream inputStream = ftpClient.retrieveFileStream(ohdmFile[0].getFilename());
-            byte[] bytesArray = new byte[4096];
-
-            long total = 0;
-            int bytesRead;
-            double progress;
-
-            while (-1 != (bytesRead = inputStream.read(bytesArray)))
-            {
-                total += bytesRead;
-                progress = ((total * 100) / (ohdmFile[0].getFileSize() * 1024));
-                outputStream.write(bytesArray, 0, bytesRead);
-                Log.i(TAG, "Download progress " + (int) progress);
-                publishProgress((int) progress);
-            }
-
-            if (ftpClient.completePendingCommand()) Log.i(TAG, "File Download successful");
-
-            outputStream.close();
-            inputStream.close();
-
-        }
-        catch (SocketException e)
-        {
-            Log.e(TAG, "doInBackground, SocketException; " + e.getMessage());
+            ftpClient.downloadFile(ohdmFile[0].getFilename(), ohdmFile[0].getFilename());
         }
         catch (IOException e)
         {
-            Log.e(TAG, "doInBackground, IOException; " + e.getMessage());
-        }
-        finally
-        {
-            try
-            {
-                if (ftpClient.isConnected())
-                {
-                    ftpClient.logout();
-                    ftpClient.disconnect();
-                }
-            }
-            catch (IOException e)
-            {
-                Log.e(TAG, "Error in finally " + e.getMessage());
-            }
+            e.printStackTrace();
         }
         return null;
     }
@@ -113,6 +61,7 @@ public class FtpTaskFileDownloading extends AsyncTask<OhdmFile, Integer, Long>
     @Override
     protected void onProgressUpdate(Integer... params)
     {
+        Log.i(TAG, "Download progress :" + params[0] + "%");
         //if (this.progressBar.get() != null) this.progressBar.get().setProgress(params[0]);
     }
 
