@@ -1,4 +1,4 @@
-package de.htwBerlin.ois.FTP;
+package de.htwBerlin.ois.ServerCommunication;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -16,8 +16,8 @@ import java.text.SimpleDateFormat;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import static de.htwBerlin.ois.FTP.Variables.HTTP_PORT;
-import static de.htwBerlin.ois.FTP.Variables.SERVER_IP;
+import static de.htwBerlin.ois.ServerCommunication.Variables.HTTP_PORT;
+import static de.htwBerlin.ois.ServerCommunication.Variables.SERVER_IP;
 
 
 /**

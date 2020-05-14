@@ -1,4 +1,4 @@
-package de.htwBerlin.ois.FTP;
+package de.htwBerlin.ois.ServerCommunication;
 
 import android.util.Log;
 
@@ -16,7 +16,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.SocketException;
 
-import static de.htwBerlin.ois.MainActivityPackage.MainActivity.MAP_FILE_PATH;
+import static de.htwBerlin.ois.MainActivity.MainActivity.MAP_FILE_PATH;
 
 public class FtpClient
 {

@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 import de.htwBerlin.ois.FileStructure.LocalMapsRecyclerAdapter;
 import de.htwBerlin.ois.FileStructure.MapFileSingleton;
-import de.htwBerlin.ois.MainActivityPackage.MainActivity;
+import de.htwBerlin.ois.MainActivity.MainActivity;
 import de.htwBerlin.ois.R;
 
 /**
@@ -124,12 +124,12 @@ public class HomeFragment extends Fragment
         ArrayList<File> maps = new ArrayList<>();
         try
         {
-            for (File osmfile : new File(MainActivity.MAP_FILE_PATH).listFiles())
+            for (File mapFile : new File(MainActivity.MAP_FILE_PATH).listFiles())
             {
-                if (osmfile.getName().endsWith(".map"))
+                if (mapFile.getName().endsWith(".map"))
                 {
-                    Log.i(TAG, "osmfile: " + osmfile.getName());
-                    maps.add(osmfile);
+                    Log.i(TAG, "osmfile: " + mapFile.getName());
+                    maps.add(mapFile);
                 }
             }
         }
@@ -144,7 +144,6 @@ public class HomeFragment extends Fragment
     @Override
     public void onStart()
     {
-
         super.onStart();
     }
 

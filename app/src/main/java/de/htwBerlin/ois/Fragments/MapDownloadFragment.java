@@ -15,10 +15,10 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import de.htwBerlin.ois.FTP.AsyncResponse;
-import de.htwBerlin.ois.FTP.FtpEndpointSingleton;
-import de.htwBerlin.ois.FTP.FtpTaskFileDownloading;
-import de.htwBerlin.ois.FTP.FtpTaskFileListing;
+import de.htwBerlin.ois.ServerCommunication.AsyncResponse;
+import de.htwBerlin.ois.ServerCommunication.FtpEndpointSingleton;
+import de.htwBerlin.ois.ServerCommunication.FtpTaskFileDownloading;
+import de.htwBerlin.ois.ServerCommunication.FtpTaskFileListing;
 import de.htwBerlin.ois.FileStructure.LeftSwipeCallback;
 import de.htwBerlin.ois.FileStructure.OhdmFile;
 import de.htwBerlin.ois.FileStructure.OhdmFileRecyclerAdapter;

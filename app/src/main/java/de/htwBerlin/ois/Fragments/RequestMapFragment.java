@@ -12,7 +12,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import de.htwBerlin.ois.FTP.HTTPRequestNewMap;
+import de.htwBerlin.ois.ServerCommunication.HTTPRequestNewMap;
 import de.htwBerlin.ois.R;
 
 public class RequestMapFragment extends Fragment

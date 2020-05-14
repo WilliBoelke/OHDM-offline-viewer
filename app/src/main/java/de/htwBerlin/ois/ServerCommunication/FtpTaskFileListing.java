@@ -1,4 +1,4 @@
-package de.htwBerlin.ois.FTP;
+package de.htwBerlin.ois.ServerCommunication;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -15,10 +15,10 @@ import java.util.Date;
 
 import de.htwBerlin.ois.FileStructure.OhdmFile;
 
-import static de.htwBerlin.ois.FTP.Variables.FTP_Port;
-import static de.htwBerlin.ois.FTP.Variables.SERVER_IP;
-import static de.htwBerlin.ois.FTP.Variables.USER_NAME;
-import static de.htwBerlin.ois.FTP.Variables.USER_PASSWORD;
+import static de.htwBerlin.ois.ServerCommunication.Variables.FTP_Port;
+import static de.htwBerlin.ois.ServerCommunication.Variables.SERVER_IP;
+import static de.htwBerlin.ois.ServerCommunication.Variables.USER_NAME;
+import static de.htwBerlin.ois.ServerCommunication.Variables.USER_PASSWORD;
 
 /**
  * Async task that lists files hosted on FTP Remote Server

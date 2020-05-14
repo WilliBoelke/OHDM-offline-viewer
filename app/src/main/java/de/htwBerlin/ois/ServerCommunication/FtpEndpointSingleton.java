@@ -1,4 +1,4 @@
-package de.htwBerlin.ois.FTP;
+package de.htwBerlin.ois.ServerCommunication;
 
 public class FtpEndpointSingleton
 {

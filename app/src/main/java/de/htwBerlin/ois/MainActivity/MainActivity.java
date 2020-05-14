@@ -1,4 +1,4 @@
-package de.htwBerlin.ois.MainActivityPackage;
+package de.htwBerlin.ois.MainActivity;
 
 import android.Manifest;
 import android.content.Intent;

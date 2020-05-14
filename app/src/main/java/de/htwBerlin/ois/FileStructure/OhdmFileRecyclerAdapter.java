@@ -20,7 +20,6 @@ public class OhdmFileRecyclerAdapter extends RecyclerView.Adapter<OhdmFileRecycl
     private Context context;
     private int ressource;
     private OnItemClickListener onItemClickListener;
-    private ProgressBar progressBar;
 
     public OhdmFileRecyclerAdapter(Context context, ArrayList<OhdmFile> ohdmFiles, int ressource)
     {
@@ -63,17 +62,14 @@ public class OhdmFileRecyclerAdapter extends RecyclerView.Adapter<OhdmFileRecycl
     }
 
 
-    public void deleteTask(int position)
-    {
-
-        Toast.makeText(context, "Deleting " + getFile(position).getFilename(), Toast.LENGTH_SHORT).show();
-
-        notifyDataSetChanged();
-    }
-
     public interface OnItemClickListener
     {
         void onItemClick(int position);
+    }
+
+    public interface OnDownloadChangeNotify
+    {
+        void onDownloadProgress(ProgressBar progressBar);
     }
 
     protected static class OhdmFileViewHolder extends RecyclerView.ViewHolder
@@ -91,7 +87,7 @@ public class OhdmFileRecyclerAdapter extends RecyclerView.Adapter<OhdmFileRecycl
             sizeTextView = itemView.findViewById(R.id.map_size_tv);
             nameTextView = itemView.findViewById(R.id.map_name_tv);
             dateTextView = itemView.findViewById(R.id.date_of_creation_tv);
-            progressBar = itemView.findViewById(R.id.progressBar);
+            progressBar = itemView.findViewById(R.id.download_progress);
 
 
             itemView.setOnClickListener(new View.OnClickListener()
@@ -109,6 +105,7 @@ public class OhdmFileRecyclerAdapter extends RecyclerView.Adapter<OhdmFileRecycl
                     }
                 }
             });
+
         }
     }
 
