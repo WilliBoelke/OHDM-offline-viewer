@@ -3,6 +3,7 @@ package de.htwBerlin.ois.ServerCommunication;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.apache.commons.net.ftp.FTPFile;
@@ -36,7 +37,7 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
     private WeakReference<Context> context;
     private FtpClient ftpClient;
 
-    public FtpTaskFileListing(AsyncResponse asyncResponse, Context context)
+    public FtpTaskFileListing( AsyncResponse asyncResponse, Context context)
     {
         this.delegate = asyncResponse;
         this.context = new WeakReference<Context>(context);

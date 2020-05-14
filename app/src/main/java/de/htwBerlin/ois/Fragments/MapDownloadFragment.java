@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -89,6 +91,7 @@ public class MapDownloadFragment extends Fragment
     {
 
         recyclerView = view.findViewById(R.id.available_maps_recycler);
+        recyclerView.setVisibility(View.INVISIBLE);
         ohdmFiles = new ArrayList<>();
         recyclerLayoutManager = new LinearLayoutManager(this.getContext());
         itemTouchHelper = new ItemTouchHelper(new RecyclerViewItemSwipeGestures(recyclerAdapter, new LeftSwipeCallback()
@@ -105,15 +108,25 @@ public class MapDownloadFragment extends Fragment
         recyclerView.setLayoutManager(recyclerLayoutManager);
         recyclerAdapter = new OhdmFileRecyclerAdapter(getActivity().getApplicationContext(), ohdmFiles, R.layout.download_recycler_item);
         recyclerView.setAdapter(recyclerAdapter);
-
-        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(new AsyncResponse()
+        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing( new AsyncResponse()
         {
             @Override
             public void getOhdmFiles(ArrayList<OhdmFile> files)
             {
-                ohdmFiles.addAll(files);
-                Log.i(TAG, "received " + files.size() + " files.");
-                recyclerAdapter.notifyDataSetChanged();
+                if(files.size() > 0)
+                {
+                    ohdmFiles.addAll(files);
+                    Log.i(TAG, "received " + files.size() + " files.");
+                    recyclerView.setVisibility(View.VISIBLE);
+                    view.findViewById(R.id.connecting_tv).setVisibility(View.INVISIBLE);
+                    view.findViewById(R.id.connecting_pb).setVisibility(View.INVISIBLE);
+                    recyclerAdapter.notifyDataSetChanged();
+                }
+                else
+                {
+                   TextView tv =  view.findViewById(R.id.connecting_tv);
+                   tv.setText("Connection failed, try again later");
+                }
             }
         }, getActivity());
         ftpTaskFileListing.execute();
