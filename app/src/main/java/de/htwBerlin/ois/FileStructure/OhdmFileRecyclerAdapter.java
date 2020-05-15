@@ -40,9 +40,11 @@ public class OhdmFileRecyclerAdapter extends RecyclerView.Adapter<OhdmFileRecycl
     public void onBindViewHolder(@NonNull OhdmFileRecyclerAdapter.OhdmFileViewHolder ohdmFileViewHolder, int position)
     {
         OhdmFile currentOhdmFile = this.mapArrayList.get(position);
-        ohdmFileViewHolder.nameTextView.setText(currentOhdmFile.getFilename());
-        ohdmFileViewHolder.sizeTextView.setText(currentOhdmFile.getFileSize().toString());
-        ohdmFileViewHolder.sizeTextView.setText(currentOhdmFile.getCreationDate());
+        String name = currentOhdmFile.getFilename();
+        name = name.replace(".map", "");
+        ohdmFileViewHolder.nameTextView.setText(name);
+        ohdmFileViewHolder.sizeTextView.setText((int) (double) (currentOhdmFile.getFileSize() / 1024) + " KB");
+        ohdmFileViewHolder.dateTextView.setText(currentOhdmFile.getCreationDate());
     }
 
     @Override

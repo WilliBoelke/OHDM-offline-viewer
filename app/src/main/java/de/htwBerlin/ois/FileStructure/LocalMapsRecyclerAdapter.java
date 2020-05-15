@@ -44,7 +44,8 @@ public class LocalMapsRecyclerAdapter extends RecyclerView.Adapter<LocalMapsRecy
         String name = currentMapFile.getName();
         name = name.replace(".map", "");
         localMapsViewHolder.nameTextView.setText(name);
-        localMapsViewHolder.sizeTextView.setText(Long.toString(currentMapFile.length()));
+        localMapsViewHolder.sizeTextView.setText((int) (double) (currentMapFile.length() / 1024) + " KB");
+        localMapsViewHolder.dateTextView.setText("11.11.1111");
     }
 
     @Override
