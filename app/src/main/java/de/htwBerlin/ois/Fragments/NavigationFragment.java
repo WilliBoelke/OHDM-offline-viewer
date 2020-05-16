@@ -35,6 +35,7 @@ import static android.content.Context.LOCATION_SERVICE;
 
 /**
  * Map Activity, which displays the actual Map File
+ * @author WilliBoelke
  */
 public class NavigationFragment extends Fragment
 {
@@ -59,9 +60,6 @@ public class NavigationFragment extends Fragment
      *
      */
     private FloatingActionButton locateFab;
-    private FloatingActionButton zoomInFab;
-    private FloatingActionButton zoomOutFab;
-
     /**
      * Empty Constructor
      */
@@ -74,10 +72,9 @@ public class NavigationFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        view = inflater.inflate(R.layout.activity_navigation, container, false);
+        view = inflater.inflate(R.layout.fragment_navigation, container, false);
         AndroidGraphicFactory.createInstance(getActivity().getApplication());
         setUpLocateFab();
-        setUpZoomFabs();
         setUpMap();
         return view;
     }
@@ -116,6 +113,10 @@ public class NavigationFragment extends Fragment
 
     }
 
+    /**
+     * On Click for the LocateFAb
+     * Sets the map center to the last know position of the device
+     */
     private void setUpLocateFab()
     {
         locateFab = view.findViewById(R.id.locate_fab);
@@ -150,6 +151,10 @@ public class NavigationFragment extends Fragment
 
     }
 
+    /**
+     * Gets the last know position of the device from the android LocationManager
+     * @return Location of the device
+     */
     private Location getLastKnownLocation()
     {
         LocationManager mLocationManager = (LocationManager) getActivity().getApplicationContext().getApplicationContext().getSystemService(LOCATION_SERVICE);
@@ -159,7 +164,7 @@ public class NavigationFragment extends Fragment
         {
             if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
             {
-                //just here to dismiss the warning/ error ...checked it before
+                //just here to dismiss the warning/error ...checked it before
                 return null;
             }
             Location l = mLocationManager.getLastKnownLocation(provider);
@@ -175,13 +180,4 @@ public class NavigationFragment extends Fragment
         }
         return bestLocation;
     }
-
-
-    private void setUpZoomFabs()
-    {
-
-    }
-
-
-
 }

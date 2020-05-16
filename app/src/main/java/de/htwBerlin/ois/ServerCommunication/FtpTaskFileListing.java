@@ -3,7 +3,6 @@ package de.htwBerlin.ois.ServerCommunication;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.apache.commons.net.ftp.FTPFile;
@@ -75,11 +74,6 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
             }
 
         return null;
-    }
-
-    @Override
-    protected void onProgressUpdate(Void... params)
-    {
     }
 
     @Override

@@ -25,15 +25,16 @@ import static de.htwBerlin.ois.ServerCommunication.Variables.SERVER_IP;
  * <p>
  * The request contains name, coordinates and a date.
  * The server will the create that map and make it available
+ *
+ * @author WilliBoelke
  */
 public class HTTPRequestNewMap extends AsyncTask<Void, Void, String>
 {
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy HH:mm");
+
     private final String TAG = this.getClass().getSimpleName();
     private String date;
     private String coordinates;
     private String name;
-    private AsyncResponse delegate;
     private URL url;
 
     /**
@@ -65,9 +66,29 @@ public class HTTPRequestNewMap extends AsyncTask<Void, Void, String>
         super.onPreExecute();
     }
 
-
-    private void request()
+    /**
+     * Builds a string as accepted by the server
+     * example:
+     * name=mapname&coords=13.005,15.123_13.005,15.123_13.005,15.123_13.005,15.123_13.005,15.123&date=2117-12-11
+     * @return the String
+     */
+    private String buildParamsString()
     {
+        StringBuilder sb = new StringBuilder();
+        sb.append("name=");
+        sb.append(this.name);
+        sb.append("&coords=");
+        sb.append(this.coordinates);
+        sb.append("&date=");
+        sb.append(this.date);
+
+        return sb.toString();
+    }
+
+    @Override
+    protected String doInBackground(Void... params)
+    {
+
         String response = null;
         try
         {
@@ -106,34 +127,7 @@ public class HTTPRequestNewMap extends AsyncTask<Void, Void, String>
         {
             e.printStackTrace();
         }
-
-        System.out.printf("response");
-    }
-
-    /**
-     * Builds a string as accepted by the server
-     * example:
-     * name=mapname&coords=13.005,15.123_13.005,15.123_13.005,15.123_13.005,15.123_13.005,15.123&date=2117-12-11
-     * @return the String
-     */
-    private String buildParamsString()
-    {
-        StringBuilder sb = new StringBuilder();
-        sb.append("name=");
-        sb.append(this.name);
-        sb.append("&coords=");
-        sb.append(this.coordinates);
-        sb.append("&date=");
-        sb.append(this.date);
-
-        return sb.toString();
-    }
-
-    @Override
-    protected String doInBackground(Void... params)
-    {
-
-        request();
+        Log.i(TAG, "Server response : " + response);
         return null;
     }
 

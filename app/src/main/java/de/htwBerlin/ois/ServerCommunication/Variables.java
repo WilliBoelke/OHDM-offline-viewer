@@ -1,5 +1,8 @@
 package de.htwBerlin.ois.ServerCommunication;
 
+/**
+ * @author WilliBoelke
+ */
 public class Variables
 {
     /**

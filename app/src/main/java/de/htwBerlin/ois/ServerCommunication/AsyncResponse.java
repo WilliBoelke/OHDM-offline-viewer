@@ -6,6 +6,5 @@ import de.htwBerlin.ois.FileStructure.OhdmFile;
 
 public interface AsyncResponse
 {
-
     void getOhdmFiles(ArrayList<OhdmFile> ohdmFiles);
 }

@@ -25,7 +25,7 @@ import de.htwBerlin.ois.R;
 /**
  * Fragment to show the applications settings
  *
- * @author willi
+ * @author WilliBoelke
  */
 public class OptionsFragment extends Fragment
 {

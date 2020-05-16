@@ -20,11 +20,12 @@ import static de.htwBerlin.ois.ServerCommunication.Variables.USER_PASSWORD;
  * Asynctask that downloads files from FTP Remote server
  *
  * @author morelly_t1
+ * @author WilliBoelke
  */
 public class FtpTaskFileDownloading extends AsyncTask<OhdmFile, Integer, Long>
 {
 
-    private static final String TAG = "FtpTaskFileListing";
+    private final String TAG = getClass().getSimpleName();
     private static final String MAP_FILE_PATH = Environment.getExternalStorageDirectory().toString() + "/OHDM";
 
     private WeakReference<Context> context;
@@ -56,13 +57,6 @@ public class FtpTaskFileDownloading extends AsyncTask<OhdmFile, Integer, Long>
             e.printStackTrace();
         }
         return null;
-    }
-
-    @Override
-    protected void onProgressUpdate(Integer... params)
-    {
-        Log.i(TAG, "Download progress :" + params[0] + "%");
-        //if (this.progressBar.get() != null) this.progressBar.get().setProgress(params[0]);
     }
 
     @Override

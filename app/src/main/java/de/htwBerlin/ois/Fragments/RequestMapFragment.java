@@ -15,6 +15,9 @@ import android.widget.Toast;
 import de.htwBerlin.ois.ServerCommunication.HTTPRequestNewMap;
 import de.htwBerlin.ois.R;
 
+/**
+ * @author WilliBoelke
+ */
 public class RequestMapFragment extends Fragment
 {
     private final String TAG = this.getClass().getSimpleName();

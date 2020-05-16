@@ -18,13 +18,17 @@ import java.net.SocketException;
 
 import static de.htwBerlin.ois.MainActivity.MainActivity.MAP_FILE_PATH;
 
+/**
+ * Wraps the apache FTPClient
+ * @author  NoteFox
+ * @author  WilliBoelke
+ */
 public class FtpClient
 {
 
     private final String TAG = getClass().getSimpleName();
     private FTPClient client;
     private PrintStream logStream;
-    private String LOG_TAG = "FTP Client";
     private boolean LOGGING_OVER_FILE = true;
 
     public FtpClient(OutputStream os)

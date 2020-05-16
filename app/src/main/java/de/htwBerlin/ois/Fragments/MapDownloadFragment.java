@@ -12,19 +12,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import de.htwBerlin.ois.ServerCommunication.AsyncResponse;
-import de.htwBerlin.ois.ServerCommunication.FtpTaskFileDownloading;
-import de.htwBerlin.ois.ServerCommunication.FtpTaskFileListing;
 import de.htwBerlin.ois.FileStructure.LeftSwipeCallback;
 import de.htwBerlin.ois.FileStructure.OhdmFile;
 import de.htwBerlin.ois.FileStructure.OhdmFileRecyclerAdapter;
 import de.htwBerlin.ois.FileStructure.RecyclerViewItemSwipeGestures;
 import de.htwBerlin.ois.R;
+import de.htwBerlin.ois.ServerCommunication.AsyncResponse;
+import de.htwBerlin.ois.ServerCommunication.FtpTaskFileDownloading;
+import de.htwBerlin.ois.ServerCommunication.FtpTaskFileListing;
 
 /**
  * This Activity represents a small map file download center
