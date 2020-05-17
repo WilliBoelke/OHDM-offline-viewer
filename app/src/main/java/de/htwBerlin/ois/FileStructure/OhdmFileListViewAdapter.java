@@ -12,8 +12,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import de.htwBerlin.ois.ServerCommunication.FtpTaskFileDownloading;
 import de.htwBerlin.ois.R;
+import de.htwBerlin.ois.ServerCommunication.FtpTaskFileDownloading;
 
 /**
  * ListView adapter that holds ohdmFiles

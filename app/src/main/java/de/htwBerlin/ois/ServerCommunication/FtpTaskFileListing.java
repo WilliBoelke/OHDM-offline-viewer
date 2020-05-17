@@ -36,7 +36,7 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
     private WeakReference<Context> context;
     private FtpClient ftpClient;
 
-    public FtpTaskFileListing( AsyncResponse asyncResponse, Context context)
+    public FtpTaskFileListing(AsyncResponse asyncResponse, Context context)
     {
         this.delegate = asyncResponse;
         this.context = new WeakReference<Context>(context);
@@ -66,12 +66,12 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
         }
 
         for (FTPFile ftpFile : files)
-            {
-                Date date = ftpFile.getTimestamp().getTime();
-                OhdmFile ohdm = new OhdmFile(ftpFile.getName(), (ftpFile.getSize() / 1024), sdf.format(date.getTime()), Boolean.FALSE);
-                ohdmFiles.add(ohdm);
-                Log.i(TAG, ohdm.toString());
-            }
+        {
+            Date date = ftpFile.getTimestamp().getTime();
+            OhdmFile ohdm = new OhdmFile(ftpFile.getName(), (ftpFile.getSize() / 1024), sdf.format(date.getTime()), Boolean.FALSE);
+            ohdmFiles.add(ohdm);
+            Log.i(TAG, ohdm.toString());
+        }
 
         return null;
     }

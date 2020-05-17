@@ -35,10 +35,16 @@ import static android.content.Context.LOCATION_SERVICE;
 
 /**
  * Map Activity, which displays the actual Map File
+ *
  * @author WilliBoelke
  */
 public class NavigationFragment extends Fragment
 {
+    /**
+     * Fragment ID used to identify the fragment
+     * (for example by putting the ID into the Intent extra )
+     */
+    public static String ID = "Navigation";
     /**
      * Log tag
      */
@@ -52,14 +58,10 @@ public class NavigationFragment extends Fragment
      */
     private View view;
     /**
-     * Fragment ID used to identify the fragment
-     * (for example by putting the ID into the Intent extra )
-     */
-    public static String ID = "Navigation";
-    /**
      *
      */
     private FloatingActionButton locateFab;
+
     /**
      * Empty Constructor
      */
@@ -153,6 +155,7 @@ public class NavigationFragment extends Fragment
 
     /**
      * Gets the last know position of the device from the android LocationManager
+     *
      * @return Location of the device
      */
     private Location getLastKnownLocation()

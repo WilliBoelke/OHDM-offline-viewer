@@ -2,11 +2,11 @@
 
     <declare-styleable name="colors">
         <!-- Color for foreground elements like cards, ListView items or menus-->
-        <attr name="foreground" format="color"/>
+        <attr name="foreground" format="color" />
         <!-- Color for the layout background-->
-        <attr name="backgroundColor" format="color"/>
+        <attr name="backgroundColor" format="color" />
         <!--the ohdm color for accents-->
-        <attr name="accent" format="color"/>
+        <attr name="accent" format="color" />
         <!-- Color for primary Buttons-->
         <attr name="colorPrim" format="color" />
         <!-- Color for secondary Buttons-->

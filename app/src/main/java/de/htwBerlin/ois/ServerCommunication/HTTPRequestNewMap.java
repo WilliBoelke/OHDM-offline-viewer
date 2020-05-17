@@ -12,7 +12,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -39,6 +38,7 @@ public class HTTPRequestNewMap extends AsyncTask<Void, Void, String>
 
     /**
      * Public constructor
+     *
      * @param date
      * @param coordinates
      * @param name
@@ -70,6 +70,7 @@ public class HTTPRequestNewMap extends AsyncTask<Void, Void, String>
      * Builds a string as accepted by the server
      * example:
      * name=mapname&coords=13.005,15.123_13.005,15.123_13.005,15.123_13.005,15.123_13.005,15.123&date=2117-12-11
+     *
      * @return the String
      */
     private String buildParamsString()

@@ -20,8 +20,9 @@ import static de.htwBerlin.ois.MainActivity.MainActivity.MAP_FILE_PATH;
 
 /**
  * Wraps the apache FTPClient
- * @author  NoteFox
- * @author  WilliBoelke
+ *
+ * @author NoteFox
+ * @author WilliBoelke
  */
 public class FtpClient
 {

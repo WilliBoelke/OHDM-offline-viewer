@@ -3,7 +3,6 @@ package de.htwBerlin.ois.ServerCommunication;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Environment;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -25,9 +24,8 @@ import static de.htwBerlin.ois.ServerCommunication.Variables.USER_PASSWORD;
 public class FtpTaskFileDownloading extends AsyncTask<OhdmFile, Integer, Long>
 {
 
-    private final String TAG = getClass().getSimpleName();
     private static final String MAP_FILE_PATH = Environment.getExternalStorageDirectory().toString() + "/OHDM";
-
+    private final String TAG = getClass().getSimpleName();
     private WeakReference<Context> context;
     private FtpClient ftpClient;
 

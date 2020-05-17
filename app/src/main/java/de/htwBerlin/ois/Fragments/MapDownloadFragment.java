@@ -107,12 +107,12 @@ public class MapDownloadFragment extends Fragment
         recyclerView.setLayoutManager(recyclerLayoutManager);
         recyclerAdapter = new OhdmFileRecyclerAdapter(getActivity().getApplicationContext(), ohdmFiles, R.layout.download_recycler_item);
         recyclerView.setAdapter(recyclerAdapter);
-        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing( new AsyncResponse()
+        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(new AsyncResponse()
         {
             @Override
             public void getOhdmFiles(ArrayList<OhdmFile> files)
             {
-                if(files.size() > 0)
+                if (files.size() > 0)
                 {
                     ohdmFiles.addAll(files);
                     Log.i(TAG, "received " + files.size() + " files.");
@@ -123,8 +123,8 @@ public class MapDownloadFragment extends Fragment
                 }
                 else
                 {
-                   TextView tv =  view.findViewById(R.id.connecting_tv);
-                   tv.setText("Connection failed, try again later");
+                    TextView tv = view.findViewById(R.id.connecting_tv);
+                    tv.setText("Connection failed, try again later");
                 }
             }
         }, getActivity());

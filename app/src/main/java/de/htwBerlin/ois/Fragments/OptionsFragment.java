@@ -41,14 +41,14 @@ public class OptionsFragment extends Fragment
     private static final int WRITE_STORAGE_PERMISSION = 56;
     private static final int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
     /**
-     * Log tag
-     */
-    private final String TAG = getClass().getSimpleName();
-    /**
      * Fragment ID used to identify the fragment
      * (for example by putting the ID into the Intent extra )
      */
     public static String ID = "Options";
+    /**
+     * Log tag
+     */
+    private final String TAG = getClass().getSimpleName();
     /**
      * the view
      */

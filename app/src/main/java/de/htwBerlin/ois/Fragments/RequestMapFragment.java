@@ -12,21 +12,20 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import de.htwBerlin.ois.ServerCommunication.HTTPRequestNewMap;
 import de.htwBerlin.ois.R;
+import de.htwBerlin.ois.ServerCommunication.HTTPRequestNewMap;
 
 /**
  * @author WilliBoelke
  */
 public class RequestMapFragment extends Fragment
 {
-    private final String TAG = this.getClass().getSimpleName();
     /**
      * Fragment ID used to identify the fragment
      * (for example by putting the ID into the Intent extra )
      */
     public static String ID = "RequestMap";
-
+    private final String TAG = this.getClass().getSimpleName();
     /**
      * The View
      */
@@ -174,6 +173,7 @@ public class RequestMapFragment extends Fragment
 
     /**
      * Check if the user entered all necessary coordinates
+     *
      * @return
      */
     private boolean checkForNullCoordinates()

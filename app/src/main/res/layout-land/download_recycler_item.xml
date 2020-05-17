@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginRight="@dimen/activity_horizontal_margin"
     android:layout_marginLeft="@dimen/activity_horizontal_margin"
     android:layout_marginTop="@dimen/activity_horizontal_margin"
+    android:layout_marginRight="@dimen/activity_horizontal_margin"
     android:clickable="false"
     android:focusable="false"
     app:cardCornerRadius="5dp"
@@ -17,71 +17,71 @@
         android:layout_height="match_parent"
         android:background="@drawable/recycler_item_gradient">
 
-    <TextView
-        android:id="@+id/map_name_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:fontFamily="@font/comfortaa"
-        android:textSize="@dimen/primary_font_size"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Berlin" />
+        <TextView
+            android:id="@+id/map_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:fontFamily="@font/comfortaa"
+            android:textSize="@dimen/primary_font_size"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Berlin" />
 
-    <TextView
-        android:id="@+id/map_size"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:fontFamily="@font/comfortaa"
-        android:text="Size : "
-        android:textSize="@dimen/secondary_font_size"
-        android:textStyle="normal"
-        app:layout_constraintBottom_toBottomOf="@+id/map_name_tv"
-        app:layout_constraintStart_toEndOf="@+id/map_name_tv"
-        app:layout_constraintTop_toTopOf="@+id/map_name_tv"
-        tools:text="Size :" />
+        <TextView
+            android:id="@+id/map_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:fontFamily="@font/comfortaa"
+            android:text="Size : "
+            android:textSize="@dimen/secondary_font_size"
+            android:textStyle="normal"
+            app:layout_constraintBottom_toBottomOf="@+id/map_name_tv"
+            app:layout_constraintStart_toEndOf="@+id/map_name_tv"
+            app:layout_constraintTop_toTopOf="@+id/map_name_tv"
+            tools:text="Size :" />
 
-    <TextView
-        android:id="@+id/map_size_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:fontFamily="@font/comfortaa"
-        android:textSize="@dimen/secondary_font_size"
-        android:textStyle="normal"
-        app:layout_constraintStart_toEndOf="@+id/map_size"
-        app:layout_constraintTop_toTopOf="@+id/map_size"
-        tools:text="4 Gb" />
+        <TextView
+            android:id="@+id/map_size_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:fontFamily="@font/comfortaa"
+            android:textSize="@dimen/secondary_font_size"
+            android:textStyle="normal"
+            app:layout_constraintStart_toEndOf="@+id/map_size"
+            app:layout_constraintTop_toTopOf="@+id/map_size"
+            tools:text="4 Gb" />
 
-    <TextView
-        android:id="@+id/date_of_creation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:fontFamily="@font/comfortaa"
-        android:text="Date : "
-        android:textSize="@dimen/secondary_font_size"
-        android:textStyle="normal"
-        app:layout_constraintBottom_toBottomOf="@+id/map_size_tv"
-        app:layout_constraintStart_toEndOf="@+id/map_size_tv"
-        app:layout_constraintTop_toTopOf="@+id/map_size_tv"
-        tools:text="Date : " />
+        <TextView
+            android:id="@+id/date_of_creation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/comfortaa"
+            android:text="Date : "
+            android:textSize="@dimen/secondary_font_size"
+            android:textStyle="normal"
+            app:layout_constraintBottom_toBottomOf="@+id/map_size_tv"
+            app:layout_constraintStart_toEndOf="@+id/map_size_tv"
+            app:layout_constraintTop_toTopOf="@+id/map_size_tv"
+            tools:text="Date : " />
 
-    <TextView
-        android:id="@+id/date_of_creation_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:fontFamily="@font/comfortaa"
-        android:text="TextView"
-        android:textSize="@dimen/secondary_font_size"
-        app:layout_constraintBottom_toBottomOf="@+id/date_of_creation"
-        app:layout_constraintStart_toEndOf="@+id/date_of_creation"
-        app:layout_constraintTop_toTopOf="@+id/date_of_creation"
-        tools:text="12.12.2018" />
+        <TextView
+            android:id="@+id/date_of_creation_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:fontFamily="@font/comfortaa"
+            android:text="TextView"
+            android:textSize="@dimen/secondary_font_size"
+            app:layout_constraintBottom_toBottomOf="@+id/date_of_creation"
+            app:layout_constraintStart_toEndOf="@+id/date_of_creation"
+            app:layout_constraintTop_toTopOf="@+id/date_of_creation"
+            tools:text="12.12.2018" />
 
         <ImageView
             android:id="@+id/current_map_icon"
