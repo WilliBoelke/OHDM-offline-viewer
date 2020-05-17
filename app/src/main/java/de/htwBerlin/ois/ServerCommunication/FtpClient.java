@@ -77,7 +77,6 @@ public class FtpClient
 
                 //after connecting to the server set the local passive mode
                 client.enterLocalPassiveMode();
-
                 //send username and password to login to the server
                 if (!client.login(user, pass))
                 {

@@ -104,6 +104,7 @@ public class HomeFragment extends Fragment
                     Log.i(TAG, "using " + mapFiles.get(position).getName() + " as mapfile");
                     MapFileSingleton mapFile = MapFileSingleton.getInstance();
                     mapFile.setFile(mapFiles.get(position));
+                    recyclerAdapter.notifyDataSetChanged();
                 }
             });
             localMapsRecyclerView.setLayoutManager(recyclerLayoutManager);

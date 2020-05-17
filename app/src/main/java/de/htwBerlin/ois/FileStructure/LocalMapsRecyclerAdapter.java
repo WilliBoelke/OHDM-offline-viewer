@@ -3,9 +3,11 @@ package de.htwBerlin.ois.FileStructure;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.File;
@@ -16,6 +18,7 @@ import de.htwBerlin.ois.R;
 
 public class LocalMapsRecyclerAdapter extends RecyclerView.Adapter<LocalMapsRecyclerAdapter.LocalMapsViewHolder>
 {
+    private final String TAG = getClass().getSimpleName();
     private ArrayList<File> mapArrayList;
     private Context context;
     private int ressource;
@@ -46,6 +49,21 @@ public class LocalMapsRecyclerAdapter extends RecyclerView.Adapter<LocalMapsRecy
         localMapsViewHolder.nameTextView.setText(name);
         localMapsViewHolder.sizeTextView.setText((int) (double) (currentMapFile.length() / 1024) + " KB");
         localMapsViewHolder.dateTextView.setText("11.11.1111");
+        try
+        {
+            if (currentMapFile.getName().equals(MapFileSingleton.getInstance().getFile().getName()))
+            {
+                localMapsViewHolder.currentMapIcon.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                localMapsViewHolder.currentMapIcon.setVisibility(View.INVISIBLE);
+            }
+        }
+        catch (NullPointerException e)
+        {
+            Log.e(TAG, "MapFileSingelton was null");
+        }
     }
 
     @Override
@@ -71,6 +89,7 @@ public class LocalMapsRecyclerAdapter extends RecyclerView.Adapter<LocalMapsRecy
         public TextView nameTextView;
         public TextView sizeTextView;
         public TextView dateTextView;
+        public ImageView currentMapIcon;
 
         public LocalMapsViewHolder(@NonNull View itemView, final LocalMapsRecyclerAdapter.OnItemClickListener listener)
         {
@@ -78,6 +97,7 @@ public class LocalMapsRecyclerAdapter extends RecyclerView.Adapter<LocalMapsRecy
             sizeTextView = itemView.findViewById(R.id.map_size_tv);
             nameTextView = itemView.findViewById(R.id.map_name_tv);
             dateTextView = itemView.findViewById(R.id.date_of_creation_tv);
+            currentMapIcon = itemView.findViewById(R.id.current_map_icon);
 
 
             itemView.setOnClickListener(new View.OnClickListener()
