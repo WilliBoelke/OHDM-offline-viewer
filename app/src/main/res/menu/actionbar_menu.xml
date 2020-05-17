@@ -2,10 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/ab_menu_settings"
-        android:icon="@drawable/ic_settings_black"
+        android:icon="@drawable/toolbar_menu_item_settings_black"
         android:title="@string/menu_settings" />
     <item
+        android:id="@+id/ab_menu_faq"
+        android:icon="@drawable/toolbar_menu_item_settings_black"
+        android:title="FAQ" />
+    <item
         android:id="@+id/ab_menu_about"
-        android:icon="@drawable/ic_info_black_24dp"
+        android:icon="@drawable/toolbar_menu_item_info_black"
         android:title="@string/menu_about" />
 </menu>

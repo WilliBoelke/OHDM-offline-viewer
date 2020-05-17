@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import de.htwBerlin.ois.FTP.FtpTaskFileDownloading;
 import de.htwBerlin.ois.R;
 
 public class OhdmFileRecyclerAdapter extends RecyclerView.Adapter<OhdmFileRecyclerAdapter.OhdmFileViewHolder>
@@ -21,7 +20,6 @@ public class OhdmFileRecyclerAdapter extends RecyclerView.Adapter<OhdmFileRecycl
     private Context context;
     private int ressource;
     private OnItemClickListener onItemClickListener;
-    private ProgressBar progressBar;
 
     public OhdmFileRecyclerAdapter(Context context, ArrayList<OhdmFile> ohdmFiles, int ressource)
     {
@@ -35,17 +33,18 @@ public class OhdmFileRecyclerAdapter extends RecyclerView.Adapter<OhdmFileRecycl
     public OhdmFileViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i)
     {
         View view = LayoutInflater.from(parent.getContext()).inflate(ressource, parent, false);
-        OhdmFileRecyclerAdapter.OhdmFileViewHolder ohdmFileViewHolder = new OhdmFileRecyclerAdapter.OhdmFileViewHolder(view, this.onItemClickListener);
-        return ohdmFileViewHolder;
+        return new OhdmFileRecyclerAdapter.OhdmFileViewHolder(view, this.onItemClickListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull OhdmFileRecyclerAdapter.OhdmFileViewHolder ohdmFileViewHolder, int position)
     {
         OhdmFile currentOhdmFile = this.mapArrayList.get(position);
-        ohdmFileViewHolder.nameTextView.setText(currentOhdmFile.getFilename());
-        ohdmFileViewHolder.sizeTextView.setText(currentOhdmFile.getFileSize().toString());
-        ohdmFileViewHolder.sizeTextView.setText(currentOhdmFile.getCreationDate());
+        String name = currentOhdmFile.getFilename();
+        name = name.replace(".map", "");
+        ohdmFileViewHolder.nameTextView.setText(name);
+        ohdmFileViewHolder.sizeTextView.setText((int) (double) (currentOhdmFile.getFileSize() / 1024) + " KB");
+        ohdmFileViewHolder.dateTextView.setText(currentOhdmFile.getCreationDate());
     }
 
     @Override
@@ -64,32 +63,12 @@ public class OhdmFileRecyclerAdapter extends RecyclerView.Adapter<OhdmFileRecycl
         this.onItemClickListener = listener;
     }
 
+
     public interface OnItemClickListener
     {
         void onItemClick(int position);
     }
 
-    /**
-     * The map download task, called from the swipe left in {@link OhdmFileSwipeToDownloadCallback}
-     *
-     * @param position
-     */
-    public void downloadTask(int position)
-    {
-        //TODO get progressBar
-        FtpTaskFileDownloading ftpTaskFileDownloading = new FtpTaskFileDownloading(progressBar, context);
-        Toast.makeText(context, "Downloading " + getFile(position).getFilename(), Toast.LENGTH_SHORT).show();
-        ftpTaskFileDownloading.execute(getFile(position));
-        notifyDataSetChanged();
-    }
-
-    public void deleteTask(int position)
-    {
-
-        Toast.makeText(context, "Deleting " + getFile(position).getFilename(), Toast.LENGTH_SHORT).show();
-
-        notifyDataSetChanged();
-    }
 
     protected static class OhdmFileViewHolder extends RecyclerView.ViewHolder
     {
@@ -97,7 +76,6 @@ public class OhdmFileRecyclerAdapter extends RecyclerView.Adapter<OhdmFileRecycl
         public TextView nameTextView;
         public TextView sizeTextView;
         public TextView dateTextView;
-        public ProgressBar progressBar;
 
 
         public OhdmFileViewHolder(@NonNull View itemView, final OhdmFileRecyclerAdapter.OnItemClickListener listener)
@@ -106,7 +84,6 @@ public class OhdmFileRecyclerAdapter extends RecyclerView.Adapter<OhdmFileRecycl
             sizeTextView = itemView.findViewById(R.id.map_size_tv);
             nameTextView = itemView.findViewById(R.id.map_name_tv);
             dateTextView = itemView.findViewById(R.id.date_of_creation_tv);
-            progressBar = itemView.findViewById(R.id.progressBar);
 
 
             itemView.setOnClickListener(new View.OnClickListener()
@@ -124,6 +101,7 @@ public class OhdmFileRecyclerAdapter extends RecyclerView.Adapter<OhdmFileRecycl
                     }
                 }
             });
+
         }
     }
 

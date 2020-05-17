@@ -6,26 +6,21 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
+import de.htwBerlin.ois.FileStructure.LocalMapsRecyclerAdapter;
 import de.htwBerlin.ois.FileStructure.MapFileSingleton;
-import de.htwBerlin.ois.MainActivityPackage.MainActivity;
+import de.htwBerlin.ois.MainActivity.MainActivity;
 import de.htwBerlin.ois.R;
 
 /**
@@ -36,6 +31,11 @@ import de.htwBerlin.ois.R;
 public class HomeFragment extends Fragment
 {
     /**
+     * Fragment ID used to identify the fragment
+     * (for example by putting the ID into the Intent extra )
+     */
+    public static String ID = "Home";
+    /**
      * Log tag
      */
     private final String TAG = this.getClass().getSimpleName();
@@ -43,7 +43,7 @@ public class HomeFragment extends Fragment
      * Set of the .map files ind the OHDM directory
      * Filled in {@link  #findMapFiles()}
      */
-    private Set<File> mapFiles;
+    private ArrayList<File> mapFiles;
     /**
      * Spinner to choose a .map file from
      */
@@ -56,6 +56,16 @@ public class HomeFragment extends Fragment
      * The view
      */
     private View view;
+    /**
+     * The RecyclerViews LayoutManager
+     */
+    private RecyclerView.LayoutManager recyclerLayoutManager;
+    /**
+     * The RecyclerAdapter
+     */
+    private LocalMapsRecyclerAdapter recyclerAdapter;
+
+    private RecyclerView localMapsRecyclerView;
 
     @Nullable
     @Override
@@ -72,12 +82,37 @@ public class HomeFragment extends Fragment
     {
         super.onActivityCreated(savedInstanceState);
 
-        //getting the views
-        spinnerMapFile = view.findViewById(R.id.map_file_dropdown);
-        buttonSave = view.findViewById(R.id.save_button);
+        mapFiles = findMapFiles();
+        setupRecycler();
+    }
 
-        setupSaveButton();
-        fillDropDownFiles();
+    private void setupRecycler()
+    {
+        localMapsRecyclerView = view.findViewById(R.id.local_maps_recycler);
+        if (!mapFiles.isEmpty())
+        {
+            view.findViewById(R.id.content_card_home_info).setVisibility(View.INVISIBLE);
+            view.findViewById(R.id.ohdm_logo_iv).setVisibility(View.INVISIBLE);
+            localMapsRecyclerView.setVisibility(View.VISIBLE);
+            recyclerLayoutManager = new LinearLayoutManager(this.getContext());
+            recyclerAdapter = new LocalMapsRecyclerAdapter(this.getContext(), mapFiles, R.layout.download_recycler_item);
+            recyclerAdapter.setOnItemClickListener(new LocalMapsRecyclerAdapter.OnItemClickListener()
+            {
+                @Override
+                public void onItemClick(int position)
+                {
+                    Log.i(TAG, "using " + mapFiles.get(position).getName() + " as mapfile");
+                    MapFileSingleton mapFile = MapFileSingleton.getInstance();
+                    mapFile.setFile(mapFiles.get(position));
+                    recyclerAdapter.notifyDataSetChanged();
+                }
+            });
+            localMapsRecyclerView.setLayoutManager(recyclerLayoutManager);
+            localMapsRecyclerView.setAdapter(recyclerAdapter);
+            recyclerAdapter.notifyDataSetChanged();
+
+
+        }
     }
 
     /**
@@ -85,17 +120,17 @@ public class HomeFragment extends Fragment
      *
      * @return a set of .map files
      */
-    protected Set<File> findMapFiles()
+    protected ArrayList<File> findMapFiles()
     {
-        Set<File> maps = new HashSet<>();
+        ArrayList<File> maps = new ArrayList<>();
         try
         {
-            for (File osmfile : new File(MainActivity.MAP_FILE_PATH).listFiles())
+            for (File mapFile : new File(MainActivity.MAP_FILE_PATH).listFiles())
             {
-                if (osmfile.getName().endsWith(".map"))
+                if (mapFile.getName().endsWith(".map"))
                 {
-                    Log.i(TAG, "osmfile: " + osmfile.getName());
-                    maps.add(osmfile);
+                    Log.i(TAG, "osmfile: " + mapFile.getName());
+                    maps.add(mapFile);
                 }
             }
         }
@@ -106,77 +141,17 @@ public class HomeFragment extends Fragment
         return maps;
     }
 
-    /**
-     * Initializes Dropdown menu with .map-files
-     */
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    private void fillDropDownFiles() {
-        mapFiles = findMapFiles();
-        Log.i(TAG, "found " + mapFiles.size() + " .map-files");
-        List<String> list = new ArrayList<String>();
 
-        if (mapFiles.size() > 0) {
-            for (File file : mapFiles) {
-                list.add(file.getName());
-                Log.i(TAG, "added " + file.getName() + " to dropdown");
-            }
-        }
-
-        List<String> listSorted = list.stream().collect(Collectors.<String>toList());
-        Collections.sort(listSorted, new Comparator<String>() {
-            @Override
-            public int compare(String s1, String s2) {
-                return s1.compareTo(s2);
-            }
-        });
-
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(), R.layout.spinner_item, listSorted);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerMapFile.setAdapter(dataAdapter);
-    }
-
-    /**
-     * Setup the safeButton and its onClickListener
-     */
-    private void setupSaveButton()
-    {
-        buttonSave.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                if (mapFiles.size() == 0)
-                {
-                    Toast.makeText(getActivity().getApplicationContext(), "You need to choose a map", Toast.LENGTH_LONG).show();
-                }
-                else
-                {
-                    for (File file : mapFiles)
-                    {
-                        if (file.getName().equals(spinnerMapFile.getSelectedItem().toString()))
-                        {
-                            Log.i(TAG, "User has choosen " + spinnerMapFile.getSelectedItem().toString());
-                            Log.i(TAG, "using " + file.getName() + " as mapfile");
-                            MapFileSingleton mapFile = MapFileSingleton.getInstance();
-                            mapFile.setFile(file);
-                        }
-                    }
-                }
-            }
-        });
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
-    public void onStart() {
-        fillDropDownFiles();
+    public void onStart()
+    {
         super.onStart();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+
     @Override
-    public void onResume() {
-        fillDropDownFiles();
+    public void onResume()
+    {
         super.onResume();
     }
 

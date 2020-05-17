@@ -69,6 +69,7 @@
     <string name="permission_write_local_storage_further_info">
         We need this to safe maps onto your local devise
     </string>
+
     <!-- Toolbar Menu Activity Strings:  -->
 
     <string name="menu_settings">
@@ -78,5 +79,15 @@
     <string name="menu_about">
         About
     </string>
+
+    <!-- Options Activity Strings:  -->
+
+    <string name="request_map_info">
+        Here you can request Maps which you havent found in the existing maps.
+        The Map will then be created by our Server and show up in the available maps.
+        (for you and everyone else).
+    </string>
+
+
 
 </resources>

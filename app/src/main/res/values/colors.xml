@@ -3,11 +3,11 @@
 
     <!-- Light Mode colors :-->
     <!-- Color for primary Buttons-->
-    <color name="primary_light">#09A50E</color>
+    <color name="primary_light">#50EC36</color>
     <!-- Color for secondary Buttons-->
-    <color name="secondary_light">#8AFA8E</color>
+    <color name="secondary_light">#339722</color>
     <!-- Color for the layout background-->
-    <color name="background_light">#C2FFFDF8</color>
+    <color name="background_light">#FAF9F7</color>
     <!-- Color for foreground elements like cards, ListView items or menus-->
     <color name="foreground_light">#FFFFFF</color>
     <!-- Color for primary texts-->
@@ -17,18 +17,18 @@
 
     <!-- Dark Mode colors :-->
     <!-- Color for primary Buttons-->
-    <color name="primary_dark">#067009</color>
+    <color name="primary_dark">#50EC36</color>
     <!-- Color for secondary Buttons-->
-    <color name="secondary_dark">#3B803D</color>
+    <color name="secondary_dark">#339722</color>
     <!-- Color for the layout background-->
-    <color name="background_dark">#F1171717</color>
+    <color name="background_dark">#2E2E2E</color>
     <!-- Color for foreground elements like cards, ListView items or menus-->
-    <color name="foreground_dark">#DB302E2E</color>
+    <color name="foreground_dark">#333333</color>
     <!-- Color for primary texts-->
     <color name="text_dark">#F1FFFFFF</color>
     <!-- Color for secondary texts-->
     <color name="textSecondary_dark">#98CACACA</color>
 
     <!--the ohdm color for accents-->
-    <color name="ohdm_accent_color">#77B900</color>
+    <color name="ohdm_accent_color">#50EC36</color>
 </resources>

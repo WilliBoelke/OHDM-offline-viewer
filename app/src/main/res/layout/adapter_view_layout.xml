@@ -55,7 +55,6 @@
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_below="@+id/progressBar"
-            android:background="@drawable/button_border"
             android:backgroundTint="#009688"
             android:text="Download" />
 

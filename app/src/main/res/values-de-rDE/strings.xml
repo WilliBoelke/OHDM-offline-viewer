@@ -20,4 +20,10 @@
     <string name="save_map_button">Speichern und Navigieren</string>
     <string name="current_map">"ausgewählte Karte : "</string>
     <string name="find_us">hier kannst du uns finden</string>
+    <string name="request_map_info">
+        Hier kannst du Karten anfragen, welche du nicht in den schon exisitierenden Karten gefunden hast.
+        Diese wird dann von unserem Server generiert, was einige minuten dauern kann.
+        Anschließend wird sie dir und allen anderen benutzern Angezeigt.
+    </string>
+
 </resources>

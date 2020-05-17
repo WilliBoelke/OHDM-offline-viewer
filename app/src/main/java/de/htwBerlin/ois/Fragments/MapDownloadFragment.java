@@ -3,43 +3,38 @@ package de.htwBerlin.ois.Fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import de.htwBerlin.ois.FTP.FtpEndpointSingleton;
+import de.htwBerlin.ois.FileStructure.LeftSwipeCallback;
 import de.htwBerlin.ois.FileStructure.OhdmFile;
 import de.htwBerlin.ois.FileStructure.OhdmFileRecyclerAdapter;
-import de.htwBerlin.ois.FileStructure.OhdmFileSwipeToDownloadCallback;
+import de.htwBerlin.ois.FileStructure.RecyclerViewItemSwipeGestures;
 import de.htwBerlin.ois.R;
+import de.htwBerlin.ois.ServerCommunication.AsyncResponse;
+import de.htwBerlin.ois.ServerCommunication.FtpTaskFileDownloading;
+import de.htwBerlin.ois.ServerCommunication.FtpTaskFileListing;
 
 /**
  * This Activity represents a small map file download center
  */
-public class MapDownloadFragment extends Fragment {
-
+public class MapDownloadFragment extends Fragment
+{
     /**
-     * FTP Server IP address
+     * Fragment ID used to identify the fragment
+     * (for example by putting the ID into the Intent extra )
      */
-    private static final String FTP_SERVER_IP = "";
-    /**
-     * FTP Server port
-     */
-    private static final Integer FTP_PORT = 21;
-    /**
-     * FTP Server username
-     */
-    private static final String FTP_USER = "";
-    /**
-     * FTP Server password
-     */
-    private static final String FTP_PASSWORD = "";
+    public static String ID = "MapDownload";
     /**
      * Log tag
      */
@@ -61,7 +56,7 @@ public class MapDownloadFragment extends Fragment {
      */
     private ArrayList<OhdmFile> ohdmFiles;
     private ItemTouchHelper itemTouchHelper;
-    private FtpEndpointSingleton ftpEndpointSingleton;
+    private FloatingActionButton requestNewMapFab;
     /**
      * The view
      */
@@ -77,11 +72,10 @@ public class MapDownloadFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState)
+    {
         super.onActivityCreated(savedInstanceState);
-
         this.setupRecyclerView();
-        this.initializeFTPSingleton();
         this.listFTPFiles();
     }
 
@@ -95,56 +89,93 @@ public class MapDownloadFragment extends Fragment {
     private void setupRecyclerView()
     {
 
-        //ohdmFiles = new ArrayList<>();
-        //listView = view.findViewById(R.id.downladRecycler);
-        /* private FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(new AsyncResponse() {
-        @Override
-        public void getOhdmFiles(ArrayList<OhdmFile> files) {
-            ohdmFiles.addAll(files);
-            Log.i(TAG, "received " + files.size() + " files.");
-            OhdmFileAdapter adapter = new OhdmFileAdapter(Database.mainContext.getApplicationContext(), R.layout.adapter_view_layout, ohdmFiles);
-            listView.setAdapter(adapter);
-        }
-    }, this);
-    */
-        //TODO placeholder to be deleted
-        {
-            recyclerView = view.findViewById(R.id.available_maps_recycler);
-            ohdmFiles = new ArrayList<OhdmFile>();
-            Long size = new Long(122);
-            OhdmFile one = new OhdmFile("Berlin", size, "12.12.3400", false);
-            OhdmFile two = new OhdmFile("Frankfurt", size, "12.12.3400", true);
-            OhdmFile three = new OhdmFile("Köln", size, "12.12.3400", true);
-            OhdmFile four = new OhdmFile("München", size, "12.12.3400", false);
-            ohdmFiles.add(one);
-            ohdmFiles.add(two);
-            ohdmFiles.add(three);
-            ohdmFiles.add(four);
-        }
+        recyclerView = view.findViewById(R.id.available_maps_recycler);
+        recyclerView.setVisibility(View.INVISIBLE);
+        ohdmFiles = new ArrayList<>();
         recyclerLayoutManager = new LinearLayoutManager(this.getContext());
-        recyclerAdapter = new OhdmFileRecyclerAdapter(this.getContext(), ohdmFiles, R.layout.download_recycler_item);
-        itemTouchHelper = new ItemTouchHelper(new OhdmFileSwipeToDownloadCallback(recyclerAdapter));
+        itemTouchHelper = new ItemTouchHelper(new RecyclerViewItemSwipeGestures(recyclerAdapter, new LeftSwipeCallback()
+        {
+            @Override
+            public void onLeftSwipe(int position)
+            {
+                FtpTaskFileDownloading ftpTaskFileDownloading = new FtpTaskFileDownloading(getActivity().getApplicationContext());
+                ftpTaskFileDownloading.execute(ohdmFiles.get(position));
+                recyclerAdapter.notifyDataSetChanged();
+            }
+        }));
         itemTouchHelper.attachToRecyclerView(recyclerView);
         recyclerView.setLayoutManager(recyclerLayoutManager);
+        recyclerAdapter = new OhdmFileRecyclerAdapter(getActivity().getApplicationContext(), ohdmFiles, R.layout.download_recycler_item);
         recyclerView.setAdapter(recyclerAdapter);
-        recyclerAdapter.notifyDataSetChanged();
-    }
+        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing( new AsyncResponse()
+        {
+            @Override
+            public void getOhdmFiles(ArrayList<OhdmFile> files)
+            {
+                if(files.size() > 0)
+                {
+                    ohdmFiles.addAll(files);
+                    Log.i(TAG, "received " + files.size() + " files.");
+                    recyclerView.setVisibility(View.VISIBLE);
+                    view.findViewById(R.id.connecting_tv).setVisibility(View.INVISIBLE);
+                    view.findViewById(R.id.connecting_pb).setVisibility(View.INVISIBLE);
+                    recyclerAdapter.notifyDataSetChanged();
+                }
+                else
+                {
+                   TextView tv =  view.findViewById(R.id.connecting_tv);
+                   tv.setText("Connection failed, try again later");
+                }
+            }
+        }, getActivity());
+        ftpTaskFileListing.execute();
 
-    /**
-     * Initializes FTP Endpoint singleton
-     */
-    private void initializeFTPSingleton() {
-        ftpEndpointSingleton = FtpEndpointSingleton.getInstance();
-        ftpEndpointSingleton.setFtpPassword(FTP_PASSWORD);
-        ftpEndpointSingleton.setFtpUser(FTP_USER);
-        ftpEndpointSingleton.setServerIp(FTP_SERVER_IP);
-        ftpEndpointSingleton.setServerPort(FTP_PORT);
+
+        //FloatingActionButton
+
+        requestNewMapFab = view.findViewById(R.id.request_new_map_fab);
+        requestNewMapFab.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new RequestMapFragment()).addToBackStack(null).commit();
+            }
+        });
     }
 
     /**
      * executes list files async task
      */
-    private void listFTPFiles() {
+    private void listFTPFiles()
+    {
         //ftpTaskFileListing.execute();
     }
+
+
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+    }
+
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+    }
+
+    @Override
+    public void onStop()
+    {
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+    }
+
 }

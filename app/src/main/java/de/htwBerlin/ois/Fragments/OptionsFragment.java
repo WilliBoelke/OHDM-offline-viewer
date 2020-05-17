@@ -19,12 +19,13 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.htwBerlin.ois.MainActivityPackage.MainActivity;
+import de.htwBerlin.ois.MainActivity.MainActivity;
 import de.htwBerlin.ois.R;
 
 /**
  * Fragment to show the applications settings
- * @author willi
+ *
+ * @author WilliBoelke
  */
 public class OptionsFragment extends Fragment
 {
@@ -36,10 +37,18 @@ public class OptionsFragment extends Fragment
      * SharedPreferences name
      */
     public static final String SETTINGS_SHARED_PREFERENCES = "OHDMViewerSettings";
+    private static final int ACCESS_LOCATION_PERMISSION = 34;
+    private static final int WRITE_STORAGE_PERMISSION = 56;
+    private static final int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
     /**
      * Log tag
      */
     private final String TAG = getClass().getSimpleName();
+    /**
+     * Fragment ID used to identify the fragment
+     * (for example by putting the ID into the Intent extra )
+     */
+    public static String ID = "Options";
     /**
      * the view
      */
@@ -47,11 +56,10 @@ public class OptionsFragment extends Fragment
     /**
      * SharedPreferences to quickly store and access user settings
      */
-    private SharedPreferences prefs ;
-    private static final int ACCESS_LOCATION_PERMISSION = 34;
-    private static final int WRITE_STORAGE_PERMISSION = 56;
-    private static final int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
-    //The DarkMode toggle
+    private SharedPreferences prefs;
+    /**
+     * Dark mode toggle
+     */
     private Switch darkModeToggle;
     private Switch allowLocationToggle;
     private Switch allowWriteLocalStorageToggle;
@@ -88,7 +96,7 @@ public class OptionsFragment extends Fragment
     private void setupAllowWriteLocalStorageToggle()
     {
         allowWriteLocalStorageToggle = view.findViewById(R.id.allow_write_storage_switch);
-        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),  Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
         {
             allowWriteLocalStorageToggle.setChecked(true);
         }
@@ -170,13 +178,13 @@ public class OptionsFragment extends Fragment
             {
                 if (isChecked)
                 {
-                    prefs.edit().putBoolean( DARK_MODE, true).commit();
+                    prefs.edit().putBoolean(DARK_MODE, true).commit();
                     Log.v(TAG, "Setup DarkMode toggle: Mode changed to dark ");
                     reset();
                 }
                 else
                 {
-                    prefs.edit().putBoolean( DARK_MODE, false).commit();
+                    prefs.edit().putBoolean(DARK_MODE, false).commit();
                     Log.v(TAG, "Setup DarkMode toggle: Mode changed to light ");
                     reset();
                 }
@@ -191,7 +199,7 @@ public class OptionsFragment extends Fragment
     {
         Log.v(TAG, "Reset Activity ");
         Intent intent = new Intent(getActivity().getApplicationContext(), MainActivity.class);
-        intent.putExtra("Fragment", 1);
+        intent.putExtra("Fragment", ID);
         startActivity(intent);
     }
 
@@ -213,4 +221,6 @@ public class OptionsFragment extends Fragment
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
+
+
 }

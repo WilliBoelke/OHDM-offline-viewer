@@ -1,33 +1,56 @@
 <resources>
 
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight">
         <item name="backgroundColor">@color/background_light</item>
         <item name="foreground">@color/foreground_light</item>
         <item name="accent">@color/ohdm_accent_color</item>
-        <item name="primary">@color/primary_light</item>
-        <item name="secondary">@color/secondary_light</item>
-        <item name="text">@color/text_light</item>
+        <item name="colorPrim">@color/primary_light</item>
+        <item name="colorSecondary">@color/secondary_light</item>
+        <item name="textColorPrimary">@color/text_light</item>
+
+
+        <item name="bottom_nav_icon_map_download">@drawable/bottom_nav_icon_download_white</item>
+        <item name="bottom_nav_icon_home">@drawable/bottom_nav_icon_home_white</item>
+        <item name="bottom_nav_icon_navigation">@drawable/bottom_nav_icon_navigation_white</item>
     </style>
 
     <!-- Light/Day theme. -->
-    <style name="LightTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="LightTheme" parent="Theme.AppCompat.DayNight">
         <item name="backgroundColor">@color/background_light</item>
         <item name="foreground">@color/foreground_light</item>
         <item name="accent">@color/ohdm_accent_color</item>
-        <item name="primary">@color/primary_light</item>
-        <item name="secondary">@color/secondary_light</item>
-        <item name="text">@color/text_light</item>
+        <item name="colorPrim">@color/primary_light</item>
+        <item name="colorSecondary">@color/secondary_light</item>
+        <item name="textColorPrimary">@color/text_light</item>
+        <item name="textColorSecondary">#F13E3B3B</item>
+        <item name="bottom_nav_icon_map_download">@drawable/bottom_nav_icon_download_black</item>
+        <item name="bottom_nav_icon_home">@drawable/bottom_nav_icon_home_black</item>
+        <item name="bottom_nav_icon_navigation">@drawable/bottom_nav_icon_navigation_black</item>
+        <item name="edit_text_background">@drawable/edit_text_background_white</item>
+        <item name="switch_primary">@drawable/switch_primary_white</item>
     </style>
 
     <!-- Dark/Night theme. -->
-    <style name="DarkTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="DarkTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <item name="backgroundColor">@color/background_dark</item>
-        <item name="foreground">@color/foreground_dark</item>
+        <item name="foreground">#3C3C3C</item>
         <item name="accent">@color/ohdm_accent_color</item>
-        <item name="primary">@color/primary_dark</item>
-        <item name="secondary">@color/secondary_dark</item>
-        <item name="text">@color/text_dark</item>
+        <item name="colorPrim">@color/primary_dark</item>
+        <item name="colorSecondary">@color/secondary_dark</item>
+        <item name="textColorPrimary">@color/text_dark</item>
+        <item name="textColorSecondary">#F1A5A5A5</item>
+        <item name="bottom_nav_icon_map_download">@drawable/bottom_nav_icon_download_white</item>
+        <item name="bottom_nav_icon_home">@drawable/bottom_nav_icon_home_white</item>
+        <item name="bottom_nav_icon_navigation">@drawable/bottom_nav_icon_navigation_white</item>
+        <item name="edit_text_background">@drawable/edit_text_background_black</item>
+        <item name="switch_primary">@drawable/switch_primary_black</item>
+    </style>
+
+    <style name="RightNav">
+        <item name="android:textSize">10sp</item><!-- text size in menu-->
+        <item name="android:listPreferredItemHeightSmall">90dp</item><!-- item size in menu-->
+        <item name="listPreferredItemHeightSmall">90dp</item><!-- item size in menu-->
     </style>
 
 </resources>
