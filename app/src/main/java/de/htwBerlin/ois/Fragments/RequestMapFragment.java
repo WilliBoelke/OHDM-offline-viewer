@@ -16,15 +16,16 @@ import de.htwBerlin.ois.R;
 import de.htwBerlin.ois.ServerCommunication.HTTPRequestNewMap;
 
 /**
+ * Fragment to allow the user to request a new map
  * @author WilliBoelke
  */
 public class RequestMapFragment extends Fragment
 {
+    //------------Instance Variables------------
+
     /**
-     * Fragment ID used to identify the fragment
-     * (for example by putting the ID into the Intent extra )
+     * Log Tag
      */
-    public static String ID = "RequestMap";
     private final String TAG = this.getClass().getSimpleName();
     /**
      * The View
@@ -62,6 +63,17 @@ public class RequestMapFragment extends Fragment
 
     private EditText name;
 
+
+    //------------Static Variables------------
+
+    /**
+     * Fragment ID used to identify the fragment
+     * (for example by putting the ID into the Intent extra )
+     */
+    public static String ID = "RequestMap";
+
+
+    //------------Activity/Fragment Lifecycle------------
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -104,6 +116,9 @@ public class RequestMapFragment extends Fragment
         });
 
     }
+
+
+    //------------User Input------------
 
 
     /**
@@ -155,6 +170,8 @@ public class RequestMapFragment extends Fragment
     }
 
 
+    //------------Check  User Input------------
+
     /**
      * Check if a name was entered by the user
      *
@@ -169,7 +186,6 @@ public class RequestMapFragment extends Fragment
         }
         return true;
     }
-
 
     /**
      * Check if the user entered all necessary coordinates

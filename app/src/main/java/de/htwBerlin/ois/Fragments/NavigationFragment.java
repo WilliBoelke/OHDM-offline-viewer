@@ -34,41 +34,40 @@ import de.htwBerlin.ois.R;
 import static android.content.Context.LOCATION_SERVICE;
 
 /**
- * Map Activity, which displays the actual Map File
+ * Fragment to display a the map file
+ * from {@link MapFileSingleton}
  *
  * @author WilliBoelke
  */
 public class NavigationFragment extends Fragment
 {
-    /**
-     * Fragment ID used to identify the fragment
-     * (for example by putting the ID into the Intent extra )
-     */
-    public static String ID = "Navigation";
+
+    //------------Instance Variables------------
+
     /**
      * Log tag
      */
     private final String TAG = this.getClass().getSimpleName();
     /**
-     * The MapView (MapsForge)
-     */
-    private MapView mapView = null;
-    /**
      * The view
      */
     private View view;
     /**
-     *
+     * The MapView
      */
-    private FloatingActionButton locateFab;
+    private MapView mapView;
+
+
+    //------------Static Variables------------
 
     /**
-     * Empty Constructor
+     * Fragment ID used to identify the fragment
+     * (for example by putting the ID into the Intent extra )
      */
-    public NavigationFragment()
-    {
-        // Required empty public constructor
-    }
+    public static String ID = "Navigation";
+
+
+    //------------Activity/Fragment Lifecycle------------
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -76,16 +75,18 @@ public class NavigationFragment extends Fragment
         super.onCreate(savedInstanceState);
         view = inflater.inflate(R.layout.fragment_navigation, container, false);
         AndroidGraphicFactory.createInstance(getActivity().getApplication());
-        setUpLocateFab();
-        setUpMap();
+        setupLocateFab();
+        setupMap();
         return view;
     }
 
 
+    //------------Setup Views------------
+
     /**
      * Initializes the mapView
      */
-    private void setUpMap()
+    private void setupMap()
     {
         Log.i(TAG, "setting up map");
         mapView = view.findViewById(R.id.map);
@@ -119,9 +120,9 @@ public class NavigationFragment extends Fragment
      * On Click for the LocateFAb
      * Sets the map center to the last know position of the device
      */
-    private void setUpLocateFab()
+    private void setupLocateFab()
     {
-        locateFab = view.findViewById(R.id.locate_fab);
+        FloatingActionButton locateFab = view.findViewById(R.id.locate_fab);
         locateFab.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -152,6 +153,9 @@ public class NavigationFragment extends Fragment
         });
 
     }
+
+
+    //------------Others------------
 
     /**
      * Gets the last know position of the device from the android LocationManager
