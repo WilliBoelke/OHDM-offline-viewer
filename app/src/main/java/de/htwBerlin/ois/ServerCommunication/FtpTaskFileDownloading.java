@@ -47,7 +47,6 @@ public class FtpTaskFileDownloading extends AsyncTask<OhdmFile, Integer, Long>
         Context context = this.context.get();
         ftpClient = new FtpClient();
         ftpClient.connect();
-        Toast.makeText(context, "Download Started", Toast.LENGTH_SHORT).show();
         try
         {
             ftpClient.downloadFile(ohdmFile[0].getFilename(), ohdmFile[0].getFilename());
