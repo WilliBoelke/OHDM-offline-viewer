@@ -8,6 +8,18 @@
     android:background="?attr/backgroundColor"
     tools:context=".Fragments.MapDownloadFragment">
 
+    <SearchView
+        android:id="@+id/map_search_view"
+        android:layout_width="match_parent"
+        android:background="?attr/edit_text_background"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ProgressBar
         android:id="@+id/connecting_pb"
         style="?android:attr/progressBarStyle"
@@ -22,14 +34,13 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/available_maps_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/map_search_view" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/request_new_map_fab"
