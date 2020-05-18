@@ -15,15 +15,11 @@ import java.util.Date;
 
 import de.htwBerlin.ois.FileStructure.OhdmFile;
 
-import static de.htwBerlin.ois.ServerCommunication.Variables.FTP_Port;
-import static de.htwBerlin.ois.ServerCommunication.Variables.SERVER_IP;
-import static de.htwBerlin.ois.ServerCommunication.Variables.USER_NAME;
-import static de.htwBerlin.ois.ServerCommunication.Variables.USER_PASSWORD;
-
 /**
  * Async task that lists files hosted on FTP Remote Server
  *
  * @author morelly_t1
+ * @author  WilliBoelke
  */
 public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
 {
@@ -36,7 +32,7 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
      */
     private  final String TAG = getClass().getSimpleName();
     /**
-     *
+     *The list to be filled with remote ohdmFiles
      */
     private ArrayList<OhdmFile> ohdmFiles;
     /**
@@ -44,8 +40,13 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
      * (To be implemented when initializing this class)
      */
     private AsyncResponse delegate;
+    /**
+     * Context
+     */
     private WeakReference<Context> context;
-    private FtpClient ftpClient;
+    /**
+     * The path to the directory
+     */
     private String path;
 
 
@@ -69,6 +70,9 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
         this.context = new WeakReference<Context>(context);
     }
 
+
+    //------------AsyncTask Implementation------------
+
     @Override
     protected void onPreExecute()
     {
@@ -80,7 +84,7 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
     protected String doInBackground(Void... params)
     {
         ohdmFiles = new ArrayList<>();
-        ftpClient = new FtpClient();
+        FtpClient ftpClient = new FtpClient();
         ftpClient.connect();
 
         FTPFile[] files = new FTPFile[0];

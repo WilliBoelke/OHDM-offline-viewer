@@ -2,18 +2,12 @@ package de.htwBerlin.ois.ServerCommunication;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.os.Environment;
 import android.widget.Toast;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 
 import de.htwBerlin.ois.FileStructure.OhdmFile;
-
-import static de.htwBerlin.ois.ServerCommunication.Variables.FTP_Port;
-import static de.htwBerlin.ois.ServerCommunication.Variables.SERVER_IP;
-import static de.htwBerlin.ois.ServerCommunication.Variables.USER_NAME;
-import static de.htwBerlin.ois.ServerCommunication.Variables.USER_PASSWORD;
 
 /**
  * Asynctask that downloads files from FTP Remote server
@@ -23,14 +17,23 @@ import static de.htwBerlin.ois.ServerCommunication.Variables.USER_PASSWORD;
  */
 public class FtpTaskFileDownloading extends AsyncTask<OhdmFile, Integer, Long>
 {
+
+    //------------Instance Variables------------
+
     private final String TAG = getClass().getSimpleName();
     private WeakReference<Context> context;
     private FtpClient ftpClient;
+
+
+    //------------Constructors------------
 
     public FtpTaskFileDownloading(Context context)
     {
         this.context = new WeakReference<Context>(context);
     }
+
+
+    //------------AsyncTask Implementation------------
 
     @Override
     protected void onPreExecute()
@@ -41,16 +44,19 @@ public class FtpTaskFileDownloading extends AsyncTask<OhdmFile, Integer, Long>
     @Override
     protected Long doInBackground(OhdmFile... ohdmFile)
     {
-
+        Context context = this.context.get();
         ftpClient = new FtpClient();
         ftpClient.connect();
+        Toast.makeText(context, "Download Started", Toast.LENGTH_SHORT).show();
         try
         {
             ftpClient.downloadFile(ohdmFile[0].getFilename(), ohdmFile[0].getFilename());
+
         }
         catch (IOException e)
         {
             e.printStackTrace();
+            Toast.makeText(context, "Download Interrupted", Toast.LENGTH_SHORT).show();
         }
         return null;
     }
@@ -59,6 +65,6 @@ public class FtpTaskFileDownloading extends AsyncTask<OhdmFile, Integer, Long>
     protected void onPostExecute(Long params)
     {
         Context context = this.context.get();
-        Toast.makeText(context, "Download Finished!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Download Finished", Toast.LENGTH_SHORT).show();
     }
 }

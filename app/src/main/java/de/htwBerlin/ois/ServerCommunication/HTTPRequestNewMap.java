@@ -31,11 +31,32 @@ import static de.htwBerlin.ois.ServerCommunication.Variables.SERVER_IP;
 public class HTTPRequestNewMap extends AsyncTask<Void, Void, String>
 {
 
+
+    //------------Instance Variables------------
+
+    /**
+     * Log tag
+     */
     private final String TAG = this.getClass().getSimpleName();
+    /**
+     * A date as String
+     */
     private String date;
+    /**
+     * 8 Coordinates (Lat/Long) as String
+     */
     private String coordinates;
+    /**
+     * map name
+     */
     private String name;
+    /**
+     * Remote server url
+     */
     private URL url;
+
+
+    //------------Constructors------------
 
     /**
      * Public constructor
@@ -51,6 +72,9 @@ public class HTTPRequestNewMap extends AsyncTask<Void, Void, String>
         this.coordinates = coordinates;
     }
 
+
+    //------------AsyncTask Implementation------------
+
     @Override
     protected void onPreExecute()
     {
@@ -65,26 +89,6 @@ public class HTTPRequestNewMap extends AsyncTask<Void, Void, String>
         }
 
         super.onPreExecute();
-    }
-
-    /**
-     * Builds a string as accepted by the server
-     * example:
-     * name=mapname&coords=13.005,15.123_13.005,15.123_13.005,15.123_13.005,15.123_13.005,15.123&date=2117-12-11
-     *
-     * @return the String
-     */
-    private String buildParamsString()
-    {
-        StringBuilder sb = new StringBuilder();
-        sb.append("name=");
-        sb.append(this.name);
-        sb.append("&coords=");
-        sb.append(this.coordinates);
-        sb.append("&date=");
-        sb.append(this.date);
-
-        return sb.toString();
     }
 
     @Override
@@ -130,6 +134,29 @@ public class HTTPRequestNewMap extends AsyncTask<Void, Void, String>
         }
         Log.i(TAG, "Server response : " + response);
         return null;
+    }
+
+
+    //------------Others------------
+
+    /**
+     * Builds a string as accepted by the server
+     * example:
+     * name=mapname&coords=13.005,15.123_13.005,15.123_13.005,15.123_13.005,15.123_13.005,15.123&date=2117-12-11
+     *
+     * @return the String
+     */
+    private String buildParamsString()
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append("name=");
+        sb.append(this.name);
+        sb.append("&coords=");
+        sb.append(this.coordinates);
+        sb.append("&date=");
+        sb.append(this.date);
+
+        return sb.toString();
     }
 
 }
