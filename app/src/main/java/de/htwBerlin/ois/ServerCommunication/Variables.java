@@ -9,11 +9,11 @@ public class Variables
      * The remote server ip
      * (For localhost in android emulator set to "10.0.2.2")
      */
-    protected static final String SERVER_IP = "192.168.178.27";
+    protected static final String SERVER_IP = "141.45.146.200";
     /**
      * The remote server port for HTTP requests
      */
-    protected static final int HTTP_PORT = 8080;
+    protected static final int HTTP_PORT = 5001;
     /**
      * the remote server port for ftp requests
      */

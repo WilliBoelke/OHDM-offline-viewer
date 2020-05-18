@@ -54,7 +54,7 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
     {
         ohdmFiles = new ArrayList<>();
         ftpClient = new FtpClient();
-        ftpClient.connect(SERVER_IP, FTP_Port, USER_NAME, USER_PASSWORD);
+        ftpClient.connect();
         FTPFile[] files = new FTPFile[0];
         try
         {

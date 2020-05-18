@@ -17,29 +17,59 @@ import de.htwBerlin.ois.R;
 
 import static android.support.constraint.Constraints.TAG;
 
+/**
+ * The RecyclerViewAdapter for ohdmFiles (->means files from the FTP server)
+ *
+ * @author Willi
+ */
 public class OhdmFileRecyclerAdapter extends RecyclerView.Adapter<OhdmFileRecyclerAdapter.OhdmFileViewHolder> implements Filterable
 {
+
+    //------------Instance Variables------------
+
     /**
      * This list will be altered when the user searches for maps
      */
-    private ArrayList<OhdmFile> mapArrayList;
+    private ArrayList<OhdmFile> ohdmFiles;
     /**
      * This list will always contain all maps
      * Its here as a backup for the mapArrayList
      */
-    private ArrayList<OhdmFile> mapArrayListBackup;
+    private ArrayList<OhdmFile> ohdmFilesBackup;
+    /**
+     * Resource id for the RecyclerItem layout
+     */
     private int ressource;
+    /**
+     * Context
+     */
+    private Context context;
+    /**
+     * The on itemClickListener
+     */
     private OnItemClickListener onItemClickListener;
 
 
-    public OhdmFileRecyclerAdapter(Context context, ArrayList<OhdmFile> ohdmFiles, ArrayList<OhdmFile >mapArrayListBackup,  int ressource)
+    //------------Constructors------------
+
+    /**
+     * Public constructor
+     *
+     * @param context
+     * @param ohdmFiles
+     * @param mapArrayListBackup
+     * @param ressource
+     */
+    public OhdmFileRecyclerAdapter(Context context, ArrayList<OhdmFile> ohdmFiles, ArrayList<OhdmFile> mapArrayListBackup, int ressource)
     {
+        this.context = context;
         this.ressource = ressource;
-        this.mapArrayList = ohdmFiles;
-        Log.e(TAG, "Size... " + mapArrayList.size());
-        this.mapArrayListBackup = mapArrayListBackup;// needs to be initialized like that so i dosnt point to the same list as mapArrayList
-        Log.e(TAG, "Size... " + this.mapArrayListBackup.size());
+        this.ohdmFiles = ohdmFiles;
+        this.ohdmFilesBackup = mapArrayListBackup;
     }
+
+
+    //------------RecyclerViewAdapter Methods------------
 
     @NonNull
     @Override
@@ -52,7 +82,7 @@ public class OhdmFileRecyclerAdapter extends RecyclerView.Adapter<OhdmFileRecycl
     @Override
     public void onBindViewHolder(@NonNull OhdmFileRecyclerAdapter.OhdmFileViewHolder ohdmFileViewHolder, int position)
     {
-        OhdmFile currentOhdmFile = this.mapArrayList.get(position);
+        OhdmFile currentOhdmFile = this.ohdmFiles.get(position);
         String name = currentOhdmFile.getFilename();
         name = name.replace(".map", "");
         ohdmFileViewHolder.nameTextView.setText(name);
@@ -63,23 +93,36 @@ public class OhdmFileRecyclerAdapter extends RecyclerView.Adapter<OhdmFileRecycl
     @Override
     public int getItemCount()
     {
-        return mapArrayList.size();
+        return ohdmFiles.size();
     }
 
-    public OhdmFile getFile(int position)
-    {
-        return this.mapArrayList.get(position);
-    }
 
+    //------------OnItemClickListener------------
+
+    /**
+     * Setter for the implemented onItemClick method
+     *
+     * @param listener
+     */
     public void setOnItemClickListener(OhdmFileRecyclerAdapter.OnItemClickListener listener)
     {
         this.onItemClickListener = listener;
     }
 
+    /**
+     * An interface to define the
+     * onItemClick method
+     *
+     * can be implemented and set as on itemClickListener through the
+     * {@link this#setOnItemClickListener} method
+     */
     public interface OnItemClickListener
     {
         void onItemClick(int position);
     }
+
+
+    //------------Filter (Name)------------
 
     @Override
     public Filter getFilter()
@@ -93,16 +136,15 @@ public class OhdmFileRecyclerAdapter extends RecyclerView.Adapter<OhdmFileRecycl
         protected FilterResults performFiltering(CharSequence constraint)
         {
             ArrayList<OhdmFile> filteredList = new ArrayList<>();
-            Log.e(TAG, "Size--" + mapArrayListBackup.size());
+            Log.e(TAG, "Size--" + ohdmFilesBackup.size());
             if (constraint == null || constraint.length() == 0)
             {
-                filteredList.addAll(mapArrayListBackup);
+                filteredList.addAll(ohdmFilesBackup);
             }
             else
             {
                 String filterPattern = constraint.toString().toLowerCase().trim();
-                Log.e(TAG, "Size _____" + mapArrayListBackup.size());
-                for (OhdmFile map : mapArrayListBackup)
+                for (OhdmFile map : ohdmFilesBackup)
                 {
                     if (map.getFilename().toLowerCase().trim().contains(filterPattern))
                     {
@@ -118,11 +160,14 @@ public class OhdmFileRecyclerAdapter extends RecyclerView.Adapter<OhdmFileRecycl
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results)
         {
-            mapArrayList.clear();
-            mapArrayList.addAll((ArrayList) results.values);
+            ohdmFiles.clear();
+            ohdmFiles.addAll((ArrayList) results.values);
             notifyDataSetChanged();
         }
     };
+
+
+    //------------View Holder------------
 
 
     protected static class OhdmFileViewHolder extends RecyclerView.ViewHolder
@@ -132,14 +177,12 @@ public class OhdmFileRecyclerAdapter extends RecyclerView.Adapter<OhdmFileRecycl
         public TextView sizeTextView;
         public TextView dateTextView;
 
-
         public OhdmFileViewHolder(@NonNull View itemView, final OhdmFileRecyclerAdapter.OnItemClickListener listener)
         {
             super(itemView);
             sizeTextView = itemView.findViewById(R.id.map_size_tv);
             nameTextView = itemView.findViewById(R.id.map_name_tv);
             dateTextView = itemView.findViewById(R.id.date_of_creation_tv);
-
 
             itemView.setOnClickListener(new View.OnClickListener()
             {
@@ -156,9 +199,6 @@ public class OhdmFileRecyclerAdapter extends RecyclerView.Adapter<OhdmFileRecycl
                     }
                 }
             });
-
         }
-
     }
-
 }

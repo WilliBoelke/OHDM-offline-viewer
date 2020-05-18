@@ -26,26 +26,19 @@ import de.htwBerlin.ois.ServerCommunication.AsyncResponse;
 import de.htwBerlin.ois.ServerCommunication.FtpTaskFileDownloading;
 import de.htwBerlin.ois.ServerCommunication.FtpTaskFileListing;
 
-import static java.util.Collections.addAll;
-
 /**
  * This Activity represents a small map file download center
+ * @author WilliBoelke
  */
 public class MapDownloadFragment extends Fragment
 {
-    /**
-     * Fragment ID used to identify the fragment
-     * (for example by putting the ID into the Intent extra )
-     */
-    public static String ID = "MapDownload";
+
+    //------------Instance Variables------------
+
     /**
      * Log tag
      */
     private final String TAG = this.getClass().getSimpleName();
-    /**
-     * RecyclerView to display the downloadable maps
-     */
-    private RecyclerView recyclerView;
     /**
      * The RecyclerViews LayoutManager
      */
@@ -56,16 +49,35 @@ public class MapDownloadFragment extends Fragment
     private OhdmFileRecyclerAdapter recyclerAdapter;
     /**
      * ArrayList of OHDMFiles, to be displayed in the RecyclerView
+     * This list will be altered when the user uses the search function
      */
     private ArrayList<OhdmFile> ohdmFiles;
+    /**
+     * ArrayList of OHDMFiles,
+     * This list will serve as backup when the
+     * ohdmFiles list was altered
+     */
     private ArrayList<OhdmFile>ohdmFilesBackup;
-    private ItemTouchHelper itemTouchHelper;
-    private FloatingActionButton requestNewMapFab;
-    private SearchView searchView;
+    /**
+     * The recyclerView
+     */
+    private RecyclerView recyclerView;
     /**
      * The view
      */
     private View view;
+
+
+    //------------Static Variables------------
+
+    /**
+     * Fragment ID used to identify the fragment
+     * (for example by putting the ID into the Intent extra )
+     */
+    public static String ID = "MapDownload";
+
+
+    //------------Activity/Fragment Lifecycle------------
 
     @Nullable
     @Override
@@ -80,105 +92,12 @@ public class MapDownloadFragment extends Fragment
     public void onActivityCreated(@Nullable Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
+        ohdmFiles = new ArrayList<>();
+        ohdmFilesBackup = new ArrayList<>();
         this.setupSearchView();
         this.listFTPFiles();
         this.setupRecyclerView();
         this.setupFAB();
-
-    }
-
-    private void setupFAB()
-    {
-        requestNewMapFab = view.findViewById(R.id.request_new_map_fab);
-        requestNewMapFab.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new RequestMapFragment()).addToBackStack(null).commit();
-            }
-        });
-    }
-
-    private void setupSearchView()
-    {
-        searchView = view.findViewById(R.id.map_search_view);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
-        {
-            @Override
-            public boolean onQueryTextSubmit(String query)
-            {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText)
-            {
-                recyclerAdapter.getFilter().filter(newText);
-                return false;
-            }
-        });
-    }
-
-    /**
-     * Setup the RecyclerView :
-     * <p>
-     * Filling it with OHDMFiles
-     * Setup Swipe gestures
-     * Setup onItemClickListener
-     */
-    private void setupRecyclerView()
-    {
-
-        recyclerView = view.findViewById(R.id.available_maps_recycler);
-        recyclerView.setVisibility(View.INVISIBLE);
-        ohdmFiles = new ArrayList<>();
-        ohdmFilesBackup = new ArrayList<>();
-        recyclerLayoutManager = new LinearLayoutManager(this.getContext());
-        itemTouchHelper = new ItemTouchHelper(new RecyclerViewItemSwipeGestures(recyclerAdapter, new LeftSwipeCallback()
-        {
-            @Override
-            public void onLeftSwipe(int position)
-            {
-                FtpTaskFileDownloading ftpTaskFileDownloading = new FtpTaskFileDownloading(getActivity().getApplicationContext());
-                ftpTaskFileDownloading.execute(ohdmFiles.get(position));
-                recyclerAdapter.notifyDataSetChanged();
-            }
-        }));
-
-
-        view.findViewById(R.id.connecting_tv).setVisibility(View.INVISIBLE);
-        view.findViewById(R.id.connecting_pb).setVisibility(View.INVISIBLE);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
-        recyclerView.setLayoutManager(recyclerLayoutManager);
-        recyclerAdapter = new OhdmFileRecyclerAdapter(getActivity().getApplicationContext(), ohdmFiles, ohdmFilesBackup, R.layout.download_recycler_item);
-        recyclerView.setAdapter(recyclerAdapter);
-        recyclerAdapter.notifyDataSetChanged();
-    }
-
-    private void listFTPFiles()
-    {
-        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(new AsyncResponse()
-        {
-            @Override
-            public void getOhdmFiles(ArrayList<OhdmFile> files)
-            {
-                if (files.size() > 0)
-                {
-                    Log.i(TAG, "received " + files.size() + " files.");
-                    ohdmFiles.addAll(files);
-                    ohdmFilesBackup.addAll(files);
-                    recyclerView.setVisibility(View.VISIBLE);
-                    recyclerAdapter.notifyDataSetChanged();
-                }
-                else
-                {
-                    TextView tv = view.findViewById(R.id.connecting_tv);
-                    tv.setText("Connection failed, try again later");
-                }
-            }
-        }, getActivity());
-        ftpTaskFileListing.execute();
 
     }
 
@@ -204,6 +123,122 @@ public class MapDownloadFragment extends Fragment
     public void onDestroy()
     {
         super.onDestroy();
+    }
+
+
+    //------------Setup Views------------
+
+    /**
+     * Setup the FloatingActionButton to replace this fragment with the
+     * {@link RequestMapFragment}
+     */
+    private void setupFAB()
+    {
+        FloatingActionButton requestNewMapFab = view.findViewById(R.id.request_new_map_fab);
+        requestNewMapFab.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new RequestMapFragment()).addToBackStack(null).commit();
+            }
+        });
+    }
+
+    /**
+     * Setup the search view to use the nameFilter
+     * implemented in {@link OhdmFileRecyclerAdapter}
+     */
+    private void setupSearchView()
+    {
+        SearchView searchView = view.findViewById(R.id.map_search_view);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
+        {
+            @Override
+            public boolean onQueryTextSubmit(String query)
+            {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText)
+            {
+                recyclerAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+    }
+
+    /**
+     * Setup the RecyclerView :
+     *
+     * Setup Swipe gestures
+     * Setup onItemClickListener
+     */
+    private void setupRecyclerView()
+    {
+        recyclerView = view.findViewById(R.id.available_maps_recycler);
+
+        recyclerView.setVisibility(View.INVISIBLE);  // is invisible till the server responds
+
+        recyclerLayoutManager = new LinearLayoutManager(this.getContext());//layout manager vor vertical scrolling recycler
+
+        //The itemTouchhelper for the swipe gestures on the recycler Items
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new RecyclerViewItemSwipeGestures(recyclerAdapter, new LeftSwipeCallback()
+        {
+            @Override
+            public void onLeftSwipe(int position)
+            {
+                FtpTaskFileDownloading ftpTaskFileDownloading = new FtpTaskFileDownloading(getActivity().getApplicationContext());
+                ftpTaskFileDownloading.execute(ohdmFiles.get(position));
+                recyclerAdapter.notifyDataSetChanged();
+            }
+        }));
+
+        //The recycler adapter
+        recyclerAdapter = new OhdmFileRecyclerAdapter(getActivity().getApplicationContext(), ohdmFiles, ohdmFilesBackup, R.layout.download_recycler_item);
+
+        //Putting everything together
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+        recyclerView.setLayoutManager(recyclerLayoutManager);
+        recyclerView.setAdapter(recyclerAdapter);
+    }
+
+    /**
+     * Initializes an FTP Request to list all files -> {@link FtpTaskFileListing}
+     * <p>
+     * Implements the {@link AsyncResponse} interface to add the retrieved
+     * files to both the ohdmFiles and the ohdmFilesBackup list
+     */
+    private void listFTPFiles()
+    {
+        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(new AsyncResponse()
+        {
+            @Override
+            public void getOhdmFiles(ArrayList<OhdmFile> files)
+            {
+                if (files.size() > 0)
+                {
+                    Log.i(TAG, "received " + files.size() + " files.");
+
+                    ohdmFiles.addAll(files);
+                    ohdmFilesBackup.addAll(files);
+
+                    view.findViewById(R.id.connecting_tv).setVisibility(View.INVISIBLE);
+                    view.findViewById(R.id.connecting_pb).setVisibility(View.INVISIBLE);
+                    recyclerView.setVisibility(View.VISIBLE);
+
+                    recyclerAdapter.notifyDataSetChanged();
+                }
+                else // Server directory was empty or server hasn't responded
+                {
+                    view.findViewById(R.id.connecting_pb).setVisibility(View.INVISIBLE);
+                    TextView tv = view.findViewById(R.id.connecting_tv);
+                    tv.setText("Connection failed, try again later");
+                }
+            }
+        }, getActivity());
+        ftpTaskFileListing.execute();
     }
 
 }

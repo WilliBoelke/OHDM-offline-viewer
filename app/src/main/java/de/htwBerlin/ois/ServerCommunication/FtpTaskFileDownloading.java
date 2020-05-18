@@ -23,8 +23,6 @@ import static de.htwBerlin.ois.ServerCommunication.Variables.USER_PASSWORD;
  */
 public class FtpTaskFileDownloading extends AsyncTask<OhdmFile, Integer, Long>
 {
-
-    private static final String MAP_FILE_PATH = Environment.getExternalStorageDirectory().toString() + "/OHDM";
     private final String TAG = getClass().getSimpleName();
     private WeakReference<Context> context;
     private FtpClient ftpClient;
@@ -45,7 +43,7 @@ public class FtpTaskFileDownloading extends AsyncTask<OhdmFile, Integer, Long>
     {
 
         ftpClient = new FtpClient();
-        ftpClient.connect(SERVER_IP, FTP_Port, USER_NAME, USER_PASSWORD);
+        ftpClient.connect();
         try
         {
             ftpClient.downloadFile(ohdmFile[0].getFilename(), ohdmFile[0].getFilename());

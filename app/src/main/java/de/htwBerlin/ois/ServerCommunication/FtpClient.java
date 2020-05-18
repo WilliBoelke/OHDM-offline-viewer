@@ -17,6 +17,10 @@ import java.io.PrintStream;
 import java.net.SocketException;
 
 import static de.htwBerlin.ois.MainActivity.MainActivity.MAP_FILE_PATH;
+import static de.htwBerlin.ois.ServerCommunication.Variables.FTP_Port;
+import static de.htwBerlin.ois.ServerCommunication.Variables.SERVER_IP;
+import static de.htwBerlin.ois.ServerCommunication.Variables.USER_NAME;
+import static de.htwBerlin.ois.ServerCommunication.Variables.USER_PASSWORD;
 
 /**
  * Wraps the apache FTPClient
@@ -55,7 +59,7 @@ public class FtpClient
      * 3 = Socket exception thrown, Server not found,
      * 4 = IO Exception
      */
-    public int connect(String server, int port, String user, String pass)
+    public int connect()
     {
         if (client == null)
         {
@@ -64,7 +68,7 @@ public class FtpClient
 
             try
             {
-                client.connect(server, port);
+                client.connect(SERVER_IP, FTP_Port);
                 // After connection attempt, you should check the reply code to verify
                 // success.
                 int reply = client.getReplyCode();
@@ -79,7 +83,7 @@ public class FtpClient
                 //after connecting to the server set the local passive mode
                 client.enterLocalPassiveMode();
                 //send username and password to login to the server
-                if (!client.login(user, pass))
+                if (!client.login(USER_NAME, USER_PASSWORD))
                 {
                     Log.e(TAG, "Could not login to FTP Server");
                     return 2;
