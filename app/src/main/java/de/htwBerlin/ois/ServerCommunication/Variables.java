@@ -26,4 +26,6 @@ public class Variables
      * The remote server user password
      */
     protected static final String USER_PASSWORD = "H!3r0glyph Sat3llite Era$er";
+
+
 }

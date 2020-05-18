@@ -212,7 +212,7 @@ public class MapDownloadFragment extends Fragment
      */
     private void listFTPFiles()
     {
-        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(new AsyncResponse()
+        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(getActivity(), "", new AsyncResponse()
         {
             @Override
             public void getOhdmFiles(ArrayList<OhdmFile> files)
@@ -237,7 +237,7 @@ public class MapDownloadFragment extends Fragment
                     tv.setText("Connection failed, try again later");
                 }
             }
-        }, getActivity());
+        });
         ftpTaskFileListing.execute();
     }
 

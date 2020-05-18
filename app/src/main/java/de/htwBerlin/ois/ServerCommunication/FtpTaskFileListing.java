@@ -28,17 +28,44 @@ import static de.htwBerlin.ois.ServerCommunication.Variables.USER_PASSWORD;
 public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
 {
 
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy HH:mm");
-    private static final String TAG = "FtpTaskFileListing";
 
+    //------------Instance Variables------------
+
+    /**
+     * Log Tag
+     */
+    private  final String TAG = getClass().getSimpleName();
+    /**
+     *
+     */
     private ArrayList<OhdmFile> ohdmFiles;
+    /**
+     * Implementation of the {@link  AsyncResponse} interface
+     * (To be implemented when initializing this class)
+     */
     private AsyncResponse delegate;
     private WeakReference<Context> context;
     private FtpClient ftpClient;
+    private String path;
 
-    public FtpTaskFileListing(AsyncResponse asyncResponse, Context context)
+
+    //------------Static Variables------------
+
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy HH:mm");
+
+
+    //------------Constructors------------
+
+    /**
+     * Public Constructor
+     * @param context
+     * @param path
+     * @param asyncResponse
+     */
+    public FtpTaskFileListing(Context context, String path, AsyncResponse asyncResponse)
     {
         this.delegate = asyncResponse;
+        this.path = path;
         this.context = new WeakReference<Context>(context);
     }
 
@@ -55,16 +82,16 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
         ohdmFiles = new ArrayList<>();
         ftpClient = new FtpClient();
         ftpClient.connect();
+
         FTPFile[] files = new FTPFile[0];
         try
         {
-            files = ftpClient.getFileList();
+            files = ftpClient.getFileList(path);
         }
         catch (IOException e)
         {
             e.printStackTrace();
         }
-
         for (FTPFile ftpFile : files)
         {
             Date date = ftpFile.getTimestamp().getTime();
@@ -86,6 +113,4 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
             Toast.makeText(context, "Found " + ohdmFiles.size() + " maps!", Toast.LENGTH_SHORT).show();
         delegate.getOhdmFiles(this.ohdmFiles);
     }
-
-
 }

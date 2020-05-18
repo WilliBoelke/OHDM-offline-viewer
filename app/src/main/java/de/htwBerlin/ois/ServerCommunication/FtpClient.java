@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.SocketException;
+import java.util.ArrayList;
 
 import static de.htwBerlin.ois.MainActivity.MainActivity.MAP_FILE_PATH;
 import static de.htwBerlin.ois.ServerCommunication.Variables.FTP_Port;
@@ -31,10 +32,15 @@ import static de.htwBerlin.ois.ServerCommunication.Variables.USER_PASSWORD;
 public class FtpClient
 {
 
+    //------------Instance Variables------------
+
     private final String TAG = getClass().getSimpleName();
     private FTPClient client;
     private PrintStream logStream;
     private boolean LOGGING_OVER_FILE = true;
+
+
+    //------------Constructors-----------
 
     public FtpClient(OutputStream os)
     {
@@ -46,13 +52,12 @@ public class FtpClient
         LOGGING_OVER_FILE = false;
     }
 
+
+    //------------Connection-----------
+
     /**
      * if called, connects to a server
      *
-     * @param server server ip/hostname
-     * @param port   FTPServer port
-     * @param user   user to log in with
-     * @param pass   passwort used to log in
      * @return 0 = successful connection,
      * 1 = FTP server refused connection,
      * 2 = Could not login to FTP Server (probably wrong password),
@@ -116,63 +121,6 @@ public class FtpClient
         return client.isConnected();
     }
 
-
-    /**
-     * gives back the File list, given in current working dir
-     *
-     * @return FTPFiles in current dir
-     * @throws IOException couldn't read from current dir
-     */
-    public FTPFile[] getFileList() throws IOException
-    {
-        if (client == null)
-        {
-            Log.i(TAG, "First initialize the FTPClient by calling 'initFTPPassiveClient()");
-            return null;
-        }
-
-        Log.i(TAG, "Getting file listing for current director");
-        FTPFile[] files = client.listFiles("");
-
-        return files;
-    }
-
-
-    /**
-     * call to download a File from current dir
-     *
-     * @param remoteFileName file to download from Server
-     * @param downloadPath   Path to write to
-     * @throws IOException couldn't download from current dir
-     */
-    public void downloadFile(String remoteFileName, String downloadPath) throws IOException
-    {
-
-        File downloadFile = new File(MAP_FILE_PATH, remoteFileName);
-        OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(downloadFile));
-        InputStream inputStream = client.retrieveFileStream(remoteFileName);
-        byte[] bytesArray = new byte[4096];
-
-        long total = 0;
-        int bytesRead;
-        double progress;
-
-        while (-1 != (bytesRead = inputStream.read(bytesArray)))
-        {
-            total += bytesRead;
-            progress = ((total * 100) / (23 * 1024));
-            outputStream.write(bytesArray, 0, bytesRead);
-            Log.i(TAG, "Download progress " + (int) progress);
-        }
-
-        if (client.completePendingCommand()) Log.i(TAG, "File Download successful");
-
-        outputStream.close();
-        inputStream.close();
-
-
-    }
-
     /**
      * closes connection
      * pls always use at the end !!!!
@@ -195,4 +143,90 @@ public class FtpClient
             Log.e(TAG, "Could not logout");
         }
     }
+
+
+    //------------Listing-----------
+
+    public FTPFile[] getDirList(String path) throws IOException
+    {
+        if (client == null)
+        {
+            return null;
+        }
+        Log.i(TAG, " Getting file listing for current director");
+        FTPFile[] files = client.listFiles(path);
+        ArrayList<FTPFile> dirList = new ArrayList<>();
+        for (FTPFile f : files)
+        {
+            if (f.isDirectory()) dirList.add(f);
+        }
+        return dirList.toArray(new FTPFile[dirList.size()]);
+    }
+
+    /**
+     * gives back the File list, given in current working dir
+     *
+     * @return FTPFiles in current dir
+     * @throws IOException couldn't read from current dir
+     */
+    public FTPFile[] getFileList(String path) throws IOException
+    {
+        if (client == null)
+        {
+            Log.i(TAG, "First initialize the FTPClient by calling 'initFTPPassiveClient()");
+            return null;
+        }
+
+        Log.i(TAG, "Getting file listing for current director");
+        FTPFile[] filesAndDirs = client.listFiles(path);
+        ArrayList<FTPFile> files = new ArrayList<>();
+
+        for (FTPFile f : filesAndDirs)
+        {
+            if (!f.isDirectory())
+            {
+                files.add(f);
+            }
+        }
+
+        return files.toArray(new FTPFile[files.size()]);
+    }
+
+
+    //------------Downloading-----------
+
+    /**
+     * call to download a File from current dir
+     *
+     * @param remoteFileName file to download from Server
+     * @param downloadPath   Path to write to
+     * @throws IOException couldn't download from current dir
+     */
+    public void downloadFile(String remoteFileName, String downloadPath) throws IOException
+    {
+        File downloadFile = new File(MAP_FILE_PATH, remoteFileName);
+        OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(downloadFile));
+        InputStream inputStream = client.retrieveFileStream(remoteFileName);
+        byte[] bytesArray = new byte[4096];
+
+        long total = 0;
+        int bytesRead;
+        double progress;
+
+        while (-1 != (bytesRead = inputStream.read(bytesArray)))
+        {
+            total += bytesRead;
+            progress = ((total * 100) / (23 * 1024));
+            outputStream.write(bytesArray, 0, bytesRead);
+            Log.i(TAG, "Download progress " + (int) progress);
+        }
+
+        if (client.completePendingCommand()) Log.i(TAG, "File Download successful");
+
+        outputStream.close();
+        inputStream.close();
+    }
+
+
+
 }
