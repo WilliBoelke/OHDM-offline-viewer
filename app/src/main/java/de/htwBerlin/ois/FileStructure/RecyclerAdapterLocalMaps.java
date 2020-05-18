@@ -9,63 +9,61 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import de.htwBerlin.ois.R;
 
-import static android.support.constraint.Constraints.TAG;
-
 /**
- * The RecyclerViewAdapter for ohdmFiles (->means files from the FTP server)
- *
- * @author WilliBölke
+ * @author WilliBoelke
  */
-public class OhdmFileRecyclerAdapter extends RecyclerView.Adapter<OhdmFileRecyclerAdapter.OhdmFileViewHolder> implements Filterable
+public class RecyclerAdapterLocalMaps extends RecyclerView.Adapter<RecyclerAdapterLocalMaps.LocalMapsViewHolder> implements Filterable
 {
 
     //------------Instance Variables------------
 
     /**
-     * This list will be altered when the user searches for maps
+     * Log tag
      */
-    private ArrayList<OhdmFile> ohdmFiles;
+    private final String TAG = getClass().getSimpleName();
     /**
-     * This list will always contain all maps
-     * Its here as a backup for the mapArrayList
+     * The ArrayList to be displayed by the RecyclerView
+     *
+     * This list may be altered when the user searches for maps
      */
-    private ArrayList<OhdmFile> ohdmFilesBackup;
+    private ArrayList<File> mapArrayList;
     /**
-     * Resource id for the RecyclerItem layout
+     * This list serves as Backup for the mapArrayList in case
+     * it was altered through the Search/Filter
      */
-    private int ressource;
+    private ArrayList<File> mapArrayListBackup;
     /**
      * Context
      */
     private Context context;
     /**
-     * The on itemClickListener
+     * The resource  id of the Recycleritem layout 
      */
-    private OnItemClickListener onItemClickListener;
+    private int resource;
+    /**
+     * onClickListener
+     * use the {@link this#setOnItemClickListener(OnItemClickListener)}
+     * to implement this
+     */
+    private RecyclerAdapterLocalMaps.OnItemClickListener onItemClickListener;
 
 
     //------------Constructors------------
 
-    /**
-     * Public constructor
-     *
-     * @param context
-     * @param ohdmFiles
-     * @param mapArrayListBackup
-     * @param ressource
-     */
-    public OhdmFileRecyclerAdapter(Context context, ArrayList<OhdmFile> ohdmFiles, ArrayList<OhdmFile> mapArrayListBackup, int ressource)
+    public RecyclerAdapterLocalMaps(Context context, ArrayList<File> ohdmFiles, int ressource)
     {
+        this.mapArrayListBackup = new ArrayList<>(ohdmFiles); // need to be initialized like that
+        this.resource = ressource;
+        this.mapArrayList = ohdmFiles;
         this.context = context;
-        this.ressource = ressource;
-        this.ohdmFiles = ohdmFiles;
-        this.ohdmFilesBackup = mapArrayListBackup;
     }
 
 
@@ -73,27 +71,43 @@ public class OhdmFileRecyclerAdapter extends RecyclerView.Adapter<OhdmFileRecycl
 
     @NonNull
     @Override
-    public OhdmFileViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i)
+    public LocalMapsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i)
     {
-        View view = LayoutInflater.from(parent.getContext()).inflate(ressource, parent, false);
-        return new OhdmFileRecyclerAdapter.OhdmFileViewHolder(view, this.onItemClickListener);
+        View view = LayoutInflater.from(parent.getContext()).inflate(resource, parent, false);
+        LocalMapsViewHolder localMapsViewHolder = new LocalMapsViewHolder(view, this.onItemClickListener);
+        return localMapsViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull OhdmFileRecyclerAdapter.OhdmFileViewHolder ohdmFileViewHolder, int position)
+    public void onBindViewHolder(@NonNull LocalMapsViewHolder localMapsViewHolder, int position)
     {
-        OhdmFile currentOhdmFile = this.ohdmFiles.get(position);
-        String name = currentOhdmFile.getFilename();
+        File currentMapFile = this.mapArrayList.get(position);
+        String name = currentMapFile.getName();
         name = name.replace(".map", "");
-        ohdmFileViewHolder.nameTextView.setText(name);
-        ohdmFileViewHolder.sizeTextView.setText((int) (double) (currentOhdmFile.getFileSize() / 1024) + " KB");
-        ohdmFileViewHolder.dateTextView.setText(currentOhdmFile.getCreationDate());
+        localMapsViewHolder.nameTextView.setText(name);
+        localMapsViewHolder.sizeTextView.setText((int) (double) (currentMapFile.length() / 1024) + " KB");
+        localMapsViewHolder.dateTextView.setText("11.11.1111");
+        try
+        {
+            if (currentMapFile.getName().equals(MapFileSingleton.getInstance().getFile().getName()))
+            {
+                localMapsViewHolder.currentMapIcon.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                localMapsViewHolder.currentMapIcon.setVisibility(View.INVISIBLE);
+            }
+        }
+        catch (NullPointerException e)
+        {
+            Log.e(TAG, "MapFileSingelton was null");
+        }
     }
 
     @Override
     public int getItemCount()
     {
-        return ohdmFiles.size();
+        return mapArrayList.size();
     }
 
 
@@ -104,7 +118,7 @@ public class OhdmFileRecyclerAdapter extends RecyclerView.Adapter<OhdmFileRecycl
      *
      * @param listener
      */
-    public void setOnItemClickListener(OhdmFileRecyclerAdapter.OnItemClickListener listener)
+    public void setOnItemClickListener(RecyclerAdapterLocalMaps.OnItemClickListener listener)
     {
         this.onItemClickListener = listener;
     }
@@ -135,18 +149,17 @@ public class OhdmFileRecyclerAdapter extends RecyclerView.Adapter<OhdmFileRecycl
         @Override
         protected FilterResults performFiltering(CharSequence constraint)
         {
-            ArrayList<OhdmFile> filteredList = new ArrayList<>();
-            Log.e(TAG, "Size--" + ohdmFilesBackup.size());
+            ArrayList<File> filteredList = new ArrayList<>();
             if (constraint == null || constraint.length() == 0)
             {
-                filteredList.addAll(ohdmFilesBackup);
+                filteredList.addAll(mapArrayListBackup);
             }
             else
             {
                 String filterPattern = constraint.toString().toLowerCase().trim();
-                for (OhdmFile map : ohdmFilesBackup)
+                for (File map : mapArrayListBackup)
                 {
-                    if (map.getFilename().toLowerCase().trim().contains(filterPattern))
+                    if (map.getName().toLowerCase().trim().contains(filterPattern))
                     {
                         filteredList.add(map);
                     }
@@ -160,8 +173,8 @@ public class OhdmFileRecyclerAdapter extends RecyclerView.Adapter<OhdmFileRecycl
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results)
         {
-            ohdmFiles.clear();
-            ohdmFiles.addAll((ArrayList) results.values);
+            mapArrayList.clear();
+            mapArrayList.addAll((ArrayList) results.values);
             notifyDataSetChanged();
         }
     };
@@ -169,20 +182,22 @@ public class OhdmFileRecyclerAdapter extends RecyclerView.Adapter<OhdmFileRecycl
 
     //------------View Holder------------
 
-
-    protected static class OhdmFileViewHolder extends RecyclerView.ViewHolder
+    protected static class LocalMapsViewHolder extends RecyclerView.ViewHolder
     {
 
         public TextView nameTextView;
         public TextView sizeTextView;
         public TextView dateTextView;
+        public ImageView currentMapIcon;
 
-        public OhdmFileViewHolder(@NonNull View itemView, final OhdmFileRecyclerAdapter.OnItemClickListener listener)
+        public LocalMapsViewHolder(@NonNull View itemView, final RecyclerAdapterLocalMaps.OnItemClickListener listener)
         {
             super(itemView);
             sizeTextView = itemView.findViewById(R.id.map_size_tv);
             nameTextView = itemView.findViewById(R.id.map_name_tv);
             dateTextView = itemView.findViewById(R.id.date_of_creation_tv);
+            currentMapIcon = itemView.findViewById(R.id.current_map_icon);
+
 
             itemView.setOnClickListener(new View.OnClickListener()
             {

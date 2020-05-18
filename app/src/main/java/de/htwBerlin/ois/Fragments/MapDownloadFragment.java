@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 import de.htwBerlin.ois.FileStructure.LeftSwipeCallback;
 import de.htwBerlin.ois.FileStructure.OhdmFile;
-import de.htwBerlin.ois.FileStructure.OhdmFileRecyclerAdapter;
+import de.htwBerlin.ois.FileStructure.RecyclerAdapterOhdmMaps;
 import de.htwBerlin.ois.FileStructure.RecyclerViewItemSwipeGestures;
 import de.htwBerlin.ois.R;
 import de.htwBerlin.ois.ServerCommunication.AsyncResponse;
@@ -46,7 +46,7 @@ public class MapDownloadFragment extends Fragment
     /**
      * The RecyclerAdapter
      */
-    private OhdmFileRecyclerAdapter recyclerAdapter;
+    private RecyclerAdapterOhdmMaps recyclerAdapter;
     /**
      * ArrayList of OHDMFiles, to be displayed in the RecyclerView
      * This list will be altered when the user uses the search function
@@ -147,7 +147,7 @@ public class MapDownloadFragment extends Fragment
 
     /**
      * Setup the search view to use the nameFilter
-     * implemented in {@link OhdmFileRecyclerAdapter}
+     * implemented in {@link RecyclerAdapterOhdmMaps}
      */
     private void setupSearchView()
     {
@@ -196,7 +196,7 @@ public class MapDownloadFragment extends Fragment
         }));
 
         //The recycler adapter
-        recyclerAdapter = new OhdmFileRecyclerAdapter(getActivity().getApplicationContext(), ohdmFiles, ohdmFilesBackup, R.layout.download_recycler_item);
+        recyclerAdapter = new RecyclerAdapterOhdmMaps(getActivity().getApplicationContext(), ohdmFiles, ohdmFilesBackup, R.layout.download_recycler_item);
 
         //Putting everything together
         itemTouchHelper.attachToRecyclerView(recyclerView);

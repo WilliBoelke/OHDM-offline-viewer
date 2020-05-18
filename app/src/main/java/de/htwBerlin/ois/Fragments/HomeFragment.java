@@ -12,14 +12,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.SearchView;
-import android.widget.Spinner;
 
 import java.io.File;
 import java.util.ArrayList;
 
-import de.htwBerlin.ois.FileStructure.LocalMapsRecyclerAdapter;
+import de.htwBerlin.ois.FileStructure.RecyclerAdapterLocalMaps;
 import de.htwBerlin.ois.FileStructure.MapFileSingleton;
 import de.htwBerlin.ois.MainActivity.MainActivity;
 import de.htwBerlin.ois.R;
@@ -33,36 +31,40 @@ import de.htwBerlin.ois.R;
 public class HomeFragment extends Fragment
 {
 
+    //------------Instance Variables------------
+    /**
+     * Log tag
+     */
+    private final String TAG = this.getClass().getSimpleName();
     /**
      * Set of the .map files ind the OHDM directory
      * Filled in {@link  #findMapFiles()}
      */
     private ArrayList<File> mapFiles;
-
     /**
      * The view
      */
     private View view;
     /**
-     * The RecyclerViews LayoutManager
-     */
-    private RecyclerView.LayoutManager recyclerLayoutManager;
-    /**
      * The RecyclerAdapter
      */
-    private LocalMapsRecyclerAdapter recyclerAdapter;
-
+    private RecyclerAdapterLocalMaps recyclerAdapter;
+    /**
+     * The RecyclerView
+     */
     private RecyclerView localMapsRecyclerView;
+
+
+    //------------Static Variables------------
 
     /**
      * Fragment ID used to identify the fragment
      * (for example by putting the ID into the Intent extra )
      */
     public static String ID = "Home";
-    /**
-     * Log tag
-     */
-    private final String TAG = this.getClass().getSimpleName();
+
+
+    //------------Activity/Fragment Lifecycle------------
 
     @Nullable
     @Override
@@ -78,12 +80,29 @@ public class HomeFragment extends Fragment
     public void onActivityCreated(@Nullable Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
-
         mapFiles = findMapFiles();
         setupRecycler();
         setupSearchView();
     }
 
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+    }
+
+
+    //------------Setup Views------------
+
+    /**
+     * Setup for the SearchView
+     */
     private void setupSearchView()
     {
         SearchView searchView = view.findViewById(R.id.local_maps_sv);
@@ -104,17 +123,26 @@ public class HomeFragment extends Fragment
         });
     }
 
+    /**
+     * Setup method for the RecyclerView
+     */
     private void setupRecycler()
     {
         localMapsRecyclerView = view.findViewById(R.id.local_maps_recycler);
+
         if (!mapFiles.isEmpty())
         {
+            //In case there are files in the local OHDM directory these two will be behind the recycler
             view.findViewById(R.id.content_card_home_info).setVisibility(View.INVISIBLE);
             view.findViewById(R.id.ohdm_logo_iv).setVisibility(View.INVISIBLE);
+
             localMapsRecyclerView.setVisibility(View.VISIBLE);
-            recyclerLayoutManager = new LinearLayoutManager(this.getContext());
-            recyclerAdapter = new LocalMapsRecyclerAdapter(this.getContext(), mapFiles, R.layout.download_recycler_item);
-            recyclerAdapter.setOnItemClickListener(new LocalMapsRecyclerAdapter.OnItemClickListener()
+
+            RecyclerView.LayoutManager recyclerLayoutManager = new LinearLayoutManager(this.getContext());
+            recyclerAdapter = new RecyclerAdapterLocalMaps(this.getContext(), mapFiles, R.layout.download_recycler_item);
+
+            //onClickListener to set the clicked file in the MapFileSingleton
+            recyclerAdapter.setOnItemClickListener(new RecyclerAdapterLocalMaps.OnItemClickListener()
             {
                 @Override
                 public void onItemClick(int position)
@@ -125,20 +153,23 @@ public class HomeFragment extends Fragment
                     recyclerAdapter.notifyDataSetChanged();
                 }
             });
+
+            //Putting everything together
             localMapsRecyclerView.setLayoutManager(recyclerLayoutManager);
             localMapsRecyclerView.setAdapter(recyclerAdapter);
             recyclerAdapter.notifyDataSetChanged();
-
-
         }
     }
+
+
+    //------------Others------------
 
     /**
      * Scans OHDM Directory for .map Files
      *
      * @return a set of .map files
      */
-    protected ArrayList<File> findMapFiles()
+    private ArrayList<File> findMapFiles()
     {
         ArrayList<File> maps = new ArrayList<>();
         try
@@ -160,17 +191,6 @@ public class HomeFragment extends Fragment
     }
 
 
-    @Override
-    public void onStart()
-    {
-        super.onStart();
-    }
 
-
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-    }
 
 }
