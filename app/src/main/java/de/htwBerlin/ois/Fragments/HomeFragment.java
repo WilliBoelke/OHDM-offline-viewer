@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.SearchView;
 import android.widget.Spinner;
 
 import java.io.File;
@@ -27,31 +28,17 @@ import de.htwBerlin.ois.R;
  * Represents the HOME Tab and thus, the starting point for the OHDM Offline Viewer application
  *
  * @author morelly_t1
+ * @author WilliBoelke
  */
 public class HomeFragment extends Fragment
 {
-    /**
-     * Fragment ID used to identify the fragment
-     * (for example by putting the ID into the Intent extra )
-     */
-    public static String ID = "Home";
-    /**
-     * Log tag
-     */
-    private final String TAG = this.getClass().getSimpleName();
+
     /**
      * Set of the .map files ind the OHDM directory
      * Filled in {@link  #findMapFiles()}
      */
     private ArrayList<File> mapFiles;
-    /**
-     * Spinner to choose a .map file from
-     */
-    private Spinner spinnerMapFile;
-    /**
-     * Button to save the chosen .map file
-     */
-    private Button buttonSave;
+
     /**
      * The view
      */
@@ -66,6 +53,16 @@ public class HomeFragment extends Fragment
     private LocalMapsRecyclerAdapter recyclerAdapter;
 
     private RecyclerView localMapsRecyclerView;
+
+    /**
+     * Fragment ID used to identify the fragment
+     * (for example by putting the ID into the Intent extra )
+     */
+    public static String ID = "Home";
+    /**
+     * Log tag
+     */
+    private final String TAG = this.getClass().getSimpleName();
 
     @Nullable
     @Override
@@ -84,6 +81,27 @@ public class HomeFragment extends Fragment
 
         mapFiles = findMapFiles();
         setupRecycler();
+        setupSearchView();
+    }
+
+    private void setupSearchView()
+    {
+        SearchView searchView = view.findViewById(R.id.local_maps_sv);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
+        {
+            @Override
+            public boolean onQueryTextSubmit(String query)
+            {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText)
+            {
+                recyclerAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
     }
 
     private void setupRecycler()

@@ -20,7 +20,7 @@ import static android.support.constraint.Constraints.TAG;
 /**
  * The RecyclerViewAdapter for ohdmFiles (->means files from the FTP server)
  *
- * @author Willi
+ * @author WilliBölke
  */
 public class OhdmFileRecyclerAdapter extends RecyclerView.Adapter<OhdmFileRecyclerAdapter.OhdmFileViewHolder> implements Filterable
 {

@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,17 +17,24 @@ import java.util.ArrayList;
 
 import de.htwBerlin.ois.R;
 
+import static android.support.constraint.Constraints.TAG;
 
-public class LocalMapsRecyclerAdapter extends RecyclerView.Adapter<LocalMapsRecyclerAdapter.LocalMapsViewHolder>
+
+public class LocalMapsRecyclerAdapter extends RecyclerView.Adapter<LocalMapsRecyclerAdapter.LocalMapsViewHolder> implements Filterable
 {
+
+    //------------Instance Variables------------
+
     private final String TAG = getClass().getSimpleName();
     private ArrayList<File> mapArrayList;
+    private ArrayList<File> mapArrayListBackup;
     private Context context;
     private int ressource;
     private LocalMapsRecyclerAdapter.OnItemClickListener onItemClickListener;
 
     public LocalMapsRecyclerAdapter(Context context, ArrayList<File> ohdmFiles, int ressource)
     {
+        this.mapArrayListBackup = new ArrayList<>(ohdmFiles); // need to be initialized like that
         this.ressource = ressource;
         this.mapArrayList = ohdmFiles;
         this.context = context;
@@ -76,6 +85,47 @@ public class LocalMapsRecyclerAdapter extends RecyclerView.Adapter<LocalMapsRecy
     {
         this.onItemClickListener = listener;
     }
+
+    @Override
+    public Filter getFilter()
+    {
+        return nameFilter;
+    }
+
+    private Filter nameFilter = new Filter()
+    {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint)
+        {
+            ArrayList<File> filteredList = new ArrayList<>();
+            if (constraint == null || constraint.length() == 0)
+            {
+                filteredList.addAll(mapArrayListBackup);
+            }
+            else
+            {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+                for (File map : mapArrayListBackup)
+                {
+                    if (map.getName().toLowerCase().trim().contains(filterPattern))
+                    {
+                        filteredList.add(map);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results)
+        {
+            mapArrayList.clear();
+            mapArrayList.addAll((ArrayList) results.values);
+            notifyDataSetChanged();
+        }
+    };
 
     public interface OnItemClickListener
     {
