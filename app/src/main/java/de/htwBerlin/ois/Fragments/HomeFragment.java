@@ -32,6 +32,7 @@ public class HomeFragment extends Fragment
 {
 
     //------------Instance Variables------------
+
     /**
      * Log tag
      */
@@ -189,8 +190,5 @@ public class HomeFragment extends Fragment
         }
         return maps;
     }
-
-
-
 
 }
