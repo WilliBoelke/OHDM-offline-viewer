@@ -101,8 +101,9 @@ public class MapDownloadFragment extends Fragment
         this.FTPListLatestFiles();
         this.setupAllMapsRecyclerView();
         this.setupLatestMapsRecyclerView();
+        this.setupLatestSearchView();
+        this.setupAllSearchView();
         this.setupFAB();
-
     }
 
     @Override
@@ -145,29 +146,6 @@ public class MapDownloadFragment extends Fragment
             public void onClick(View v)
             {
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new RequestMapFragment()).addToBackStack(null).commit();
-            }
-        });
-    }
-
-    /**
-     * Setup the search view to use the nameFilter
-     * implemented in {@link RecyclerAdapterOhdmMaps}
-     */
-    private void setupSearchView(SearchView searchView)
-    {
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
-        {
-            @Override
-            public boolean onQueryTextSubmit(String query)
-            {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText)
-            {
-                allRecyclerAdapter.getFilter().filter(newText);
-                return false;
             }
         });
     }
@@ -230,6 +208,82 @@ public class MapDownloadFragment extends Fragment
         latestMapsRecyclerView.setLayoutManager(recyclerLayoutManager);
         latestMapsRecyclerView.setAdapter(latestRecyclerAdapter);
     }
+
+
+    /**
+     * Setup the search view to use the nameFilter
+     * implemented in {@link RecyclerAdapterOhdmMaps}
+     */
+    private void setupGeneralSearchView(SearchView searchView)
+    {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
+        {
+            @Override
+            public boolean onQueryTextSubmit(String query)
+            {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText)
+            {
+                allRecyclerAdapter.getFilter().filter(newText);
+                latestRecyclerAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+    }
+
+    /**
+     * Setup the search view to use the nameFilter
+     * only in the LatestMapsRecycler
+     * implemented in {@link RecyclerAdapterOhdmMaps}
+     */
+    private void setupAllSearchView()
+    {
+        SearchView searchView = view.findViewById(R.id.all_sv);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
+        {
+            @Override
+            public boolean onQueryTextSubmit(String query)
+            {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText)
+            {
+                allRecyclerAdapter.getFilter().filter(newText);;
+                return false;
+            }
+        });
+    }
+
+    /**
+     * Setup the search view to use the nameFilter
+     * only in the LatestMapsRecycler
+     * implemented in {@link RecyclerAdapterOhdmMaps}
+     */
+    private void setupLatestSearchView()
+    {
+        SearchView searchView = view.findViewById(R.id.latest_sv);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
+        {
+            @Override
+            public boolean onQueryTextSubmit(String query)
+            {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText)
+            {
+                latestRecyclerAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+    }
+
 
     //------------FTP Listing------------
 
@@ -319,7 +373,7 @@ public class MapDownloadFragment extends Fragment
     {
         inflater.inflate(R.menu.actionbar_menu, menu);
         MenuItem searchItem = menu.findItem(R.id.ab_menu_search).setVisible(true);
-        setupSearchView((SearchView) searchItem.getActionView());
+        setupGeneralSearchView((SearchView) searchItem.getActionView());
         super.onCreateOptionsMenu(menu, inflater);
     }
 
