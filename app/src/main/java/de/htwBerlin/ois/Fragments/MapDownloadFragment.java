@@ -43,28 +43,25 @@ public class MapDownloadFragment extends Fragment
      */
     private final String TAG = this.getClass().getSimpleName();
     /**
-     * The RecyclerViews LayoutManager
-     */
-    private RecyclerView.LayoutManager recyclerLayoutManager;
-    /**
-     * The RecyclerAdapter
-     */
-    private RecyclerAdapterOhdmMaps recyclerAdapter;
-    /**
      * ArrayList of OHDMFiles, to be displayed in the RecyclerView
      * This list will be altered when the user uses the search function
      */
-    private ArrayList<OhdmFile> ohdmFiles;
+    private ArrayList<OhdmFile> allOhdmFiles;
     /**
      * ArrayList of OHDMFiles,
      * This list will serve as backup when the
      * ohdmFiles list was altered
      */
-    private ArrayList<OhdmFile>ohdmFilesBackup;
+    private ArrayList<OhdmFile> allOhdmFilesBackup;
+    private ArrayList<OhdmFile> latestOhdmFiles;
+    private ArrayList<OhdmFile> latestOhdmFilesBackup;
+    private RecyclerAdapterOhdmMaps allRecyclerAdapter;
+    private RecyclerAdapterOhdmMaps latestRecyclerAdapter;
     /**
      * The recyclerView
      */
-    private RecyclerView recyclerView;
+    private RecyclerView allMapsRecyclerView;
+    private RecyclerView latestMapsRecyclerView;
     /**
      * The view
      */
@@ -95,11 +92,14 @@ public class MapDownloadFragment extends Fragment
     public void onActivityCreated(@Nullable Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
-        ohdmFiles = new ArrayList<>();
-        ohdmFilesBackup = new ArrayList<>();
+        allOhdmFiles = new ArrayList<>();
+        allOhdmFilesBackup = new ArrayList<>();
+        latestOhdmFiles = new ArrayList<>();
+        latestOhdmFilesBackup = new ArrayList<>();
         setHasOptionsMenu(true);
         this.listFTPFiles();
-        this.setupRecyclerView();
+        this.setupAllMapsRecyclerView();
+       this.setupLatestMapsRecyclerView();
         this.setupFAB();
 
     }
@@ -165,45 +165,70 @@ public class MapDownloadFragment extends Fragment
             @Override
             public boolean onQueryTextChange(String newText)
             {
-                recyclerAdapter.getFilter().filter(newText);
+                allRecyclerAdapter.getFilter().filter(newText);
                 return false;
             }
         });
     }
 
     /**
-     * Setup the RecyclerView :
+     * Setup the AllMaps RecyclerView :
      *
      * Setup Swipe gestures
      * Setup onItemClickListener
      */
-    private void setupRecyclerView()
+    private void setupAllMapsRecyclerView()
     {
-        recyclerView = view.findViewById(R.id.available_maps_recycler);
+        allMapsRecyclerView = view.findViewById(R.id.available_maps_recycler);
 
-        recyclerView.setVisibility(View.INVISIBLE);  // is invisible till the server responds
+        allMapsRecyclerView.setVisibility(View.INVISIBLE);  // is invisible till the server responds
 
-        recyclerLayoutManager = new LinearLayoutManager(this.getContext());//layout manager vor vertical scrolling recycler
+        RecyclerView.LayoutManager recyclerLayoutManager = new LinearLayoutManager(this.getContext());//layout manager vor vertical scrolling recycler
+
+        //The recycler adapter
+         allRecyclerAdapter = new RecyclerAdapterOhdmMaps(getActivity().getApplicationContext(), allOhdmFiles, allOhdmFilesBackup, R.layout.download_recycler_item);
 
         //The itemTouchhelper for the swipe gestures on the recycler Items
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new RecyclerViewItemSwipeGestures(recyclerAdapter, new LeftSwipeCallback()
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new RecyclerViewItemSwipeGestures(allRecyclerAdapter, new LeftSwipeCallback()
         {
             @Override
             public void onLeftSwipe(int position)
             {
                 FtpTaskFileDownloading ftpTaskFileDownloading = new FtpTaskFileDownloading(getActivity().getApplicationContext());
-                ftpTaskFileDownloading.execute(ohdmFiles.get(position));
-                recyclerAdapter.notifyDataSetChanged();
+                ftpTaskFileDownloading.execute(allOhdmFiles.get(position));
+                allRecyclerAdapter.notifyDataSetChanged();
             }
         }));
 
+        //Putting everything together
+        itemTouchHelper.attachToRecyclerView(allMapsRecyclerView);
+        allMapsRecyclerView.setLayoutManager(recyclerLayoutManager);
+        allMapsRecyclerView.setAdapter(allRecyclerAdapter);
+    }
+
+
+    /**
+     * Setup the Latest RecyclerView :
+     * <p>
+     * Setup Swipe gestures
+     * Setup onItemClickListener
+     */
+    private void setupLatestMapsRecyclerView()
+    {
+        latestMapsRecyclerView = view.findViewById(R.id.latest_maps_recycler);
+
+        latestMapsRecyclerView.setVisibility(View.INVISIBLE);  // is invisible till the server responds
+
+        LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this.getContext());//layout manager vor vertical scrolling recycler
+        recyclerLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+
         //The recycler adapter
-        recyclerAdapter = new RecyclerAdapterOhdmMaps(getActivity().getApplicationContext(), ohdmFiles, ohdmFilesBackup, R.layout.download_recycler_item);
+        latestRecyclerAdapter = new RecyclerAdapterOhdmMaps(getActivity().getApplicationContext(), latestOhdmFiles, latestOhdmFilesBackup, R.layout.download_recycler_item_latest);
+
 
         //Putting everything together
-        itemTouchHelper.attachToRecyclerView(recyclerView);
-        recyclerView.setLayoutManager(recyclerLayoutManager);
-        recyclerView.setAdapter(recyclerAdapter);
+        latestMapsRecyclerView.setLayoutManager(recyclerLayoutManager);
+        latestMapsRecyclerView.setAdapter(latestRecyclerAdapter);
     }
 
     /**
@@ -223,14 +248,19 @@ public class MapDownloadFragment extends Fragment
                 {
                     Log.i(TAG, "received " + files.size() + " files.");
 
-                    ohdmFiles.addAll(files);
-                    ohdmFilesBackup.addAll(files);
+                    allOhdmFiles.addAll(files);
+                    allOhdmFilesBackup.addAll(files);
+
+                    latestOhdmFiles.addAll(files);
+                    latestOhdmFilesBackup.addAll(files);
 
                     view.findViewById(R.id.connecting_tv).setVisibility(View.INVISIBLE);
                     view.findViewById(R.id.connecting_pb).setVisibility(View.INVISIBLE);
-                    recyclerView.setVisibility(View.VISIBLE);
+                    allMapsRecyclerView.setVisibility(View.VISIBLE);
+                    latestMapsRecyclerView.setVisibility(View.VISIBLE);
 
-                    recyclerAdapter.notifyDataSetChanged();
+                    allRecyclerAdapter.notifyDataSetChanged();
+                    latestRecyclerAdapter.notifyDataSetChanged();
                 }
                 else // Server directory was empty or server hasn't responded
                 {
