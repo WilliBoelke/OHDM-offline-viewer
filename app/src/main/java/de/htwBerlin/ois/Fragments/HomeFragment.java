@@ -215,14 +215,12 @@ public class HomeFragment extends Fragment
                 //no implemented here,
                 return false;
             case R.id.ab_menu_faq:
-                ;
                 //no implemented here,
                 return false;
             case R.id.ab_menu_settings:
                 //no implemented here
                 return false;
             case R.id.ab_menu_search:
-
         }
         return super.onOptionsItemSelected(item);
     }
