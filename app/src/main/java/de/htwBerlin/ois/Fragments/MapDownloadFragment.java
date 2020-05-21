@@ -97,9 +97,10 @@ public class MapDownloadFragment extends Fragment
         latestOhdmFiles = new ArrayList<>();
         latestOhdmFilesBackup = new ArrayList<>();
         setHasOptionsMenu(true);
-        this.listFTPFiles();
+        this.FTPListAllFiles();
+        this.FTPListLatestFiles();
         this.setupAllMapsRecyclerView();
-       this.setupLatestMapsRecyclerView();
+        this.setupLatestMapsRecyclerView();
         this.setupFAB();
 
     }
@@ -206,7 +207,6 @@ public class MapDownloadFragment extends Fragment
         allMapsRecyclerView.setAdapter(allRecyclerAdapter);
     }
 
-
     /**
      * Setup the Latest RecyclerView :
      * <p>
@@ -231,13 +231,16 @@ public class MapDownloadFragment extends Fragment
         latestMapsRecyclerView.setAdapter(latestRecyclerAdapter);
     }
 
+    //------------FTP Listing------------
+
+
     /**
      * Initializes an FTP Request to list all files -> {@link FtpTaskFileListing}
      * <p>
      * Implements the {@link AsyncResponse} interface to add the retrieved
      * files to both the ohdmFiles and the ohdmFilesBackup list
      */
-    private void listFTPFiles()
+    private void FTPListAllFiles()
     {
         FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(getActivity(), "", new AsyncResponse()
         {
@@ -251,15 +254,50 @@ public class MapDownloadFragment extends Fragment
                     allOhdmFiles.addAll(files);
                     allOhdmFilesBackup.addAll(files);
 
+                    view.findViewById(R.id.connecting_tv).setVisibility(View.INVISIBLE);
+                    view.findViewById(R.id.connecting_pb).setVisibility(View.INVISIBLE);
+                    view.findViewById(R.id.all_tv).setVisibility(View.VISIBLE);
+                    allMapsRecyclerView.setVisibility(View.VISIBLE);
+
+                    allRecyclerAdapter.notifyDataSetChanged();
+                    latestRecyclerAdapter.notifyDataSetChanged();
+                }
+                else // Server directory was empty or server hasn't responded
+                {
+                    view.findViewById(R.id.connecting_pb).setVisibility(View.INVISIBLE);
+                    TextView tv = view.findViewById(R.id.connecting_tv);
+                    tv.setText("Connection failed, try again later");
+                }
+            }
+        });
+        ftpTaskFileListing.execute();
+    }
+
+    /**
+     * Initializes an FTP Request to list all files -> {@link FtpTaskFileListing}
+     * <p>
+     * Implements the {@link AsyncResponse} interface to add the retrieved
+     * files to both the ohdmFiles and the ohdmFilesBackup list
+     */
+    private void FTPListLatestFiles()
+    {
+        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(getActivity(), "", new AsyncResponse()
+        {
+            @Override
+            public void getOhdmFiles(ArrayList<OhdmFile> files)
+            {
+                if (files.size() > 0)
+                {
+                    Log.i(TAG, "received " + files.size() + " files.");
+
                     latestOhdmFiles.addAll(files);
                     latestOhdmFilesBackup.addAll(files);
 
                     view.findViewById(R.id.connecting_tv).setVisibility(View.INVISIBLE);
                     view.findViewById(R.id.connecting_pb).setVisibility(View.INVISIBLE);
-                    allMapsRecyclerView.setVisibility(View.VISIBLE);
+                    view.findViewById(R.id.lates_tv).setVisibility(View.VISIBLE);
                     latestMapsRecyclerView.setVisibility(View.VISIBLE);
 
-                    allRecyclerAdapter.notifyDataSetChanged();
                     latestRecyclerAdapter.notifyDataSetChanged();
                 }
                 else // Server directory was empty or server hasn't responded

@@ -43,7 +43,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -61,24 +61,55 @@
             android:orientation="vertical">
 
 
+            <TextView
+                android:id="@+id/all_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="All maps"
+                android:visibility="visible"
+                android:textAllCaps="false"
+                android:textColor="?attr/textColorPrimary"
+                android:textSize="@dimen/primary_font_size"
+                android:typeface="normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/latest_maps_recycler" />
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/latest_maps_recycler"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/lates_tv" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/available_maps_recycler"
                 android:layout_width="match_parent"
-                android:layout_height="1000dp"
-                android:layout_marginTop="16dp"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/latest_maps_recycler" />
+                app:layout_constraintTop_toBottomOf="@+id/all_tv" />
+
+            <TextView
+                android:id="@+id/lates_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:visibility="visible"
+                android:text="Latest"
+                android:textAllCaps="false"
+                android:textColor="?attr/textColorPrimary"
+                android:textSize="@dimen/primary_font_size"
+                android:typeface="normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </android.support.constraint.ConstraintLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 </android.support.constraint.ConstraintLayout>
