@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import de.htwBerlin.ois.R;
 import de.htwBerlin.ois.ServerCommunication.FtpTaskFileDownloading;
 
+import static de.htwBerlin.ois.ServerCommunication.Variables.MOST_RECENT_PATH;
+
 /**
  * ListView adapter that holds ohdmFiles
  * Since we started to use a recycler view we don't need that for now
@@ -63,7 +65,7 @@ public class OhdmFileListViewAdapter extends ArrayAdapter<OhdmFile>
             @Override
             public void onClick(View v)
             {
-                FtpTaskFileDownloading ftpTaskFileDownloading = new FtpTaskFileDownloading(context);
+                FtpTaskFileDownloading ftpTaskFileDownloading = new FtpTaskFileDownloading(context,  "");
                 Toast.makeText(getContext(), "Downloading " + fileName, Toast.LENGTH_SHORT).show();
                 ftpTaskFileDownloading.execute(ohdmFile);
                 disableButton(buttonDownloadFile);

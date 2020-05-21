@@ -205,6 +205,7 @@ public class FtpClient
     public void downloadFile(String remoteFileName, String downloadPath) throws IOException
     {
         File downloadFile = new File(MAP_FILE_PATH, remoteFileName);
+        client.changeWorkingDirectory(downloadPath);
         OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(downloadFile));
         InputStream inputStream = client.retrieveFileStream(remoteFileName);
         byte[] bytesArray = new byte[4096];

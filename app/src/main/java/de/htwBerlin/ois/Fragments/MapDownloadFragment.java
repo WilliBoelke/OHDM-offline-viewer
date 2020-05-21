@@ -175,7 +175,7 @@ public class MapDownloadFragment extends Fragment
             public void onButtonClick(int position)
             {
                 Toast.makeText(getContext(), "Download started", Toast.LENGTH_SHORT).show();
-                FtpTaskFileDownloading ftpTaskFileDownloading = new FtpTaskFileDownloading(getActivity().getApplicationContext());
+                FtpTaskFileDownloading ftpTaskFileDownloading = new FtpTaskFileDownloading(getActivity().getApplicationContext(), "");
                 ftpTaskFileDownloading.execute(allOhdmFiles.get(position));
                 allRecyclerAdapter.notifyDataSetChanged();
             }
@@ -208,7 +208,7 @@ public class MapDownloadFragment extends Fragment
             public void onButtonClick(int position)
             {
                 Toast.makeText(getContext(), "Download started", Toast.LENGTH_SHORT).show();
-                FtpTaskFileDownloading ftpTaskFileDownloading = new FtpTaskFileDownloading(getActivity().getApplicationContext());
+                FtpTaskFileDownloading ftpTaskFileDownloading = new FtpTaskFileDownloading(getActivity().getApplicationContext(), MOST_RECENT_PATH);
                 ftpTaskFileDownloading.execute(latestOhdmFiles.get(position));
                 allRecyclerAdapter.notifyDataSetChanged();
             }

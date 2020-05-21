@@ -21,14 +21,16 @@ public class FtpTaskFileDownloading extends AsyncTask<OhdmFile, Integer, Long>
     //------------Instance Variables------------
 
     private final String TAG = getClass().getSimpleName();
+    private final String path;
     private WeakReference<Context> context;
     private FtpClient ftpClient;
 
 
     //------------Constructors------------
 
-    public FtpTaskFileDownloading(Context context)
+    public FtpTaskFileDownloading(Context context, String path)
     {
+        this.path = path;
         this.context = new WeakReference<Context>(context);
     }
 
@@ -48,7 +50,7 @@ public class FtpTaskFileDownloading extends AsyncTask<OhdmFile, Integer, Long>
         ftpClient.connect();
         try
         {
-            ftpClient.downloadFile(ohdmFile[0].getFilename(), ohdmFile[0].getFilename());
+            ftpClient.downloadFile(ohdmFile[0].getFilename(), this.path);
         }
         catch (IOException e)
         {
