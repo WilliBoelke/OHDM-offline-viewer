@@ -23,5 +23,6 @@
         <attr name="bottom_nav_icon_navigation" format="reference" />
         <attr name="edit_text_background" format="reference" />
         <attr name="switch_primary" format="reference" />
+        <attr name="icon_search_toolbar" format="reference" />
     </declare-styleable>
 </resources>

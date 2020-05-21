@@ -13,7 +13,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -39,6 +38,7 @@ public class MainActivity extends AppCompatActivity
 {
 
     //------------Instance Variables------------
+
 
     private String TAG = getClass().getSimpleName();
     private Fragment defaultFragment = new HomeFragment();
@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         setContentView(R.layout.activity_main);
+
 
         // setting up the BottomNavigationView with Listener
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
@@ -116,12 +117,7 @@ public class MainActivity extends AppCompatActivity
 
 
     //------------Toolbar Menu------------
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        getMenuInflater().inflate(R.menu.actionbar_menu, menu);
-        return true;
-    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
@@ -138,6 +134,9 @@ public class MainActivity extends AppCompatActivity
             case R.id.ab_menu_settings:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new OptionsFragment()).addToBackStack(OptionsFragment.ID).commit();
                 break;
+            case R.id.ab_menu_search:
+                //no implemented here, to e implemented in fragments
+                return false;
         }
         return super.onOptionsItemSelected(item);
     }

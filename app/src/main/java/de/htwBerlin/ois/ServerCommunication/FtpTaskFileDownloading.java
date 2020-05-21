@@ -44,18 +44,15 @@ public class FtpTaskFileDownloading extends AsyncTask<OhdmFile, Integer, Long>
     @Override
     protected Long doInBackground(OhdmFile... ohdmFile)
     {
-        Context context = this.context.get();
         ftpClient = new FtpClient();
         ftpClient.connect();
         try
         {
             ftpClient.downloadFile(ohdmFile[0].getFilename(), ohdmFile[0].getFilename());
-
         }
         catch (IOException e)
         {
             e.printStackTrace();
-            Toast.makeText(context, "Download Interrupted", Toast.LENGTH_SHORT).show();
         }
         return null;
     }

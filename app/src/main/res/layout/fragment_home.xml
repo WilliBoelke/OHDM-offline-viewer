@@ -8,26 +8,16 @@
     android:background="?attr/backgroundColor"
     tools:context=".Fragments.HomeFragment">
 
-    <SearchView
-        android:id="@+id/local_maps_sv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/local_maps_recycler"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/local_maps_sv"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/ohdm_logo_iv"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="@+id/ohdm_logo_iv" />
 
     <ImageView
         android:id="@+id/ohdm_logo_iv"

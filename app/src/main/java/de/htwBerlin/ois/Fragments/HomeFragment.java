@@ -8,17 +8,21 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.InflateException;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SearchView;
 
 import java.io.File;
 import java.util.ArrayList;
 
-import de.htwBerlin.ois.FileStructure.RecyclerAdapterLocalMaps;
 import de.htwBerlin.ois.FileStructure.MapFileSingleton;
+import de.htwBerlin.ois.FileStructure.RecyclerAdapterLocalMaps;
 import de.htwBerlin.ois.MainActivity.MainActivity;
 import de.htwBerlin.ois.R;
 
@@ -82,8 +86,8 @@ public class HomeFragment extends Fragment
     {
         super.onActivityCreated(savedInstanceState);
         mapFiles = findMapFiles();
+        setHasOptionsMenu(true);
         setupRecycler();
-        setupSearchView();
     }
 
     @Override
@@ -104,9 +108,8 @@ public class HomeFragment extends Fragment
     /**
      * Setup for the SearchView
      */
-    private void setupSearchView()
+    private void setupSearchView(SearchView searchView)
     {
-        SearchView searchView = view.findViewById(R.id.local_maps_sv);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
         {
             @Override
@@ -122,6 +125,7 @@ public class HomeFragment extends Fragment
                 return false;
             }
         });
+
     }
 
     /**
@@ -189,6 +193,39 @@ public class HomeFragment extends Fragment
             Log.i(TAG, "No map files located.");
         }
         return maps;
+    }
+
+
+    //------------Toolbar Menu------------
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
+        inflater.inflate(R.menu.actionbar_menu, menu);
+        MenuItem searchItem = menu.findItem(R.id.ab_menu_search).setVisible(true);
+        setupSearchView((SearchView) searchItem.getActionView());
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.ab_menu_about:
+                //no implemented here,
+                return false;
+            case R.id.ab_menu_faq:
+                ;
+                //no implemented here,
+                return false;
+            case R.id.ab_menu_settings:
+                //no implemented here
+                return false;
+            case R.id.ab_menu_search:
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }
