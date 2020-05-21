@@ -5,11 +5,15 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -80,6 +84,12 @@ public class NavigationFragment extends Fragment
         return view;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState)
+    {
+        super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     //------------Setup Views------------
 
@@ -187,4 +197,36 @@ public class NavigationFragment extends Fragment
         }
         return bestLocation;
     }
+
+
+    //------------Toolbar Menu------------
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
+        inflater.inflate(R.menu.actionbar_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.ab_menu_about:
+                //no implemented here,
+                return false;
+            case R.id.ab_menu_faq:
+                ;
+                //no implemented here,
+                return false;
+            case R.id.ab_menu_settings:
+                //no implemented here
+                return false;
+            case R.id.ab_menu_search:
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

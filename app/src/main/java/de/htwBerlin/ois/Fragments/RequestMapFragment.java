@@ -5,6 +5,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -86,7 +89,7 @@ public class RequestMapFragment extends Fragment
     public void onActivityCreated(@Nullable Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
-
+        setHasOptionsMenu(true);
         datePicker = view.findViewById(R.id.simpleDatePicker);
         //no calender view
         datePicker.setCalendarViewShown(false);
@@ -236,4 +239,36 @@ public class RequestMapFragment extends Fragment
         }
         return true;
     }
+
+
+    //------------Toolbar Menu------------
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
+        inflater.inflate(R.menu.actionbar_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.ab_menu_about:
+                //no implemented here,
+                return false;
+            case R.id.ab_menu_faq:
+                ;
+                //no implemented here,
+                return false;
+            case R.id.ab_menu_settings:
+                //no implemented here
+                return false;
+            case R.id.ab_menu_search:
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }
