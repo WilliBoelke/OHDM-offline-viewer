@@ -7,9 +7,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -49,6 +51,8 @@ public class RecyclerAdapterOhdmMaps extends RecyclerView.Adapter<RecyclerAdapte
      */
     private OnItemClickListener onItemClickListener;
 
+    private OnRecyclerItemButtonClicklistenner onButtonClickListener;
+
 
     //------------Constructors------------
 
@@ -80,7 +84,7 @@ public class RecyclerAdapterOhdmMaps extends RecyclerView.Adapter<RecyclerAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerAdapterOhdmMaps.OhdmFileViewHolder ohdmFileViewHolder, int position)
+    public void onBindViewHolder(@NonNull RecyclerAdapterOhdmMaps.OhdmFileViewHolder ohdmFileViewHolder, final int position)
     {
         OhdmFile currentOhdmFile = this.ohdmFiles.get(position);
         String name = currentOhdmFile.getFilename();
@@ -88,6 +92,14 @@ public class RecyclerAdapterOhdmMaps extends RecyclerView.Adapter<RecyclerAdapte
         ohdmFileViewHolder.nameTextView.setText(name);
         ohdmFileViewHolder.sizeTextView.setText((int) (double) (currentOhdmFile.getFileSize() / 1024) + " KB");
         ohdmFileViewHolder.dateTextView.setText(currentOhdmFile.getCreationDate());
+        ohdmFileViewHolder.downloadbutton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                onButtonClickListener.onButtonClick(position);
+            }
+        });
     }
 
     @Override
@@ -97,7 +109,7 @@ public class RecyclerAdapterOhdmMaps extends RecyclerView.Adapter<RecyclerAdapte
     }
 
 
-    //------------OnItemClickListener------------
+    //------------OnClickListener------------
 
     /**
      * Setter for the implemented onItemClick method
@@ -107,6 +119,11 @@ public class RecyclerAdapterOhdmMaps extends RecyclerView.Adapter<RecyclerAdapte
     public void setOnItemClickListener(RecyclerAdapterOhdmMaps.OnItemClickListener listener)
     {
         this.onItemClickListener = listener;
+    }
+
+    public void setOnItemButtonClickListener(OnRecyclerItemButtonClicklistenner listener)
+    {
+        this.onButtonClickListener = listener;
     }
 
     /**
@@ -175,6 +192,7 @@ public class RecyclerAdapterOhdmMaps extends RecyclerView.Adapter<RecyclerAdapte
         public TextView nameTextView;
         public TextView sizeTextView;
         public TextView dateTextView;
+        public Button downloadbutton;
 
         public OhdmFileViewHolder(@NonNull View itemView, final RecyclerAdapterOhdmMaps.OnItemClickListener listener)
         {
@@ -182,6 +200,8 @@ public class RecyclerAdapterOhdmMaps extends RecyclerView.Adapter<RecyclerAdapte
             sizeTextView = itemView.findViewById(R.id.map_size_tv);
             nameTextView = itemView.findViewById(R.id.map_name_tv);
             dateTextView = itemView.findViewById(R.id.date_of_creation_tv);
+            downloadbutton = itemView.findViewById(R.id.download_button);
+            downloadbutton.setVisibility(View.VISIBLE);
 
             itemView.setOnClickListener(new View.OnClickListener()
             {
@@ -200,4 +220,7 @@ public class RecyclerAdapterOhdmMaps extends RecyclerView.Adapter<RecyclerAdapte
             });
         }
     }
+
+
+
 }

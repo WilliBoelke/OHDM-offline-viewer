@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,13 +16,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import de.htwBerlin.ois.FileStructure.LeftSwipeCallback;
 import de.htwBerlin.ois.FileStructure.OhdmFile;
+import de.htwBerlin.ois.FileStructure.OnRecyclerItemButtonClicklistenner;
 import de.htwBerlin.ois.FileStructure.RecyclerAdapterOhdmMaps;
-import de.htwBerlin.ois.FileStructure.RecyclerViewItemSwipeGestures;
 import de.htwBerlin.ois.R;
 import de.htwBerlin.ois.ServerCommunication.AsyncResponse;
 import de.htwBerlin.ois.ServerCommunication.FtpTaskFileDownloading;
@@ -168,21 +167,17 @@ public class MapDownloadFragment extends Fragment
 
         //The recycler adapter
          allRecyclerAdapter = new RecyclerAdapterOhdmMaps(getActivity().getApplicationContext(), allOhdmFiles, allOhdmFilesBackup, R.layout.recycler_item_vertical);
-
-        //The itemTouchhelper for the swipe gestures on the recycler Items
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new RecyclerViewItemSwipeGestures(allRecyclerAdapter, new LeftSwipeCallback()
+        allRecyclerAdapter.setOnItemButtonClickListener(new OnRecyclerItemButtonClicklistenner()
         {
             @Override
-            public void onLeftSwipe(int position)
+            public void onButtonClick(int position)
             {
+                Toast.makeText(getContext(), "Download started", Toast.LENGTH_SHORT).show();
                 FtpTaskFileDownloading ftpTaskFileDownloading = new FtpTaskFileDownloading(getActivity().getApplicationContext());
                 ftpTaskFileDownloading.execute(allOhdmFiles.get(position));
                 allRecyclerAdapter.notifyDataSetChanged();
             }
-        }));
-
-        //Putting everything together
-        itemTouchHelper.attachToRecyclerView(allMapsRecyclerView);
+        });
         allMapsRecyclerView.setLayoutManager(recyclerLayoutManager);
         allMapsRecyclerView.setAdapter(allRecyclerAdapter);
     }
@@ -205,6 +200,17 @@ public class MapDownloadFragment extends Fragment
         //The recycler adapter
         latestRecyclerAdapter = new RecyclerAdapterOhdmMaps(getActivity().getApplicationContext(), latestOhdmFiles, latestOhdmFilesBackup, R.layout.recycler_item_horizonal);
 
+        latestRecyclerAdapter.setOnItemButtonClickListener(new OnRecyclerItemButtonClicklistenner()
+        {
+            @Override
+            public void onButtonClick(int position)
+            {
+                Toast.makeText(getContext(), "Download started", Toast.LENGTH_SHORT).show();
+                FtpTaskFileDownloading ftpTaskFileDownloading = new FtpTaskFileDownloading(getActivity().getApplicationContext());
+                ftpTaskFileDownloading.execute(latestOhdmFiles.get(position));
+                allRecyclerAdapter.notifyDataSetChanged();
+            }
+        });
 
         //Putting everything together
         latestMapsRecyclerView.setLayoutManager(recyclerLayoutManager);
