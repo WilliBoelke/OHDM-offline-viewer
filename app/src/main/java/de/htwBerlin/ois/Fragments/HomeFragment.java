@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,8 +21,11 @@ import android.view.ViewGroup;
 import java.io.File;
 import java.util.ArrayList;
 
+import de.htwBerlin.ois.FileStructure.LeftSwipeCallback;
 import de.htwBerlin.ois.FileStructure.MapFileSingleton;
 import de.htwBerlin.ois.FileStructure.RecyclerAdapterLocalMaps;
+import de.htwBerlin.ois.FileStructure.RightSwipeCallback;
+import de.htwBerlin.ois.FileStructure.SwipeGesturesHome;
 import de.htwBerlin.ois.MainActivity.MainActivity;
 import de.htwBerlin.ois.R;
 
@@ -104,66 +108,27 @@ public class HomeFragment extends Fragment
 
     //------------Setup Views------------
 
-    /**
-     * Setup for the SearchView
-     */
-    private void setupSearchView(SearchView searchView)
+    private LeftSwipeCallback leftSwipeCallback = new LeftSwipeCallback()
     {
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
+        @Override
+        public void onLeftSwipe(int position)
         {
-            @Override
-            public boolean onQueryTextSubmit(String query)
-            {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText)
-            {
-                recyclerAdapter.getFilter().filter(newText);
-                return false;
-            }
-        });
-
-    }
-
-    /**
-     * Setup method for the RecyclerView
-     */
-    private void setupRecycler()
-    {
-        localMapsRecyclerView = view.findViewById(R.id.local_maps_recycler);
-
-        if (!mapFiles.isEmpty())
-        {
-            //In case there are files in the local OHDM directory these two will be behind the recycler
-            view.findViewById(R.id.content_card_home_info).setVisibility(View.INVISIBLE);
-            view.findViewById(R.id.ohdm_logo_iv).setVisibility(View.INVISIBLE);
-
-            localMapsRecyclerView.setVisibility(View.VISIBLE);
-
-            RecyclerView.LayoutManager recyclerLayoutManager = new LinearLayoutManager(this.getContext());
-            recyclerAdapter = new RecyclerAdapterLocalMaps(this.getContext(), mapFiles, R.layout.recycler_item_vertical);
-
-            //onClickListener to set the clicked file in the MapFileSingleton
-            recyclerAdapter.setOnItemClickListener(new RecyclerAdapterLocalMaps.OnItemClickListener()
-            {
-                @Override
-                public void onItemClick(int position)
-                {
-                    Log.i(TAG, "using " + mapFiles.get(position).getName() + " as mapfile");
-                    MapFileSingleton mapFile = MapFileSingleton.getInstance();
-                    mapFile.setFile(mapFiles.get(position));
-                    recyclerAdapter.notifyDataSetChanged();
-                }
-            });
-
-            //Putting everything together
-            localMapsRecyclerView.setLayoutManager(recyclerLayoutManager);
-            localMapsRecyclerView.setAdapter(recyclerAdapter);
+            Log.i(TAG, "using " + mapFiles.get(position).getName() + " as mapfile");
+            MapFileSingleton mapFile = MapFileSingleton.getInstance();
+            mapFile.setFile(mapFiles.get(position));
             recyclerAdapter.notifyDataSetChanged();
         }
-    }
+    };
+    private RightSwipeCallback rightSwipeCallback = new RightSwipeCallback()
+    {
+        @Override
+        public void onRightSwipe(int position)
+        {
+            mapFiles.get(position).delete();
+            mapFiles.remove(position);
+            recyclerAdapter.notifyDataSetChanged();
+        }
+    };
 
 
     //------------Others------------
@@ -225,4 +190,69 @@ public class HomeFragment extends Fragment
         return super.onOptionsItemSelected(item);
     }
 
+
+    //------------Swipe Gestures------------
+
+    /**
+     * Setup for the SearchView
+     */
+    private void setupSearchView(SearchView searchView)
+    {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
+        {
+            @Override
+            public boolean onQueryTextSubmit(String query)
+            {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText)
+            {
+                try
+                {
+                    recyclerAdapter.getFilter().filter(newText);
+                }
+                catch (NullPointerException e)
+                {
+                    e.printStackTrace();
+                }
+                return false;
+            }
+        });
+
+    }
+
+    /**
+     * Setup method for the RecyclerView
+     */
+    private void setupRecycler()
+    {
+        localMapsRecyclerView = view.findViewById(R.id.local_maps_recycler);
+
+        if (!mapFiles.isEmpty())
+        {
+            //In case there are files in the local OHDM directory these two will be behind the recycler
+            view.findViewById(R.id.content_card_home_info).setVisibility(View.INVISIBLE);
+            view.findViewById(R.id.ohdm_logo_iv).setVisibility(View.INVISIBLE);
+
+            localMapsRecyclerView.setVisibility(View.VISIBLE);
+
+            RecyclerView.LayoutManager recyclerLayoutManager = new LinearLayoutManager(this.getContext());
+            recyclerAdapter = new RecyclerAdapterLocalMaps(this.getContext(), mapFiles, R.layout.recycler_item_vertical);
+
+            //The itemTouchhelper for the swipe gestures on the recycler Items
+            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeGesturesHome(recyclerAdapter, this.rightSwipeCallback, this.leftSwipeCallback));
+
+
+            //Putting everything together
+            itemTouchHelper.attachToRecyclerView(localMapsRecyclerView);
+
+
+            //Putting everything together
+            localMapsRecyclerView.setLayoutManager(recyclerLayoutManager);
+            localMapsRecyclerView.setAdapter(recyclerAdapter);
+            recyclerAdapter.notifyDataSetChanged();
+        }
+    }
 }
