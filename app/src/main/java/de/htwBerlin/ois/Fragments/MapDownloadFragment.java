@@ -7,12 +7,15 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SearchView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -94,7 +97,7 @@ public class MapDownloadFragment extends Fragment
         super.onActivityCreated(savedInstanceState);
         ohdmFiles = new ArrayList<>();
         ohdmFilesBackup = new ArrayList<>();
-        this.setupSearchView();
+        setHasOptionsMenu(true);
         this.listFTPFiles();
         this.setupRecyclerView();
         this.setupFAB();
@@ -149,9 +152,8 @@ public class MapDownloadFragment extends Fragment
      * Setup the search view to use the nameFilter
      * implemented in {@link RecyclerAdapterOhdmMaps}
      */
-    private void setupSearchView()
+    private void setupSearchView(SearchView searchView)
     {
-        SearchView searchView = view.findViewById(R.id.map_search_view);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
         {
             @Override
@@ -241,4 +243,35 @@ public class MapDownloadFragment extends Fragment
         ftpTaskFileListing.execute();
     }
 
+
+    //------------Toolbar Menu------------
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
+        inflater.inflate(R.menu.actionbar_menu, menu);
+        MenuItem searchItem = menu.findItem(R.id.ab_menu_search).setVisible(true);
+        setupSearchView((SearchView) searchItem.getActionView());
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.ab_menu_about:
+                //no implemented here,
+                return false;
+            case R.id.ab_menu_faq:
+                //no implemented here,
+                return false;
+            case R.id.ab_menu_settings:
+                //no implemented here
+                return false;
+            case R.id.ab_menu_search:
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
