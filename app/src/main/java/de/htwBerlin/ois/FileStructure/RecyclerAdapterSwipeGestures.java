@@ -9,16 +9,27 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
 
-public class RecyclerViewItemSwipeGestures extends ItemTouchHelper.SimpleCallback
+public class RecyclerAdapterSwipeGestures extends ItemTouchHelper.SimpleCallback
 {
+
+    //------------Instance Variables------------
+
     private final ColorDrawable redBackground;
     private final ColorDrawable greenBackground;
     private LeftSwipeCallback leftSwipeCallback;
     private RightSwipeCallback rightSwipeCallback;
-    private RecyclerAdapterOhdmMaps mAdapter;
+    private RecyclerView.Adapter mAdapter;
     private ColorDrawable actualIColor;
 
-    public RecyclerViewItemSwipeGestures(RecyclerAdapterOhdmMaps adapter, LeftSwipeCallback onLeftSwipe)
+
+    //------------Constructors------------
+
+    /**
+     * Public Constructor to just implement the LeftSwipe
+     * @param adapter
+     * @param onLeftSwipe
+     */
+    public RecyclerAdapterSwipeGestures(RecyclerView.Adapter adapter, LeftSwipeCallback onLeftSwipe)
     {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         mAdapter = adapter;
@@ -28,7 +39,12 @@ public class RecyclerViewItemSwipeGestures extends ItemTouchHelper.SimpleCallbac
         this.leftSwipeCallback = onLeftSwipe;
     }
 
-    public RecyclerViewItemSwipeGestures(RecyclerAdapterOhdmMaps adapter, RightSwipeCallback onRightSwipe)
+    /**
+     * Public Constructor to just implement the RightSwipe
+     * @param adapter
+     * @param onRightSwipe
+     */
+    public RecyclerAdapterSwipeGestures(RecyclerView.Adapter adapter, RightSwipeCallback onRightSwipe)
     {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         mAdapter = adapter;
@@ -38,7 +54,13 @@ public class RecyclerViewItemSwipeGestures extends ItemTouchHelper.SimpleCallbac
         this.rightSwipeCallback = onRightSwipe;
     }
 
-    public RecyclerViewItemSwipeGestures(RecyclerAdapterOhdmMaps adapter, RightSwipeCallback onRightSwipe, LeftSwipeCallback onLeftSwipe)
+
+    /**
+     * Public Constructor to implement both swipe directions
+     * @param adapter
+     * @param onLeftSwipe
+     */
+    public RecyclerAdapterSwipeGestures(RecyclerView.Adapter adapter, RightSwipeCallback onRightSwipe, LeftSwipeCallback onLeftSwipe)
     {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         mAdapter = adapter;
@@ -48,6 +70,9 @@ public class RecyclerViewItemSwipeGestures extends ItemTouchHelper.SimpleCallbac
         this.rightSwipeCallback = onRightSwipe;
         this.leftSwipeCallback = onLeftSwipe;
     }
+
+
+    //------------ItemTouchHelper Methods------------
 
     @Override
     public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1)
@@ -109,5 +134,4 @@ public class RecyclerViewItemSwipeGestures extends ItemTouchHelper.SimpleCallbac
 
         super.onChildDraw(canvas, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
     }
-
 }
