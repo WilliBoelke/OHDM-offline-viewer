@@ -143,7 +143,7 @@ public class HomeFragment extends Fragment
             localMapsRecyclerView.setVisibility(View.VISIBLE);
 
             RecyclerView.LayoutManager recyclerLayoutManager = new LinearLayoutManager(this.getContext());
-            recyclerAdapter = new RecyclerAdapterLocalMaps(this.getContext(), mapFiles, R.layout.download_recycler_item);
+            recyclerAdapter = new RecyclerAdapterLocalMaps(this.getContext(), mapFiles, R.layout.recycler_item_vertical);
 
             //onClickListener to set the clicked file in the MapFileSingleton
             recyclerAdapter.setOnItemClickListener(new RecyclerAdapterLocalMaps.OnItemClickListener()

@@ -54,6 +54,7 @@ public class FtpTaskFileDownloading extends AsyncTask<OhdmFile, Integer, Long>
         {
             e.printStackTrace();
         }
+        ftpClient.closeConnection();
         return null;
     }
 

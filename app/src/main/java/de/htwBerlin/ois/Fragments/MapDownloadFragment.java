@@ -29,6 +29,8 @@ import de.htwBerlin.ois.ServerCommunication.AsyncResponse;
 import de.htwBerlin.ois.ServerCommunication.FtpTaskFileDownloading;
 import de.htwBerlin.ois.ServerCommunication.FtpTaskFileListing;
 
+import static de.htwBerlin.ois.ServerCommunication.Variables.MOST_RECENT_PATH;
+
 /**
  * This Activity represents a small map file download center
  * @author WilliBoelke
@@ -165,7 +167,7 @@ public class MapDownloadFragment extends Fragment
         RecyclerView.LayoutManager recyclerLayoutManager = new LinearLayoutManager(this.getContext());//layout manager vor vertical scrolling recycler
 
         //The recycler adapter
-         allRecyclerAdapter = new RecyclerAdapterOhdmMaps(getActivity().getApplicationContext(), allOhdmFiles, allOhdmFilesBackup, R.layout.download_recycler_item);
+         allRecyclerAdapter = new RecyclerAdapterOhdmMaps(getActivity().getApplicationContext(), allOhdmFiles, allOhdmFilesBackup, R.layout.recycler_item_vertical);
 
         //The itemTouchhelper for the swipe gestures on the recycler Items
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new RecyclerViewItemSwipeGestures(allRecyclerAdapter, new LeftSwipeCallback()
@@ -201,7 +203,7 @@ public class MapDownloadFragment extends Fragment
         recyclerLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
         //The recycler adapter
-        latestRecyclerAdapter = new RecyclerAdapterOhdmMaps(getActivity().getApplicationContext(), latestOhdmFiles, latestOhdmFilesBackup, R.layout.download_recycler_item_latest);
+        latestRecyclerAdapter = new RecyclerAdapterOhdmMaps(getActivity().getApplicationContext(), latestOhdmFiles, latestOhdmFilesBackup, R.layout.recycler_item_horizonal);
 
 
         //Putting everything together
@@ -335,7 +337,7 @@ public class MapDownloadFragment extends Fragment
      */
     private void FTPListLatestFiles()
     {
-        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(getActivity(), "", new AsyncResponse()
+        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(getActivity(), MOST_RECENT_PATH, new AsyncResponse()
         {
             @Override
             public void getOhdmFiles(ArrayList<OhdmFile> files)

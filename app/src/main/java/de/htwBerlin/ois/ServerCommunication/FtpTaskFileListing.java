@@ -104,6 +104,7 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
             Log.i(TAG, ohdm.toString());
         }
 
+        ftpClient.closeConnection();
         return null;
     }
 

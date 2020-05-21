@@ -3,8 +3,14 @@ package de.htwBerlin.ois.ServerCommunication;
 /**
  * @author WilliBoelke
  */
-public class Variables
+public  class Variables
 {
+
+    private Variables()
+    {
+        //ot to be initialized
+    }
+
     /**
      * The remote server ip
      * (For localhost in android emulator set to "10.0.2.2")
@@ -26,5 +32,8 @@ public class Variables
      * The remote server user password
      */
     protected static final String USER_PASSWORD = "H!3r0glyph Sat3llite Era$er";
-    
+
+    public static final String MOST_RECENT_PATH = "/most_recent";
+
+    public static final String LAST_REQUEST_PATH = "/last_request";
 }
