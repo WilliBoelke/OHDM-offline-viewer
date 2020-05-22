@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/activity_horizontal_margin"
-    android:layout_marginBottom="@dimen/activity_horizontal_margin"
+    android:layout_marginTop="@dimen/activity_horizontal_margin"
     android:layout_marginRight="@dimen/activity_horizontal_margin"
     android:clickable="true"
     android:focusable="true"
@@ -39,10 +39,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:fontFamily="@font/comfortaa"
             android:text="Size : "
             android:textSize="@dimen/secondary_font_size"
             android:textStyle="normal"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/map_name_tv"
             tools:text="Size :" />
@@ -79,17 +81,15 @@
         <TextView
             android:id="@+id/date_of_creation_tv"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginStart="4dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
             android:fontFamily="@font/comfortaa"
             android:text="TextView"
             android:textSize="@dimen/secondary_font_size"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/date_of_creation"
             app:layout_constraintEnd_toStartOf="@+id/download_button"
             app:layout_constraintStart_toEndOf="@+id/date_of_creation"
-            app:layout_constraintTop_toBottomOf="@+id/map_name_tv"
+            app:layout_constraintTop_toTopOf="@+id/date_of_creation"
             tools:text="12.12.2018" />
 
         <ImageView
