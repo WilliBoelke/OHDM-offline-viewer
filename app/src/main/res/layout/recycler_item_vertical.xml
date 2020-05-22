@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/activity_horizontal_margin"
-    android:layout_marginTop="@dimen/activity_horizontal_margin"
+    android:layout_marginBottom="@dimen/activity_horizontal_margin"
     android:layout_marginRight="@dimen/activity_horizontal_margin"
     android:clickable="true"
     android:focusable="true"
@@ -49,13 +49,15 @@
 
         <TextView
             android:id="@+id/map_size_tv"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             android:fontFamily="@font/comfortaa"
             android:textSize="@dimen/secondary_font_size"
             android:textStyle="normal"
+            app:layout_constraintEnd_toStartOf="@+id/date_of_creation"
             app:layout_constraintStart_toEndOf="@+id/map_size"
             app:layout_constraintTop_toBottomOf="@+id/map_name_tv"
             tools:text="4 Gb" />
@@ -64,19 +66,19 @@
             android:id="@+id/date_of_creation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="150dp"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/comfortaa"
             android:text="Date : "
             android:textSize="@dimen/secondary_font_size"
             android:textStyle="normal"
-            app:layout_constraintStart_toEndOf="@+id/map_size_tv"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/map_name_tv"
             tools:text="Date : " />
 
         <TextView
             android:id="@+id/date_of_creation_tv"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginTop="8dp"
@@ -85,6 +87,7 @@
             android:text="TextView"
             android:textSize="@dimen/secondary_font_size"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/download_button"
             app:layout_constraintStart_toEndOf="@+id/date_of_creation"
             app:layout_constraintTop_toBottomOf="@+id/map_name_tv"
             tools:text="12.12.2018" />

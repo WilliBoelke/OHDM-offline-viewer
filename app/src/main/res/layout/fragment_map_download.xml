@@ -66,7 +66,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
                 android:text="all maps"
                 android:textAllCaps="false"
                 android:textColor="?attr/textColorPrimary"
@@ -80,7 +79,7 @@
                 android:id="@+id/latest_maps_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lates_tv" />
@@ -113,24 +112,20 @@
 
             <android.support.v7.widget.SearchView
                 android:id="@+id/latest_sv"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginStart="8dp"
                 android:layout_marginEnd="24dp"
                 app:layout_constraintBottom_toBottomOf="@+id/lates_tv"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/lates_tv"
                 app:layout_constraintTop_toTopOf="@+id/lates_tv" />
 
             <android.support.v7.widget.SearchView
                 android:id="@+id/all_sv"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginStart="8dp"
                 android:layout_marginEnd="16dp"
                 app:layout_constraintBottom_toBottomOf="@+id/all_tv"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/all_tv"
                 app:layout_constraintTop_toTopOf="@+id/all_tv" />
 
         </android.support.constraint.ConstraintLayout>

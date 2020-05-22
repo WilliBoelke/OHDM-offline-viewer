@@ -14,18 +14,19 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/recycler_item_gradient">
 
         <TextView
             android:id="@+id/map_name_tv"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/activity_horizontal_margin"
             android:fontFamily="@font/comfortaa"
             android:textSize="@dimen/primary_font_size"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/map_size"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Berlin" />
@@ -34,24 +35,26 @@
             android:id="@+id/map_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="250dp"
             android:fontFamily="@font/comfortaa"
-            android:text="Size : "
+            android:text="|  Size : "
             android:textSize="@dimen/secondary_font_size"
             android:textStyle="normal"
             app:layout_constraintBottom_toBottomOf="@+id/map_name_tv"
-            app:layout_constraintStart_toEndOf="@+id/map_name_tv"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/map_name_tv"
-            tools:text="Size :" />
+            tools:text="|  Size : " />
 
         <TextView
             android:id="@+id/map_size_tv"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
+            android:layout_marginEnd="8dp"
             android:fontFamily="@font/comfortaa"
             android:textSize="@dimen/secondary_font_size"
             android:textStyle="normal"
+            app:layout_constraintEnd_toStartOf="@+id/date_of_creation"
             app:layout_constraintStart_toEndOf="@+id/map_size"
             app:layout_constraintTop_toTopOf="@+id/map_size"
             tools:text="4 Gb" />
@@ -60,25 +63,27 @@
             android:id="@+id/date_of_creation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="400dp"
             android:fontFamily="@font/comfortaa"
-            android:text="Date : "
+            android:text="|  Date : "
             android:textSize="@dimen/secondary_font_size"
             android:textStyle="normal"
             app:layout_constraintBottom_toBottomOf="@+id/map_size_tv"
-            app:layout_constraintStart_toEndOf="@+id/map_size_tv"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/map_size_tv"
-            tools:text="Date : " />
+            tools:text="|  Date : " />
 
         <TextView
             android:id="@+id/date_of_creation_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="13dp"
             android:layout_marginStart="4dp"
+            android:layout_marginEnd="16dp"
             android:fontFamily="@font/comfortaa"
             android:text="TextView"
             android:textSize="@dimen/secondary_font_size"
             app:layout_constraintBottom_toBottomOf="@+id/date_of_creation"
+            app:layout_constraintEnd_toStartOf="@+id/current_map_icon"
             app:layout_constraintStart_toEndOf="@+id/date_of_creation"
             app:layout_constraintTop_toTopOf="@+id/date_of_creation"
             tools:text="12.12.2018" />
@@ -96,13 +101,13 @@
 
         <Button
             android:id="@+id/download_button"
-            android:visibility="invisible"
             android:layout_width="34dp"
             android:layout_height="32dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/bottom_nav_icon_download_black"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
