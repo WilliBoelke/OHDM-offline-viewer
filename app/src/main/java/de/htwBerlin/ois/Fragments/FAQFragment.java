@@ -20,13 +20,23 @@ import de.htwBerlin.ois.R;
  */
 public class FAQFragment extends Fragment
 {
+
+    //------------Instance Variables------------
+
+    private final String TAG = this.getClass().getSimpleName();
+    private View view;
+
+
+    //------------Static Variables------------
+
     /**
      * Fragment ID used to identify the fragment
      * (for example by putting the ID into the Intent extra )
      */
     public static String ID = "FAQ";
-    private final String TAG = this.getClass().getSimpleName();
-    private View view;
+
+
+    //------------Activity/Fragment Lifecycle------------
 
     @Nullable
     @Override
@@ -44,6 +54,7 @@ public class FAQFragment extends Fragment
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
     }
+
 
     //------------Toolbar Menu------------
 

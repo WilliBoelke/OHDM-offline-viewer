@@ -19,11 +19,8 @@ import de.htwBerlin.ois.R;
  */
 public class AboutFragment extends Fragment
 {
-    /**
-     * Fragment ID used to identify the fragment
-     * (for example by putting the ID into the Intent extra )
-     */
-    public static String ID = "About";
+
+    //------------Instance Variables------------
 
     /**
      * Log tag
@@ -33,6 +30,18 @@ public class AboutFragment extends Fragment
      * Fragments view
      */
     private View view;
+
+
+    //------------Static Variables------------
+
+    /**
+     * Fragment ID used to identify the fragment
+     * (for example by putting the ID into the Intent extra )
+     */
+    public static String ID = "About";
+
+
+    //------------Activity/Fragment Lifecycle------------
 
     @Nullable
     @Override

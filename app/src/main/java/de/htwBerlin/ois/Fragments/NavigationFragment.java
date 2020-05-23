@@ -91,6 +91,7 @@ public class NavigationFragment extends Fragment
         setHasOptionsMenu(true);
     }
 
+
     //------------Setup Views------------
 
     /**

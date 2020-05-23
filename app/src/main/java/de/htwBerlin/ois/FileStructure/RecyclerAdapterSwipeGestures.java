@@ -16,8 +16,8 @@ public class RecyclerAdapterSwipeGestures extends ItemTouchHelper.SimpleCallback
 
     private final ColorDrawable redBackground;
     private final ColorDrawable greenBackground;
-    private LeftSwipeCallback leftSwipeCallback;
-    private RightSwipeCallback rightSwipeCallback;
+    private SwipeCallbackLeft swipeCallbackLeft;
+    private SwipeCallbackRight swipeCallbackRight;
     private RecyclerView.Adapter mAdapter;
     private ColorDrawable actualIColor;
 
@@ -29,14 +29,14 @@ public class RecyclerAdapterSwipeGestures extends ItemTouchHelper.SimpleCallback
      * @param adapter
      * @param onLeftSwipe
      */
-    public RecyclerAdapterSwipeGestures(RecyclerView.Adapter adapter, LeftSwipeCallback onLeftSwipe)
+    public RecyclerAdapterSwipeGestures(RecyclerView.Adapter adapter, SwipeCallbackLeft onLeftSwipe)
     {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         mAdapter = adapter;
         actualIColor = new ColorDrawable(Color.GREEN);
         redBackground = new ColorDrawable(Color.RED);
         greenBackground = new ColorDrawable(Color.GREEN);
-        this.leftSwipeCallback = onLeftSwipe;
+        this.swipeCallbackLeft = onLeftSwipe;
     }
 
     /**
@@ -44,14 +44,14 @@ public class RecyclerAdapterSwipeGestures extends ItemTouchHelper.SimpleCallback
      * @param adapter
      * @param onRightSwipe
      */
-    public RecyclerAdapterSwipeGestures(RecyclerView.Adapter adapter, RightSwipeCallback onRightSwipe)
+    public RecyclerAdapterSwipeGestures(RecyclerView.Adapter adapter, SwipeCallbackRight onRightSwipe)
     {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         mAdapter = adapter;
         actualIColor = new ColorDrawable(Color.GREEN);
         redBackground = new ColorDrawable(Color.RED);
         greenBackground = new ColorDrawable(Color.GREEN);
-        this.rightSwipeCallback = onRightSwipe;
+        this.swipeCallbackRight = onRightSwipe;
     }
 
 
@@ -60,15 +60,15 @@ public class RecyclerAdapterSwipeGestures extends ItemTouchHelper.SimpleCallback
      * @param adapter
      * @param onLeftSwipe
      */
-    public RecyclerAdapterSwipeGestures(RecyclerView.Adapter adapter, RightSwipeCallback onRightSwipe, LeftSwipeCallback onLeftSwipe)
+    public RecyclerAdapterSwipeGestures(RecyclerView.Adapter adapter, SwipeCallbackRight onRightSwipe, SwipeCallbackLeft onLeftSwipe)
     {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         mAdapter = adapter;
         actualIColor = new ColorDrawable(Color.GREEN);
         redBackground = new ColorDrawable(Color.RED);
         greenBackground = new ColorDrawable(Color.GREEN);
-        this.rightSwipeCallback = onRightSwipe;
-        this.leftSwipeCallback = onLeftSwipe;
+        this.swipeCallbackRight = onRightSwipe;
+        this.swipeCallbackLeft = onLeftSwipe;
     }
 
 
@@ -85,18 +85,18 @@ public class RecyclerAdapterSwipeGestures extends ItemTouchHelper.SimpleCallback
     {
         int position = viewHolder.getAdapterPosition();
 
-        if (leftSwipeCallback != null)
+        if (swipeCallbackLeft != null)
         {
             if (direction == ItemTouchHelper.LEFT)
             {
-                this.leftSwipeCallback.onLeftSwipe(position);
+                this.swipeCallbackLeft.onLeftSwipe(position);
             }
         }
-        if (rightSwipeCallback != null)
+        if (swipeCallbackRight != null)
         {
             if (direction == ItemTouchHelper.RIGHT)
             {
-                this.rightSwipeCallback.onRightSwipe(position);
+                this.swipeCallbackRight.onRightSwipe(position);
             }
         }
 

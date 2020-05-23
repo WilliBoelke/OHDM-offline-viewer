@@ -220,7 +220,4 @@ public class RecyclerAdapterOhdmMaps extends RecyclerView.Adapter<RecyclerAdapte
             });
         }
     }
-
-
-
 }

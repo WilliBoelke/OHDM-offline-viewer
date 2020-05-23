@@ -249,7 +249,6 @@ public class OptionsFragment extends Fragment
                 //no implemented here,
                 return false;
             case R.id.ab_menu_faq:
-                ;
                 //no implemented here,
                 return false;
             case R.id.ab_menu_settings:
@@ -260,6 +259,4 @@ public class OptionsFragment extends Fragment
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 }

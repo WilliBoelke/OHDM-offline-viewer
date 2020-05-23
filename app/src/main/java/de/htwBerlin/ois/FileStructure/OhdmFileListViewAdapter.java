@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import de.htwBerlin.ois.R;
 import de.htwBerlin.ois.ServerCommunication.FtpTaskFileDownloading;
 
-import static de.htwBerlin.ois.ServerCommunication.Variables.MOST_RECENT_PATH;
-
 /**
  * ListView adapter that holds ohdmFiles
  * Since we started to use a recycler view we don't need that for now
