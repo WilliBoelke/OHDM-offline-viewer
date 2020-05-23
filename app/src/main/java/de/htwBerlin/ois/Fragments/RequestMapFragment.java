@@ -163,9 +163,9 @@ public class RequestMapFragment extends Fragment
         stringBuilder.append(",");
         stringBuilder.append(coordy4.getText().toString().trim());
         stringBuilder.append("_");
-        stringBuilder.append(coordx2.getText().toString().trim());
+        stringBuilder.append(coordx1.getText().toString().trim());
         stringBuilder.append(",");
-        stringBuilder.append(coordy2.getText().toString().trim());
+        stringBuilder.append(coordy1.getText().toString().trim());
         stringBuilder.append("_");
         Log.i(TAG, "getCoordinatesAsString: String created");
         Log.i(TAG, "getCoordinatesAsString: result: " + stringBuilder.toString());
