@@ -108,7 +108,6 @@ public class FtpTaskDirListing extends AsyncTask<Void, Void, String>
     @Override
     protected void onPostExecute(String result)
     {
-        Context context = this.context.get();
         if (directoryList.size() == 0)
             Log.e(TAG,"Server not available or empty");
         else

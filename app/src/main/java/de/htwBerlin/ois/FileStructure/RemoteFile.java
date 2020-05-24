@@ -1,6 +1,8 @@
 package de.htwBerlin.ois.FileStructure;
 
-public class RemoteFile
+import java.io.Serializable;
+
+public class RemoteFile implements Serializable
 {
 
     private String filename;

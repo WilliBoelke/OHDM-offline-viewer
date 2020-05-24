@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -19,8 +20,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
+import de.htwBerlin.ois.FileStructure.ObjectSerializer;
 import de.htwBerlin.ois.FileStructure.OnRecyclerItemButtonClicklistenner;
 import de.htwBerlin.ois.FileStructure.RecyclerAdapterRemoteFiles;
 import de.htwBerlin.ois.FileStructure.RemoteDirectory;
@@ -69,6 +72,7 @@ public class FragmentDownloadCenterAll extends Fragment
      * The view
      */
     private View view;
+    private final String sharedPreferencesName = "DCALL";
 
 
     //------------Static Variables------------
@@ -81,6 +85,7 @@ public class FragmentDownloadCenterAll extends Fragment
 
 
     //------------Activity/Fragment Lifecycle------------
+
 
     @Nullable
     @Override
@@ -100,14 +105,20 @@ public class FragmentDownloadCenterAll extends Fragment
         latestOhdmFiles = new ArrayList<>();
         latestOhdmFilesBackup = new ArrayList<>();
         setHasOptionsMenu(true);
-        this.FTPListAllFiles();
-        this.FTPListLatestFiles();
         this.setupAllMapsRecyclerView();
         this.setupLatestMapsRecyclerView();
         this.setupLatestSearchView();
         this.setupAllSearchView();
         this.setupFAB();
+        this.setupSwipeToRefresh();
         this.setupButtonToCategories();
+        this.restoreInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void setRetainInstance(boolean retain)
+    {
+        super.setRetainInstance(retain);
     }
 
     @Override
@@ -132,6 +143,7 @@ public class FragmentDownloadCenterAll extends Fragment
     public void onDestroy()
     {
         super.onDestroy();
+
     }
 
 
@@ -435,4 +447,100 @@ public class FragmentDownloadCenterAll extends Fragment
     }
 
 
+    //------------Swipe To Refresh------------
+
+    private void setupSwipeToRefresh()
+    {
+        final SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipe_to_refresh);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
+        {
+            @Override
+            public void onRefresh()
+            {
+                swipeRefreshLayout.setRefreshing(false);
+                FTPListAllFiles();
+                FTPListLatestFiles();
+            }
+        });
+    }
+
+
+    //------------Save/Restore Instance State------------
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
+        try
+        {
+            outState.putString("latest", ObjectSerializer.serialize(latestOhdmFilesBackup));
+            outState.putString("all", ObjectSerializer.serialize(allOhdmFilesBackup));
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private void restoreInstanceState(Bundle savedInstanceState)
+    {
+        if (savedInstanceState != null)
+        {
+            if (savedInstanceState.get("all") != null)
+            {
+                try
+                {
+                    allOhdmFiles = (ArrayList) ObjectSerializer.deserialize(savedInstanceState.getString("all", null));
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+                catch (ClassNotFoundException e)
+                {
+                    e.printStackTrace();
+                }
+                view.findViewById(R.id.connecting_tv).setVisibility(View.INVISIBLE);
+                view.findViewById(R.id.connecting_pb).setVisibility(View.INVISIBLE);
+                view.findViewById(R.id.all_tv).setVisibility(View.VISIBLE);
+                allMapsRecyclerView.setVisibility(View.VISIBLE);
+                allOhdmFilesBackup.addAll(allOhdmFiles);
+                allRecyclerAdapter.notifyDataSetChanged();
+            }
+            else
+            {
+                FTPListAllFiles();
+            }
+            if (savedInstanceState.get("latest") != null)
+            {
+                try
+                {
+                    latestOhdmFiles = (ArrayList) ObjectSerializer.deserialize(savedInstanceState.getString("latest", null));
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+                catch (ClassNotFoundException e)
+                {
+                    e.printStackTrace();
+                }
+                view.findViewById(R.id.connecting_tv).setVisibility(View.INVISIBLE);
+                view.findViewById(R.id.connecting_pb).setVisibility(View.INVISIBLE);
+                view.findViewById(R.id.lates_tv).setVisibility(View.VISIBLE);
+                latestMapsRecyclerView.setVisibility(View.VISIBLE);
+                latestOhdmFilesBackup.addAll(latestOhdmFiles);
+                latestRecyclerAdapter.notifyDataSetChanged();
+            }
+            else
+            {
+                FTPListLatestFiles();
+            }
+        }
+        else
+        {
+            FTPListAllFiles();
+            FTPListLatestFiles();
+        }
+    }
 }

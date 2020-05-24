@@ -3,7 +3,6 @@ package de.htwBerlin.ois.ServerCommunication;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.apache.commons.net.ftp.FTPFile;
 
@@ -34,7 +33,7 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
     /**
      *The list to be filled with remote ohdmFiles
      */
-    private ArrayList<RemoteFile> ohdmFiles;
+    private ArrayList<RemoteFile> remoteFiles;
     /**
      * Implementation of the {@link  AsyncResponse} interface
      * (To be implemented when initializing this class)
@@ -83,7 +82,7 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
     @Override
     protected String doInBackground(Void... params)
     {
-        ohdmFiles = new ArrayList<>();
+        remoteFiles = new ArrayList<>();
         FtpClient ftpClient = new FtpClient();
         ftpClient.connect();
 
@@ -100,7 +99,7 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
         {
             Date date = ftpFile.getTimestamp().getTime();
             RemoteFile ohdm = new RemoteFile(ftpFile.getName(), (ftpFile.getSize() / 1024), sdf.format(date.getTime()), Boolean.FALSE);
-            ohdmFiles.add(ohdm);
+            remoteFiles.add(ohdm);
             Log.i(TAG, ohdm.toString());
         }
 
@@ -111,11 +110,8 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
     @Override
     protected void onPostExecute(String result)
     {
-        Context context = this.context.get();
-        if (ohdmFiles.size() == 0)
-            Toast.makeText(context, "Download Service not available", Toast.LENGTH_SHORT).show();
-        else
-            Toast.makeText(context, "Found " + ohdmFiles.size() + " maps!", Toast.LENGTH_SHORT).show();
-        delegate.getOhdmFiles(this.ohdmFiles);
+        if (remoteFiles.size() == 0) Log.e(TAG, "Server not available or empty");
+        else Log.i(TAG, "Found " + remoteFiles.size() + " directories");
+        delegate.getOhdmFiles(this.remoteFiles);
     }
 }

@@ -24,11 +24,10 @@ import java.util.Map;
 
 import de.htwBerlin.ois.FileStructure.MapFileSingleton;
 import de.htwBerlin.ois.Fragments.FramentAbout;
-import de.htwBerlin.ois.Fragments.FragementFAQ;
+import de.htwBerlin.ois.Fragments.FragmentFAQ;
 import de.htwBerlin.ois.Fragments.FragmentHome;
 import de.htwBerlin.ois.Fragments.FragmentDownloadCenterAll;
 import de.htwBerlin.ois.Fragments.FragmentNavigation;
-import de.htwBerlin.ois.Fragments.FragmentDownloadCenterCategories;
 import de.htwBerlin.ois.Fragments.FragmentOptions;
 import de.htwBerlin.ois.R;
 
@@ -130,7 +129,7 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.ab_menu_faq:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentDownloadCenterCategories()).addToBackStack(FragementFAQ.ID).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentFAQ()).addToBackStack(FragmentFAQ.ID).commit();
                 break;
             case R.id.ab_menu_settings:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentOptions()).addToBackStack(FragmentOptions.ID).commit();

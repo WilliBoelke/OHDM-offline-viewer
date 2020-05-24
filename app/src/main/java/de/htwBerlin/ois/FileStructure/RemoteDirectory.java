@@ -1,10 +1,12 @@
 package de.htwBerlin.ois.FileStructure;
 
+import java.io.Serializable;
+
 /**
  * Class do describe a directory from the FTP Server
  * @author  WilliBoelke
  */
-public class RemoteDirectory
+public class RemoteDirectory implements Serializable
 {
 
     //------------Instance Variables------------
