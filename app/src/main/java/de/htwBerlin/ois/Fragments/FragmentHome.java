@@ -35,7 +35,7 @@ import de.htwBerlin.ois.R;
  * @author morelly_t1
  * @author WilliBoelke
  */
-public class HomeFragment extends Fragment
+public class FragmentHome extends Fragment
 {
 
     //------------Instance Variables------------

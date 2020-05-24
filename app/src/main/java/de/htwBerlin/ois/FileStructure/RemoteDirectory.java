@@ -1,7 +1,13 @@
 package de.htwBerlin.ois.FileStructure;
 
+/**
+ * Class do describe a directory from the FTP Server
+ * @author  WilliBoelke
+ */
 public class RemoteDirectory
 {
+
+
     private String filename;
     private String path;
     private String creationDate;

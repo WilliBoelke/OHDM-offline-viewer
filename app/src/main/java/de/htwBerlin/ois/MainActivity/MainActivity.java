@@ -23,13 +23,13 @@ import java.util.List;
 import java.util.Map;
 
 import de.htwBerlin.ois.FileStructure.MapFileSingleton;
-import de.htwBerlin.ois.Fragments.AboutFragment;
-import de.htwBerlin.ois.Fragments.FAQFragment;
-import de.htwBerlin.ois.Fragments.HomeFragment;
-import de.htwBerlin.ois.Fragments.MapDownloadFragment;
-import de.htwBerlin.ois.Fragments.NavigationFragment;
-import de.htwBerlin.ois.Fragments.NewMapDownloadCenterTest;
-import de.htwBerlin.ois.Fragments.OptionsFragment;
+import de.htwBerlin.ois.Fragments.FramentAbout;
+import de.htwBerlin.ois.Fragments.FragementFAQ;
+import de.htwBerlin.ois.Fragments.FragmentHome;
+import de.htwBerlin.ois.Fragments.FragmentDownloadCenterAll;
+import de.htwBerlin.ois.Fragments.FragmentNavigation;
+import de.htwBerlin.ois.Fragments.FramentDownloadCenterSorted;
+import de.htwBerlin.ois.Fragments.FragmentOptions;
 import de.htwBerlin.ois.R;
 
 /**
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity
 
 
     private String TAG = getClass().getSimpleName();
-    private Fragment defaultFragment = new HomeFragment();
+    private Fragment defaultFragment = new FragmentHome();
 
     //------------Instance Variables------------
 
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         //Get settings from SharedPrefs
-        if (getApplicationContext().getSharedPreferences(OptionsFragment.SETTINGS_SHARED_PREFERENCES, 0).getBoolean(OptionsFragment.DARK_MODE, false) == true)
+        if (getApplicationContext().getSharedPreferences(FragmentOptions.SETTINGS_SHARED_PREFERENCES, 0).getBoolean(FragmentOptions.DARK_MODE, false) == true)
         {
             setTheme(R.style.DarkTheme);
         }
@@ -77,10 +77,10 @@ public class MainActivity extends AppCompatActivity
         Intent intent = getIntent();
         if (intent.getStringExtra("Fragment") != null)
         {
-            if (intent.getStringExtra("Fragment").equals(OptionsFragment.ID))
+            if (intent.getStringExtra("Fragment").equals(FragmentOptions.ID))
             {
                 //if we came her from the reset method in the options fragment, we want the options fragment to appear again
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new OptionsFragment()).addToBackStack(OptionsFragment.ID).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentOptions()).addToBackStack(FragmentOptions.ID).commit();
             }
 
         }
@@ -126,14 +126,14 @@ public class MainActivity extends AppCompatActivity
         switch (item.getItemId())
         {
             case R.id.ab_menu_about:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AboutFragment()).addToBackStack(AboutFragment.ID).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FramentAbout()).addToBackStack(FramentAbout.ID).commit();
                 break;
 
             case R.id.ab_menu_faq:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NewMapDownloadCenterTest()).addToBackStack(FAQFragment.ID).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FramentDownloadCenterSorted()).addToBackStack(FragementFAQ.ID).commit();
                 break;
             case R.id.ab_menu_settings:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new OptionsFragment()).addToBackStack(OptionsFragment.ID).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentOptions()).addToBackStack(FragmentOptions.ID).commit();
                 break;
             case R.id.ab_menu_search:
                 //no implemented here, to e implemented in fragments
@@ -231,18 +231,18 @@ public class MainActivity extends AppCompatActivity
             switch (item.getItemId())
             {
                 case R.id.nav_home:
-                    selectedFragment = new HomeFragment();
-                    id = HomeFragment.ID;
+                    selectedFragment = new FragmentHome();
+                    id = FragmentHome.ID;
                     break;
                 case R.id.nav_download:
-                    selectedFragment = new MapDownloadFragment();
-                    id = HomeFragment.ID;
+                    selectedFragment = new FragmentDownloadCenterAll();
+                    id = FragmentHome.ID;
                     break;
                 case R.id.nav_navigation:
                     if (MapFileSingleton.getInstance().getFile() != null)
                     {
-                        selectedFragment = new NavigationFragment();
-                        id = NavigationFragment.ID;
+                        selectedFragment = new FragmentNavigation();
+                        id = FragmentNavigation.ID;
                     }
                     else
                     {

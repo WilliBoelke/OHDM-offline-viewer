@@ -18,7 +18,7 @@ import de.htwBerlin.ois.R;
 /**
  * @author WilliBoelke
  */
-public class FAQFragment extends Fragment
+public class FragementFAQ extends Fragment
 {
 
     //------------Instance Variables------------

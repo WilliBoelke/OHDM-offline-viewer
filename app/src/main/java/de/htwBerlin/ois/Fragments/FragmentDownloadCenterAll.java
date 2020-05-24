@@ -35,7 +35,7 @@ import static de.htwBerlin.ois.ServerCommunication.Variables.MOST_RECENT_PATH;
  * This Activity represents a small map file download center
  * @author WilliBoelke
  */
-public class MapDownloadFragment extends Fragment
+public class FragmentDownloadCenterAll extends Fragment
 {
 
     //------------Instance Variables------------
@@ -137,7 +137,7 @@ public class MapDownloadFragment extends Fragment
 
     /**
      * Setup the FloatingActionButton to replace this fragment with the
-     * {@link RequestMapFragment}
+     * {@link FragmentrequestNewMap}
      */
     private void setupFAB()
     {
@@ -147,7 +147,7 @@ public class MapDownloadFragment extends Fragment
             @Override
             public void onClick(View v)
             {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new RequestMapFragment()).addToBackStack(null).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentrequestNewMap()).addToBackStack(null).commit();
             }
         });
     }

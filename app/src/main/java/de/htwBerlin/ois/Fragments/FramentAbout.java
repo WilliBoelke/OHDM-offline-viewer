@@ -17,7 +17,7 @@ import de.htwBerlin.ois.R;
  * Fragment showing about OHDM information
  * Can be reached by the user via the Toolbars 3-dod menu
  */
-public class AboutFragment extends Fragment
+public class FramentAbout extends Fragment
 {
 
     //------------Instance Variables------------

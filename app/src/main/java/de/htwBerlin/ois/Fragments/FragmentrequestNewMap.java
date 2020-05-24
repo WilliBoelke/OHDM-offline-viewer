@@ -22,7 +22,7 @@ import de.htwBerlin.ois.ServerCommunication.HTTPRequestNewMap;
  * Fragment to allow the user to request a new map
  * @author WilliBoelke
  */
-public class RequestMapFragment extends Fragment
+public class FragmentrequestNewMap extends Fragment
 {
     //------------Instance Variables------------
 

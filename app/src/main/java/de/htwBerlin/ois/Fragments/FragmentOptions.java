@@ -30,7 +30,7 @@ import de.htwBerlin.ois.R;
  *
  * @author WilliBoelke
  */
-public class OptionsFragment extends Fragment
+public class FragmentOptions extends Fragment
 {
 
     //------------Instance Variables------------

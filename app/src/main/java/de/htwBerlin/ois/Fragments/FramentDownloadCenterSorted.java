@@ -20,7 +20,7 @@ import de.htwBerlin.ois.ServerCommunication.AsyncResponse;
 import de.htwBerlin.ois.ServerCommunication.FtpTaskDirListing;
 
 
-public class NewMapDownloadCenterTest extends Fragment
+public class FramentDownloadCenterSorted extends Fragment
 {
     private View view;
     private ArrayList<RemoteDirectory> directoryList;
@@ -31,7 +31,7 @@ public class NewMapDownloadCenterTest extends Fragment
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         // inflating the view
-        view = inflater.inflate(R.layout.fragment_new_map_download_center_test, container, false);
+        view = inflater.inflate(R.layout.frament_map_download_center, container, false);
         return view;
     }
 
@@ -59,7 +59,7 @@ public class NewMapDownloadCenterTest extends Fragment
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this.getContext());
 
         //The recycler adapter
-        recyclerViewAdapter = new RecyclerViewAdapterDirectories(getActivity().getApplicationContext(), directoryList, R.layout.fragment_map_doanload_horizontal_recycler);
+        recyclerViewAdapter = new RecyclerViewAdapterDirectories(getActivity().getApplicationContext(), directoryList, R.layout.directory_recycler_item);
 
 
         //Putting everything together

@@ -43,7 +43,7 @@ import static android.content.Context.LOCATION_SERVICE;
  *
  * @author WilliBoelke
  */
-public class NavigationFragment extends Fragment
+public class FragmentNavigation extends Fragment
 {
 
     //------------Instance Variables------------
