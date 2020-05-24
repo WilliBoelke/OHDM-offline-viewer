@@ -63,12 +63,18 @@ public class FragmentDownloadCenterCategories extends Fragment
         super.onActivityCreated(savedInstanceState);
         directoryList = new ArrayList<>();
         setHasOptionsMenu(true);
-        this.FTPGetDirectories();
         this.setupDirRecycler();
         this.setupToAllMapsButton();
         this.setupFAB();
+        this.restoreFiles();
     }
 
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        this.storeFiles();
+    }
 
     //------------Setup Views------------
 
@@ -153,18 +159,6 @@ public class FragmentDownloadCenterCategories extends Fragment
 
     //------------Save/Restore Instance State------------
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState)
-    {
-        super.onSaveInstanceState(outState);
-        this.storeFiles();
-    }
-
-    private void restoreInstanceState(Bundle savedInstanceState)
-    {
-        this.restoreFiles();
-    }
-
     private void storeFiles()
     {
         RemoteListsSingleton.getInstance().setDirectories(this.directoryList);
@@ -172,14 +166,15 @@ public class FragmentDownloadCenterCategories extends Fragment
 
     private void restoreFiles()
     {
-        if (RemoteListsSingleton.getInstance().getAllMaps() != null)
+        if (RemoteListsSingleton.getInstance().getDirectories().size() != 0)
         {
+            this.directoryList.clear();
             this.directoryList.addAll(RemoteListsSingleton.getInstance().getDirectories());
-
         }
         else
         {
-
+            FTPGetDirectories();
+            recyclerViewAdapter.notifyDataSetChanged();
         }
 
     }
