@@ -23,7 +23,7 @@ import de.htwBerlin.ois.ServerCommunication.FtpTaskFileDownloading;
  * @author morelly_t1
  */
 @Deprecated
-public class OhdmFileListViewAdapter extends ArrayAdapter<OhdmFile>
+public class OhdmFileListViewAdapter extends ArrayAdapter<RemoteFile>
 {
 
     private static final String TAG = "OhdmFileAdapter";
@@ -31,7 +31,7 @@ public class OhdmFileListViewAdapter extends ArrayAdapter<OhdmFile>
     private Context context;
     private int resource;
 
-    public OhdmFileListViewAdapter(Context context, int resource, ArrayList<OhdmFile> ohdmFiles)
+    public OhdmFileListViewAdapter(Context context, int resource, ArrayList<RemoteFile> ohdmFiles)
     {
         super(context, resource, ohdmFiles);
         this.context = context;
@@ -45,7 +45,7 @@ public class OhdmFileListViewAdapter extends ArrayAdapter<OhdmFile>
         String creationDate = getItem(position).getCreationDate();
         Boolean isDownloaded = getItem(position).isDownloaded();
 
-        final OhdmFile ohdmFile = new OhdmFile(fileName, fileSize, creationDate, isDownloaded);
+        final RemoteFile ohdmFile = new RemoteFile(fileName, fileSize, creationDate, isDownloaded);
 
         LayoutInflater inflater = LayoutInflater.from(context);
         convertView = inflater.inflate(resource, parent, false);

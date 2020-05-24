@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -32,12 +31,12 @@ public class RecyclerAdapterOhdmMaps extends RecyclerView.Adapter<RecyclerAdapte
     /**
      * This list will be altered when the user searches for maps
      */
-    private ArrayList<OhdmFile> ohdmFiles;
+    private ArrayList<RemoteFile> ohdmFiles;
     /**
      * This list will always contain all maps
      * Its here as a backup for the mapArrayList
      */
-    private ArrayList<OhdmFile> ohdmFilesBackup;
+    private ArrayList<RemoteFile> ohdmFilesBackup;
     /**
      * Resource id for the RecyclerItem layout
      */
@@ -64,7 +63,7 @@ public class RecyclerAdapterOhdmMaps extends RecyclerView.Adapter<RecyclerAdapte
      * @param mapArrayListBackup
      * @param ressource
      */
-    public RecyclerAdapterOhdmMaps(Context context, ArrayList<OhdmFile> ohdmFiles, ArrayList<OhdmFile> mapArrayListBackup, int ressource)
+    public RecyclerAdapterOhdmMaps(Context context, ArrayList<RemoteFile> ohdmFiles, ArrayList<RemoteFile> mapArrayListBackup, int ressource)
     {
         this.context = context;
         this.ressource = ressource;
@@ -86,7 +85,7 @@ public class RecyclerAdapterOhdmMaps extends RecyclerView.Adapter<RecyclerAdapte
     @Override
     public void onBindViewHolder(@NonNull RecyclerAdapterOhdmMaps.OhdmFileViewHolder ohdmFileViewHolder, final int position)
     {
-        OhdmFile currentOhdmFile = this.ohdmFiles.get(position);
+        RemoteFile currentOhdmFile = this.ohdmFiles.get(position);
         String name = currentOhdmFile.getFilename();
         name = name.replace(".map", "");
         ohdmFileViewHolder.nameTextView.setText(name);
@@ -152,7 +151,7 @@ public class RecyclerAdapterOhdmMaps extends RecyclerView.Adapter<RecyclerAdapte
         @Override
         protected FilterResults performFiltering(CharSequence constraint)
         {
-            ArrayList<OhdmFile> filteredList = new ArrayList<>();
+            ArrayList<RemoteFile> filteredList = new ArrayList<>();
             Log.e(TAG, "Size--" + ohdmFilesBackup.size());
             if (constraint == null || constraint.length() == 0)
             {
@@ -161,7 +160,7 @@ public class RecyclerAdapterOhdmMaps extends RecyclerView.Adapter<RecyclerAdapte
             else
             {
                 String filterPattern = constraint.toString().toLowerCase().trim();
-                for (OhdmFile map : ohdmFilesBackup)
+                for (RemoteFile map : ohdmFilesBackup)
                 {
                     if (map.getFilename().toLowerCase().trim().contains(filterPattern))
                     {

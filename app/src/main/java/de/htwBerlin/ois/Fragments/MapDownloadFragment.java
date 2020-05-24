@@ -18,9 +18,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
 
-import de.htwBerlin.ois.FileStructure.OhdmFile;
+import de.htwBerlin.ois.FileStructure.RemoteDirectory;
+import de.htwBerlin.ois.FileStructure.RemoteFile;
 import de.htwBerlin.ois.FileStructure.OnRecyclerItemButtonClicklistenner;
 import de.htwBerlin.ois.FileStructure.RecyclerAdapterOhdmMaps;
 import de.htwBerlin.ois.R;
@@ -47,15 +49,15 @@ public class MapDownloadFragment extends Fragment
      * ArrayList of OHDMFiles, to be displayed in the RecyclerView
      * This list will be altered when the user uses the search function
      */
-    private ArrayList<OhdmFile> allOhdmFiles;
+    private ArrayList<RemoteFile> allOhdmFiles;
     /**
      * ArrayList of OHDMFiles,
      * This list will serve as backup when the
      * ohdmFiles list was altered
      */
-    private ArrayList<OhdmFile> allOhdmFilesBackup;
-    private ArrayList<OhdmFile> latestOhdmFiles;
-    private ArrayList<OhdmFile> latestOhdmFilesBackup;
+    private ArrayList<RemoteFile> allOhdmFilesBackup;
+    private ArrayList<RemoteFile> latestOhdmFiles;
+    private ArrayList<RemoteFile> latestOhdmFilesBackup;
     private RecyclerAdapterOhdmMaps allRecyclerAdapter;
     private RecyclerAdapterOhdmMaps latestRecyclerAdapter;
     /**
@@ -309,14 +311,14 @@ public class MapDownloadFragment extends Fragment
         FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(getActivity(), "", new AsyncResponse()
         {
             @Override
-            public void getOhdmFiles(ArrayList<OhdmFile> files)
+            public void getOhdmFiles(ArrayList<RemoteFile> remoteFiles)
             {
-                if (files.size() > 0)
+                if (remoteFiles.size() > 0)
                 {
-                    Log.i(TAG, "received " + files.size() + " files.");
+                    Log.i(TAG, "received " + remoteFiles.size() + " files.");
 
-                    allOhdmFiles.addAll(files);
-                    allOhdmFilesBackup.addAll(files);
+                    allOhdmFiles.addAll(remoteFiles);
+                    allOhdmFilesBackup.addAll(remoteFiles);
 
                     view.findViewById(R.id.connecting_tv).setVisibility(View.INVISIBLE);
                     view.findViewById(R.id.connecting_pb).setVisibility(View.INVISIBLE);
@@ -333,6 +335,12 @@ public class MapDownloadFragment extends Fragment
                     tv.setText("Connection failed, try again later");
                 }
             }
+
+            @Override
+            public void getRemoteDirectories(ArrayList<RemoteDirectory> dirs)
+            {
+
+            }
         });
         ftpTaskFileListing.execute();
     }
@@ -348,14 +356,14 @@ public class MapDownloadFragment extends Fragment
         FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(getActivity(), MOST_RECENT_PATH, new AsyncResponse()
         {
             @Override
-            public void getOhdmFiles(ArrayList<OhdmFile> files)
+            public void getOhdmFiles(ArrayList<RemoteFile> remoteFiles)
             {
-                if (files.size() > 0)
+                if (remoteFiles.size() > 0)
                 {
-                    Log.i(TAG, "received " + files.size() + " files.");
+                    Log.i(TAG, "received " + remoteFiles.size() + " files.");
 
-                    latestOhdmFiles.addAll(files);
-                    latestOhdmFilesBackup.addAll(files);
+                    latestOhdmFiles.addAll(remoteFiles);
+                    latestOhdmFilesBackup.addAll(remoteFiles);
 
                     view.findViewById(R.id.connecting_tv).setVisibility(View.INVISIBLE);
                     view.findViewById(R.id.connecting_pb).setVisibility(View.INVISIBLE);
@@ -370,6 +378,12 @@ public class MapDownloadFragment extends Fragment
                     TextView tv = view.findViewById(R.id.connecting_tv);
                     tv.setText("Connection failed, try again later");
                 }
+            }
+
+            @Override
+            public void getRemoteDirectories(ArrayList<RemoteDirectory> dirs)
+            {
+
             }
         });
         ftpTaskFileListing.execute();

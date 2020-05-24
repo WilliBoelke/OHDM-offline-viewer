@@ -7,7 +7,7 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 
-import de.htwBerlin.ois.FileStructure.OhdmFile;
+import de.htwBerlin.ois.FileStructure.RemoteFile;
 
 /**
  * Asynctask that downloads files from FTP Remote server
@@ -15,7 +15,7 @@ import de.htwBerlin.ois.FileStructure.OhdmFile;
  * @author morelly_t1
  * @author WilliBoelke
  */
-public class FtpTaskFileDownloading extends AsyncTask<OhdmFile, Integer, Long>
+public class FtpTaskFileDownloading extends AsyncTask<RemoteFile, Integer, Long>
 {
 
     //------------Instance Variables------------
@@ -44,7 +44,7 @@ public class FtpTaskFileDownloading extends AsyncTask<OhdmFile, Integer, Long>
     }
 
     @Override
-    protected Long doInBackground(OhdmFile... ohdmFile)
+    protected Long doInBackground(RemoteFile... ohdmFile)
     {
         ftpClient = new FtpClient();
         ftpClient.connect();

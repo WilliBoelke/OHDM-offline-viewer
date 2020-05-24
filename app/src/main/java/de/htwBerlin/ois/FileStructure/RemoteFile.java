@@ -1,6 +1,6 @@
 package de.htwBerlin.ois.FileStructure;
 
-public class OhdmFile
+public class RemoteFile
 {
 
     private String filename;
@@ -8,7 +8,7 @@ public class OhdmFile
     private String creationDate;
     private boolean isDownloaded;
 
-    public OhdmFile(String filename, Long fileSize, String creationDate, boolean isDownloaded)
+    public RemoteFile(String filename, Long fileSize, String creationDate, boolean isDownloaded)
     {
         this.filename = filename;
         this.fileSize = fileSize;

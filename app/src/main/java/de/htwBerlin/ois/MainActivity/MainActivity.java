@@ -28,6 +28,7 @@ import de.htwBerlin.ois.Fragments.FAQFragment;
 import de.htwBerlin.ois.Fragments.HomeFragment;
 import de.htwBerlin.ois.Fragments.MapDownloadFragment;
 import de.htwBerlin.ois.Fragments.NavigationFragment;
+import de.htwBerlin.ois.Fragments.NewMapDownloadCenterTest;
 import de.htwBerlin.ois.Fragments.OptionsFragment;
 import de.htwBerlin.ois.R;
 
@@ -129,7 +130,7 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.ab_menu_faq:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FAQFragment()).addToBackStack(FAQFragment.ID).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NewMapDownloadCenterTest()).addToBackStack(FAQFragment.ID).commit();
                 break;
             case R.id.ab_menu_settings:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new OptionsFragment()).addToBackStack(OptionsFragment.ID).commit();
