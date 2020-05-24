@@ -3,6 +3,7 @@ package de.htwBerlin.ois.Fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -51,7 +52,7 @@ public class FragmentDownloadCenterCategories extends Fragment
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         // inflating the view
-        view = inflater.inflate(R.layout.frament_map_download_categories, container, false);
+        view = inflater.inflate(R.layout.fragment_map_download_categories, container, false);
         return view;
     }
 
@@ -64,6 +65,7 @@ public class FragmentDownloadCenterCategories extends Fragment
         this.getDirs();
         this.setupDirRecycler();
         this.setupToAllMapsButton();
+        this.setupFAB();
     }
 
 
@@ -100,6 +102,24 @@ public class FragmentDownloadCenterCategories extends Fragment
             public void onClick(View v)
             {
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentDownloadCenterAll()).addToBackStack(null).commit();
+            }
+        });
+    }
+
+
+    /**
+     * Setup the FloatingActionButton to replace this fragment with the
+     * {@link FragmentrequestNewMap}
+     */
+    private void setupFAB()
+    {
+        FloatingActionButton requestNewMapFab = view.findViewById(R.id.request_new_map_fab);
+        requestNewMapFab.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentrequestNewMap()).addToBackStack(null).commit();
             }
         });
     }
