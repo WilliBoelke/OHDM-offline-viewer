@@ -28,6 +28,7 @@ import de.htwBerlin.ois.FileStructure.OnRecyclerItemButtonClicklistenner;
 import de.htwBerlin.ois.FileStructure.RecyclerAdapterRemoteFiles;
 import de.htwBerlin.ois.FileStructure.RemoteDirectory;
 import de.htwBerlin.ois.FileStructure.RemoteFile;
+import de.htwBerlin.ois.FileStructure.RemoteListsSingleton;
 import de.htwBerlin.ois.R;
 import de.htwBerlin.ois.ServerCommunication.AsyncResponse;
 import de.htwBerlin.ois.ServerCommunication.FtpTaskFileDownloading;
@@ -112,13 +113,7 @@ public class FragmentDownloadCenterAll extends Fragment
         this.setupFAB();
         this.setupSwipeToRefresh();
         this.setupButtonToCategories();
-        this.restoreInstanceState(savedInstanceState);
-    }
-
-    @Override
-    public void setRetainInstance(boolean retain)
-    {
-        super.setRetainInstance(retain);
+        this.restoreFiles();
     }
 
     @Override
@@ -137,13 +132,13 @@ public class FragmentDownloadCenterAll extends Fragment
     public void onStop()
     {
         super.onStop();
+        storeFiles();
     }
 
     @Override
     public void onDestroy()
     {
         super.onDestroy();
-
     }
 
 
@@ -342,6 +337,8 @@ public class FragmentDownloadCenterAll extends Fragment
                 {
                     Log.i(TAG, "received " + remoteFiles.size() + " files.");
 
+                    allOhdmFiles.clear();
+                    allOhdmFilesBackup.clear();
                     allOhdmFiles.addAll(remoteFiles);
                     allOhdmFilesBackup.addAll(remoteFiles);
 
@@ -387,6 +384,8 @@ public class FragmentDownloadCenterAll extends Fragment
                 {
                     Log.i(TAG, "received " + remoteFiles.size() + " files.");
 
+                    latestOhdmFilesBackup.clear();
+                    latestOhdmFiles.clear();
                     latestOhdmFiles.addAll(remoteFiles);
                     latestOhdmFilesBackup.addAll(remoteFiles);
 
@@ -467,79 +466,44 @@ public class FragmentDownloadCenterAll extends Fragment
 
     //------------Save/Restore Instance State------------
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState)
+    private void storeFiles()
     {
-        super.onSaveInstanceState(outState);
-        try
-        {
-            outState.putString("latest", ObjectSerializer.serialize(latestOhdmFilesBackup));
-            outState.putString("all", ObjectSerializer.serialize(allOhdmFilesBackup));
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+        RemoteListsSingleton.getInstance().setAllMaps(this.allOhdmFilesBackup);
+        RemoteListsSingleton.getInstance().setLatestMaps(this.latestOhdmFilesBackup);
     }
 
-    private void restoreInstanceState(Bundle savedInstanceState)
+    private void restoreFiles()
     {
-        if (savedInstanceState != null)
+        if (RemoteListsSingleton.getInstance().getAllMaps().size() != 0)
         {
-            if (savedInstanceState.get("all") != null)
-            {
-                try
-                {
-                    allOhdmFiles = (ArrayList) ObjectSerializer.deserialize(savedInstanceState.getString("all", null));
-                }
-                catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-                catch (ClassNotFoundException e)
-                {
-                    e.printStackTrace();
-                }
-                view.findViewById(R.id.connecting_tv).setVisibility(View.INVISIBLE);
-                view.findViewById(R.id.connecting_pb).setVisibility(View.INVISIBLE);
-                view.findViewById(R.id.all_tv).setVisibility(View.VISIBLE);
-                allMapsRecyclerView.setVisibility(View.VISIBLE);
-                allOhdmFilesBackup.addAll(allOhdmFiles);
-                allRecyclerAdapter.notifyDataSetChanged();
-            }
-            else
-            {
-                FTPListAllFiles();
-            }
-            if (savedInstanceState.get("latest") != null)
-            {
-                try
-                {
-                    latestOhdmFiles = (ArrayList) ObjectSerializer.deserialize(savedInstanceState.getString("latest", null));
-                }
-                catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-                catch (ClassNotFoundException e)
-                {
-                    e.printStackTrace();
-                }
-                view.findViewById(R.id.connecting_tv).setVisibility(View.INVISIBLE);
-                view.findViewById(R.id.connecting_pb).setVisibility(View.INVISIBLE);
-                view.findViewById(R.id.lates_tv).setVisibility(View.VISIBLE);
-                latestMapsRecyclerView.setVisibility(View.VISIBLE);
-                latestOhdmFilesBackup.addAll(latestOhdmFiles);
-                latestRecyclerAdapter.notifyDataSetChanged();
-            }
-            else
-            {
-                FTPListLatestFiles();
-            }
+            allOhdmFiles.clear();
+            allOhdmFilesBackup.clear();
+            this.allOhdmFiles.addAll(RemoteListsSingleton.getInstance().getAllMaps());
+            this.allOhdmFilesBackup.addAll(allOhdmFiles);
+            view.findViewById(R.id.connecting_tv).setVisibility(View.INVISIBLE);
+            view.findViewById(R.id.connecting_pb).setVisibility(View.INVISIBLE);
+            view.findViewById(R.id.all_tv).setVisibility(View.VISIBLE);
+            allMapsRecyclerView.setVisibility(View.VISIBLE);
+            allRecyclerAdapter.notifyDataSetChanged();
         }
         else
         {
             FTPListAllFiles();
+        }
+        if (RemoteListsSingleton.getInstance().getLatestMaps().size() != 0)
+        {
+            latestOhdmFilesBackup.clear();
+            latestOhdmFiles.clear();
+            this.latestOhdmFiles.addAll(RemoteListsSingleton.getInstance().getLatestMaps());
+            this.latestOhdmFilesBackup.addAll(latestOhdmFiles);
+            view.findViewById(R.id.connecting_tv).setVisibility(View.INVISIBLE);
+            view.findViewById(R.id.connecting_pb).setVisibility(View.INVISIBLE);
+            view.findViewById(R.id.lates_tv).setVisibility(View.VISIBLE);
+            latestMapsRecyclerView.setVisibility(View.VISIBLE);
+            latestRecyclerAdapter.notifyDataSetChanged();
+        }
+        else
+        {
             FTPListLatestFiles();
         }
     }

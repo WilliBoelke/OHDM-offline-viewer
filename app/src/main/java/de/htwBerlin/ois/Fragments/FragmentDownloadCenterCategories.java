@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import de.htwBerlin.ois.FileStructure.RecyclerAdapterRemoteDirectories;
 import de.htwBerlin.ois.FileStructure.RemoteDirectory;
 import de.htwBerlin.ois.FileStructure.RemoteFile;
+import de.htwBerlin.ois.FileStructure.RemoteListsSingleton;
 import de.htwBerlin.ois.R;
 import de.htwBerlin.ois.ServerCommunication.AsyncResponse;
 import de.htwBerlin.ois.ServerCommunication.FtpTaskDirListing;
@@ -62,7 +63,7 @@ public class FragmentDownloadCenterCategories extends Fragment
         super.onActivityCreated(savedInstanceState);
         directoryList = new ArrayList<>();
         setHasOptionsMenu(true);
-        this.getDirs();
+        this.FTPGetDirectories();
         this.setupDirRecycler();
         this.setupToAllMapsButton();
         this.setupFAB();
@@ -124,7 +125,7 @@ public class FragmentDownloadCenterCategories extends Fragment
         });
     }
 
-    private void getDirs()
+    private void FTPGetDirectories()
     {
         FtpTaskDirListing dirListing = new FtpTaskDirListing(getActivity(), "" , asyncResponseDirListing);
         dirListing.execute();
@@ -149,4 +150,38 @@ public class FragmentDownloadCenterCategories extends Fragment
             recyclerViewAdapter.notifyDataSetChanged();
         }
     };
+
+    //------------Save/Restore Instance State------------
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
+        this.storeFiles();
+    }
+
+    private void restoreInstanceState(Bundle savedInstanceState)
+    {
+        this.restoreFiles();
+    }
+
+    private void storeFiles()
+    {
+        RemoteListsSingleton.getInstance().setDirectories(this.directoryList);
+    }
+
+    private void restoreFiles()
+    {
+        if (RemoteListsSingleton.getInstance().getAllMaps() != null)
+        {
+            this.directoryList.addAll(RemoteListsSingleton.getInstance().getDirectories());
+
+        }
+        else
+        {
+
+        }
+
+    }
+
 }
