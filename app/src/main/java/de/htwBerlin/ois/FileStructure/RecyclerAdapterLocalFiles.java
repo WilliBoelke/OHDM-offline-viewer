@@ -20,7 +20,7 @@ import de.htwBerlin.ois.R;
 /**
  * @author WilliBoelke
  */
-public class RecyclerAdapterLocalMaps extends RecyclerView.Adapter<RecyclerAdapterLocalMaps.LocalMapsViewHolder> implements Filterable
+public class RecyclerAdapterLocalFiles extends RecyclerView.Adapter<RecyclerAdapterLocalFiles.LocalMapsViewHolder> implements Filterable
 {
 
     //------------Instance Variables------------
@@ -53,12 +53,12 @@ public class RecyclerAdapterLocalMaps extends RecyclerView.Adapter<RecyclerAdapt
      * use the {@link this#setOnItemClickListener(OnItemClickListener)}
      * to implement this
      */
-    private RecyclerAdapterLocalMaps.OnItemClickListener onItemClickListener;
+    private RecyclerAdapterLocalFiles.OnItemClickListener onItemClickListener;
 
 
     //------------Constructors------------
 
-    public RecyclerAdapterLocalMaps(Context context, ArrayList<File> ohdmFiles, int ressource)
+    public RecyclerAdapterLocalFiles(Context context, ArrayList<File> ohdmFiles, int ressource)
     {
         this.mapArrayListBackup = new ArrayList<>(ohdmFiles); // need to be initialized like that
         this.resource = ressource;
@@ -118,7 +118,7 @@ public class RecyclerAdapterLocalMaps extends RecyclerView.Adapter<RecyclerAdapt
      *
      * @param listener
      */
-    public void setOnItemClickListener(RecyclerAdapterLocalMaps.OnItemClickListener listener)
+    public void setOnItemClickListener(RecyclerAdapterLocalFiles.OnItemClickListener listener)
     {
         this.onItemClickListener = listener;
     }
@@ -190,7 +190,7 @@ public class RecyclerAdapterLocalMaps extends RecyclerView.Adapter<RecyclerAdapt
         public TextView dateTextView;
         public ImageView currentMapIcon;
 
-        public LocalMapsViewHolder(@NonNull View itemView, final RecyclerAdapterLocalMaps.OnItemClickListener listener)
+        public LocalMapsViewHolder(@NonNull View itemView, final RecyclerAdapterLocalFiles.OnItemClickListener listener)
         {
             super(itemView);
             sizeTextView = itemView.findViewById(R.id.map_size_tv);

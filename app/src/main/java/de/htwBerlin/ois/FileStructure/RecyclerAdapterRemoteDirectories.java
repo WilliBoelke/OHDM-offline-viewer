@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +17,27 @@ import de.htwBerlin.ois.ServerCommunication.AsyncResponse;
 import de.htwBerlin.ois.ServerCommunication.FtpTaskFileDownloading;
 import de.htwBerlin.ois.ServerCommunication.FtpTaskFileListing;
 
-import static de.htwBerlin.ois.ServerCommunication.Variables.MOST_RECENT_PATH;
 
-public class RecyclerViewAdapterDirectories extends RecyclerView.Adapter<RecyclerViewAdapterDirectories.DirectoriesViewHolder>
+/**
+ * A RecyclerView Adapter to display complete FTP directories.
+ * <p>
+ * Each element of the Recycler stands for a single directory
+ * Each element has a name (TextView) which displays the name of the remote directory
+ * Each element contains another RecyclerView -linting the files (maps) within the directory {@link RecyclerAdapterRemoteFiles}
+ * <p>
+ * used in :
+ *
+ * @author WilliBoelke
+ * @see de.htwBerlin.ois.Fragments.FragmentDownloadCenterSorted
+ */
+public class RecyclerAdapterRemoteDirectories extends RecyclerView.Adapter<RecyclerAdapterRemoteDirectories.DirectoriesViewHolder>
 {
 
     //------------Instance Variables------------
+
+    /**
+     * log tag
+     */
     private final String TAG = getClass().getSimpleName();
     /**
      * This list will be altered when the user searches for maps
@@ -37,10 +51,6 @@ public class RecyclerViewAdapterDirectories extends RecyclerView.Adapter<Recycle
      * Context
      */
     private Context context;
-    /**
-     * The on itemClickListener
-     */
-    private OnItemClickListener onItemClickListener;
 
 
     //------------Constructors------------
@@ -52,7 +62,7 @@ public class RecyclerViewAdapterDirectories extends RecyclerView.Adapter<Recycle
      * @param directoryList
      * @param ressource
      */
-    public RecyclerViewAdapterDirectories(Context context, ArrayList<RemoteDirectory> directoryList, int ressource)
+    public RecyclerAdapterRemoteDirectories(Context context, ArrayList<RemoteDirectory> directoryList, int ressource)
     {
         this.context = context;
         this.ressource = ressource;
@@ -67,25 +77,24 @@ public class RecyclerViewAdapterDirectories extends RecyclerView.Adapter<Recycle
     public DirectoriesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i)
     {
         View view = LayoutInflater.from(parent.getContext()).inflate(ressource, parent, false);
-        return new RecyclerViewAdapterDirectories.DirectoriesViewHolder(view, this.onItemClickListener);
+        return new RecyclerAdapterRemoteDirectories.DirectoriesViewHolder(view);
     }
 
-
     @Override
-    public void onBindViewHolder(@NonNull final RecyclerViewAdapterDirectories.DirectoriesViewHolder directoriesViewHolder, final int position)
+    public void onBindViewHolder(@NonNull final RecyclerAdapterRemoteDirectories.DirectoriesViewHolder directoriesViewHolder, final int position)
     {
         final RemoteDirectory currentDirectory = this.directoryList.get(position);
-        String name = currentDirectory.getFilename();
-        name = name.replace("_", " ");
-        directoriesViewHolder.nameTextView.setText(name);
 
+
+        directoriesViewHolder.nameTextView.setText(currentDirectory.getFilename());
 
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(context);//layout manager vor vertical scrolling recycler
         recyclerLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
         //The recycler adapter
-       RecyclerAdapterOhdmMaps latestRecyclerAdapter = new RecyclerAdapterOhdmMaps(context,  directoriesViewHolder.directoryContent,  directoriesViewHolder.directoryContentBackup, R.layout.recycler_item_horizonal);
+        RecyclerAdapterRemoteFiles latestRecyclerAdapter = new RecyclerAdapterRemoteFiles(context, directoriesViewHolder.directoryContent, directoriesViewHolder.directoryContentBackup, R.layout.recycler_item_horizonal);
 
+        //on button click listener
         latestRecyclerAdapter.setOnItemButtonClickListener(new OnRecyclerItemButtonClicklistenner()
         {
             @Override
@@ -96,6 +105,7 @@ public class RecyclerViewAdapterDirectories extends RecyclerView.Adapter<Recycle
                 ftpTaskFileDownloading.execute(directoriesViewHolder.directoryContent.get(position));
             }
         });
+
 
         //Putting everything together
         directoriesViewHolder.dirContentRecycler.setLayoutManager(recyclerLayoutManager);
@@ -111,31 +121,6 @@ public class RecyclerViewAdapterDirectories extends RecyclerView.Adapter<Recycle
     }
 
 
-    //------------OnClickListener------------
-
-    /**
-     * Setter for the implemented onItemClick method
-     *
-     * @param listener
-     */
-    public void setOnItemClickListener(RecyclerViewAdapterDirectories.OnItemClickListener listener)
-    {
-        this.onItemClickListener = listener;
-    }
-
-    /**
-     * An interface to define the
-     * onItemClick method
-     * <p>
-     * can be implemented and set as on itemClickListener through the
-     * {@link this#setOnItemClickListener} method
-     */
-    public interface OnItemClickListener
-    {
-        void onItemClick(int position);
-    }
-
-
     //------------View Holder------------
 
     protected static class DirectoriesViewHolder extends RecyclerView.ViewHolder
@@ -146,58 +131,52 @@ public class RecyclerViewAdapterDirectories extends RecyclerView.Adapter<Recycle
         public ArrayList<RemoteFile> directoryContentBackup;
         public RecyclerView dirContentRecycler;
 
-        public DirectoriesViewHolder(@NonNull View itemView, final RecyclerViewAdapterDirectories.OnItemClickListener listener)
+        public DirectoriesViewHolder(@NonNull View itemView)
         {
             super(itemView);
             directoryContent = new ArrayList<>();
-            directoryContentBackup = new ArrayList<>();
+            directoryContentBackup = new ArrayList<>(); // the backup list is needed for the Search/Filter implementation in the RecyclerAdapterRemoteFiles
             nameTextView = itemView.findViewById(R.id.dir_name_tv);
             dirContentRecycler = itemView.findViewById(R.id.dir_content_recycler);
-            itemView.setOnClickListener(new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View v)
-                {
-                    if (listener != null)
-                    {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION)
-                        {
-                            listener.onItemClick(position);
-                        }
-                    }
-                }
-            });
         }
     }
 
-    private void getDirectoryFiles(String path, final ArrayList<RemoteFile> list, final ArrayList<RemoteFile> backup, final RecyclerAdapterOhdmMaps adapter)
+
+    //------------Get FTP Files------------
+
+    /**
+     * This method retrieves the content/files from the FTPServer
+     *
+     * @param path    path of directory
+     * @param list    the list to be filled through the async response
+     * @param backup  the backup list to be filled through the async response
+     * @param adapter the adapter -to notify when the data changes
+     */
+    private void getDirectoryFiles(String path, final ArrayList<RemoteFile> list, final ArrayList<RemoteFile> backup, final RecyclerAdapterRemoteFiles adapter)
     {
-        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(context, path, new AsyncResponse()
-        {
-            @Override
-            public void getOhdmFiles(ArrayList<RemoteFile> remoteFiles)
-            {
-                if (remoteFiles.size() > 0)
-                {
-                    Log.i(TAG, "received " + remoteFiles.size() + " files.");
+        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(context, path, asyncResponse);
 
-                    list.addAll(remoteFiles);
-                    backup.addAll(remoteFiles);
-                    adapter.notifyDataSetChanged();
-                }
-                else // Server directory was empty or server hasn't responded
-                {
-
-                }
-            }
-
-            @Override
-            public void getRemoteDirectories(ArrayList<RemoteDirectory> dirs)
-            {
-
-            }
-        });
         ftpTaskFileListing.execute();
     }
+
+
+    /**
+     * The AsyncResponse -- or the code to be executed after the FtpTaskFileListing finished
+     *
+     * @see this#getDirectoryFiles
+     */
+    private AsyncResponse asyncResponse = new AsyncResponse()
+    {
+        @Override
+        public void getOhdmFiles(ArrayList<RemoteFile> remoteFiles)
+        {
+
+        }
+
+        @Override
+        public void getRemoteDirectories(ArrayList<RemoteDirectory> remoteDirectories)
+        {
+
+        }
+    };
 }

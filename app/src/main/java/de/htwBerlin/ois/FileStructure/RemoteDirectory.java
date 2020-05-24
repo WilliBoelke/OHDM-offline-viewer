@@ -7,10 +7,14 @@ package de.htwBerlin.ois.FileStructure;
 public class RemoteDirectory
 {
 
+    //------------Instance Variables------------
 
     private String filename;
     private String path;
     private String creationDate;
+
+
+    //------------Constructors------------
 
     public RemoteDirectory(String path, String creationDate)
     {
@@ -18,6 +22,9 @@ public class RemoteDirectory
         this.path = path;
         this.creationDate = creationDate;
     }
+
+
+    //------------Setter------------
 
     public void setFilename(String filename)
     {
@@ -33,6 +40,9 @@ public class RemoteDirectory
     {
         this.creationDate = creationDate;
     }
+
+
+    //------------Getter------------
 
     public String getFilename()
     {

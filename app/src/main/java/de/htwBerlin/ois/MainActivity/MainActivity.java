@@ -28,7 +28,7 @@ import de.htwBerlin.ois.Fragments.FragementFAQ;
 import de.htwBerlin.ois.Fragments.FragmentHome;
 import de.htwBerlin.ois.Fragments.FragmentDownloadCenterAll;
 import de.htwBerlin.ois.Fragments.FragmentNavigation;
-import de.htwBerlin.ois.Fragments.FramentDownloadCenterSorted;
+import de.htwBerlin.ois.Fragments.FragmentDownloadCenterSorted;
 import de.htwBerlin.ois.Fragments.FragmentOptions;
 import de.htwBerlin.ois.R;
 
@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.ab_menu_faq:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FramentDownloadCenterSorted()).addToBackStack(FragementFAQ.ID).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentDownloadCenterSorted()).addToBackStack(FragementFAQ.ID).commit();
                 break;
             case R.id.ab_menu_settings:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentOptions()).addToBackStack(FragmentOptions.ID).commit();

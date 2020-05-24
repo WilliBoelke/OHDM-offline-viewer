@@ -23,7 +23,7 @@ import static android.support.constraint.Constraints.TAG;
  *
  * @author WilliBölke
  */
-public class RecyclerAdapterOhdmMaps extends RecyclerView.Adapter<RecyclerAdapterOhdmMaps.OhdmFileViewHolder> implements Filterable
+public class RecyclerAdapterRemoteFiles extends RecyclerView.Adapter<RecyclerAdapterRemoteFiles.OhdmFileViewHolder> implements Filterable
 {
 
     //------------Instance Variables------------
@@ -63,7 +63,7 @@ public class RecyclerAdapterOhdmMaps extends RecyclerView.Adapter<RecyclerAdapte
      * @param mapArrayListBackup
      * @param ressource
      */
-    public RecyclerAdapterOhdmMaps(Context context, ArrayList<RemoteFile> ohdmFiles, ArrayList<RemoteFile> mapArrayListBackup, int ressource)
+    public RecyclerAdapterRemoteFiles(Context context, ArrayList<RemoteFile> ohdmFiles, ArrayList<RemoteFile> mapArrayListBackup, int ressource)
     {
         this.context = context;
         this.ressource = ressource;
@@ -79,11 +79,11 @@ public class RecyclerAdapterOhdmMaps extends RecyclerView.Adapter<RecyclerAdapte
     public OhdmFileViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i)
     {
         View view = LayoutInflater.from(parent.getContext()).inflate(ressource, parent, false);
-        return new RecyclerAdapterOhdmMaps.OhdmFileViewHolder(view, this.onItemClickListener);
+        return new RecyclerAdapterRemoteFiles.OhdmFileViewHolder(view, this.onItemClickListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerAdapterOhdmMaps.OhdmFileViewHolder ohdmFileViewHolder, final int position)
+    public void onBindViewHolder(@NonNull RecyclerAdapterRemoteFiles.OhdmFileViewHolder ohdmFileViewHolder, final int position)
     {
         RemoteFile currentOhdmFile = this.ohdmFiles.get(position);
         String name = currentOhdmFile.getFilename();
@@ -115,7 +115,7 @@ public class RecyclerAdapterOhdmMaps extends RecyclerView.Adapter<RecyclerAdapte
      *
      * @param listener
      */
-    public void setOnItemClickListener(RecyclerAdapterOhdmMaps.OnItemClickListener listener)
+    public void setOnItemClickListener(RecyclerAdapterRemoteFiles.OnItemClickListener listener)
     {
         this.onItemClickListener = listener;
     }
@@ -193,7 +193,7 @@ public class RecyclerAdapterOhdmMaps extends RecyclerView.Adapter<RecyclerAdapte
         public TextView dateTextView;
         public Button downloadbutton;
 
-        public OhdmFileViewHolder(@NonNull View itemView, final RecyclerAdapterOhdmMaps.OnItemClickListener listener)
+        public OhdmFileViewHolder(@NonNull View itemView, final RecyclerAdapterRemoteFiles.OnItemClickListener listener)
         {
             super(itemView);
             sizeTextView = itemView.findViewById(R.id.map_size_tv);

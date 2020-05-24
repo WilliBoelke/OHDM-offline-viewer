@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 import de.htwBerlin.ois.FileStructure.SwipeCallbackLeft;
 import de.htwBerlin.ois.FileStructure.MapFileSingleton;
-import de.htwBerlin.ois.FileStructure.RecyclerAdapterLocalMaps;
+import de.htwBerlin.ois.FileStructure.RecyclerAdapterLocalFiles;
 import de.htwBerlin.ois.FileStructure.SwipeCallbackRight;
 import de.htwBerlin.ois.FileStructure.RecyclerAdapterSwipeGestures;
 import de.htwBerlin.ois.MainActivity.MainActivity;
@@ -56,7 +56,7 @@ public class FragmentHome extends Fragment
     /**
      * The RecyclerAdapter
      */
-    private RecyclerAdapterLocalMaps recyclerAdapter;
+    private RecyclerAdapterLocalFiles recyclerAdapter;
     /**
      * The RecyclerView
      */
@@ -239,7 +239,7 @@ public class FragmentHome extends Fragment
             localMapsRecyclerView.setVisibility(View.VISIBLE);
 
             RecyclerView.LayoutManager recyclerLayoutManager = new LinearLayoutManager(this.getContext());
-            recyclerAdapter = new RecyclerAdapterLocalMaps(this.getContext(), mapFiles, R.layout.recycler_item_vertical);
+            recyclerAdapter = new RecyclerAdapterLocalFiles(this.getContext(), mapFiles, R.layout.recycler_item_vertical);
 
             //The itemTouchhelper for the swipe gestures on the recycler Items
             ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new RecyclerAdapterSwipeGestures(recyclerAdapter, this.swipeCallbackRight, this.swipeCallbackLeft));

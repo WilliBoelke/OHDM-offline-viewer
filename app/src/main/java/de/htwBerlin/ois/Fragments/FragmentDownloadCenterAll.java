@@ -21,7 +21,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import de.htwBerlin.ois.FileStructure.OnRecyclerItemButtonClicklistenner;
-import de.htwBerlin.ois.FileStructure.RecyclerAdapterOhdmMaps;
+import de.htwBerlin.ois.FileStructure.RecyclerAdapterRemoteFiles;
 import de.htwBerlin.ois.FileStructure.RemoteDirectory;
 import de.htwBerlin.ois.FileStructure.RemoteFile;
 import de.htwBerlin.ois.R;
@@ -57,8 +57,8 @@ public class FragmentDownloadCenterAll extends Fragment
     private ArrayList<RemoteFile> allOhdmFilesBackup;
     private ArrayList<RemoteFile> latestOhdmFiles;
     private ArrayList<RemoteFile> latestOhdmFilesBackup;
-    private RecyclerAdapterOhdmMaps allRecyclerAdapter;
-    private RecyclerAdapterOhdmMaps latestRecyclerAdapter;
+    private RecyclerAdapterRemoteFiles allRecyclerAdapter;
+    private RecyclerAdapterRemoteFiles latestRecyclerAdapter;
     /**
      * The recyclerView
      */
@@ -167,7 +167,7 @@ public class FragmentDownloadCenterAll extends Fragment
         RecyclerView.LayoutManager recyclerLayoutManager = new LinearLayoutManager(this.getContext());//layout manager vor vertical scrolling recycler
 
         //The recycler adapter
-        allRecyclerAdapter = new RecyclerAdapterOhdmMaps(getActivity().getApplicationContext(), allOhdmFiles, allOhdmFilesBackup, R.layout.recycler_item_vertical);
+        allRecyclerAdapter = new RecyclerAdapterRemoteFiles(getActivity().getApplicationContext(), allOhdmFiles, allOhdmFilesBackup, R.layout.recycler_item_vertical);
 
         //OnClickListener for the button inside the RecyclerView item layout
         allRecyclerAdapter.setOnItemButtonClickListener(new OnRecyclerItemButtonClicklistenner()
@@ -201,7 +201,7 @@ public class FragmentDownloadCenterAll extends Fragment
         recyclerLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
         //The recycler adapter
-        latestRecyclerAdapter = new RecyclerAdapterOhdmMaps(getActivity().getApplicationContext(), latestOhdmFiles, latestOhdmFilesBackup, R.layout.recycler_item_horizonal);
+        latestRecyclerAdapter = new RecyclerAdapterRemoteFiles(getActivity().getApplicationContext(), latestOhdmFiles, latestOhdmFilesBackup, R.layout.recycler_item_horizonal);
 
         latestRecyclerAdapter.setOnItemButtonClickListener(new OnRecyclerItemButtonClicklistenner()
         {
@@ -223,7 +223,7 @@ public class FragmentDownloadCenterAll extends Fragment
 
     /**
      * Setup the search view to use the nameFilter
-     * implemented in {@link RecyclerAdapterOhdmMaps}
+     * implemented in {@link RecyclerAdapterRemoteFiles}
      */
     private void setupGeneralSearchView(SearchView searchView)
     {
@@ -248,7 +248,7 @@ public class FragmentDownloadCenterAll extends Fragment
     /**
      * Setup the search view to use the nameFilter
      * only in the LatestMapsRecycler
-     * implemented in {@link RecyclerAdapterOhdmMaps}
+     * implemented in {@link RecyclerAdapterRemoteFiles}
      */
     private void setupAllSearchView()
     {
@@ -273,7 +273,7 @@ public class FragmentDownloadCenterAll extends Fragment
     /**
      * Setup the search view to use the nameFilter
      * only in the LatestMapsRecycler
-     * implemented in {@link RecyclerAdapterOhdmMaps}
+     * implemented in {@link RecyclerAdapterRemoteFiles}
      */
     private void setupLatestSearchView()
     {

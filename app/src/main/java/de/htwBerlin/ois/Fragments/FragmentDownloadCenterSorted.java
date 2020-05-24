@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import de.htwBerlin.ois.FileStructure.RecyclerViewAdapterDirectories;
+import de.htwBerlin.ois.FileStructure.RecyclerAdapterRemoteDirectories;
 import de.htwBerlin.ois.FileStructure.RemoteDirectory;
 import de.htwBerlin.ois.FileStructure.RemoteFile;
 import de.htwBerlin.ois.R;
@@ -20,11 +20,30 @@ import de.htwBerlin.ois.ServerCommunication.AsyncResponse;
 import de.htwBerlin.ois.ServerCommunication.FtpTaskDirListing;
 
 
-public class FramentDownloadCenterSorted extends Fragment
+public class FragmentDownloadCenterSorted extends Fragment
 {
+
+    //------------Instance Variables------------
+
+    /**
+     * Log tag
+     */
+    private final String TAG = getClass().getSimpleName();
+    /**
+     * The View
+     */
     private View view;
+    /**
+     * The list of directories from the FTP server
+     */
     private ArrayList<RemoteDirectory> directoryList;
-    private RecyclerViewAdapterDirectories recyclerViewAdapter;
+    /**
+     * The RecyclerAdapter
+     */
+    private RecyclerAdapterRemoteDirectories recyclerViewAdapter;
+
+
+    //------------Activity/Fragment Lifecycle------------
 
     @Nullable
     @Override
@@ -45,6 +64,9 @@ public class FramentDownloadCenterSorted extends Fragment
         this.setupDirRecycler();
     }
 
+
+    //------------Setup Views------------
+
     /**
      * Setup for the directory recycler.
      * <p>
@@ -59,7 +81,7 @@ public class FramentDownloadCenterSorted extends Fragment
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this.getContext());
 
         //The recycler adapter
-        recyclerViewAdapter = new RecyclerViewAdapterDirectories(getActivity().getApplicationContext(), directoryList, R.layout.directory_recycler_item);
+        recyclerViewAdapter = new RecyclerAdapterRemoteDirectories(getActivity().getApplicationContext(), directoryList, R.layout.directory_recycler_item);
 
 
         //Putting everything together
