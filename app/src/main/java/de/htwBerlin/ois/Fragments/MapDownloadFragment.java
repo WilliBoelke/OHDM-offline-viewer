@@ -18,13 +18,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
 import java.util.ArrayList;
 
-import de.htwBerlin.ois.FileStructure.RemoteDirectory;
-import de.htwBerlin.ois.FileStructure.RemoteFile;
 import de.htwBerlin.ois.FileStructure.OnRecyclerItemButtonClicklistenner;
 import de.htwBerlin.ois.FileStructure.RecyclerAdapterOhdmMaps;
+import de.htwBerlin.ois.FileStructure.RemoteDirectory;
+import de.htwBerlin.ois.FileStructure.RemoteFile;
 import de.htwBerlin.ois.R;
 import de.htwBerlin.ois.ServerCommunication.AsyncResponse;
 import de.htwBerlin.ois.ServerCommunication.FtpTaskFileDownloading;
@@ -420,4 +419,6 @@ public class MapDownloadFragment extends Fragment
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 }

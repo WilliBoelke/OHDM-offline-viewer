@@ -2,22 +2,29 @@ package de.htwBerlin.ois.FileStructure;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import de.htwBerlin.ois.R;
+import de.htwBerlin.ois.ServerCommunication.AsyncResponse;
+import de.htwBerlin.ois.ServerCommunication.FtpTaskFileDownloading;
+import de.htwBerlin.ois.ServerCommunication.FtpTaskFileListing;
+
+import static de.htwBerlin.ois.ServerCommunication.Variables.MOST_RECENT_PATH;
 
 public class RecyclerViewAdapterDirectories extends RecyclerView.Adapter<RecyclerViewAdapterDirectories.DirectoriesViewHolder>
 {
 
     //------------Instance Variables------------
-
+    private final String TAG = getClass().getSimpleName();
     /**
      * This list will be altered when the user searches for maps
      */
@@ -65,13 +72,36 @@ public class RecyclerViewAdapterDirectories extends RecyclerView.Adapter<Recycle
 
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerViewAdapterDirectories.DirectoriesViewHolder directoriesViewHolder, final int position)
+    public void onBindViewHolder(@NonNull final RecyclerViewAdapterDirectories.DirectoriesViewHolder directoriesViewHolder, final int position)
     {
-        RemoteDirectory currentDirectory = this.directoryList.get(position);
+        final RemoteDirectory currentDirectory = this.directoryList.get(position);
         String name = currentDirectory.getFilename();
         name = name.replace("_", " ");
         directoriesViewHolder.nameTextView.setText(name);
 
+
+        LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(context);//layout manager vor vertical scrolling recycler
+        recyclerLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+
+        //The recycler adapter
+       RecyclerAdapterOhdmMaps latestRecyclerAdapter = new RecyclerAdapterOhdmMaps(context,  directoriesViewHolder.directoryContent,  directoriesViewHolder.directoryContentBackup, R.layout.recycler_item_horizonal);
+
+        latestRecyclerAdapter.setOnItemButtonClickListener(new OnRecyclerItemButtonClicklistenner()
+        {
+            @Override
+            public void onButtonClick(int position)
+            {
+                Toast.makeText(context, "Download started", Toast.LENGTH_SHORT).show();
+                FtpTaskFileDownloading ftpTaskFileDownloading = new FtpTaskFileDownloading(context.getApplicationContext(), currentDirectory.getPath());
+                ftpTaskFileDownloading.execute(directoriesViewHolder.directoryContent.get(position));
+            }
+        });
+
+        //Putting everything together
+        directoriesViewHolder.dirContentRecycler.setLayoutManager(recyclerLayoutManager);
+        directoriesViewHolder.dirContentRecycler.setAdapter(latestRecyclerAdapter);
+
+        getDirectoryFiles(currentDirectory.getPath(),directoriesViewHolder.directoryContent,  directoriesViewHolder.directoryContentBackup, latestRecyclerAdapter);
     }
 
     @Override
@@ -112,13 +142,17 @@ public class RecyclerViewAdapterDirectories extends RecyclerView.Adapter<Recycle
     {
 
         public TextView nameTextView;
-
+        public ArrayList<RemoteFile> directoryContent;
+        public ArrayList<RemoteFile> directoryContentBackup;
+        public RecyclerView dirContentRecycler;
 
         public DirectoriesViewHolder(@NonNull View itemView, final RecyclerViewAdapterDirectories.OnItemClickListener listener)
         {
             super(itemView);
+            directoryContent = new ArrayList<>();
+            directoryContentBackup = new ArrayList<>();
             nameTextView = itemView.findViewById(R.id.dir_name_tv);
-
+            dirContentRecycler = itemView.findViewById(R.id.dir_content_recycler);
             itemView.setOnClickListener(new View.OnClickListener()
             {
                 @Override
@@ -135,5 +169,35 @@ public class RecyclerViewAdapterDirectories extends RecyclerView.Adapter<Recycle
                 }
             });
         }
+    }
+
+    private void getDirectoryFiles(String path, final ArrayList<RemoteFile> list, final ArrayList<RemoteFile> backup, final RecyclerAdapterOhdmMaps adapter)
+    {
+        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(context, path, new AsyncResponse()
+        {
+            @Override
+            public void getOhdmFiles(ArrayList<RemoteFile> remoteFiles)
+            {
+                if (remoteFiles.size() > 0)
+                {
+                    Log.i(TAG, "received " + remoteFiles.size() + " files.");
+
+                    list.addAll(remoteFiles);
+                    backup.addAll(remoteFiles);
+                    adapter.notifyDataSetChanged();
+                }
+                else // Server directory was empty or server hasn't responded
+                {
+
+                }
+            }
+
+            @Override
+            public void getRemoteDirectories(ArrayList<RemoteDirectory> dirs)
+            {
+
+            }
+        });
+        ftpTaskFileListing.execute();
     }
 }
