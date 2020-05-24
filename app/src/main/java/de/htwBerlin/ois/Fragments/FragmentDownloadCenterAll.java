@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -86,7 +87,7 @@ public class FragmentDownloadCenterAll extends Fragment
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         // inflating the view
-        view = inflater.inflate(R.layout.fragment_map_download, container, false);
+        view = inflater.inflate(R.layout.fragment_map_download_all, container, false);
         return view;
     }
 
@@ -106,6 +107,7 @@ public class FragmentDownloadCenterAll extends Fragment
         this.setupLatestSearchView();
         this.setupAllSearchView();
         this.setupFAB();
+        this.setupButtonToCategories();
     }
 
     @Override
@@ -220,6 +222,18 @@ public class FragmentDownloadCenterAll extends Fragment
         latestMapsRecyclerView.setAdapter(latestRecyclerAdapter);
     }
 
+    private void setupButtonToCategories()
+    {
+        Button button = view.findViewById(R.id.button_categories);
+        button.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentDownloadCenterCategories()).addToBackStack(null).commit();
+            }
+        });
+    }
 
     /**
      * Setup the search view to use the nameFilter

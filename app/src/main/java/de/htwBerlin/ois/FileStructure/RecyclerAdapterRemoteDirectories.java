@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import de.htwBerlin.ois.Fragments.FragmentDownloadCenterCategories;
 import de.htwBerlin.ois.R;
 import de.htwBerlin.ois.ServerCommunication.AsyncResponse;
 import de.htwBerlin.ois.ServerCommunication.FtpTaskFileDownloading;
@@ -28,7 +30,7 @@ import de.htwBerlin.ois.ServerCommunication.FtpTaskFileListing;
  * used in :
  *
  * @author WilliBoelke
- * @see de.htwBerlin.ois.Fragments.FragmentDownloadCenterSorted
+ * @see FragmentDownloadCenterCategories
  */
 public class RecyclerAdapterRemoteDirectories extends RecyclerView.Adapter<RecyclerAdapterRemoteDirectories.DirectoriesViewHolder>
 {
@@ -79,6 +81,7 @@ public class RecyclerAdapterRemoteDirectories extends RecyclerView.Adapter<Recyc
         View view = LayoutInflater.from(parent.getContext()).inflate(ressource, parent, false);
         return new RecyclerAdapterRemoteDirectories.DirectoriesViewHolder(view);
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull final RecyclerAdapterRemoteDirectories.DirectoriesViewHolder directoriesViewHolder, final int position)
@@ -142,7 +145,7 @@ public class RecyclerAdapterRemoteDirectories extends RecyclerView.Adapter<Recyc
     }
 
 
-    //------------Get FTP Files------------
+    //------------FTP------------
 
     /**
      * This method retrieves the content/files from the FTPServer
@@ -154,29 +157,32 @@ public class RecyclerAdapterRemoteDirectories extends RecyclerView.Adapter<Recyc
      */
     private void getDirectoryFiles(String path, final ArrayList<RemoteFile> list, final ArrayList<RemoteFile> backup, final RecyclerAdapterRemoteFiles adapter)
     {
-        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(context, path, asyncResponse);
+        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(context, path, new AsyncResponse()
+        {
+            @Override
+            public void getOhdmFiles(ArrayList<RemoteFile> remoteFiles)
+            {
+                if (remoteFiles.size() > 0)
+                {
+                    Log.i(TAG, "received " + remoteFiles.size() + " files.");
 
+                    list.addAll(remoteFiles);
+                    backup.addAll(remoteFiles);
+                    adapter.notifyDataSetChanged();
+                }
+                else // Server directory was empty or server hasn't responded
+                {
+
+                }
+            }
+
+            @Override
+            public void getRemoteDirectories(ArrayList<RemoteDirectory> dirs)
+            {
+
+            }
+        });
         ftpTaskFileListing.execute();
     }
 
-
-    /**
-     * The AsyncResponse -- or the code to be executed after the FtpTaskFileListing finished
-     *
-     * @see this#getDirectoryFiles
-     */
-    private AsyncResponse asyncResponse = new AsyncResponse()
-    {
-        @Override
-        public void getOhdmFiles(ArrayList<RemoteFile> remoteFiles)
-        {
-
-        }
-
-        @Override
-        public void getRemoteDirectories(ArrayList<RemoteDirectory> remoteDirectories)
-        {
-
-        }
-    };
 }

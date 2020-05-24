@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import java.util.ArrayList;
 
@@ -20,7 +21,7 @@ import de.htwBerlin.ois.ServerCommunication.AsyncResponse;
 import de.htwBerlin.ois.ServerCommunication.FtpTaskDirListing;
 
 
-public class FragmentDownloadCenterSorted extends Fragment
+public class FragmentDownloadCenterCategories extends Fragment
 {
 
     //------------Instance Variables------------
@@ -50,7 +51,7 @@ public class FragmentDownloadCenterSorted extends Fragment
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         // inflating the view
-        view = inflater.inflate(R.layout.frament_map_download_center, container, false);
+        view = inflater.inflate(R.layout.frament_map_download_categories, container, false);
         return view;
     }
 
@@ -62,6 +63,7 @@ public class FragmentDownloadCenterSorted extends Fragment
         setHasOptionsMenu(true);
         this.getDirs();
         this.setupDirRecycler();
+        this.setupToAllMapsButton();
     }
 
 
@@ -87,6 +89,19 @@ public class FragmentDownloadCenterSorted extends Fragment
         //Putting everything together
         dirRecycler.setLayoutManager(recyclerLayoutManager);
         dirRecycler.setAdapter(recyclerViewAdapter);
+    }
+
+    private void setupToAllMapsButton()
+    {
+        Button button = view.findViewById(R.id.button_all_maps);
+        button.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentDownloadCenterAll()).addToBackStack(null).commit();
+            }
+        });
     }
 
     private void getDirs()
