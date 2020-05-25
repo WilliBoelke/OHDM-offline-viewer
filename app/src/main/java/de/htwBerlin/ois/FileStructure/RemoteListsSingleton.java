@@ -1,6 +1,7 @@
 package de.htwBerlin.ois.FileStructure;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * this singleton is used to store the lists
@@ -15,7 +16,7 @@ public class RemoteListsSingleton
     private static ArrayList<RemoteFile> allMaps;
     private static ArrayList<RemoteFile> latestMaps;
     private static ArrayList<RemoteDirectory> directories;
-    private static ArrayList<ArrayList<RemoteFile>> categoryLists;
+    private static HashMap<String, ArrayList<RemoteFile>> directoryContents;
     private static RemoteListsSingleton instance = null;
 
     private RemoteListsSingleton()
@@ -31,7 +32,7 @@ public class RemoteListsSingleton
             latestMaps = new ArrayList<>();
             allMaps = new ArrayList<>();
             directories = new ArrayList<>();
-            categoryLists = new ArrayList<>();
+            directoryContents = new HashMap<>();
         }
         return instance;
     }
@@ -51,9 +52,9 @@ public class RemoteListsSingleton
         return directories;
     }
 
-    public ArrayList<ArrayList<RemoteFile>> getCategoryLists()
+    public HashMap<String, ArrayList<RemoteFile>> getDirectoryContents()
     {
-        return categoryLists;
+        return directoryContents;
     }
 
     public void setAllMaps(ArrayList<RemoteFile> allMaps)
@@ -74,8 +75,9 @@ public class RemoteListsSingleton
         this.directories = directories;
     }
 
-    public void setCategoryLists(ArrayList<ArrayList<RemoteFile>> categoryLists)
+    public void setDirectoryContents(HashMap<String, ArrayList<RemoteFile>> directoryContents )
     {
-        this.categoryLists = categoryLists;
+        this.directoryContents.clear();
+        this.directoryContents = directoryContents;
     }
 }

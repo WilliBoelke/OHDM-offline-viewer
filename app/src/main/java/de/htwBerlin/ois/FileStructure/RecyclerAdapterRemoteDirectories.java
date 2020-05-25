@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import de.htwBerlin.ois.Fragments.FragmentDownloadCenterCategories;
 import de.htwBerlin.ois.R;
@@ -114,7 +115,7 @@ public class RecyclerAdapterRemoteDirectories extends RecyclerView.Adapter<Recyc
         directoriesViewHolder.dirContentRecycler.setLayoutManager(recyclerLayoutManager);
         directoriesViewHolder.dirContentRecycler.setAdapter(latestRecyclerAdapter);
 
-        getDirectoryFiles(currentDirectory.getPath(),directoriesViewHolder.directoryContent,  directoriesViewHolder.directoryContentBackup, latestRecyclerAdapter);
+        restoreFiles(currentDirectory.getPath(), directoriesViewHolder.directoryContent, directoriesViewHolder.directoryContentBackup, latestRecyclerAdapter);
     }
 
     @Override
@@ -148,14 +149,14 @@ public class RecyclerAdapterRemoteDirectories extends RecyclerView.Adapter<Recyc
     //------------FTP------------
 
     /**
-     * This method retrieves the content/files from the FTPServer
+     * This method retrieves the content/files for a single Directory from the FTPServer
      *
      * @param path    path of directory
      * @param list    the list to be filled through the async response
      * @param backup  the backup list to be filled through the async response
      * @param adapter the adapter -to notify when the data changes
      */
-    private void getDirectoryFiles(String path, final ArrayList<RemoteFile> list, final ArrayList<RemoteFile> backup, final RecyclerAdapterRemoteFiles adapter)
+    private void ftpGetDirectoryContent(final String path, final ArrayList<RemoteFile> list, final ArrayList<RemoteFile> backup, final RecyclerAdapterRemoteFiles adapter)
     {
         FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(context, path, new AsyncResponse()
         {
@@ -165,7 +166,7 @@ public class RecyclerAdapterRemoteDirectories extends RecyclerView.Adapter<Recyc
                 if (remoteFiles.size() > 0)
                 {
                     Log.i(TAG, "received " + remoteFiles.size() + " files.");
-
+                    RemoteListsSingleton.getInstance().getDirectoryContents().put(path, remoteFiles);
                     list.addAll(remoteFiles);
                     backup.addAll(remoteFiles);
                     adapter.notifyDataSetChanged();
@@ -179,10 +180,50 @@ public class RecyclerAdapterRemoteDirectories extends RecyclerView.Adapter<Recyc
             @Override
             public void getRemoteDirectories(ArrayList<RemoteDirectory> dirs)
             {
-
+                //No need to be implemented here
             }
         });
         ftpTaskFileListing.execute();
     }
+
+    //------------Save/Restore Instance State------------
+
+
+    /**
+     * Checks if the list is persisted in the {@link RemoteListsSingleton}
+     * if so adds it to the items list and notifies the adapter
+     * <p>
+     * else it will start the FTP task to download the list from the server
+     *
+     * @param path
+     * @param list
+     * @param backup
+     * @param adapter
+     */
+    private void restoreFiles(final String path, final ArrayList<RemoteFile> list, final ArrayList<RemoteFile> backup, final RecyclerAdapterRemoteFiles adapter)
+    {
+        try
+        {
+            if (RemoteListsSingleton.getInstance().getDirectoryContents().get(path).size() != 0)
+            {
+                list.clear();
+                list.addAll(RemoteListsSingleton.getInstance().getDirectoryContents().get(path));
+                backup.clear();
+                backup.addAll(list);
+                adapter.notifyDataSetChanged();
+            }
+            else
+            {
+                ftpGetDirectoryContent(path, list, backup, adapter);
+            }
+        }
+        catch (NullPointerException e)
+        {
+            ftpGetDirectoryContent(path, list, backup, adapter);
+        }
+
+
+    }
+
 
 }

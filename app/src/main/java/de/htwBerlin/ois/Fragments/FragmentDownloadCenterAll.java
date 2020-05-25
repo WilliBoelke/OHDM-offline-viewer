@@ -20,10 +20,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
-import de.htwBerlin.ois.FileStructure.ObjectSerializer;
 import de.htwBerlin.ois.FileStructure.OnRecyclerItemButtonClicklistenner;
 import de.htwBerlin.ois.FileStructure.RecyclerAdapterRemoteFiles;
 import de.htwBerlin.ois.FileStructure.RemoteDirectory;
@@ -456,9 +454,10 @@ public class FragmentDownloadCenterAll extends Fragment
             @Override
             public void onRefresh()
             {
-                swipeRefreshLayout.setRefreshing(false);
+                swipeRefreshLayout.setRefreshing(true);
                 FTPListAllFiles();
                 FTPListLatestFiles();
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
     }

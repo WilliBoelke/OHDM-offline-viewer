@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -67,7 +68,10 @@ public class FragmentDownloadCenterCategories extends Fragment
         this.setupToAllMapsButton();
         this.setupFAB();
         this.restoreFiles();
+        this.setupSwipeToRefresh();
     }
+
+
 
     @Override
     public void onPause()
@@ -113,6 +117,21 @@ public class FragmentDownloadCenterCategories extends Fragment
         });
     }
 
+    private void setupSwipeToRefresh()
+    {
+        final SwipeRefreshLayout swipeToRefreshLayout = view.findViewById(R.id.swipe_to_refresh);
+        swipeToRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
+        {
+            @Override
+            public void onRefresh()
+            {
+                swipeToRefreshLayout.setRefreshing(true);
+                FTPGetDirectories();
+                setupDirRecycler();
+                swipeToRefreshLayout.setRefreshing(false);
+            }
+        });
+    }
 
     /**
      * Setup the FloatingActionButton to replace this fragment with the
@@ -152,6 +171,7 @@ public class FragmentDownloadCenterCategories extends Fragment
         @Override
         public void getRemoteDirectories(ArrayList<RemoteDirectory> dirs)
         {
+            directoryList.clear();
             directoryList.addAll(dirs);
             recyclerViewAdapter.notifyDataSetChanged();
         }

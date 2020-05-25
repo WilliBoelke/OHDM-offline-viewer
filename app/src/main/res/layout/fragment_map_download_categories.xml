@@ -18,6 +18,10 @@
         android:src="@drawable/icon_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_to_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/scrollView2"
@@ -78,4 +82,5 @@
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </android.support.constraint.ConstraintLayout>
