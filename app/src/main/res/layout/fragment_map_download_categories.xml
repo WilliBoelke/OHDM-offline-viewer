@@ -18,6 +18,31 @@
         android:src="@drawable/icon_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/connecting_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/comfortaa"
+        android:text="Connecting..."
+        android:textColor="?attr/textColorPrimary"
+        android:textSize="@dimen/primary_font_size"
+        app:layout_constraintBottom_toTopOf="@+id/connecting_pb"
+        app:layout_constraintEnd_toEndOf="@+id/connecting_pb"
+        app:layout_constraintStart_toStartOf="@+id/connecting_pb" />
+
+    <ProgressBar
+        android:id="@+id/connecting_pb"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_to_refresh"
         android:layout_width="match_parent"

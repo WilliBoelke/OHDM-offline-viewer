@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -24,7 +25,7 @@ import de.htwBerlin.ois.ServerCommunication.AsyncResponse;
 import de.htwBerlin.ois.ServerCommunication.FtpTaskDirListing;
 
 
-public class FragmentDownloadCenterCategories extends Fragment
+public class FragmentDownloadCenterCategories extends FragmentWithServerConnection
 {
 
     //------------Instance Variables------------
@@ -65,6 +66,7 @@ public class FragmentDownloadCenterCategories extends Fragment
         directoryList = new ArrayList<>();
         setHasOptionsMenu(true);
         this.setupDirRecycler();
+        this.changeVisibilities(STATE_CONNECTING);
         this.setupToAllMapsButton();
         this.setupFAB();
         this.restoreFiles();
@@ -126,6 +128,7 @@ public class FragmentDownloadCenterCategories extends Fragment
             public void onRefresh()
             {
                 swipeToRefreshLayout.setRefreshing(true);
+                changeVisibilities(STATE_CONNECTING);
                 FTPGetDirectories();
                 setupDirRecycler();
                 swipeToRefreshLayout.setRefreshing(false);
@@ -171,9 +174,18 @@ public class FragmentDownloadCenterCategories extends Fragment
         @Override
         public void getRemoteDirectories(ArrayList<RemoteDirectory> dirs)
         {
-            directoryList.clear();
-            directoryList.addAll(dirs);
-            recyclerViewAdapter.notifyDataSetChanged();
+            if(dirs.size() != 0)
+            {
+                directoryList.clear();
+                directoryList.addAll(dirs);
+                recyclerViewAdapter.notifyDataSetChanged();
+                changeVisibilities(STATE_CONNECTED);
+            }
+            else
+            {
+                changeVisibilities(STATE_NO_CONNECTION);
+            }
+
         }
     };
 
@@ -190,6 +202,7 @@ public class FragmentDownloadCenterCategories extends Fragment
         {
             this.directoryList.clear();
             this.directoryList.addAll(RemoteListsSingleton.getInstance().getDirectories());
+            this.changeVisibilities(STATE_CONNECTED);
         }
         else
         {
@@ -199,4 +212,33 @@ public class FragmentDownloadCenterCategories extends Fragment
 
     }
 
+
+    @Override
+    protected void onNoConnection()
+    {
+        view.findViewById(R.id.connecting_tv).setVisibility(View.VISIBLE);
+        ((TextView) view.findViewById(R.id.connecting_tv)).setText("Coudnt make connection");
+
+        view.findViewById(R.id.connecting_pb).setVisibility(View.INVISIBLE);
+        view.findViewById(R.id.directory_recycler).setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    protected void onConnecting()
+    {
+        view.findViewById(R.id.connecting_tv).setVisibility(View.VISIBLE);
+        view.findViewById(R.id.connecting_pb).setVisibility(View.VISIBLE);
+
+        view.findViewById(R.id.directory_recycler).setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    protected void onConnected()
+    {
+        view.findViewById(R.id.connecting_tv).setVisibility(View.INVISIBLE);
+        view.findViewById(R.id.connecting_pb).setVisibility(View.INVISIBLE);
+
+        view.findViewById(R.id.directory_recycler).setVisibility(View.VISIBLE);
+
+    }
 }

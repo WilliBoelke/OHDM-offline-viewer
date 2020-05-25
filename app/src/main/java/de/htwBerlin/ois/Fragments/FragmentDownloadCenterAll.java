@@ -38,7 +38,7 @@ import static de.htwBerlin.ois.ServerCommunication.Variables.MOST_RECENT_PATH;
  * This Activity represents a small map file download center
  * @author WilliBoelke
  */
-public class FragmentDownloadCenterAll extends Fragment
+public class FragmentDownloadCenterAll extends FragmentWithServerConnection
 {
 
     //------------Instance Variables------------
@@ -71,24 +71,7 @@ public class FragmentDownloadCenterAll extends Fragment
      * The view
      */
     private View view;
-    /**
-     * used in {@link this#changeVisibilities}
-     * to define which views are visible/invisible
-     * while trying to connect with the server
-     */
-    private final  byte STATE_CONNECTING = 1;
-    /**
-     * used in {@link this#changeVisibilities}
-     * to define which views are visible/invisible
-     * when the server hast responded
-     */
-    private final  byte STATE_NO_CONNECTION = 2;
-    /**
-     * used in {@link this#changeVisibilities}
-     * to define which views are visible/invisible
-     * when connected with the server / file listing was successful
-     */
-    private final  byte STATE_CONNECTED = 3;
+
 
     //------------Static Variables------------
 
@@ -331,54 +314,6 @@ public class FragmentDownloadCenterAll extends Fragment
         });
     }
 
-    /**
-     * mode = true
-     * Method will make the RecyclerView visible
-     * and the connection indicators invisible
-     * mode = false
-     * well...the opposite
-     * @param mode
-     */
-    private void changeVisibilities(byte mode)
-    {
-        switch( mode)
-        {
-            case STATE_CONNECTED:
-                view.findViewById(R.id.connecting_tv).setVisibility(View.INVISIBLE);
-                view.findViewById(R.id.connecting_pb).setVisibility(View.INVISIBLE);
-
-                view.findViewById(R.id.all_sv).setVisibility(View.VISIBLE);
-                view.findViewById(R.id.all_tv).setVisibility(View.VISIBLE);
-                view.findViewById(R.id.latest_sv).setVisibility(View.VISIBLE);
-                view.findViewById(R.id.lates_tv).setVisibility(View.VISIBLE);
-                allMapsRecyclerView.setVisibility(View.VISIBLE);
-                latestMapsRecyclerView.setVisibility(View.VISIBLE);
-            break;
-            case STATE_CONNECTING:
-                view.findViewById(R.id.connecting_tv).setVisibility(View.VISIBLE);
-                view.findViewById(R.id.connecting_pb).setVisibility(View.VISIBLE);
-
-                view.findViewById(R.id.all_sv).setVisibility(View.INVISIBLE);
-                view.findViewById(R.id.all_tv).setVisibility(View.INVISIBLE);
-                view.findViewById(R.id.latest_sv).setVisibility(View.INVISIBLE);
-                view.findViewById(R.id.lates_tv).setVisibility(View.INVISIBLE);
-                allMapsRecyclerView.setVisibility(View.INVISIBLE);
-                latestMapsRecyclerView.setVisibility(View.INVISIBLE);
-                break;
-            case STATE_NO_CONNECTION:
-                view.findViewById(R.id.connecting_tv).setVisibility(View.VISIBLE);
-                ((TextView) view.findViewById(R.id.connecting_tv)).setText("Coudnt make connection");
-
-                view.findViewById(R.id.connecting_pb).setVisibility(View.INVISIBLE);
-                view.findViewById(R.id.all_tv).setVisibility(View.INVISIBLE);
-                view.findViewById(R.id.all_sv).setVisibility(View.INVISIBLE);
-                view.findViewById(R.id.latest_sv).setVisibility(View.INVISIBLE);
-                view.findViewById(R.id.lates_tv).setVisibility(View.INVISIBLE);
-                allMapsRecyclerView.setVisibility(View.INVISIBLE);
-                latestMapsRecyclerView.setVisibility(View.INVISIBLE);
-                break;
-        }
-    }
 
     //------------FTP Listing------------
 
@@ -554,4 +489,51 @@ public class FragmentDownloadCenterAll extends Fragment
             FTPListLatestFiles();
         }
     }
+
+
+    //------------FragmentWithServerConnection Methods------------
+
+    @Override
+    protected void onNoConnection()
+    {
+        view.findViewById(R.id.connecting_tv).setVisibility(View.VISIBLE);
+        ((TextView) view.findViewById(R.id.connecting_tv)).setText("Coudnt make connection");
+
+        view.findViewById(R.id.connecting_pb).setVisibility(View.INVISIBLE);
+        view.findViewById(R.id.all_tv).setVisibility(View.INVISIBLE);
+        view.findViewById(R.id.all_sv).setVisibility(View.INVISIBLE);
+        view.findViewById(R.id.latest_sv).setVisibility(View.INVISIBLE);
+        view.findViewById(R.id.lates_tv).setVisibility(View.INVISIBLE);
+        allMapsRecyclerView.setVisibility(View.INVISIBLE);
+        latestMapsRecyclerView.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    protected void onConnecting()
+    {
+        view.findViewById(R.id.connecting_tv).setVisibility(View.VISIBLE);
+        view.findViewById(R.id.connecting_pb).setVisibility(View.VISIBLE);
+
+        view.findViewById(R.id.all_sv).setVisibility(View.INVISIBLE);
+        view.findViewById(R.id.all_tv).setVisibility(View.INVISIBLE);
+        view.findViewById(R.id.latest_sv).setVisibility(View.INVISIBLE);
+        view.findViewById(R.id.lates_tv).setVisibility(View.INVISIBLE);
+        allMapsRecyclerView.setVisibility(View.INVISIBLE);
+        latestMapsRecyclerView.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    protected void onConnected()
+    {
+        view.findViewById(R.id.connecting_tv).setVisibility(View.INVISIBLE);
+        view.findViewById(R.id.connecting_pb).setVisibility(View.INVISIBLE);
+
+        view.findViewById(R.id.all_sv).setVisibility(View.VISIBLE);
+        view.findViewById(R.id.all_tv).setVisibility(View.VISIBLE);
+        view.findViewById(R.id.latest_sv).setVisibility(View.VISIBLE);
+        view.findViewById(R.id.lates_tv).setVisibility(View.VISIBLE);
+        allMapsRecyclerView.setVisibility(View.VISIBLE);
+        latestMapsRecyclerView.setVisibility(View.VISIBLE);
+    }
+
 }
