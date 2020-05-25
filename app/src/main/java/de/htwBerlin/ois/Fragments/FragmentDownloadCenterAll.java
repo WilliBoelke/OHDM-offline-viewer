@@ -314,6 +314,37 @@ public class FragmentDownloadCenterAll extends Fragment
         });
     }
 
+    /**
+     * mode = true
+     * Method will make the RecyclerView visible
+     * and the connection indicators invisible
+     * mode = false
+     * well...the opposite
+     * @param mode
+     */
+    private void changeVisibilities(Boolean mode)
+    {
+        if(mode ==true)
+        {
+            view.findViewById(R.id.connecting_tv).setVisibility(View.INVISIBLE);
+            view.findViewById(R.id.connecting_pb).setVisibility(View.INVISIBLE);
+            view.findViewById(R.id.all_tv).setVisibility(View.VISIBLE);
+            allMapsRecyclerView.setVisibility(View.VISIBLE);
+            view.findViewById(R.id.lates_tv).setVisibility(View.VISIBLE);
+            latestMapsRecyclerView.setVisibility(View.VISIBLE);
+
+        }
+        else
+        {
+            view.findViewById(R.id.connecting_tv).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.connecting_pb).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.all_tv).setVisibility(View.INVISIBLE);
+            allMapsRecyclerView.setVisibility(View.INVISIBLE);
+            view.findViewById(R.id.lates_tv).setVisibility(View.INVISIBLE);
+            latestMapsRecyclerView.setVisibility(View.INVISIBLE);
+
+        }
+    }
 
     //------------FTP Listing------------
 
@@ -339,14 +370,9 @@ public class FragmentDownloadCenterAll extends Fragment
                     allOhdmFilesBackup.clear();
                     allOhdmFiles.addAll(remoteFiles);
                     allOhdmFilesBackup.addAll(remoteFiles);
-
-                    view.findViewById(R.id.connecting_tv).setVisibility(View.INVISIBLE);
-                    view.findViewById(R.id.connecting_pb).setVisibility(View.INVISIBLE);
-                    view.findViewById(R.id.all_tv).setVisibility(View.VISIBLE);
-                    allMapsRecyclerView.setVisibility(View.VISIBLE);
-
                     allRecyclerAdapter.notifyDataSetChanged();
                     latestRecyclerAdapter.notifyDataSetChanged();
+                    changeVisibilities(true);
                 }
                 else // Server directory was empty or server hasn't responded
                 {
@@ -386,13 +412,8 @@ public class FragmentDownloadCenterAll extends Fragment
                     latestOhdmFiles.clear();
                     latestOhdmFiles.addAll(remoteFiles);
                     latestOhdmFilesBackup.addAll(remoteFiles);
-
-                    view.findViewById(R.id.connecting_tv).setVisibility(View.INVISIBLE);
-                    view.findViewById(R.id.connecting_pb).setVisibility(View.INVISIBLE);
-                    view.findViewById(R.id.lates_tv).setVisibility(View.VISIBLE);
-                    latestMapsRecyclerView.setVisibility(View.VISIBLE);
-
                     latestRecyclerAdapter.notifyDataSetChanged();
+                    changeVisibilities(true);
                 }
                 else // Server directory was empty or server hasn't responded
                 {
@@ -455,6 +476,7 @@ public class FragmentDownloadCenterAll extends Fragment
             public void onRefresh()
             {
                 swipeRefreshLayout.setRefreshing(true);
+                changeVisibilities(false);
                 FTPListAllFiles();
                 FTPListLatestFiles();
                 swipeRefreshLayout.setRefreshing(false);
@@ -479,10 +501,7 @@ public class FragmentDownloadCenterAll extends Fragment
             allOhdmFilesBackup.clear();
             this.allOhdmFiles.addAll(RemoteListsSingleton.getInstance().getAllMaps());
             this.allOhdmFilesBackup.addAll(allOhdmFiles);
-            view.findViewById(R.id.connecting_tv).setVisibility(View.INVISIBLE);
-            view.findViewById(R.id.connecting_pb).setVisibility(View.INVISIBLE);
-            view.findViewById(R.id.all_tv).setVisibility(View.VISIBLE);
-            allMapsRecyclerView.setVisibility(View.VISIBLE);
+            changeVisibilities(true);
             allRecyclerAdapter.notifyDataSetChanged();
         }
         else
@@ -495,10 +514,7 @@ public class FragmentDownloadCenterAll extends Fragment
             latestOhdmFiles.clear();
             this.latestOhdmFiles.addAll(RemoteListsSingleton.getInstance().getLatestMaps());
             this.latestOhdmFilesBackup.addAll(latestOhdmFiles);
-            view.findViewById(R.id.connecting_tv).setVisibility(View.INVISIBLE);
-            view.findViewById(R.id.connecting_pb).setVisibility(View.INVISIBLE);
-            view.findViewById(R.id.lates_tv).setVisibility(View.VISIBLE);
-            latestMapsRecyclerView.setVisibility(View.VISIBLE);
+            changeVisibilities(true);
             latestRecyclerAdapter.notifyDataSetChanged();
         }
         else
