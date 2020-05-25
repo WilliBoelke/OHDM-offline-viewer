@@ -53,7 +53,7 @@ public class FragmentDownloadCenterAll extends Fragment
      */
     private ArrayList<RemoteFile> allOhdmFiles;
     /**
-     * ArrayList of OHDMFiles,
+     * ArrayList of RemoteFiles (.map),
      * This list will serve as backup when the
      * ohdmFiles list was altered
      */
@@ -71,8 +71,24 @@ public class FragmentDownloadCenterAll extends Fragment
      * The view
      */
     private View view;
-    private final String sharedPreferencesName = "DCALL";
-
+    /**
+     * used in {@link this#changeVisibilities}
+     * to define which views are visible/invisible
+     * while trying to connect with the server
+     */
+    private final  byte STATE_CONNECTING = 1;
+    /**
+     * used in {@link this#changeVisibilities}
+     * to define which views are visible/invisible
+     * when the server hast responded
+     */
+    private final  byte STATE_NO_CONNECTION = 2;
+    /**
+     * used in {@link this#changeVisibilities}
+     * to define which views are visible/invisible
+     * when connected with the server / file listing was successful
+     */
+    private final  byte STATE_CONNECTED = 3;
 
     //------------Static Variables------------
 
@@ -108,6 +124,7 @@ public class FragmentDownloadCenterAll extends Fragment
         this.setupLatestMapsRecyclerView();
         this.setupLatestSearchView();
         this.setupAllSearchView();
+        this.changeVisibilities(STATE_CONNECTING);
         this.setupFAB();
         this.setupSwipeToRefresh();
         this.setupButtonToCategories();
@@ -322,27 +339,44 @@ public class FragmentDownloadCenterAll extends Fragment
      * well...the opposite
      * @param mode
      */
-    private void changeVisibilities(Boolean mode)
+    private void changeVisibilities(byte mode)
     {
-        if(mode ==true)
+        switch( mode)
         {
-            view.findViewById(R.id.connecting_tv).setVisibility(View.INVISIBLE);
-            view.findViewById(R.id.connecting_pb).setVisibility(View.INVISIBLE);
-            view.findViewById(R.id.all_tv).setVisibility(View.VISIBLE);
-            allMapsRecyclerView.setVisibility(View.VISIBLE);
-            view.findViewById(R.id.lates_tv).setVisibility(View.VISIBLE);
-            latestMapsRecyclerView.setVisibility(View.VISIBLE);
+            case STATE_CONNECTED:
+                view.findViewById(R.id.connecting_tv).setVisibility(View.INVISIBLE);
+                view.findViewById(R.id.connecting_pb).setVisibility(View.INVISIBLE);
 
-        }
-        else
-        {
-            view.findViewById(R.id.connecting_tv).setVisibility(View.VISIBLE);
-            view.findViewById(R.id.connecting_pb).setVisibility(View.VISIBLE);
-            view.findViewById(R.id.all_tv).setVisibility(View.INVISIBLE);
-            allMapsRecyclerView.setVisibility(View.INVISIBLE);
-            view.findViewById(R.id.lates_tv).setVisibility(View.INVISIBLE);
-            latestMapsRecyclerView.setVisibility(View.INVISIBLE);
+                view.findViewById(R.id.all_sv).setVisibility(View.VISIBLE);
+                view.findViewById(R.id.all_tv).setVisibility(View.VISIBLE);
+                view.findViewById(R.id.latest_sv).setVisibility(View.VISIBLE);
+                view.findViewById(R.id.lates_tv).setVisibility(View.VISIBLE);
+                allMapsRecyclerView.setVisibility(View.VISIBLE);
+                latestMapsRecyclerView.setVisibility(View.VISIBLE);
+            break;
+            case STATE_CONNECTING:
+                view.findViewById(R.id.connecting_tv).setVisibility(View.VISIBLE);
+                view.findViewById(R.id.connecting_pb).setVisibility(View.VISIBLE);
 
+                view.findViewById(R.id.all_sv).setVisibility(View.INVISIBLE);
+                view.findViewById(R.id.all_tv).setVisibility(View.INVISIBLE);
+                view.findViewById(R.id.latest_sv).setVisibility(View.INVISIBLE);
+                view.findViewById(R.id.lates_tv).setVisibility(View.INVISIBLE);
+                allMapsRecyclerView.setVisibility(View.INVISIBLE);
+                latestMapsRecyclerView.setVisibility(View.INVISIBLE);
+                break;
+            case STATE_NO_CONNECTION:
+                view.findViewById(R.id.connecting_tv).setVisibility(View.VISIBLE);
+                ((TextView) view.findViewById(R.id.connecting_tv)).setText("Coudnt make connection");
+
+                view.findViewById(R.id.connecting_pb).setVisibility(View.INVISIBLE);
+                view.findViewById(R.id.all_tv).setVisibility(View.INVISIBLE);
+                view.findViewById(R.id.all_sv).setVisibility(View.INVISIBLE);
+                view.findViewById(R.id.latest_sv).setVisibility(View.INVISIBLE);
+                view.findViewById(R.id.lates_tv).setVisibility(View.INVISIBLE);
+                allMapsRecyclerView.setVisibility(View.INVISIBLE);
+                latestMapsRecyclerView.setVisibility(View.INVISIBLE);
+                break;
         }
     }
 
@@ -372,7 +406,7 @@ public class FragmentDownloadCenterAll extends Fragment
                     allOhdmFilesBackup.addAll(remoteFiles);
                     allRecyclerAdapter.notifyDataSetChanged();
                     latestRecyclerAdapter.notifyDataSetChanged();
-                    changeVisibilities(true);
+                    changeVisibilities(STATE_CONNECTED);
                 }
                 else // Server directory was empty or server hasn't responded
                 {
@@ -413,13 +447,11 @@ public class FragmentDownloadCenterAll extends Fragment
                     latestOhdmFiles.addAll(remoteFiles);
                     latestOhdmFilesBackup.addAll(remoteFiles);
                     latestRecyclerAdapter.notifyDataSetChanged();
-                    changeVisibilities(true);
+                    changeVisibilities(STATE_CONNECTED);
                 }
                 else // Server directory was empty or server hasn't responded
                 {
-                    view.findViewById(R.id.connecting_pb).setVisibility(View.INVISIBLE);
-                    TextView tv = view.findViewById(R.id.connecting_tv);
-                    tv.setText("Connection failed, try again later");
+                    changeVisibilities(STATE_NO_CONNECTION);
                 }
             }
 
@@ -476,7 +508,7 @@ public class FragmentDownloadCenterAll extends Fragment
             public void onRefresh()
             {
                 swipeRefreshLayout.setRefreshing(true);
-                changeVisibilities(false);
+                changeVisibilities(STATE_CONNECTING);
                 FTPListAllFiles();
                 FTPListLatestFiles();
                 swipeRefreshLayout.setRefreshing(false);
@@ -501,7 +533,7 @@ public class FragmentDownloadCenterAll extends Fragment
             allOhdmFilesBackup.clear();
             this.allOhdmFiles.addAll(RemoteListsSingleton.getInstance().getAllMaps());
             this.allOhdmFilesBackup.addAll(allOhdmFiles);
-            changeVisibilities(true);
+            changeVisibilities(STATE_CONNECTED);
             allRecyclerAdapter.notifyDataSetChanged();
         }
         else
@@ -514,7 +546,7 @@ public class FragmentDownloadCenterAll extends Fragment
             latestOhdmFiles.clear();
             this.latestOhdmFiles.addAll(RemoteListsSingleton.getInstance().getLatestMaps());
             this.latestOhdmFilesBackup.addAll(latestOhdmFiles);
-            changeVisibilities(true);
+            changeVisibilities(STATE_CONNECTED);
             latestRecyclerAdapter.notifyDataSetChanged();
         }
         else
