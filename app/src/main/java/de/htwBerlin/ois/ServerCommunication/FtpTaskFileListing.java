@@ -45,13 +45,12 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
      */
     private WeakReference<Context> context;
     private boolean includeSubDirs;
-
-
-    //------------Static Variables------------
     /**
      * The path to the directory
      */
     private String path;
+
+
 
 
     //------------Constructors------------
