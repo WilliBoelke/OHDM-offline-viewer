@@ -45,27 +45,16 @@ public class FragmentrequestNewMap extends Fragment
      */
     private DatePicker datePicker;
     private Button requestButton;
-    /**
-     * Coordinate pair 1 / upper left corner
-     */
-    private EditText coordx1;
-    private EditText coordy1;
-    /**
-     * Coordinate pair 2 / upper right corner
-     */
-    private EditText coordx2;
-    private EditText coordy2;
-    /**
-     * Coordinate pair 3 / bottom right corner
-     */
-    private EditText coordx3;
-    private EditText coordy3;
-    /**
-     * Coordinate pair 4 / bottom left corner
-     */
-    private EditText coordx4;
-    private EditText coordy4;
 
+    private EditText latitudeTop;
+    private EditText latitudeBottom;
+    private EditText longitudeRight;
+    private EditText longitudeLeft;
+
+    public static final int MIN_LATITUDE = -90;
+    public static final int MAX_LATITUDE = 90;
+    public static final int MAX_LONGITUDE = 180;
+    public static final int MIN_LONGITUDE = -180;
 
     //------------Static Variables------------
     private EditText name;
@@ -90,14 +79,10 @@ public class FragmentrequestNewMap extends Fragment
         datePicker.setCalendarViewShown(false);
         name = view.findViewById(R.id.name_et);
         requestButton = view.findViewById(R.id.request_button);
-        coordx1 = view.findViewById(R.id.coord_x1_et);
-        coordy1 = view.findViewById(R.id.coord_y1_et);
-        coordx2 = view.findViewById(R.id.coord_x2_et);
-        coordy2 = view.findViewById(R.id.coord_y2_et);
-        coordx3 = view.findViewById(R.id.coord_x3_et);
-        coordy3 = view.findViewById(R.id.coord_y3_et);
-        coordx4 = view.findViewById(R.id.coord_x4_et);
-        coordy4 = view.findViewById(R.id.coord_y4_et);
+        latitudeTop = view.findViewById(R.id.lat_top_et);
+        latitudeBottom = view.findViewById(R.id.lat_bottom_et);
+        longitudeRight = view.findViewById(R.id.long_right_et);
+        longitudeLeft = view.findViewById(R.id.long_left_et);
 
 
         requestButton.setOnClickListener(new View.OnClickListener()
@@ -142,26 +127,6 @@ public class FragmentrequestNewMap extends Fragment
     {
         Log.i(TAG, "getCoordinatesAsString: creating coordinates string ...");
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(coordx1.getText().toString().trim());
-        stringBuilder.append(",");
-        stringBuilder.append(coordy1.getText().toString().trim());
-        stringBuilder.append("_");
-        stringBuilder.append(coordx2.getText().toString().trim());
-        stringBuilder.append(",");
-        stringBuilder.append(coordy2.getText().toString().trim());
-        stringBuilder.append("_");
-        stringBuilder.append(coordx3.getText().toString().trim());
-        stringBuilder.append(",");
-        stringBuilder.append(coordy3.getText().toString().trim());
-        stringBuilder.append("_");
-        stringBuilder.append(coordx4.getText().toString().trim());
-        stringBuilder.append(",");
-        stringBuilder.append(coordy4.getText().toString().trim());
-        stringBuilder.append("_");
-        stringBuilder.append(coordx1.getText().toString().trim());
-        stringBuilder.append(",");
-        stringBuilder.append(coordy1.getText().toString().trim());
-        stringBuilder.append("_");
         Log.i(TAG, "getCoordinatesAsString: String created");
         Log.i(TAG, "getCoordinatesAsString: result: " + stringBuilder.toString());
         return stringBuilder.toString();
@@ -192,44 +157,50 @@ public class FragmentrequestNewMap extends Fragment
      */
     private boolean checkForNullCoordinates()
     {
-        if (coordx1.getText().toString().length() == 0)
+        if (latitudeTop.getText().toString().length() == 0)
         {
-            Toast.makeText(getActivity(), "Please insert the Coordinate X1 ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Please insert a top latitude ", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (coordy1.getText().toString().length() == 0)
+        if (latitudeBottom.getText().toString().length() == 0)
         {
-            Toast.makeText(getActivity(), "Please insert the Coordinate Y1 ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Please insert the bottom latitude ", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (coordx2.getText().toString().length() == 0)
+        if (longitudeRight.getText().toString().length() == 0)
         {
-            Toast.makeText(getActivity(), "Please insert the Coordinate X2 ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Please insert the right longitude ", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (coordy2.getText().toString().length() == 0)
+        if (longitudeLeft.getText().toString().length() == 0)
         {
-            Toast.makeText(getActivity(), "Please insert the Coordinate Y2", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Please insert the left longitude", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (coordx3.getText().toString().length() == 0)
+
+        double latTop = Double.parseDouble(latitudeTop.getText().toString());
+        double latBottom = Double.parseDouble(latitudeBottom.getText().toString());
+        double longLeft = Double.parseDouble(longitudeLeft.getText().toString());
+        double longRight = Double.parseDouble(longitudeRight.getText().toString());
+
+        if (latTop< MIN_LATITUDE || latTop > MAX_LATITUDE)
         {
-            Toast.makeText(getActivity(), "Please insert the Coordinate X3 ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "You inserted a invalid top latitude ", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (coordy3.getText().toString().length() == 0)
+        if (latBottom< MIN_LATITUDE || latBottom > MAX_LATITUDE)
         {
-            Toast.makeText(getActivity(), "Please insert the Coordinate Y3 ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "You inserted a invalid bottom latitude ", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (coordx4.getText().toString().length() == 0)
+        if (longRight< MIN_LONGITUDE || longRight > MAX_LONGITUDE)
         {
-            Toast.makeText(getActivity(), "Please insert the Coordinate X4 ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "You inserted a invalid right longitude ", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (coordy4.getText().toString().length() == 0)
+        if (longLeft < MIN_LONGITUDE || longLeft > MAX_LONGITUDE)
         {
-            Toast.makeText(getActivity(), "Please insert the Coordinate Y4 ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "You inserted a invalid left longitude ", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
