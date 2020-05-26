@@ -136,7 +136,7 @@ public class RecyclerAdapterRemoteDirectories extends RecyclerView.Adapter<Recyc
      */
     private void ftpGetDirectoryContent(final String path, final ArrayList<RemoteFile> list, final ArrayList<RemoteFile> backup, final RecyclerAdapterRemoteFiles adapter)
     {
-        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(context, path, new AsyncResponse()
+        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(context, path, false, new AsyncResponse()
         {
             @Override
             public void getOhdmFiles(ArrayList<RemoteFile> remoteFiles)

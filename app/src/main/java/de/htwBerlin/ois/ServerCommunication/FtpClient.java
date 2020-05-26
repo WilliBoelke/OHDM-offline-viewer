@@ -164,7 +164,8 @@ public class FtpClient
     }
 
     /**
-     * gives back the File list, given in current working dir
+     * gives back the File list, given in path dir
+     * ignores sub dirs completely
      *
      * @return FTPFiles in current dir
      * @throws IOException couldn't read from current dir
@@ -192,6 +193,43 @@ public class FtpClient
         return files.toArray(new FTPFile[files.size()]);
     }
 
+    /**
+     * gives back the File list, given in path dir
+     * including files from sub dirs
+     *
+     * @return FTPFiles in current dir
+     * @throws IOException couldn't read from current dir
+     */
+    public FTPFile[] getAllFileList(String path) throws IOException
+    {
+        FTPFile[] filesAndDirs = client.listFiles(path);
+        ArrayList<FTPFile> files = new ArrayList<>();
+        ArrayList<FTPFile> dirs = new ArrayList<>();
+
+        for (FTPFile f : filesAndDirs)
+        {
+            if (!f.isDirectory())
+            {
+                files.add(f);
+            }
+            else
+            {
+                dirs.add(f);
+            }
+        }
+
+        for (FTPFile d : dirs)
+        {
+            String subPath = path + "/" + d.getName();
+            FTPFile[] subFiles = getAllFileList(subPath);
+
+            for (FTPFile f : subFiles)
+            {
+                files.add(f);
+            }
+        }
+        return files.toArray(new FTPFile[files.size()]);
+    }
 
     //------------Downloading-----------
 

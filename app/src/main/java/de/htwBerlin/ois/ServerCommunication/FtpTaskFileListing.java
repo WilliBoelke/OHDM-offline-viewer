@@ -44,6 +44,7 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
      * Context
      */
     private WeakReference<Context> context;
+    private boolean includeSubDirs;
 
 
     //------------Static Variables------------
@@ -62,8 +63,9 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
      * @param path
      * @param asyncResponse
      */
-    public FtpTaskFileListing(Context context, String path, AsyncResponse asyncResponse)
+    public FtpTaskFileListing(Context context, String path, boolean includeSubDirs, AsyncResponse asyncResponse)
     {
+        this.includeSubDirs = includeSubDirs;
         this.delegate = asyncResponse;
         this.path = path;
         this.context = new WeakReference<Context>(context);
@@ -89,7 +91,14 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
         FTPFile[] files = new FTPFile[0];
         try
         {
-            files = ftpClient.getFileList(path);
+            if(includeSubDirs == true)
+            {
+                files = ftpClient.getAllFileList(path);
+            }
+            else
+            {
+                files = ftpClient.getFileList(path);
+            }
         }
         catch (IOException e)
         {
