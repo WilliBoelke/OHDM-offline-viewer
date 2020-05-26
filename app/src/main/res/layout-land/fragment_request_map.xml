@@ -34,7 +34,7 @@
                 android:background="?attr/foreground">
 
                 <EditText
-                    android:id="@+id/lat_bottom_et"
+                    android:id="@+id/long_bottom_et"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="100dp"
@@ -44,7 +44,7 @@
                     android:background="?attr/edit_text_background"
                     android:ems="10"
                     android:fontFamily="@font/comfortaa"
-                    android:hint="Lat Bottom"
+                    android:hint="Long Bottom"
                     android:inputType="numberSigned|numberDecimal"
                     android:textAlignment="center"
                     android:textColor="?attr/textColorPrimary"
@@ -56,7 +56,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView" />
 
                 <EditText
-                    android:id="@+id/long_left_et"
+                    android:id="@+id/lat_left_et"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -64,7 +64,7 @@
                     android:background="?attr/edit_text_background"
                     android:ems="10"
                     android:fontFamily="@font/comfortaa"
-                    android:hint="Long Left"
+                    android:hint="Lat Left"
                     android:inputType="numberSigned|numberDecimal"
                     android:textAlignment="center"
                     android:textColor="?attr/textColorPrimary"
@@ -76,7 +76,7 @@
                     app:layout_constraintVertical_bias="0.505" />
 
                 <EditText
-                    android:id="@+id/lat_top_et"
+                    android:id="@+id/long_top_et"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="100dp"
@@ -86,7 +86,7 @@
                     android:background="?attr/edit_text_background"
                     android:ems="10"
                     android:fontFamily="@font/comfortaa"
-                    android:hint="Lat Top"
+                    android:hint="Long Top"
                     android:inputType="numberSigned|numberDecimal"
                     android:textAlignment="center"
                     android:textColor="?attr/textColorPrimary"
@@ -97,7 +97,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
-                    android:id="@+id/long_right_et"
+                    android:id="@+id/lat_right_et"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
@@ -106,7 +106,7 @@
                     android:background="?attr/edit_text_background"
                     android:ems="10"
                     android:fontFamily="@font/comfortaa"
-                    android:hint="Long Right"
+                    android:hint="Lat Right"
                     android:inputType="numberSigned|numberDecimal"
                     android:textAlignment="center"
                     android:textColor="?attr/textColorPrimary"
@@ -133,10 +133,10 @@
                     android:textColor="?attr/textColorPrimary"
                     android:textSize="@dimen/primary_font_size"
                     android:typeface="normal"
-                    app:layout_constraintBottom_toTopOf="@+id/lat_bottom_et"
-                    app:layout_constraintEnd_toStartOf="@+id/long_right_et"
-                    app:layout_constraintStart_toEndOf="@+id/long_left_et"
-                    app:layout_constraintTop_toBottomOf="@+id/lat_top_et"
+                    app:layout_constraintBottom_toTopOf="@+id/long_bottom_et"
+                    app:layout_constraintEnd_toStartOf="@+id/lat_right_et"
+                    app:layout_constraintStart_toEndOf="@+id/lat_left_et"
+                    app:layout_constraintTop_toBottomOf="@+id/long_top_et"
                     app:layout_constraintVertical_bias="0.666" />
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>
