@@ -39,16 +39,18 @@ public class MainActivity extends AppCompatActivity
 
     //------------Instance Variables------------
 
-
     public static final String MAP_FILE_PATH = Environment.getExternalStorageDirectory().toString() + "/OHDM";
     private static final int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
 
+
     //------------Instance Variables------------
+
     private String TAG = getClass().getSimpleName();
     private Fragment defaultFragment = new FragmentHome();
 
 
     //------------Activity/Fragment Lifecycle------------
+
     /**
      * Bottom Nav Listener
      */
@@ -104,15 +106,18 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        Log.d(TAG, "onCreate : setting app theme...");
         super.onCreate(savedInstanceState);
         //Get settings from SharedPrefs
         if (getApplicationContext().getSharedPreferences(FragmentOptions.SETTINGS_SHARED_PREFERENCES, 0).getBoolean(FragmentOptions.DARK_MODE, false) == true)
         {
             setTheme(R.style.DarkTheme);
+            Log.d(TAG, "onCreate :  app theme DARK");
         }
         else
         {
             setTheme(R.style.LightTheme);
+            Log.d(TAG, "onCreate :  app theme LIGHT");
         }
 
         setContentView(R.layout.activity_main);
@@ -129,19 +134,17 @@ public class MainActivity extends AppCompatActivity
             if (intent.getStringExtra("Fragment").equals(FragmentOptions.ID))
             {
                 //if we came her from the reset method in the options fragment, we want the options fragment to appear again
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentOptions()).addToBackStack(FragmentOptions.ID).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentOptions()).commit();
+                intent.putExtra("Fragment", "");
             }
-
         }
         else
         {
-            // giving first defaultFragment to the FragmentManager
-            if (savedInstanceState == null)
+            if(savedInstanceState == null)
             {
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, defaultFragment).addToBackStack(null).commit();
             }
         }
-
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
@@ -158,6 +161,7 @@ public class MainActivity extends AppCompatActivity
      */
     private void createOhdmDirectory()
     {
+        Log.d(TAG, "createOhdmDirectory : Creating OHDM directory...");
         File dir = new File(MAP_FILE_PATH);
         boolean status;
         if (!dir.exists())
@@ -166,6 +170,7 @@ public class MainActivity extends AppCompatActivity
             if (status) Toast.makeText(this, "Created OHDM Directory.", Toast.LENGTH_SHORT).show();
             else Toast.makeText(this, "Couldn't create OHDM Directory.", Toast.LENGTH_SHORT).show();
         }
+        Log.d(TAG, "createOhdmDirectory : OHDM directory created");
     }
 
 
@@ -177,14 +182,17 @@ public class MainActivity extends AppCompatActivity
         switch (item.getItemId())
         {
             case R.id.ab_menu_about:
+                Log.d(TAG, "Options Menu : replacing current fragment with FragmentAbout");
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FramentAbout()).addToBackStack(FramentAbout.ID).commit();
                 break;
 
             case R.id.ab_menu_faq:
+                Log.d(TAG, "Options Menu : replacing current fragment with FragmentFAQ");
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentFAQ()).addToBackStack(FragmentFAQ.ID).commit();
                 break;
             case R.id.ab_menu_settings:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentOptions()).addToBackStack(FragmentOptions.ID).commit();
+                Log.d(TAG, "Options Menu : replacing current fragment with FragmentOptions");
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentOptions()).commit();
                 break;
             case R.id.ab_menu_search:
                 //no implemented here, to e implemented in fragments

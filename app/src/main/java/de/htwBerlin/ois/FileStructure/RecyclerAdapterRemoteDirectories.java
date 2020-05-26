@@ -82,6 +82,32 @@ public class RecyclerAdapterRemoteDirectories extends RecyclerView.Adapter<Recyc
         return new RecyclerAdapterRemoteDirectories.DirectoriesViewHolder(view);
     }
 
+    @Override
+    public int getItemCount()
+    {
+        return directoryList.size();
+    }
+
+
+    //------------View Holder------------
+
+    protected static class DirectoriesViewHolder extends RecyclerView.ViewHolder
+    {
+
+        public TextView nameTextView;
+        public ArrayList<RemoteFile> directoryContent;
+        public ArrayList<RemoteFile> directoryContentBackup;
+        public RecyclerView dirContentRecycler;
+
+        public DirectoriesViewHolder(@NonNull View itemView)
+        {
+            super(itemView);
+            directoryContent = new ArrayList<>();
+            directoryContentBackup = new ArrayList<>(); // the backup list is needed for the Search/Filter implementation in the RecyclerAdapterRemoteFiles
+            nameTextView = itemView.findViewById(R.id.dir_name_tv);
+            dirContentRecycler = itemView.findViewById(R.id.dir_content_recycler);
+        }
+    }
 
     @Override
     public void onBindViewHolder(@NonNull final RecyclerAdapterRemoteDirectories.DirectoriesViewHolder directoriesViewHolder, final int position)
@@ -117,14 +143,8 @@ public class RecyclerAdapterRemoteDirectories extends RecyclerView.Adapter<Recyc
         restoreFiles(currentDirectory.getPath(), directoriesViewHolder.directoryContent, directoriesViewHolder.directoryContentBackup, latestRecyclerAdapter);
     }
 
-    @Override
-    public int getItemCount()
-    {
-        return directoryList.size();
-    }
 
-
-    //------------View Holder------------
+    //------------FTP------------
 
     /**
      * This method retrieves the content/files for a single Directory from the FTPServer
@@ -165,7 +185,7 @@ public class RecyclerAdapterRemoteDirectories extends RecyclerView.Adapter<Recyc
     }
 
 
-    //------------FTP------------
+    //------------Save/Restore Instance State------------
 
     /**
      * Checks if the list is persisted in the {@link RemoteListsSingleton}
@@ -202,26 +222,5 @@ public class RecyclerAdapterRemoteDirectories extends RecyclerView.Adapter<Recyc
 
 
     }
-
-    //------------Save/Restore Instance State------------
-
-    protected static class DirectoriesViewHolder extends RecyclerView.ViewHolder
-    {
-
-        public TextView nameTextView;
-        public ArrayList<RemoteFile> directoryContent;
-        public ArrayList<RemoteFile> directoryContentBackup;
-        public RecyclerView dirContentRecycler;
-
-        public DirectoriesViewHolder(@NonNull View itemView)
-        {
-            super(itemView);
-            directoryContent = new ArrayList<>();
-            directoryContentBackup = new ArrayList<>(); // the backup list is needed for the Search/Filter implementation in the RecyclerAdapterRemoteFiles
-            nameTextView = itemView.findViewById(R.id.dir_name_tv);
-            dirContentRecycler = itemView.findViewById(R.id.dir_content_recycler);
-        }
-    }
-
 
 }

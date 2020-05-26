@@ -54,6 +54,74 @@ public class RecyclerAdapterRemoteFiles extends RecyclerView.Adapter<RecyclerAda
 
 
     //------------Constructors------------
+
+
+    /**
+     * Public constructor
+     *
+     * @param context
+     * @param ohdmFiles
+     * @param mapArrayListBackup
+     * @param ressource
+     */
+    public RecyclerAdapterRemoteFiles(Context context, ArrayList<RemoteFile> ohdmFiles, ArrayList<RemoteFile> mapArrayListBackup, int ressource)
+    {
+        this.context = context;
+        this.ressource = ressource;
+        this.ohdmFiles = ohdmFiles;
+        this.ohdmFilesBackup = mapArrayListBackup;
+    }
+
+
+    //------------RecyclerViewAdapter Methods------------
+
+
+    @Override
+    public int getItemCount()
+    {
+        return ohdmFiles.size();
+    }
+
+
+    //------------OnClickListener------------
+
+
+    /**
+     * Setter for the implemented onItemClick method
+     *
+     * @param listener
+     */
+    public void setOnItemClickListener(RecyclerAdapterRemoteFiles.OnItemClickListener listener)
+    {
+        this.onItemClickListener = listener;
+    }
+
+    public void setOnItemButtonClickListener(OnRecyclerItemButtonClicklistenner listener)
+    {
+        this.onButtonClickListener = listener;
+    }
+
+    /**
+     * An interface to define the
+     * onItemClick method
+     * <p>
+     * can be implemented and set as on itemClickListener through the
+     * {@link this#setOnItemClickListener} method
+     */
+    public interface OnItemClickListener
+    {
+        void onItemClick(int position);
+    }
+
+
+    //------------Filter (Name)------------
+
+    @Override
+    public Filter getFilter()
+    {
+        return nameFilter;
+    }
+
     private Filter nameFilter = new Filter()
     {
         @Override
@@ -91,23 +159,7 @@ public class RecyclerAdapterRemoteFiles extends RecyclerView.Adapter<RecyclerAda
     };
 
 
-    //------------RecyclerViewAdapter Methods------------
-
-    /**
-     * Public constructor
-     *
-     * @param context
-     * @param ohdmFiles
-     * @param mapArrayListBackup
-     * @param ressource
-     */
-    public RecyclerAdapterRemoteFiles(Context context, ArrayList<RemoteFile> ohdmFiles, ArrayList<RemoteFile> mapArrayListBackup, int ressource)
-    {
-        this.context = context;
-        this.ressource = ressource;
-        this.ohdmFiles = ohdmFiles;
-        this.ohdmFilesBackup = mapArrayListBackup;
-    }
+    //------------View Holder------------
 
     @NonNull
     @Override
@@ -135,54 +187,6 @@ public class RecyclerAdapterRemoteFiles extends RecyclerView.Adapter<RecyclerAda
             }
         });
     }
-
-
-    //------------OnClickListener------------
-
-    @Override
-    public int getItemCount()
-    {
-        return ohdmFiles.size();
-    }
-
-    /**
-     * Setter for the implemented onItemClick method
-     *
-     * @param listener
-     */
-    public void setOnItemClickListener(RecyclerAdapterRemoteFiles.OnItemClickListener listener)
-    {
-        this.onItemClickListener = listener;
-    }
-
-    public void setOnItemButtonClickListener(OnRecyclerItemButtonClicklistenner listener)
-    {
-        this.onButtonClickListener = listener;
-    }
-
-
-    //------------Filter (Name)------------
-
-    @Override
-    public Filter getFilter()
-    {
-        return nameFilter;
-    }
-
-    /**
-     * An interface to define the
-     * onItemClick method
-     * <p>
-     * can be implemented and set as on itemClickListener through the
-     * {@link this#setOnItemClickListener} method
-     */
-    public interface OnItemClickListener
-    {
-        void onItemClick(int position);
-    }
-
-
-    //------------View Holder------------
 
     protected static class OhdmFileViewHolder extends RecyclerView.ViewHolder
     {
