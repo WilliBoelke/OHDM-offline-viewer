@@ -13,7 +13,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintStream;
 import java.net.SocketException;
 import java.util.ArrayList;
 
@@ -40,7 +39,7 @@ public class FtpClient
 
     //------------Constructors-----------
 
-    public FtpClient()
+    protected FtpClient()
     {
         Log.d(TAG, "Constructor : new FtpClient ");
     }
@@ -57,15 +56,17 @@ public class FtpClient
      * 3 = Socket exception thrown, Server not found,
      * 4 = IO Exception
      */
-    public int connect()
+    int connect()
     {
+        Log.d(TAG, "connect : connecting to ftp client...");
         if (client == null)
         {
-            Log.d(TAG, "Getting passive FTP client");
+            Log.d(TAG, "connect : getting passive FTP client");
             client = new FTPClient();
 
             try
             {
+                Log.d(TAG, "connect : connecting to " + SERVER_IP + " : " + FTP_Port);
                 client.connect(SERVER_IP, FTP_Port);
                 // After connection attempt, you should check the reply code to verify
                 // success.
@@ -74,42 +75,54 @@ public class FtpClient
                 if (!FTPReply.isPositiveCompletion(reply))
                 {
                     client.disconnect();
-                    Log.e(TAG, " FTP server refused connection.");
+                    Log.e(TAG, "connect : FTP server refused connection.");
                     return 1;
+                }
+                else
+                {
+                    Log.d(TAG, "connect : connected successfully");
                 }
 
                 //after connecting to the server set the local passive mode
                 client.enterLocalPassiveMode();
                 //send username and password to login to the server
+                Log.d(TAG, "connect : trying to log in ...");
                 if (!client.login(USER_NAME, USER_PASSWORD))
                 {
-                    Log.e(TAG, "Could not login to FTP Server");
+                    Log.e(TAG, "connect : Could not login to FTP Server");
                     return 2;
+                }
+                else
+                {
+                    Log.d(TAG, "connect : log in successful");
                 }
                 client.setFileType(FTP.BINARY_FILE_TYPE);
             }
             catch (SocketException e)
             {
-                String message = "Socket exception thrown, Server not found";
-                Log.e(TAG, "ERROR :" + message + "\n" + e);
+                Log.e(TAG, "connect : socket exception thrown, Server not found" + "\n" + e);
                 return 3;
             }
             catch (IOException e)
             {
-                String message = "IO Exception";
-                Log.e(TAG, "ERROR :" + message + "\n" + e);
+                Log.e(TAG, "IO Exception" + "\n" + e);
                 return 4;
             }
         }
+        else
+        {
+            Log.d(TAG, "was already connected ");
+        }
+        Log.d(TAG, "connect : successfully connected");
         return 0;
     }
 
     /**
      * checking if connected
      *
-     * @return
+     * @return true if connected, else false
      */
-    public boolean isConnected()
+    boolean isConnected()
     {
         return client.isConnected();
     }
@@ -118,11 +131,12 @@ public class FtpClient
      * closes connection
      * pls always use at the end !!!!
      */
-    public void closeConnection()
+    protected void closeConnection()
     {
+        Log.d(TAG, "closeConnection : trying to close connection with " + SERVER_IP + " : " + FTP_Port);
         if (client == null)
         {
-            Log.i(TAG, "Nothing to close, the FTPClient wasn't initialized");
+            Log.d(TAG, "closeConnection : nothing to close, the FTPClient wasn't initialized");
             return;
         }
         //be polite and logout & close the connection before the application finishes
@@ -133,26 +147,36 @@ public class FtpClient
         }
         catch (IOException e)
         {
-            Log.e(TAG, "Could not logout");
+            Log.e(TAG, "closeConnection : Could not logout");
         }
+        Log.d(TAG, "closeConnection : log out successful");
     }
 
 
     //------------Listing-----------
 
-    public FTPFile[] getDirList(String path) throws IOException
+    /**
+     * Returns a list of all directories in <code>path</code>
+     *
+     * @param path the path
+     * @return all directories
+     * @throws IOException
+     */
+    protected FTPFile[] getDirList(String path) throws IOException
     {
         if (client == null)
         {
+            Log.e(TAG, "getDirList : wasnt connected to server, call connect() first");
             return null;
         }
-        Log.i(TAG, " Getting file listing for current director");
+        Log.d(TAG, " getDirList : getting file list for " + path + " ...");
         FTPFile[] files = client.listFiles(path);
         ArrayList<FTPFile> dirList = new ArrayList<>();
         for (FTPFile f : files)
         {
             if (f.isDirectory()) dirList.add(f);
         }
+        Log.d(TAG, " getDirList : got " + dirList.size() + "dirs  from " + path);
         return dirList.toArray(new FTPFile[dirList.size()]);
     }
 
@@ -163,15 +187,15 @@ public class FtpClient
      * @return FTPFiles in current dir
      * @throws IOException couldn't read from current dir
      */
-    public FTPFile[] getFileList(String path) throws IOException
+    protected FTPFile[] getFileList(String path) throws IOException
     {
         if (client == null)
         {
-            Log.i(TAG, "First initialize the FTPClient by calling 'initFTPPassiveClient()");
+            Log.e(TAG, "getFileList : wasnt connected to server, call connect() first");
             return null;
         }
 
-        Log.i(TAG, "Getting file listing for current director");
+        Log.d(TAG, " getFileList : getting file list for " + path + " ...");
         FTPFile[] filesAndDirs = client.listFiles(path);
         ArrayList<FTPFile> files = new ArrayList<>();
 
@@ -182,7 +206,7 @@ public class FtpClient
                 files.add(f);
             }
         }
-
+        Log.d(TAG, " getFileList : got " + files.size() + "files from " + path);
         return files.toArray(new FTPFile[files.size()]);
     }
 
@@ -193,8 +217,14 @@ public class FtpClient
      * @return FTPFiles in current dir
      * @throws IOException couldn't read from current dir
      */
-    public FTPFile[] getAllFileList(String path) throws IOException
+    protected FTPFile[] getAllFileList(String path) throws IOException
     {
+        if (client == null)
+        {
+            Log.e(TAG, "getAllFileList : wasnt connected to server, call connect() first");
+            return null;
+        }
+        Log.d(TAG, " getAllFileList : getting file list for " + path + " ...");
         FTPFile[] filesAndDirs = client.listFiles(path);
         ArrayList<FTPFile> files = new ArrayList<>();
         ArrayList<FTPFile> dirs = new ArrayList<>();
@@ -221,6 +251,7 @@ public class FtpClient
                 files.add(f);
             }
         }
+        Log.d(TAG, " getAllFileList : got " + files.size() + "files from " + path);
         return files.toArray(new FTPFile[files.size()]);
     }
 
@@ -233,8 +264,13 @@ public class FtpClient
      * @param downloadPath   Path to write to
      * @throws IOException couldn't download from current dir
      */
-    public void downloadFile(String remoteFileName, String downloadPath) throws IOException
+    protected boolean downloadFile(String remoteFileName, String downloadPath) throws IOException
     {
+        if (client == null)
+        {
+            Log.e(TAG, "downloadFile : wasnt connected to server, call connect() first");
+            return false;
+        }
         File downloadFile = new File(MAP_FILE_PATH, remoteFileName);
         client.changeWorkingDirectory(downloadPath);
         OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(downloadFile));
@@ -257,6 +293,8 @@ public class FtpClient
 
         outputStream.close();
         inputStream.close();
+
+        return true;
     }
 
 

@@ -62,9 +62,9 @@ public class HTTPRequestNewMap extends AsyncTask<Void, Void, String>
     /**
      * Public constructor
      *
-     * @param date
-     * @param coordinates
-     * @param name
+     * @param date        the date of the requested map
+     * @param coordinates the coordinates of the requested map
+     * @param name        the name of the requested map
      */
     public HTTPRequestNewMap(String date, String coordinates, String name)
     {
@@ -132,12 +132,12 @@ public class HTTPRequestNewMap extends AsyncTask<Void, Void, String>
         }
         catch (ProtocolException e)
         {
-            Log.e(TAG, "doingInBackground : couldnt connect with the server " + url );
+            Log.e(TAG, "doingInBackground : couldnt connect with the server " + url);
             e.printStackTrace();
         }
         catch (IOException e)
         {
-            Log.e(TAG, "doingInBackground : couldnt write to the server " );
+            Log.e(TAG, "doingInBackground : couldnt write to the server ");
             e.printStackTrace();
         }
         return null;
