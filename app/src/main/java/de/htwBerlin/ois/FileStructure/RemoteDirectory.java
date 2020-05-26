@@ -61,4 +61,11 @@ public class RemoteDirectory implements Serializable
     {
         this.creationDate = creationDate;
     }
+
+
+    @Override
+    public String toString()
+    {
+        return "RemoteDirectory{" + "filename='" + filename  + '\'' + ", creationDate='" + creationDate + '\'' + ", path=" + path + '}';
+    }
 }

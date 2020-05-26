@@ -60,6 +60,7 @@ public class FtpTaskDirListing extends AsyncTask<Void, Void, String>
      */
     public FtpTaskDirListing(Context context, String path, AsyncResponse asyncResponse)
     {
+        Log.d(TAG, "Constructor : new FtpTaskDirListing with : path  = " + path);
         this.delegate = asyncResponse;
         this.path = path;
         this.context = new WeakReference<Context>(context);
@@ -69,26 +70,23 @@ public class FtpTaskDirListing extends AsyncTask<Void, Void, String>
     //------------AsyncTask Implementation------------
 
     @Override
-    protected void onPreExecute()
-    {
-        Log.i(TAG, "onPreExecute: ");
-        super.onPreExecute();
-    }
-
-    @Override
     protected String doInBackground(Void... params)
     {
         directoryList = new ArrayList<>();
+        Log.d(TAG, "doingInBackground : initializing new FtpClient ");
         FtpClient ftpClient = new FtpClient();
         ftpClient.connect();
+        Log.d(TAG, "doingInBackground : connected to FtpClient");
 
         FTPFile[] files = new FTPFile[0];
         try
         {
+            Log.d(TAG, "doingInBackground : trying to get directories");
             files = ftpClient.getDirList(path);
         }
         catch (IOException e)
         {
+            Log.e(TAG, "doingInBackground : something went wrong while while retrieving the directories");
             e.printStackTrace();
         }
 
@@ -97,8 +95,9 @@ public class FtpTaskDirListing extends AsyncTask<Void, Void, String>
             Date date = ftpFile.getTimestamp().getTime();
             RemoteDirectory dir = new RemoteDirectory(ftpFile.getName(), sdf.format(date.getTime()));
             directoryList.add(dir);
+            Log.d(TAG, "doingInBackground : got dir " + dir.toString());
         }
-
+        Log.d(TAG, "doingInBackground :  closing server connection");
         ftpClient.closeConnection();
         return null;
     }
@@ -106,8 +105,14 @@ public class FtpTaskDirListing extends AsyncTask<Void, Void, String>
     @Override
     protected void onPostExecute(String result)
     {
-        if (directoryList.size() == 0) Log.e(TAG, "Server not available or empty");
-        else Log.i(TAG, "Found " + directoryList.size() + " directories");
-        delegate.getRemoteDirectories(this.directoryList);
+        if (directoryList.size() == 0)
+        {
+            Log.e(TAG, "Server not available or empty");
+        }
+        else
+        {
+            Log.i(TAG, "Found " + directoryList.size() + " directories");
+            delegate.getRemoteDirectories(this.directoryList);
+        }
     }
 }

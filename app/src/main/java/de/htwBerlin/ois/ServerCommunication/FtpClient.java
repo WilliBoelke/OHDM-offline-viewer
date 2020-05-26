@@ -36,15 +36,9 @@ public class FtpClient
 
     private final String TAG = getClass().getSimpleName();
     private FTPClient client;
-    private PrintStream logStream;
 
 
     //------------Constructors-----------
-
-    public FtpClient(OutputStream os)
-    {
-        logStream = new PrintStream(os);
-    }
 
     public FtpClient()
     {
@@ -67,7 +61,7 @@ public class FtpClient
     {
         if (client == null)
         {
-            Log.i(TAG, "Getting passive FTP client");
+            Log.d(TAG, "Getting passive FTP client");
             client = new FTPClient();
 
             try
