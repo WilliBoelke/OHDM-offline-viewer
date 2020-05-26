@@ -123,7 +123,7 @@ public class FragmentDownloadCenterCategories extends FragmentWithServerConnecti
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this.getContext());
 
         //The recycler adapter
-        recyclerViewAdapter = new RecyclerAdapterRemoteDirectories(getActivity().getApplicationContext(), directoryList, R.layout.directory_recycler_item);
+        recyclerViewAdapter = new RecyclerAdapterRemoteDirectories(getActivity().getApplicationContext(), directoryList, R.layout.recycler_item_directory);
 
 
         //Putting everything together

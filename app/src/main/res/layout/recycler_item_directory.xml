@@ -33,14 +33,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.v7.widget.SearchView
-        android:id="@+id/dir_content_sv"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/dir_name_tv"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/dir_name_tv"
-        app:layout_constraintTop_toTopOf="@+id/dir_name_tv" />
-
 </android.support.constraint.ConstraintLayout>
