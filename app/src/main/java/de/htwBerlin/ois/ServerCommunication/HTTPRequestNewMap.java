@@ -5,11 +5,13 @@ import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
@@ -66,6 +68,7 @@ public class HTTPRequestNewMap extends AsyncTask<Void, Void, String>
      */
     public HTTPRequestNewMap(String date, String coordinates, String name)
     {
+        Log.d(TAG, "Constructor:  new GttpRequestNewMap with : date = " + date + " coords = " + coordinates + " name = " + name);
         this.date = date;
         this.name = name;
         this.coordinates = coordinates;
@@ -77,16 +80,17 @@ public class HTTPRequestNewMap extends AsyncTask<Void, Void, String>
     @Override
     protected void onPreExecute()
     {
-        Log.i(TAG, "onPreExecute: ");
+        Log.d(TAG, "onPreExecute:  building url ....");
         try
         {
             url = new URL("http://" + SERVER_IP + ":" + HTTP_PORT + "/request");
+            Log.d(TAG, "onPreExecute:  Url = " + url);
         }
         catch (MalformedURLException e)
         {
+            Log.e(TAG, "Something went wrong while building the URL");
             e.printStackTrace();
         }
-
         super.onPreExecute();
     }
 
@@ -96,22 +100,25 @@ public class HTTPRequestNewMap extends AsyncTask<Void, Void, String>
         String response = null;
         try
         {
+            Log.d(TAG, "doingInBackground : connecting with server " + url);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(15000);
             conn.setConnectTimeout(15000);
             conn.setRequestMethod("POST");
             conn.setDoInput(true);
             conn.setDoOutput(true);
+            Log.d(TAG, "doingInBackground : connected successfully");
 
-
+            Log.d(TAG, "doingInBackground : writing to server, request = " + this.buildParamsString());
             OutputStream os = conn.getOutputStream();
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, StandardCharsets.UTF_8));
             writer.write(this.buildParamsString());
             writer.flush();
             writer.close();
             os.close();
+            Log.d(TAG, "doingInBackground : transmission to server finished  ");
+            Log.d(TAG, "doingInBackground : getting server response code...");
             int responseCode = conn.getResponseCode();
-
             if (responseCode == HttpsURLConnection.HTTP_OK)
             {
                 String line;
@@ -120,18 +127,19 @@ public class HTTPRequestNewMap extends AsyncTask<Void, Void, String>
                 {
                     response += line;
                 }
-            }
-            else
-            {
-                response = "";
-
+                Log.d(TAG, "doingInBackground: server response : " + response);
             }
         }
-        catch (Exception e)
+        catch (ProtocolException e)
         {
+            Log.e(TAG, "doingInBackground : couldnt connect with the server " + url );
             e.printStackTrace();
         }
-        Log.i(TAG, "Server response : " + response);
+        catch (IOException e)
+        {
+            Log.e(TAG, "doingInBackground : couldnt write to the server " );
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -147,6 +155,7 @@ public class HTTPRequestNewMap extends AsyncTask<Void, Void, String>
      */
     private String buildParamsString()
     {
+        Log.e(TAG, "buildParamsString : building params string...");
         StringBuilder sb = new StringBuilder();
         sb.append("name=");
         sb.append(this.name);
@@ -154,7 +163,7 @@ public class HTTPRequestNewMap extends AsyncTask<Void, Void, String>
         sb.append(this.coordinates);
         sb.append("&date=");
         sb.append(this.date);
-
+        Log.e(TAG, "buildParamsString : builded params string");
         return sb.toString();
     }
 
