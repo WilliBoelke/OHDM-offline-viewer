@@ -4,7 +4,8 @@ import java.io.Serializable;
 
 /**
  * Class do describe a directory from the FTP Server
- * @author  WilliBoelke
+ *
+ * @author WilliBoelke
  */
 public class RemoteDirectory implements Serializable
 {
@@ -28,27 +29,14 @@ public class RemoteDirectory implements Serializable
 
     //------------Setter------------
 
-    public void setFilename(String filename)
-    {
-        this.filename = filename;
-    }
-
-    public void setPath(String path)
-    {
-        this.path = path;
-    }
-
-    public void setCreationDate(String creationDate)
-    {
-        this.creationDate = creationDate;
-    }
-
-
-    //------------Getter------------
-
     public String getFilename()
     {
         return filename;
+    }
+
+    public void setFilename(String filename)
+    {
+        this.filename = filename;
     }
 
     public String getPath()
@@ -56,8 +44,21 @@ public class RemoteDirectory implements Serializable
         return path;
     }
 
+
+    //------------Getter------------
+
+    public void setPath(String path)
+    {
+        this.path = path;
+    }
+
     public String getCreationDate()
     {
         return creationDate;
+    }
+
+    public void setCreationDate(String creationDate)
+    {
+        this.creationDate = creationDate;
     }
 }

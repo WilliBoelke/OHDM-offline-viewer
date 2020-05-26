@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -36,6 +35,7 @@ import static de.htwBerlin.ois.ServerCommunication.Variables.MOST_RECENT_PATH;
 
 /**
  * This Activity represents a small map file download center
+ *
  * @author WilliBoelke
  */
 public class FragmentDownloadCenterAll extends FragmentWithServerConnection
@@ -43,6 +43,11 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
 
     //------------Instance Variables------------
 
+    /**
+     * Fragment ID used to identify the fragment
+     * (for example by putting the ID into the Intent extra )
+     */
+    public static String ID = "MapDownload";
     /**
      * Log tag
      */
@@ -67,23 +72,16 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
      */
     private RecyclerView allMapsRecyclerView;
     private RecyclerView latestMapsRecyclerView;
+
+
+    //------------Static Variables------------
     /**
      * The view
      */
     private View view;
 
 
-    //------------Static Variables------------
-
-    /**
-     * Fragment ID used to identify the fragment
-     * (for example by putting the ID into the Intent extra )
-     */
-    public static String ID = "MapDownload";
-
-
     //------------Activity/Fragment Lifecycle------------
-
 
     @Nullable
     @Override
@@ -161,7 +159,7 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
 
     /**
      * Setup the AllMaps RecyclerView :
-     *
+     * <p>
      * Setup Swipe gestures
      * Setup onItemClickListener
      */
@@ -283,7 +281,7 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
             @Override
             public boolean onQueryTextChange(String newText)
             {
-                allRecyclerAdapter.getFilter().filter(newText);;
+                allRecyclerAdapter.getFilter().filter(newText);
                 return false;
             }
         });

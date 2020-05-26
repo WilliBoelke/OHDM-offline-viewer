@@ -25,7 +25,6 @@ import static de.htwBerlin.ois.ServerCommunication.Variables.SERVER_IP;
  * The request contains name, coordinates and a date.
  * The server will the create that map and make it available
  *
- *
  * @author WilliBoelke
  */
 public class HTTPRequestNewMap extends AsyncTask<Void, Void, String>

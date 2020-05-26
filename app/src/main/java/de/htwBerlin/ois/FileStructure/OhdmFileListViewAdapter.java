@@ -63,7 +63,7 @@ public class OhdmFileListViewAdapter extends ArrayAdapter<RemoteFile>
             @Override
             public void onClick(View v)
             {
-                FtpTaskFileDownloading ftpTaskFileDownloading = new FtpTaskFileDownloading(context,  "");
+                FtpTaskFileDownloading ftpTaskFileDownloading = new FtpTaskFileDownloading(context, "");
                 Toast.makeText(getContext(), "Downloading " + fileName, Toast.LENGTH_SHORT).show();
                 ftpTaskFileDownloading.execute(ohdmFile);
                 disableButton(buttonDownloadFile);

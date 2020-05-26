@@ -18,7 +18,7 @@ import de.htwBerlin.ois.FileStructure.RemoteFile;
  * Async task that lists files hosted on FTP Remote Server
  *
  * @author morelly_t1
- * @author  WilliBoelke
+ * @author WilliBoelke
  */
 public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
 {
@@ -26,12 +26,13 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
 
     //------------Instance Variables------------
 
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy");
     /**
      * Log Tag
      */
-    private  final String TAG = getClass().getSimpleName();
+    private final String TAG = getClass().getSimpleName();
     /**
-     *The list to be filled with remote ohdmFiles
+     * The list to be filled with remote ohdmFiles
      */
     private ArrayList<RemoteFile> remoteFiles;
     /**
@@ -43,21 +44,20 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
      * Context
      */
     private WeakReference<Context> context;
+
+
+    //------------Static Variables------------
     /**
      * The path to the directory
      */
     private String path;
 
 
-    //------------Static Variables------------
-
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy");
-
-
     //------------Constructors------------
 
     /**
      * Public Constructor
+     *
      * @param context
      * @param path
      * @param asyncResponse

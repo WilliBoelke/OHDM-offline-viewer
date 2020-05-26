@@ -20,12 +20,18 @@ import de.htwBerlin.ois.ServerCommunication.HTTPRequestNewMap;
 
 /**
  * Fragment to allow the user to request a new map
+ *
  * @author WilliBoelke
  */
 public class FragmentrequestNewMap extends Fragment
 {
     //------------Instance Variables------------
 
+    /**
+     * Fragment ID used to identify the fragment
+     * (for example by putting the ID into the Intent extra )
+     */
+    public static String ID = "RequestMap";
     /**
      * Log Tag
      */
@@ -39,41 +45,30 @@ public class FragmentrequestNewMap extends Fragment
      */
     private DatePicker datePicker;
     private Button requestButton;
-
     /**
      * Coordinate pair 1 / upper left corner
      */
     private EditText coordx1;
     private EditText coordy1;
-
     /**
      * Coordinate pair 2 / upper right corner
      */
     private EditText coordx2;
     private EditText coordy2;
-
     /**
      * Coordinate pair 3 / bottom right corner
      */
     private EditText coordx3;
     private EditText coordy3;
-
     /**
      * Coordinate pair 4 / bottom left corner
      */
     private EditText coordx4;
     private EditText coordy4;
 
-    private EditText name;
-
 
     //------------Static Variables------------
-
-    /**
-     * Fragment ID used to identify the fragment
-     * (for example by putting the ID into the Intent extra )
-     */
-    public static String ID = "RequestMap";
+    private EditText name;
 
 
     //------------Activity/Fragment Lifecycle------------
@@ -259,7 +254,6 @@ public class FragmentrequestNewMap extends Fragment
                 //no implemented here,
                 return false;
             case R.id.ab_menu_faq:
-                ;
                 //no implemented here,
                 return false;
             case R.id.ab_menu_settings:

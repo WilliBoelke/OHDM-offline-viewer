@@ -21,11 +21,11 @@ import android.view.ViewGroup;
 import java.io.File;
 import java.util.ArrayList;
 
-import de.htwBerlin.ois.FileStructure.SwipeCallbackLeft;
 import de.htwBerlin.ois.FileStructure.MapFileSingleton;
 import de.htwBerlin.ois.FileStructure.RecyclerAdapterLocalFiles;
-import de.htwBerlin.ois.FileStructure.SwipeCallbackRight;
 import de.htwBerlin.ois.FileStructure.RecyclerAdapterSwipeGestures;
+import de.htwBerlin.ois.FileStructure.SwipeCallbackLeft;
+import de.htwBerlin.ois.FileStructure.SwipeCallbackRight;
 import de.htwBerlin.ois.MainActivity.MainActivity;
 import de.htwBerlin.ois.R;
 
@@ -40,6 +40,11 @@ public class FragmentHome extends Fragment
 
     //------------Instance Variables------------
 
+    /**
+     * Fragment ID used to identify the fragment
+     * (for example by putting the ID into the Intent extra )
+     */
+    public static String ID = "Home";
     /**
      * Log tag
      */
@@ -57,57 +62,16 @@ public class FragmentHome extends Fragment
      * The RecyclerAdapter
      */
     private RecyclerAdapterLocalFiles recyclerAdapter;
+
+
+    //------------Static Variables------------
     /**
      * The RecyclerView
      */
     private RecyclerView localMapsRecyclerView;
 
 
-    //------------Static Variables------------
-
-    /**
-     * Fragment ID used to identify the fragment
-     * (for example by putting the ID into the Intent extra )
-     */
-    public static String ID = "Home";
-
-
     //------------Activity/Fragment Lifecycle------------
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
-    {
-        //inflating the view
-        view = inflater.inflate(R.layout.fragment_home, container, false);
-        return view;
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState)
-    {
-        super.onActivityCreated(savedInstanceState);
-        mapFiles = findMapFiles();
-        setHasOptionsMenu(true);
-        setupRecycler();
-    }
-
-    @Override
-    public void onStart()
-    {
-        super.onStart();
-    }
-
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-    }
-
-
-    //------------Setup Views------------
-
     private SwipeCallbackLeft swipeCallbackLeft = new SwipeCallbackLeft()
     {
         @Override
@@ -129,6 +93,40 @@ public class FragmentHome extends Fragment
             recyclerAdapter.notifyDataSetChanged();
         }
     };
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    {
+        //inflating the view
+        view = inflater.inflate(R.layout.fragment_home, container, false);
+        return view;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState)
+    {
+        super.onActivityCreated(savedInstanceState);
+        mapFiles = findMapFiles();
+        setHasOptionsMenu(true);
+        setupRecycler();
+    }
+
+
+    //------------Setup Views------------
+
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+    }
 
 
     //------------Others------------

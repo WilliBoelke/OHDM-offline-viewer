@@ -23,12 +23,12 @@ import java.util.List;
 import java.util.Map;
 
 import de.htwBerlin.ois.FileStructure.MapFileSingleton;
-import de.htwBerlin.ois.Fragments.FramentAbout;
+import de.htwBerlin.ois.Fragments.FragmentDownloadCenterAll;
 import de.htwBerlin.ois.Fragments.FragmentFAQ;
 import de.htwBerlin.ois.Fragments.FragmentHome;
-import de.htwBerlin.ois.Fragments.FragmentDownloadCenterAll;
 import de.htwBerlin.ois.Fragments.FragmentNavigation;
 import de.htwBerlin.ois.Fragments.FragmentOptions;
+import de.htwBerlin.ois.Fragments.FramentAbout;
 import de.htwBerlin.ois.R;
 
 /**
@@ -40,182 +40,15 @@ public class MainActivity extends AppCompatActivity
     //------------Instance Variables------------
 
 
-    private String TAG = getClass().getSimpleName();
-    private Fragment defaultFragment = new FragmentHome();
-
-    //------------Instance Variables------------
-
     public static final String MAP_FILE_PATH = Environment.getExternalStorageDirectory().toString() + "/OHDM";
     private static final int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
 
+    //------------Instance Variables------------
+    private String TAG = getClass().getSimpleName();
+    private Fragment defaultFragment = new FragmentHome();
+
 
     //------------Activity/Fragment Lifecycle------------
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        //Get settings from SharedPrefs
-        if (getApplicationContext().getSharedPreferences(FragmentOptions.SETTINGS_SHARED_PREFERENCES, 0).getBoolean(FragmentOptions.DARK_MODE, false) == true)
-        {
-            setTheme(R.style.DarkTheme);
-        }
-        else
-        {
-            setTheme(R.style.LightTheme);
-        }
-
-        setContentView(R.layout.activity_main);
-
-
-        // setting up the BottomNavigationView with Listener
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
-        bottomNav.setOnNavigationItemSelectedListener(navListener);
-
-        //Open the correct fragment
-        Intent intent = getIntent();
-        if (intent.getStringExtra("Fragment") != null)
-        {
-            if (intent.getStringExtra("Fragment").equals(FragmentOptions.ID))
-            {
-                //if we came her from the reset method in the options fragment, we want the options fragment to appear again
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentOptions()).addToBackStack(FragmentOptions.ID).commit();
-            }
-
-        }
-        else
-        {
-            // giving first defaultFragment to the FragmentManager
-            if (savedInstanceState == null)
-            {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, defaultFragment).addToBackStack(null).commit();
-            }
-        }
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        {
-            checkPermissions();
-        }
-        createOhdmDirectory();
-    }
-
-    /**
-     * Creates OHDM Folder if not exists
-     */
-    private void createOhdmDirectory()
-    {
-        File dir = new File(MAP_FILE_PATH);
-        boolean status;
-        if (!dir.exists())
-        {
-            status = dir.mkdirs();
-            if (status) Toast.makeText(this, "Created OHDM Directory.", Toast.LENGTH_SHORT).show();
-            else Toast.makeText(this, "Couldn't create OHDM Directory.", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
-    //------------Toolbar Menu------------
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case R.id.ab_menu_about:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FramentAbout()).addToBackStack(FramentAbout.ID).commit();
-                break;
-
-            case R.id.ab_menu_faq:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentFAQ()).addToBackStack(FragmentFAQ.ID).commit();
-                break;
-            case R.id.ab_menu_settings:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentOptions()).addToBackStack(FragmentOptions.ID).commit();
-                break;
-            case R.id.ab_menu_search:
-                //no implemented here, to e implemented in fragments
-                return false;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    //------------Permissions------------
-
-    /**
-     * Checks necessary permissions
-     * Source https://programtalk.com/vs/osmdroid/osmdroid-forge-app/src/main/java/org/osmdroid/forge/app/MainActivity.java/
-     */
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private void checkPermissions()
-    {
-        List<String> permissions = new ArrayList<>();
-        String message = "OHDM Offline Viewer permissions:";
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-        {
-            permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
-            message += "\nStorage access to store map Files.";
-        }
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-        {
-            permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            message += "\nLocation to show user location.";
-        }
-        if (!permissions.isEmpty())
-        {
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-            String[] params = permissions.toArray(new String[permissions.size()]);
-            requestPermissions(params, REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
-    {
-        switch (requestCode)
-        {
-            case REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS:
-            {
-                Map<String, Integer> perms = new HashMap<>();
-
-                perms.put(Manifest.permission.ACCESS_FINE_LOCATION, PackageManager.PERMISSION_GRANTED);
-                perms.put(Manifest.permission.WRITE_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
-
-                for (int i = 0; i < permissions.length; i++)
-                    perms.put(permissions[i], grantResults[i]);
-
-                Boolean location = perms.get(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
-                Boolean storage = perms.get(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
-
-                if (location && storage)
-                {
-                    Toast.makeText(this, "All permissions granted", Toast.LENGTH_SHORT).show();
-                }
-                else if (location)
-                {
-                    Toast.makeText(this, "Storage permission is required to store map files to reduce data usage and for offline usage.", Toast.LENGTH_LONG).show();
-                }
-                else if (storage)
-                {
-                    Toast.makeText(this, "Location permission is required to show the user's location on map.", Toast.LENGTH_LONG).show();
-                }
-                else
-                {
-                    Toast.makeText(this, "Storage permission is required to store map tiles to reduce data usage and for offline usage." + "\nLocation permission is required to show the user's location on map.", Toast.LENGTH_SHORT).show();
-                }
-                createOhdmDirectory();
-            }
-            break;
-            default:
-                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-    }
-
-
-    //------------Bottom Navigation------------
-
     /**
      * Bottom Nav Listener
      */
@@ -267,4 +100,168 @@ public class MainActivity extends AppCompatActivity
             return true;
         }
     };
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        //Get settings from SharedPrefs
+        if (getApplicationContext().getSharedPreferences(FragmentOptions.SETTINGS_SHARED_PREFERENCES, 0).getBoolean(FragmentOptions.DARK_MODE, false) == true)
+        {
+            setTheme(R.style.DarkTheme);
+        }
+        else
+        {
+            setTheme(R.style.LightTheme);
+        }
+
+        setContentView(R.layout.activity_main);
+
+
+        // setting up the BottomNavigationView with Listener
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
+        bottomNav.setOnNavigationItemSelectedListener(navListener);
+
+        //Open the correct fragment
+        Intent intent = getIntent();
+        if (intent.getStringExtra("Fragment") != null)
+        {
+            if (intent.getStringExtra("Fragment").equals(FragmentOptions.ID))
+            {
+                //if we came her from the reset method in the options fragment, we want the options fragment to appear again
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentOptions()).addToBackStack(FragmentOptions.ID).commit();
+            }
+
+        }
+        else
+        {
+            // giving first defaultFragment to the FragmentManager
+            if (savedInstanceState == null)
+            {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, defaultFragment).addToBackStack(null).commit();
+            }
+        }
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            checkPermissions();
+        }
+        createOhdmDirectory();
+    }
+
+
+    //------------Toolbar Menu------------
+
+    /**
+     * Creates OHDM Folder if not exists
+     */
+    private void createOhdmDirectory()
+    {
+        File dir = new File(MAP_FILE_PATH);
+        boolean status;
+        if (!dir.exists())
+        {
+            status = dir.mkdirs();
+            if (status) Toast.makeText(this, "Created OHDM Directory.", Toast.LENGTH_SHORT).show();
+            else Toast.makeText(this, "Couldn't create OHDM Directory.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    //------------Permissions------------
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.ab_menu_about:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FramentAbout()).addToBackStack(FramentAbout.ID).commit();
+                break;
+
+            case R.id.ab_menu_faq:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentFAQ()).addToBackStack(FragmentFAQ.ID).commit();
+                break;
+            case R.id.ab_menu_settings:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentOptions()).addToBackStack(FragmentOptions.ID).commit();
+                break;
+            case R.id.ab_menu_search:
+                //no implemented here, to e implemented in fragments
+                return false;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Checks necessary permissions
+     * Source https://programtalk.com/vs/osmdroid/osmdroid-forge-app/src/main/java/org/osmdroid/forge/app/MainActivity.java/
+     */
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void checkPermissions()
+    {
+        List<String> permissions = new ArrayList<>();
+        String message = "OHDM Offline Viewer permissions:";
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
+            permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
+            message += "\nStorage access to store map Files.";
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+        {
+            permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            message += "\nLocation to show user location.";
+        }
+        if (!permissions.isEmpty())
+        {
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+            String[] params = permissions.toArray(new String[permissions.size()]);
+            requestPermissions(params, REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
+        }
+    }
+
+
+    //------------Bottom Navigation------------
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
+    {
+        switch (requestCode)
+        {
+            case REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS:
+            {
+                Map<String, Integer> perms = new HashMap<>();
+
+                perms.put(Manifest.permission.ACCESS_FINE_LOCATION, PackageManager.PERMISSION_GRANTED);
+                perms.put(Manifest.permission.WRITE_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
+
+                for (int i = 0; i < permissions.length; i++)
+                    perms.put(permissions[i], grantResults[i]);
+
+                Boolean location = perms.get(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+                Boolean storage = perms.get(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+
+                if (location && storage)
+                {
+                    Toast.makeText(this, "All permissions granted", Toast.LENGTH_SHORT).show();
+                }
+                else if (location)
+                {
+                    Toast.makeText(this, "Storage permission is required to store map files to reduce data usage and for offline usage.", Toast.LENGTH_LONG).show();
+                }
+                else if (storage)
+                {
+                    Toast.makeText(this, "Location permission is required to show the user's location on map.", Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    Toast.makeText(this, "Storage permission is required to store map tiles to reduce data usage and for offline usage." + "\nLocation permission is required to show the user's location on map.", Toast.LENGTH_SHORT).show();
+                }
+                createOhdmDirectory();
+            }
+            break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
 }

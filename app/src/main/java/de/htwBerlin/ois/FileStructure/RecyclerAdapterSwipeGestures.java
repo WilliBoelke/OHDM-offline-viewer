@@ -26,6 +26,7 @@ public class RecyclerAdapterSwipeGestures extends ItemTouchHelper.SimpleCallback
 
     /**
      * Public Constructor to just implement the LeftSwipe
+     *
      * @param adapter
      * @param onLeftSwipe
      */
@@ -41,6 +42,7 @@ public class RecyclerAdapterSwipeGestures extends ItemTouchHelper.SimpleCallback
 
     /**
      * Public Constructor to just implement the RightSwipe
+     *
      * @param adapter
      * @param onRightSwipe
      */
@@ -57,6 +59,7 @@ public class RecyclerAdapterSwipeGestures extends ItemTouchHelper.SimpleCallback
 
     /**
      * Public Constructor to implement both swipe directions
+     *
      * @param adapter
      * @param onLeftSwipe
      */

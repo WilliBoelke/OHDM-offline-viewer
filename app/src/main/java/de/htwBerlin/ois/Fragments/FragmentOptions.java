@@ -36,6 +36,25 @@ public class FragmentOptions extends Fragment
     //------------Instance Variables------------
 
     /**
+     * Key to get the DarkMode boolean from the SharedPreferences
+     */
+    public static final String DARK_MODE = "darkmode_settings";
+    /**
+     * SharedPreferences name
+     */
+    public static final String SETTINGS_SHARED_PREFERENCES = "OHDMViewerSettings";
+    private static final int REQUEST_CODE_ACCESS_LOCATION_PERMISSION = 34;
+
+
+    //------------Static Variables------------
+    private static final int REQUEST_CODE_WRITE_STORAGE_PERMISSION = 56;
+    private static final int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
+    /**
+     * Fragment ID used to identify the fragment
+     * (for example by putting the ID into the Intent extra )
+     */
+    public static String ID = "Options";
+    /**
      * Log tag
      */
     private final String TAG = getClass().getSimpleName();
@@ -47,26 +66,6 @@ public class FragmentOptions extends Fragment
      * SharedPreferences to quickly store and access user settings
      */
     private SharedPreferences prefs;
-
-
-    //------------Static Variables------------
-
-    /**
-     * Key to get the DarkMode boolean from the SharedPreferences
-     */
-    public static final String DARK_MODE = "darkmode_settings";
-    /**
-     * SharedPreferences name
-     */
-    public static final String SETTINGS_SHARED_PREFERENCES = "OHDMViewerSettings";
-    private static final int REQUEST_CODE_ACCESS_LOCATION_PERMISSION = 34;
-    private static final int REQUEST_CODE_WRITE_STORAGE_PERMISSION = 56;
-    private static final int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
-    /**
-     * Fragment ID used to identify the fragment
-     * (for example by putting the ID into the Intent extra )
-     */
-    public static String ID = "Options";
 
 
     //------------Activity/Fragment Lifecycle------------

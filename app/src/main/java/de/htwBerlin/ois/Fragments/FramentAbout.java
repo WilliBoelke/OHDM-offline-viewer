@@ -23,22 +23,21 @@ public class FramentAbout extends Fragment
     //------------Instance Variables------------
 
     /**
-     * Log tag
-     */
-    private final String TAG = this.getClass().getSimpleName();
-    /**
-     * Fragments view
-     */
-    private View view;
-
-
-    //------------Static Variables------------
-
-    /**
      * Fragment ID used to identify the fragment
      * (for example by putting the ID into the Intent extra )
      */
     public static String ID = "About";
+    /**
+     * Log tag
+     */
+    private final String TAG = this.getClass().getSimpleName();
+
+
+    //------------Static Variables------------
+    /**
+     * Fragments view
+     */
+    private View view;
 
 
     //------------Activity/Fragment Lifecycle------------
@@ -77,7 +76,6 @@ public class FramentAbout extends Fragment
                 //no implemented here,
                 return false;
             case R.id.ab_menu_faq:
-                ;
                 //no implemented here,
                 return false;
             case R.id.ab_menu_settings:

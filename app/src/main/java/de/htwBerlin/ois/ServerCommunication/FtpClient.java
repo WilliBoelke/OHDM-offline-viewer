@@ -147,7 +147,7 @@ public class FtpClient
 
     //------------Listing-----------
 
-        public FTPFile[] getDirList(String path) throws IOException
+    public FTPFile[] getDirList(String path) throws IOException
     {
         if (client == null)
         {
@@ -227,7 +227,6 @@ public class FtpClient
         outputStream.close();
         inputStream.close();
     }
-
 
 
 }

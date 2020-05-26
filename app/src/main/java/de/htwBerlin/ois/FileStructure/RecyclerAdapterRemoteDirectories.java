@@ -12,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import de.htwBerlin.ois.Fragments.FragmentDownloadCenterCategories;
 import de.htwBerlin.ois.R;
@@ -127,27 +126,6 @@ public class RecyclerAdapterRemoteDirectories extends RecyclerView.Adapter<Recyc
 
     //------------View Holder------------
 
-    protected static class DirectoriesViewHolder extends RecyclerView.ViewHolder
-    {
-
-        public TextView nameTextView;
-        public ArrayList<RemoteFile> directoryContent;
-        public ArrayList<RemoteFile> directoryContentBackup;
-        public RecyclerView dirContentRecycler;
-
-        public DirectoriesViewHolder(@NonNull View itemView)
-        {
-            super(itemView);
-            directoryContent = new ArrayList<>();
-            directoryContentBackup = new ArrayList<>(); // the backup list is needed for the Search/Filter implementation in the RecyclerAdapterRemoteFiles
-            nameTextView = itemView.findViewById(R.id.dir_name_tv);
-            dirContentRecycler = itemView.findViewById(R.id.dir_content_recycler);
-        }
-    }
-
-
-    //------------FTP------------
-
     /**
      * This method retrieves the content/files for a single Directory from the FTPServer
      *
@@ -186,8 +164,8 @@ public class RecyclerAdapterRemoteDirectories extends RecyclerView.Adapter<Recyc
         ftpTaskFileListing.execute();
     }
 
-    //------------Save/Restore Instance State------------
 
+    //------------FTP------------
 
     /**
      * Checks if the list is persisted in the {@link RemoteListsSingleton}
@@ -223,6 +201,26 @@ public class RecyclerAdapterRemoteDirectories extends RecyclerView.Adapter<Recyc
         }
 
 
+    }
+
+    //------------Save/Restore Instance State------------
+
+    protected static class DirectoriesViewHolder extends RecyclerView.ViewHolder
+    {
+
+        public TextView nameTextView;
+        public ArrayList<RemoteFile> directoryContent;
+        public ArrayList<RemoteFile> directoryContentBackup;
+        public RecyclerView dirContentRecycler;
+
+        public DirectoriesViewHolder(@NonNull View itemView)
+        {
+            super(itemView);
+            directoryContent = new ArrayList<>();
+            directoryContentBackup = new ArrayList<>(); // the backup list is needed for the Search/Filter implementation in the RecyclerAdapterRemoteFiles
+            nameTextView = itemView.findViewById(R.id.dir_name_tv);
+            dirContentRecycler = itemView.findViewById(R.id.dir_content_recycler);
+        }
     }
 
 

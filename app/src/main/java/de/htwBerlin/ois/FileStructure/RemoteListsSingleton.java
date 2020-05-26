@@ -42,9 +42,21 @@ public class RemoteListsSingleton
         return allMaps;
     }
 
+    public void setAllMaps(ArrayList<RemoteFile> allMaps)
+    {
+        RemoteListsSingleton.allMaps.clear();
+        RemoteListsSingleton.allMaps = allMaps;
+    }
+
     public ArrayList<RemoteFile> getLatestMaps()
     {
         return latestMaps;
+    }
+
+    public void setLatestMaps(ArrayList<RemoteFile> latestMaps)
+    {
+        RemoteListsSingleton.latestMaps.clear();
+        RemoteListsSingleton.latestMaps = latestMaps;
     }
 
     public ArrayList<RemoteDirectory> getDirectories()
@@ -52,32 +64,20 @@ public class RemoteListsSingleton
         return directories;
     }
 
+    public void setDirectories(ArrayList<RemoteDirectory> directories)
+    {
+        RemoteListsSingleton.directories.clear();
+        RemoteListsSingleton.directories = directories;
+    }
+
     public HashMap<String, ArrayList<RemoteFile>> getDirectoryContents()
     {
         return directoryContents;
     }
 
-    public void setAllMaps(ArrayList<RemoteFile> allMaps)
+    public void setDirectoryContents(HashMap<String, ArrayList<RemoteFile>> directoryContents)
     {
-        this.allMaps.clear();
-        this.allMaps = allMaps;
-    }
-
-    public void setLatestMaps(ArrayList<RemoteFile> latestMaps)
-    {
-        this.latestMaps.clear();
-        this.latestMaps = latestMaps;
-    }
-
-    public void setDirectories(ArrayList<RemoteDirectory> directories)
-    {
-        this.directories.clear();
-        this.directories = directories;
-    }
-
-    public void setDirectoryContents(HashMap<String, ArrayList<RemoteFile>> directoryContents )
-    {
-        this.directoryContents.clear();
-        this.directoryContents = directoryContents;
+        RemoteListsSingleton.directoryContents.clear();
+        RemoteListsSingleton.directoryContents = directoryContents;
     }
 }

@@ -31,7 +31,7 @@ public class RecyclerAdapterLocalFiles extends RecyclerView.Adapter<RecyclerAdap
     private final String TAG = getClass().getSimpleName();
     /**
      * The ArrayList to be displayed by the RecyclerView
-     *
+     * <p>
      * This list may be altered when the user searches for maps
      */
     private ArrayList<File> mapArrayList;
@@ -45,7 +45,7 @@ public class RecyclerAdapterLocalFiles extends RecyclerView.Adapter<RecyclerAdap
      */
     private Context context;
     /**
-     * The resource  id of the Recycleritem layout 
+     * The resource  id of the Recycleritem layout
      */
     private int resource;
     /**
@@ -57,6 +57,43 @@ public class RecyclerAdapterLocalFiles extends RecyclerView.Adapter<RecyclerAdap
 
 
     //------------Constructors------------
+    private Filter nameFilter = new Filter()
+    {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint)
+        {
+            ArrayList<File> filteredList = new ArrayList<>();
+            if (constraint == null || constraint.length() == 0)
+            {
+                filteredList.addAll(mapArrayListBackup);
+            }
+            else
+            {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+                for (File map : mapArrayListBackup)
+                {
+                    if (map.getName().toLowerCase().trim().contains(filterPattern))
+                    {
+                        filteredList.add(map);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results)
+        {
+            mapArrayList.clear();
+            mapArrayList.addAll((ArrayList) results.values);
+            notifyDataSetChanged();
+        }
+    };
+
+
+    //------------RecyclerViewAdapter Methods------------
 
     public RecyclerAdapterLocalFiles(Context context, ArrayList<File> ohdmFiles, int ressource)
     {
@@ -65,9 +102,6 @@ public class RecyclerAdapterLocalFiles extends RecyclerView.Adapter<RecyclerAdap
         this.mapArrayList = ohdmFiles;
         this.context = context;
     }
-
-
-    //------------RecyclerViewAdapter Methods------------
 
     @NonNull
     @Override
@@ -104,14 +138,14 @@ public class RecyclerAdapterLocalFiles extends RecyclerView.Adapter<RecyclerAdap
         }
     }
 
+
+    //------------OnItemClickListener------------
+
     @Override
     public int getItemCount()
     {
         return mapArrayList.size();
     }
-
-
-    //------------OnItemClickListener------------
 
     /**
      * Setter for the implemented onItemClick method
@@ -123,18 +157,6 @@ public class RecyclerAdapterLocalFiles extends RecyclerView.Adapter<RecyclerAdap
         this.onItemClickListener = listener;
     }
 
-    /**
-     * An interface to define the
-     * onItemClick method
-     *
-     * can be implemented and set as on itemClickListener through the
-     * {@link this#setOnItemClickListener} method
-     */
-    public interface OnItemClickListener
-    {
-        void onItemClick(int position);
-    }
-
 
     //------------Filter (Name)------------
 
@@ -144,40 +166,17 @@ public class RecyclerAdapterLocalFiles extends RecyclerView.Adapter<RecyclerAdap
         return nameFilter;
     }
 
-    private Filter nameFilter = new Filter()
+    /**
+     * An interface to define the
+     * onItemClick method
+     * <p>
+     * can be implemented and set as on itemClickListener through the
+     * {@link this#setOnItemClickListener} method
+     */
+    public interface OnItemClickListener
     {
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint)
-        {
-            ArrayList<File> filteredList = new ArrayList<>();
-            if (constraint == null || constraint.length() == 0)
-            {
-                filteredList.addAll(mapArrayListBackup);
-            }
-            else
-            {
-                String filterPattern = constraint.toString().toLowerCase().trim();
-                for (File map : mapArrayListBackup)
-                {
-                    if (map.getName().toLowerCase().trim().contains(filterPattern))
-                    {
-                        filteredList.add(map);
-                    }
-                }
-            }
-            FilterResults results = new FilterResults();
-            results.values = filteredList;
-            return results;
-        }
-
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results)
-        {
-            mapArrayList.clear();
-            mapArrayList.addAll((ArrayList) results.values);
-            notifyDataSetChanged();
-        }
-    };
+        void onItemClick(int position);
+    }
 
 
     //------------View Holder------------

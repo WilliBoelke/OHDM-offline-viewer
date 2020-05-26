@@ -54,98 +54,6 @@ public class RecyclerAdapterRemoteFiles extends RecyclerView.Adapter<RecyclerAda
 
 
     //------------Constructors------------
-
-    /**
-     * Public constructor
-     *
-     * @param context
-     * @param ohdmFiles
-     * @param mapArrayListBackup
-     * @param ressource
-     */
-    public RecyclerAdapterRemoteFiles(Context context, ArrayList<RemoteFile> ohdmFiles, ArrayList<RemoteFile> mapArrayListBackup, int ressource)
-    {
-        this.context = context;
-        this.ressource = ressource;
-        this.ohdmFiles = ohdmFiles;
-        this.ohdmFilesBackup = mapArrayListBackup;
-    }
-
-
-    //------------RecyclerViewAdapter Methods------------
-
-    @NonNull
-    @Override
-    public OhdmFileViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i)
-    {
-        View view = LayoutInflater.from(parent.getContext()).inflate(ressource, parent, false);
-        return new RecyclerAdapterRemoteFiles.OhdmFileViewHolder(view, this.onItemClickListener);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull RecyclerAdapterRemoteFiles.OhdmFileViewHolder ohdmFileViewHolder, final int position)
-    {
-        RemoteFile currentOhdmFile = this.ohdmFiles.get(position);
-        String name = currentOhdmFile.getFilename();
-        name = name.replace(".map", "");
-        ohdmFileViewHolder.nameTextView.setText(name);
-        ohdmFileViewHolder.sizeTextView.setText((int) (double) (currentOhdmFile.getFileSize() / 1024) + " KB");
-        ohdmFileViewHolder.dateTextView.setText(currentOhdmFile.getCreationDate());
-        ohdmFileViewHolder.downloadbutton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                onButtonClickListener.onButtonClick(position);
-            }
-        });
-    }
-
-    @Override
-    public int getItemCount()
-    {
-        return ohdmFiles.size();
-    }
-
-
-    //------------OnClickListener------------
-
-    /**
-     * Setter for the implemented onItemClick method
-     *
-     * @param listener
-     */
-    public void setOnItemClickListener(RecyclerAdapterRemoteFiles.OnItemClickListener listener)
-    {
-        this.onItemClickListener = listener;
-    }
-
-    public void setOnItemButtonClickListener(OnRecyclerItemButtonClicklistenner listener)
-    {
-        this.onButtonClickListener = listener;
-    }
-
-    /**
-     * An interface to define the
-     * onItemClick method
-     *
-     * can be implemented and set as on itemClickListener through the
-     * {@link this#setOnItemClickListener} method
-     */
-    public interface OnItemClickListener
-    {
-        void onItemClick(int position);
-    }
-
-
-    //------------Filter (Name)------------
-
-    @Override
-    public Filter getFilter()
-    {
-        return nameFilter;
-    }
-
     private Filter nameFilter = new Filter()
     {
         @Override
@@ -181,6 +89,97 @@ public class RecyclerAdapterRemoteFiles extends RecyclerView.Adapter<RecyclerAda
             notifyDataSetChanged();
         }
     };
+
+
+    //------------RecyclerViewAdapter Methods------------
+
+    /**
+     * Public constructor
+     *
+     * @param context
+     * @param ohdmFiles
+     * @param mapArrayListBackup
+     * @param ressource
+     */
+    public RecyclerAdapterRemoteFiles(Context context, ArrayList<RemoteFile> ohdmFiles, ArrayList<RemoteFile> mapArrayListBackup, int ressource)
+    {
+        this.context = context;
+        this.ressource = ressource;
+        this.ohdmFiles = ohdmFiles;
+        this.ohdmFilesBackup = mapArrayListBackup;
+    }
+
+    @NonNull
+    @Override
+    public OhdmFileViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i)
+    {
+        View view = LayoutInflater.from(parent.getContext()).inflate(ressource, parent, false);
+        return new RecyclerAdapterRemoteFiles.OhdmFileViewHolder(view, this.onItemClickListener);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerAdapterRemoteFiles.OhdmFileViewHolder ohdmFileViewHolder, final int position)
+    {
+        RemoteFile currentOhdmFile = this.ohdmFiles.get(position);
+        String name = currentOhdmFile.getFilename();
+        name = name.replace(".map", "");
+        ohdmFileViewHolder.nameTextView.setText(name);
+        ohdmFileViewHolder.sizeTextView.setText((int) (double) (currentOhdmFile.getFileSize() / 1024) + " KB");
+        ohdmFileViewHolder.dateTextView.setText(currentOhdmFile.getCreationDate());
+        ohdmFileViewHolder.downloadbutton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                onButtonClickListener.onButtonClick(position);
+            }
+        });
+    }
+
+
+    //------------OnClickListener------------
+
+    @Override
+    public int getItemCount()
+    {
+        return ohdmFiles.size();
+    }
+
+    /**
+     * Setter for the implemented onItemClick method
+     *
+     * @param listener
+     */
+    public void setOnItemClickListener(RecyclerAdapterRemoteFiles.OnItemClickListener listener)
+    {
+        this.onItemClickListener = listener;
+    }
+
+    public void setOnItemButtonClickListener(OnRecyclerItemButtonClicklistenner listener)
+    {
+        this.onButtonClickListener = listener;
+    }
+
+
+    //------------Filter (Name)------------
+
+    @Override
+    public Filter getFilter()
+    {
+        return nameFilter;
+    }
+
+    /**
+     * An interface to define the
+     * onItemClick method
+     * <p>
+     * can be implemented and set as on itemClickListener through the
+     * {@link this#setOnItemClickListener} method
+     */
+    public interface OnItemClickListener
+    {
+        void onItemClick(int position);
+    }
 
 
     //------------View Holder------------

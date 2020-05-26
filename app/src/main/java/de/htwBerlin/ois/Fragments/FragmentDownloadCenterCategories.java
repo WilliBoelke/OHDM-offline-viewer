@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -49,6 +48,34 @@ public class FragmentDownloadCenterCategories extends FragmentWithServerConnecti
 
 
     //------------Activity/Fragment Lifecycle------------
+    /**
+     * Code to be executed after the FtpTaskDirListing finished
+     */
+    private AsyncResponse asyncResponseDirListing = new AsyncResponse()
+    {
+        @Override
+        public void getOhdmFiles(ArrayList<RemoteFile> remoteFiles)
+        {
+
+        }
+
+        @Override
+        public void getRemoteDirectories(ArrayList<RemoteDirectory> dirs)
+        {
+            if (dirs.size() != 0)
+            {
+                directoryList.clear();
+                directoryList.addAll(dirs);
+                recyclerViewAdapter.notifyDataSetChanged();
+                changeVisibilities(STATE_CONNECTED);
+            }
+            else
+            {
+                changeVisibilities(STATE_NO_CONNECTION);
+            }
+
+        }
+    };
 
     @Nullable
     @Override
@@ -73,7 +100,7 @@ public class FragmentDownloadCenterCategories extends FragmentWithServerConnecti
         this.setupSwipeToRefresh();
     }
 
-
+    //------------Setup Views------------
 
     @Override
     public void onPause()
@@ -81,8 +108,6 @@ public class FragmentDownloadCenterCategories extends FragmentWithServerConnecti
         super.onPause();
         this.storeFiles();
     }
-
-    //------------Setup Views------------
 
     /**
      * Setup for the directory recycler.
@@ -155,39 +180,9 @@ public class FragmentDownloadCenterCategories extends FragmentWithServerConnecti
 
     private void FTPGetDirectories()
     {
-        FtpTaskDirListing dirListing = new FtpTaskDirListing(getActivity(), "" , asyncResponseDirListing);
+        FtpTaskDirListing dirListing = new FtpTaskDirListing(getActivity(), "", asyncResponseDirListing);
         dirListing.execute();
     }
-
-
-    /**
-     * Code to be executed after the FtpTaskDirListing finished
-     */
-    private AsyncResponse asyncResponseDirListing = new AsyncResponse()
-    {
-        @Override
-        public void getOhdmFiles(ArrayList<RemoteFile> remoteFiles)
-        {
-
-        }
-
-        @Override
-        public void getRemoteDirectories(ArrayList<RemoteDirectory> dirs)
-        {
-            if(dirs.size() != 0)
-            {
-                directoryList.clear();
-                directoryList.addAll(dirs);
-                recyclerViewAdapter.notifyDataSetChanged();
-                changeVisibilities(STATE_CONNECTED);
-            }
-            else
-            {
-                changeVisibilities(STATE_NO_CONNECTION);
-            }
-
-        }
-    };
 
     //------------Save/Restore Instance State------------
 
@@ -212,6 +207,8 @@ public class FragmentDownloadCenterCategories extends FragmentWithServerConnecti
 
     }
 
+
+    //------------Fragment With Server Connection Methods------------
 
     @Override
     protected void onNoConnection()

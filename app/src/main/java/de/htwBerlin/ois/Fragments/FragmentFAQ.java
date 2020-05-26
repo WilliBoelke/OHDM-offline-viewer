@@ -23,17 +23,16 @@ public class FragmentFAQ extends Fragment
 
     //------------Instance Variables------------
 
-    private final String TAG = this.getClass().getSimpleName();
-    private View view;
-
-
-    //------------Static Variables------------
-
     /**
      * Fragment ID used to identify the fragment
      * (for example by putting the ID into the Intent extra )
      */
     public static String ID = "FAQ";
+    private final String TAG = this.getClass().getSimpleName();
+
+
+    //------------Static Variables------------
+    private View view;
 
 
     //------------Activity/Fragment Lifecycle------------
@@ -74,7 +73,6 @@ public class FragmentFAQ extends Fragment
                 //no implemented here,
                 return false;
             case R.id.ab_menu_faq:
-                ;
                 //no implemented here,
                 return false;
             case R.id.ab_menu_settings:
