@@ -65,6 +65,7 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
      */
     public FtpTaskFileListing(Context context, String path, boolean includeSubDirs, AsyncResponse asyncResponse)
     {
+        Log.d(TAG, "Constructor : new FtpTaskFileListing with : path  = " + path + " includeSubDirs = " + includeSubDirs);
         this.includeSubDirs = includeSubDirs;
         this.delegate = asyncResponse;
         this.path = path;
@@ -74,34 +75,33 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
 
     //------------AsyncTask Implementation------------
 
-    @Override
-    protected void onPreExecute()
-    {
-        Log.i(TAG, "onPreExecute: ");
-        super.onPreExecute();
-    }
 
     @Override
     protected String doInBackground(Void... params)
     {
         remoteFiles = new ArrayList<>();
+        Log.d(TAG, "doingInBackground : initializing new FtpClient ");
         FtpClient ftpClient = new FtpClient();
         ftpClient.connect();
+        Log.d(TAG, "doingInBackground : connected to FtpClient");
 
         FTPFile[] files = new FTPFile[0];
         try
         {
-            if(includeSubDirs == true)
+            if (includeSubDirs == true)
             {
+                Log.d(TAG, "doingInBackground : getting all files including sub dirs...");
                 files = ftpClient.getAllFileList(path);
             }
             else
             {
+                Log.d(TAG, "doingInBackground : getting all files...");
                 files = ftpClient.getFileList(path);
             }
         }
         catch (IOException e)
         {
+            Log.e(TAG, "something went wrong while retrieving files from the FTP Server");
             e.printStackTrace();
         }
         for (FTPFile ftpFile : files)
@@ -109,9 +109,9 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
             Date date = ftpFile.getTimestamp().getTime();
             RemoteFile ohdm = new RemoteFile(ftpFile.getName(), (ftpFile.getSize() / 1024), sdf.format(date.getTime()), Boolean.FALSE);
             remoteFiles.add(ohdm);
-            Log.i(TAG, ohdm.toString());
+            Log.d(TAG, "doingInBackground : got file : " + ohdm.toString());
         }
-
+        Log.d(TAG, "doingInBackground : finished - closing connection : ");
         ftpClient.closeConnection();
         return null;
     }
@@ -119,8 +119,14 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
     @Override
     protected void onPostExecute(String result)
     {
-        if (remoteFiles.size() == 0) Log.e(TAG, "Server not available or empty");
-        else Log.i(TAG, "Found " + remoteFiles.size() + " directories");
-        delegate.getOhdmFiles(this.remoteFiles);
+        if (remoteFiles.size() == 0)
+        {
+            Log.e(TAG, "Server not available or empty");
+        }
+        else
+        {
+            Log.d(TAG, "Found " + remoteFiles.size() + " files from server");
+            delegate.getOhdmFiles(this.remoteFiles);
+        }
     }
 }

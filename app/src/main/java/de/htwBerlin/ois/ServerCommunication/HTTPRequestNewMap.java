@@ -68,7 +68,7 @@ public class HTTPRequestNewMap extends AsyncTask<Void, Void, String>
      */
     public HTTPRequestNewMap(String date, String coordinates, String name)
     {
-        Log.d(TAG, "Constructor:  new GttpRequestNewMap with : date = " + date + " coords = " + coordinates + " name = " + name);
+        Log.d(TAG, "Constructor:  new HttpRequestNewMap with : date = " + date + " coords = " + coordinates + " name = " + name);
         this.date = date;
         this.name = name;
         this.coordinates = coordinates;

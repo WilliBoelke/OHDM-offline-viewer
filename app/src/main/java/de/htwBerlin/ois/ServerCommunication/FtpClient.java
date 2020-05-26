@@ -37,7 +37,6 @@ public class FtpClient
     private final String TAG = getClass().getSimpleName();
     private FTPClient client;
     private PrintStream logStream;
-    private boolean LOGGING_OVER_FILE = true;
 
 
     //------------Constructors-----------
@@ -49,7 +48,7 @@ public class FtpClient
 
     public FtpClient()
     {
-        LOGGING_OVER_FILE = false;
+        Log.d(TAG, "Constructor : new FtpClient ");
     }
 
 
