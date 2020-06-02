@@ -1,7 +1,8 @@
 # OHDM Offline Viewer
 
 ## Goal of this project
-The goal of this repository is to render [Open Street Maps](https://www.openstreetmap.de/), without the need of a network connection.
+The goal of this repository is to render data from Open Historical Data Map. OHDM has its own data base structure but can provide data for a defined spatial temporal context - in other words: a data (a day) and a region (polygon). Those data can be produced in the OSM XML format which is well known from Open Street Maps. This viewer is an offline viewer. Map data are stored and rendered on the phone which makes apps independent from actual network connections.
+
 To avoid caching dozens of different zoom layers, vector tiles are being used. This makes the navigation and zoom interaction fast.
 
 ## Getting Started
