@@ -33,15 +33,15 @@ Using it in productivity, will make your server extremely vulnerable.
 
 Home                                               |  Request
 :-----------------------------------:|:---------------------------------------:
-![HOME](screenshots/home.png )        | ![REQUEST](screenshots/request.png)
+![HOME](screnshotsAndApk/home.png )        | ![REQUEST](screnshotsAndApk/request.png)
 
 DownloadCenter AllMaps               |  DownloadCenter Cateories
 :-----------------------------------:|:---------------------------------------:
-![HOME](screenshots/download1.png)   | ![DOWNLOAD](screenshots/download2.png)
+![HOME](screnshotsAndApk/download1.png)   | ![DOWNLOAD](screnshotsAndApk/download2.png)
 
 Settings                             |  About
 :-----------------------------------:|:---------------------------------------:
-![HOME](screenshots/settings.png)    | ![DOWNLOAD](screenshots/about.png)
+![HOME](screnshotsAndApk/settings.png)    | ![DOWNLOAD](screnshotsAndApk/about.png)
 
 
 ## Contact
