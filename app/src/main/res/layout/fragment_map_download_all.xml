@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/backgroundColor"
-    tools:context=".Fragments.FragmentDownloadCenterAll">
+    tools:context=".fragments.FragmentDownloadCenterAll">
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/request_new_map_fab"

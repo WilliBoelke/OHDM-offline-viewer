@@ -5,7 +5,7 @@
     android:id="@+id/outer_constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.FragmentDownloadCenterCategories">
+    tools:context=".fragments.FragmentDownloadCenterCategories">
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/request_new_map_fab"
