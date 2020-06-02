@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+    android:layout_marginTop="@dimen/activity_horizontal_margin"
+    android:layout_marginRight="@dimen/activity_horizontal_margin"
+    android:clickable="false"
+    android:focusable="false"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="10dp">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/recycler_item_gradient">
+
+        <TextView
+            android:id="@+id/map_name_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:fontFamily="@font/comfortaa"
+            android:textSize="@dimen/primary_font_size"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/map_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Berlin" />
+
+        <TextView
+            android:id="@+id/map_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="250dp"
+            android:fontFamily="@font/comfortaa"
+            android:text="|  Size : "
+            android:textSize="@dimen/secondary_font_size"
+            android:textStyle="normal"
+            app:layout_constraintBottom_toBottomOf="@+id/map_name_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/map_name_tv"
+            tools:text="|  Size : " />
+
+        <TextView
+            android:id="@+id/map_size_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/comfortaa"
+            android:textSize="@dimen/secondary_font_size"
+            android:textStyle="normal"
+            app:layout_constraintEnd_toStartOf="@+id/date_of_creation"
+            app:layout_constraintStart_toEndOf="@+id/map_size"
+            app:layout_constraintTop_toTopOf="@+id/map_size"
+            tools:text="4 Gb" />
+
+        <TextView
+            android:id="@+id/date_of_creation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="400dp"
+            android:fontFamily="@font/comfortaa"
+            android:text="|  Date : "
+            android:textSize="@dimen/secondary_font_size"
+            android:textStyle="normal"
+            app:layout_constraintBottom_toBottomOf="@+id/map_size_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/map_size_tv"
+            tools:text="|  Date : " />
+
+        <TextView
+            android:id="@+id/date_of_creation_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/comfortaa"
+            android:text="TextView"
+            android:textSize="@dimen/secondary_font_size"
+            app:layout_constraintBottom_toBottomOf="@+id/date_of_creation"
+            app:layout_constraintEnd_toStartOf="@+id/current_map_icon"
+            app:layout_constraintStart_toEndOf="@+id/date_of_creation"
+            app:layout_constraintTop_toTopOf="@+id/date_of_creation"
+            tools:text="12.12.2018" />
+
+        <ImageView
+            android:id="@+id/current_map_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/icon_current_map"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/download_button"
+            android:layout_width="34dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bottom_nav_icon_download_black"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.482" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.v7.widget.CardView>

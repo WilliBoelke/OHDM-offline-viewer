@@ -13,7 +13,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -24,86 +23,33 @@ import java.util.List;
 import java.util.Map;
 
 import de.htwBerlin.ois.FileStructure.MapFileSingleton;
-import de.htwBerlin.ois.Fragments.AboutFragment;
-import de.htwBerlin.ois.Fragments.FAQFragment;
-import de.htwBerlin.ois.Fragments.HomeFragment;
-import de.htwBerlin.ois.Fragments.MapDownloadFragment;
-import de.htwBerlin.ois.Fragments.NavigationFragment;
-import de.htwBerlin.ois.Fragments.OptionsFragment;
+import de.htwBerlin.ois.Fragments.FragmentDownloadCenterAll;
+import de.htwBerlin.ois.Fragments.FragmentFAQ;
+import de.htwBerlin.ois.Fragments.FragmentHome;
+import de.htwBerlin.ois.Fragments.FragmentNavigation;
+import de.htwBerlin.ois.Fragments.FragmentOptions;
+import de.htwBerlin.ois.Fragments.FramentAbout;
 import de.htwBerlin.ois.R;
 
+/**
+ * @author WilliBoelke
+ */
 public class MainActivity extends AppCompatActivity
 {
 
+    //------------Instance Variables------------
+
     public static final String MAP_FILE_PATH = Environment.getExternalStorageDirectory().toString() + "/OHDM";
     private static final int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
+
+
+    //------------Instance Variables------------
+
     private String TAG = getClass().getSimpleName();
-    private Fragment defaultFragment = new HomeFragment();
+    private Fragment defaultFragment = new FragmentHome();
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        //Get settings from SharedPrefs
-        if (getApplicationContext().getSharedPreferences(OptionsFragment.SETTINGS_SHARED_PREFERENCES, 0).getBoolean(OptionsFragment.DARK_MODE, false) == true)
-        {
-            setTheme(R.style.DarkTheme);
-        }
-        else
-        {
-            setTheme(R.style.LightTheme);
-        }
-
-        setContentView(R.layout.activity_main);
-
-        // setting up the BottomNavigationView with Listener
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
-        bottomNav.setOnNavigationItemSelectedListener(navListener);
-
-        //Open the correct fragment
-        Intent intent = getIntent();
-        if (intent.getStringExtra("Fragment") != null)
-        {
-            if (intent.getStringExtra("Fragment").equals(OptionsFragment.ID))
-            {
-                //if we came her from the reset method in the options fragment, we want the options fragment to appear again
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new OptionsFragment()).addToBackStack(OptionsFragment.ID).commit();
-            }
-
-        }
-        else
-        {
-            // giving first defaultFragment to the FragmentManager
-            if (savedInstanceState == null)
-            {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, defaultFragment).addToBackStack(null).commit();
-            }
-        }
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        {
-            checkPermissions();
-        }
-        createOhdmDirectory();
-    }
-
-    /**
-     * Creates OHDM Folder if not exists
-     */
-    private void createOhdmDirectory()
-    {
-        File dir = new File(MAP_FILE_PATH);
-        boolean status;
-        if (!dir.exists())
-        {
-            status = dir.mkdirs();
-            if (status) Toast.makeText(this, "Created OHDM Directory.", Toast.LENGTH_SHORT).show();
-            else Toast.makeText(this, "Couldn't create OHDM Directory.", Toast.LENGTH_SHORT).show();
-        }
-    }
-
+    //------------Activity/Fragment Lifecycle------------
 
     /**
      * Bottom Nav Listener
@@ -119,18 +65,18 @@ public class MainActivity extends AppCompatActivity
             switch (item.getItemId())
             {
                 case R.id.nav_home:
-                    selectedFragment = new HomeFragment();
-                    id = HomeFragment.ID;
+                    selectedFragment = new FragmentHome();
+                    id = FragmentHome.ID;
                     break;
                 case R.id.nav_download:
-                    selectedFragment = new MapDownloadFragment();
-                    id = HomeFragment.ID;
+                    selectedFragment = new FragmentDownloadCenterAll();
+                    id = FragmentHome.ID;
                     break;
                 case R.id.nav_navigation:
                     if (MapFileSingleton.getInstance().getFile() != null)
                     {
-                        selectedFragment = new NavigationFragment();
-                        id = NavigationFragment.ID;
+                        selectedFragment = new FragmentNavigation();
+                        id = FragmentNavigation.ID;
                     }
                     else
                     {
@@ -158,11 +104,77 @@ public class MainActivity extends AppCompatActivity
     };
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
+    protected void onCreate(Bundle savedInstanceState)
     {
-        getMenuInflater().inflate(R.menu.actionbar_menu, menu);
-        return true;
+        Log.d(TAG, "onCreate : setting app theme...");
+        super.onCreate(savedInstanceState);
+        //Get settings from SharedPrefs
+        if (getApplicationContext().getSharedPreferences(FragmentOptions.SETTINGS_SHARED_PREFERENCES, 0).getBoolean(FragmentOptions.DARK_MODE, false) == true)
+        {
+            setTheme(R.style.DarkTheme);
+            Log.d(TAG, "onCreate :  app theme DARK");
+        }
+        else
+        {
+            setTheme(R.style.LightTheme);
+            Log.d(TAG, "onCreate :  app theme LIGHT");
+        }
+
+        setContentView(R.layout.activity_main);
+
+
+        // setting up the BottomNavigationView with Listener
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
+        bottomNav.setOnNavigationItemSelectedListener(navListener);
+
+        //Open the correct fragment
+        Intent intent = getIntent();
+        if (intent.getStringExtra("Fragment") != null)
+        {
+            if (intent.getStringExtra("Fragment").equals(FragmentOptions.ID))
+            {
+                //if we came her from the reset method in the options fragment, we want the options fragment to appear again
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentOptions()).commit();
+                intent.putExtra("Fragment", "");
+            }
+        }
+        else
+        {
+            if(savedInstanceState == null)
+            {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, defaultFragment).addToBackStack(null).commit();
+            }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            checkPermissions();
+        }
+        createOhdmDirectory();
     }
+
+
+    //------------Toolbar Menu------------
+
+    /**
+     * Creates OHDM Folder if not exists
+     */
+    private void createOhdmDirectory()
+    {
+        Log.d(TAG, "createOhdmDirectory : Creating OHDM directory...");
+        File dir = new File(MAP_FILE_PATH);
+        boolean status;
+        if (!dir.exists())
+        {
+            status = dir.mkdirs();
+            if (status) Toast.makeText(this, "Created OHDM Directory.", Toast.LENGTH_SHORT).show();
+            else Toast.makeText(this, "Couldn't create OHDM Directory.", Toast.LENGTH_SHORT).show();
+        }
+        Log.d(TAG, "createOhdmDirectory : OHDM directory created");
+    }
+
+
+    //------------Permissions------------
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
@@ -170,19 +182,24 @@ public class MainActivity extends AppCompatActivity
         switch (item.getItemId())
         {
             case R.id.ab_menu_about:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AboutFragment()).addToBackStack(AboutFragment.ID).commit();
+                Log.d(TAG, "Options Menu : replacing current fragment with FragmentAbout");
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FramentAbout()).addToBackStack(FramentAbout.ID).commit();
                 break;
 
             case R.id.ab_menu_faq:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FAQFragment()).addToBackStack(FAQFragment.ID).commit();
+                Log.d(TAG, "Options Menu : replacing current fragment with FragmentFAQ");
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentFAQ()).addToBackStack(FragmentFAQ.ID).commit();
                 break;
             case R.id.ab_menu_settings:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new OptionsFragment()).addToBackStack(OptionsFragment.ID).commit();
+                Log.d(TAG, "Options Menu : replacing current fragment with FragmentOptions");
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentOptions()).commit();
                 break;
+            case R.id.ab_menu_search:
+                //no implemented here, to e implemented in fragments
+                return false;
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     /**
      * Checks necessary permissions
@@ -211,6 +228,8 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+
+    //------------Bottom Navigation------------
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)

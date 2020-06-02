@@ -63,75 +63,21 @@ Using it in productivity, will make your server extremely vulnerable.
 
 
 ### Prerequisites
-We're using ```docker``` and ```docker-compose``` to run the FTP server.
 
-Go through the [official documentation](https://docs.docker.com/install/) in order to get both components installed.
 
 ### Build 
-Open ```map-file-download-center/docker-compose.yml``` and change the ```environment``` variables to your needs:
-In this example, every file in `/opt/ohdm/` will be shown in the android application. Make sure, that there are actually `map-files` in the directory you specified under `volumes` in the `docker-compose.yml`.
 
-```
-version: "3.3"
-services:
-  vsftpd:
-    container_name: vsftpd
-    image: panubo/vsftpd
-    ports:
-      - "21:21"
-      - "4559-4564:4559-4564"
-    restart: always
-    environment:
-      FTP_USER: ohdm
-      FTP_PASSWORD: ohdm
-      FTP_USERS_ROOT: 
-    network_mode: "host"
-    volumes:
-      - /opt/ohdm:/srv/ohdm
-
-```
-
-Now you can start the container with
-
-```
-docker-compose up
-```
-
-If successful, you should see 
-
-```
-...
-vsftpd    | Received SIGINT or SIGTERM. Shutting down vsftpd
-vsftpd    | Running vsftpd
-``` 
-at the end of the output. 
-Great, now you can begin to adjust the source code to point the app to your ftp server
 
 ### Configure 
-Open the file ```app/src/main/java/de/htwBerlin/ois/Activities/MapDownloadActivity.java```:
 
-and change the parameter with the values you just used in the ```docker-compose``` file:
-
-``` 
-...
-private static final String FTP_SERVER_IP = "";
-private static final Integer FTP_PORT = 21;
-private static final String FTP_USER = "";
-private static final String FTP_PASSWORD = "";
-...
-```
 
 ### Deploy
-Just install the application again on your device with Android Studio.
 
-In order to host ```map```-files on the FTP server, just copy the files to ```/opt/ohdm/```
-
-You then should see the listed files in the ```Maps``` tab.
-
-You can start the container with ```docker-compose up -d``` in background.
 
 ## Contact
 Developed by: [FalcoSuessgott](https://github.com/FalcoSuessgott)
+Developed by: [WilliBoelke](https://github.com/WilliBoelke)
+Developed by: [NoteFox](https://github.com/NoteFox)
 
 Project Link: [Open Historical Data Map](https://github.com/OpenHistoricalDataMap)
 

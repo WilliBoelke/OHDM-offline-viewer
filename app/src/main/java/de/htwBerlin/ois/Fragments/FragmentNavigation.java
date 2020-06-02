@@ -5,11 +5,15 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -34,39 +38,39 @@ import de.htwBerlin.ois.R;
 import static android.content.Context.LOCATION_SERVICE;
 
 /**
- * Map Activity, which displays the actual Map File
+ * Fragment to display a the map file
+ * from {@link MapFileSingleton}
+ *
  * @author WilliBoelke
  */
-public class NavigationFragment extends Fragment
+public class FragmentNavigation extends Fragment
 {
-    /**
-     * Log tag
-     */
-    private final String TAG = this.getClass().getSimpleName();
-    /**
-     * The MapView (MapsForge)
-     */
-    private MapView mapView = null;
-    /**
-     * The view
-     */
-    private View view;
+
+    //------------Instance Variables------------
+
     /**
      * Fragment ID used to identify the fragment
      * (for example by putting the ID into the Intent extra )
      */
     public static String ID = "Navigation";
     /**
-     *
+     * Log tag
      */
-    private FloatingActionButton locateFab;
+    private final String TAG = this.getClass().getSimpleName();
     /**
-     * Empty Constructor
+     * The view
      */
-    public NavigationFragment()
-    {
-        // Required empty public constructor
-    }
+    private View view;
+
+
+    //------------Static Variables------------
+    /**
+     * The MapView
+     */
+    private MapView mapView;
+
+
+    //------------Activity/Fragment Lifecycle------------
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -74,16 +78,25 @@ public class NavigationFragment extends Fragment
         super.onCreate(savedInstanceState);
         view = inflater.inflate(R.layout.fragment_navigation, container, false);
         AndroidGraphicFactory.createInstance(getActivity().getApplication());
-        setUpLocateFab();
-        setUpMap();
+        setupLocateFab();
+        setupMap();
         return view;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState)
+    {
+        super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+
+    //------------Setup Views------------
 
     /**
      * Initializes the mapView
      */
-    private void setUpMap()
+    private void setupMap()
     {
         Log.i(TAG, "setting up map");
         mapView = view.findViewById(R.id.map);
@@ -117,9 +130,9 @@ public class NavigationFragment extends Fragment
      * On Click for the LocateFAb
      * Sets the map center to the last know position of the device
      */
-    private void setUpLocateFab()
+    private void setupLocateFab()
     {
-        locateFab = view.findViewById(R.id.locate_fab);
+        FloatingActionButton locateFab = view.findViewById(R.id.locate_fab);
         locateFab.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -151,8 +164,12 @@ public class NavigationFragment extends Fragment
 
     }
 
+
+    //------------Others------------
+
     /**
      * Gets the last know position of the device from the android LocationManager
+     *
      * @return Location of the device
      */
     private Location getLastKnownLocation()
@@ -180,4 +197,35 @@ public class NavigationFragment extends Fragment
         }
         return bestLocation;
     }
+
+
+    //------------Toolbar Menu------------
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
+        inflater.inflate(R.menu.actionbar_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.ab_menu_about:
+                //no implemented here,
+                return false;
+            case R.id.ab_menu_faq:
+                //no implemented here,
+                return false;
+            case R.id.ab_menu_settings:
+                //no implemented here
+                return false;
+            case R.id.ab_menu_search:
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

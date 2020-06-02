@@ -12,8 +12,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import de.htwBerlin.ois.ServerCommunication.FtpTaskFileDownloading;
 import de.htwBerlin.ois.R;
+import de.htwBerlin.ois.ServerCommunication.FtpTaskFileDownloading;
 
 /**
  * ListView adapter that holds ohdmFiles
@@ -23,7 +23,7 @@ import de.htwBerlin.ois.R;
  * @author morelly_t1
  */
 @Deprecated
-public class OhdmFileListViewAdapter extends ArrayAdapter<OhdmFile>
+public class OhdmFileListViewAdapter extends ArrayAdapter<RemoteFile>
 {
 
     private static final String TAG = "OhdmFileAdapter";
@@ -31,7 +31,7 @@ public class OhdmFileListViewAdapter extends ArrayAdapter<OhdmFile>
     private Context context;
     private int resource;
 
-    public OhdmFileListViewAdapter(Context context, int resource, ArrayList<OhdmFile> ohdmFiles)
+    public OhdmFileListViewAdapter(Context context, int resource, ArrayList<RemoteFile> ohdmFiles)
     {
         super(context, resource, ohdmFiles);
         this.context = context;
@@ -45,7 +45,7 @@ public class OhdmFileListViewAdapter extends ArrayAdapter<OhdmFile>
         String creationDate = getItem(position).getCreationDate();
         Boolean isDownloaded = getItem(position).isDownloaded();
 
-        final OhdmFile ohdmFile = new OhdmFile(fileName, fileSize, creationDate, isDownloaded);
+        final RemoteFile ohdmFile = new RemoteFile(fileName, fileSize, creationDate, isDownloaded);
 
         LayoutInflater inflater = LayoutInflater.from(context);
         convertView = inflater.inflate(resource, parent, false);
@@ -63,7 +63,7 @@ public class OhdmFileListViewAdapter extends ArrayAdapter<OhdmFile>
             @Override
             public void onClick(View v)
             {
-                FtpTaskFileDownloading ftpTaskFileDownloading = new FtpTaskFileDownloading(context);
+                FtpTaskFileDownloading ftpTaskFileDownloading = new FtpTaskFileDownloading(context, "");
                 Toast.makeText(getContext(), "Downloading " + fileName, Toast.LENGTH_SHORT).show();
                 ftpTaskFileDownloading.execute(ohdmFile);
                 disableButton(buttonDownloadFile);

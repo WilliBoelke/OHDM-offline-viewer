@@ -2,9 +2,12 @@ package de.htwBerlin.ois.ServerCommunication;
 
 import java.util.ArrayList;
 
-import de.htwBerlin.ois.FileStructure.OhdmFile;
+import de.htwBerlin.ois.FileStructure.RemoteDirectory;
+import de.htwBerlin.ois.FileStructure.RemoteFile;
 
 public interface AsyncResponse
 {
-    void getOhdmFiles(ArrayList<OhdmFile> ohdmFiles);
+    void getOhdmFiles(ArrayList<RemoteFile> remoteFiles);
+
+    void getRemoteDirectories(ArrayList<RemoteDirectory> remoteDirectories);
 }

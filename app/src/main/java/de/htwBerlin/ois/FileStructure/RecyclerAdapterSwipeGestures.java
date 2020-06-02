@@ -9,45 +9,73 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
 
-public class RecyclerViewItemSwipeGestures extends ItemTouchHelper.SimpleCallback
+public class RecyclerAdapterSwipeGestures extends ItemTouchHelper.SimpleCallback
 {
+
+    //------------Instance Variables------------
+
     private final ColorDrawable redBackground;
     private final ColorDrawable greenBackground;
-    private LeftSwipeCallback leftSwipeCallback;
-    private RightSwipeCallback rightSwipeCallback;
-    private OhdmFileRecyclerAdapter mAdapter;
+    private SwipeCallbackLeft swipeCallbackLeft;
+    private SwipeCallbackRight swipeCallbackRight;
+    private RecyclerView.Adapter mAdapter;
     private ColorDrawable actualIColor;
 
-    public RecyclerViewItemSwipeGestures(OhdmFileRecyclerAdapter adapter, LeftSwipeCallback onLeftSwipe)
+
+    //------------Constructors------------
+
+    /**
+     * Public Constructor to just implement the LeftSwipe
+     *
+     * @param adapter
+     * @param onLeftSwipe
+     */
+    public RecyclerAdapterSwipeGestures(RecyclerView.Adapter adapter, SwipeCallbackLeft onLeftSwipe)
     {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         mAdapter = adapter;
         actualIColor = new ColorDrawable(Color.GREEN);
         redBackground = new ColorDrawable(Color.RED);
         greenBackground = new ColorDrawable(Color.GREEN);
-        this.leftSwipeCallback = onLeftSwipe;
+        this.swipeCallbackLeft = onLeftSwipe;
     }
 
-    public RecyclerViewItemSwipeGestures(OhdmFileRecyclerAdapter adapter, RightSwipeCallback onRightSwipe)
+    /**
+     * Public Constructor to just implement the RightSwipe
+     *
+     * @param adapter
+     * @param onRightSwipe
+     */
+    public RecyclerAdapterSwipeGestures(RecyclerView.Adapter adapter, SwipeCallbackRight onRightSwipe)
     {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         mAdapter = adapter;
         actualIColor = new ColorDrawable(Color.GREEN);
         redBackground = new ColorDrawable(Color.RED);
         greenBackground = new ColorDrawable(Color.GREEN);
-        this.rightSwipeCallback = onRightSwipe;
+        this.swipeCallbackRight = onRightSwipe;
     }
 
-    public RecyclerViewItemSwipeGestures(OhdmFileRecyclerAdapter adapter, RightSwipeCallback onRightSwipe, LeftSwipeCallback onLeftSwipe)
+
+    /**
+     * Public Constructor to implement both swipe directions
+     *
+     * @param adapter
+     * @param onLeftSwipe
+     */
+    public RecyclerAdapterSwipeGestures(RecyclerView.Adapter adapter, SwipeCallbackRight onRightSwipe, SwipeCallbackLeft onLeftSwipe)
     {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         mAdapter = adapter;
         actualIColor = new ColorDrawable(Color.GREEN);
         redBackground = new ColorDrawable(Color.RED);
         greenBackground = new ColorDrawable(Color.GREEN);
-        this.rightSwipeCallback = onRightSwipe;
-        this.leftSwipeCallback = onLeftSwipe;
+        this.swipeCallbackRight = onRightSwipe;
+        this.swipeCallbackLeft = onLeftSwipe;
     }
+
+
+    //------------ItemTouchHelper Methods------------
 
     @Override
     public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1)
@@ -60,18 +88,18 @@ public class RecyclerViewItemSwipeGestures extends ItemTouchHelper.SimpleCallbac
     {
         int position = viewHolder.getAdapterPosition();
 
-        if (leftSwipeCallback != null)
+        if (swipeCallbackLeft != null)
         {
             if (direction == ItemTouchHelper.LEFT)
             {
-                this.leftSwipeCallback.onLeftSwipe(position);
+                this.swipeCallbackLeft.onLeftSwipe(position);
             }
         }
-        if (rightSwipeCallback != null)
+        if (swipeCallbackRight != null)
         {
             if (direction == ItemTouchHelper.RIGHT)
             {
-                this.rightSwipeCallback.onRightSwipe(position);
+                this.swipeCallbackRight.onRightSwipe(position);
             }
         }
 
@@ -109,5 +137,4 @@ public class RecyclerViewItemSwipeGestures extends ItemTouchHelper.SimpleCallbac
 
         super.onChildDraw(canvas, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
     }
-
 }
