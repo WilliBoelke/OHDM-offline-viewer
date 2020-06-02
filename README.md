@@ -1,13 +1,5 @@
 # OHDM Offline Viewer
-> View OHDM maps offline
- 
-![HOME](screenshots/home.png)
-![MAP](screenshots/map.png)
 
-![DOWNLOAD](screenshots/download.png)
-![ABOUT](screenshots/about.png)
-
-        
 ## Goal of this project
 The goal of this repository is to render [Open Street Maps](https://www.openstreetmap.de/), without the need of a network connection.
 To avoid caching dozens of different zoom layers, vector tiles are being used. This makes the navigation and zoom interaction fast.
@@ -36,6 +28,14 @@ The following steps will guide you through the installation and configuration:
 
 **WARNING:** At this point of development, the download center is a simple FTP server that does not meet any security requirements.
 Using it in productivity, will make your server extremely vulnerable.
+
+## Showcase
+![HOME](screenshots/home.png)
+![DOWNLOAD](screenshots/download1.png)
+![DOWNLOAD](screenshots/download2.png)
+![REQUEST](screenshots/request.png)
+![SETTINGS](screenshots/settings.png)
+![ABOUT](screenshots/about.png)
 
 ## Contact
 Developed by: [FalcoSuessgott](https://github.com/FalcoSuessgott)
