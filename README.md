@@ -30,12 +30,19 @@ The following steps will guide you through the installation and configuration:
 Using it in productivity, will make your server extremely vulnerable.
 
 ## Showcase
-![HOME](screenshots/home.png)
-![DOWNLOAD](screenshots/download1.png)
-![DOWNLOAD](screenshots/download2.png)
-![REQUEST](screenshots/request.png)
-![SETTINGS](screenshots/settings.png)
-![ABOUT](screenshots/about.png)
+
+Home                                 |  Request
+:-----------------------------------:|:---------------------------------------:
+![HOME](screenshots/home.png)        | ![REQUEST](screenshots/request.png)
+
+DownloadCenter AllMaps               |  DownloadCenter Cateories
+:-----------------------------------:|:---------------------------------------:
+![HOME](screenshots/download1.png)   | ![DOWNLOAD](screenshots/download2.png)
+
+Settings                             |  About
+:-----------------------------------:|:---------------------------------------:
+![HOME](screenshots/settings.png)    | ![DOWNLOAD](screenshots/about.png)
+
 
 ## Contact
 Developed by: [FalcoSuessgott](https://github.com/FalcoSuessgott)
