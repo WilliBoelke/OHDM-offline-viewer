@@ -25,7 +25,6 @@ for more information.
 This application has an integrated download functionality for map files. 
 This makes it possible to host various map files on a remote server. 
 You then can easily download them using the app. 
-The following steps will guide you through the installation and configuration:
 
 **WARNING:** At this point of development, the download center is a simple FTP server that does not meet any security requirements.
 Using it in productivity, will make your server extremely vulnerable.
