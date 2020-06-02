@@ -31,7 +31,7 @@ Using it in productivity, will make your server extremely vulnerable.
 
 ## Showcase
 
-Home                                 |  Request
+Home                                               |  Request
 :-----------------------------------:|:---------------------------------------:
 ![HOME](screenshots/home.png )        | ![REQUEST](screenshots/request.png)
 
