@@ -25,32 +25,8 @@ To avoid caching dozens of different zoom layers, vector tiles are being used. T
 6. Open ```View > Tool Windows > Device File Explorer``` and place your maps in your mobile phone device storage. There should be a ```OHDM``` (In the android emulator, you may have to create it: `Device Explorerer > sdcard > New`) directory in the internal storage. 
 
 ## Convert ```.osm``` to ```.map```-files
-We're using [osmosis](https://github.com/openstreetmap/osmosis) with the [mapsforge-map-writer-plugin](https://github.com/mapsforge/mapsforge/blob/master/docs/Getting-Started-Map-Writer.md)
-to convert ```.osm``` maps to ```.map```.
-
-In order to use ```osmosis```, just execute ```/osm2map/osm2map.sh``` as sudo.
-
-**The following code-block shows a successful execution:**
-```
-user@host:~$ sudo bash osm2map.sh 
-
-Downloading osmosis to /opt/osmosis.
-...
-
-Downloading mapwriter plugin /opt/osmosis.
-...
-
-Download and build successful finished.
-  
-osmosis usage:
-    /opt/osmosis/bin/osmosis --rx file=path-to-osm-file.osm --mw file=destination-path-map-file.map
-
-```
-
-Then you can begin to convert your own ```map-files``` with:
-```
-/opt/osmosis/bin/osmosis --rx file=path-to-osm-file.osm --mw file=destination-path-map-file.map
-```
+Read the documentation of the [OHDMWebSevice](https://github.com/OpenHistoricalDataMap/DowloadWebService/wiki/osm2map) 
+for more information.
 
 ## Use custom map-file download center
 This application has an integrated download functionality for map files. 
@@ -60,19 +36,6 @@ The following steps will guide you through the installation and configuration:
 
 **WARNING:** At this point of development, the download center is a simple FTP server that does not meet any security requirements.
 Using it in productivity, will make your server extremely vulnerable.
-
-
-### Prerequisites
-
-
-### Build 
-
-
-### Configure 
-
-
-### Deploy
-
 
 ## Contact
 Developed by: [FalcoSuessgott](https://github.com/FalcoSuessgott)
