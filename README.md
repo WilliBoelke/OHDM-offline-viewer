@@ -33,7 +33,7 @@ Using it in productivity, will make your server extremely vulnerable.
 
 Home                                 |  Request
 :-----------------------------------:|:---------------------------------------:
-![HOME](screenshots/home.png)        | ![REQUEST](screenshots/request.png)
+![HOME](screenshots/home.png )        | ![REQUEST](screenshots/request.png)
 
 DownloadCenter AllMaps               |  DownloadCenter Cateories
 :-----------------------------------:|:---------------------------------------:
