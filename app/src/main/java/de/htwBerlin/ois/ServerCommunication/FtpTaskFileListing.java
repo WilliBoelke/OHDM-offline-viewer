@@ -3,7 +3,6 @@ package de.htwBerlin.ois.ServerCommunication;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.apache.commons.net.ftp.FTPFile;
 
@@ -13,79 +12,120 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import de.htwBerlin.ois.FileStructure.OhdmFile;
-
-import static de.htwBerlin.ois.ServerCommunication.Variables.FTP_Port;
-import static de.htwBerlin.ois.ServerCommunication.Variables.SERVER_IP;
-import static de.htwBerlin.ois.ServerCommunication.Variables.USER_NAME;
-import static de.htwBerlin.ois.ServerCommunication.Variables.USER_PASSWORD;
+import de.htwBerlin.ois.FileStructure.RemoteFile;
 
 /**
  * Async task that lists files hosted on FTP Remote Server
  *
  * @author morelly_t1
+ * @author WilliBoelke
  */
 public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
 {
 
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy HH:mm");
-    private static final String TAG = "FtpTaskFileListing";
 
-    private ArrayList<OhdmFile> ohdmFiles;
+    //------------Instance Variables------------
+
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy");
+    /**
+     * Log Tag
+     */
+    private final String TAG = getClass().getSimpleName();
+    /**
+     * The list to be filled with remote ohdmFiles
+     */
+    private ArrayList<RemoteFile> remoteFiles;
+    /**
+     * Implementation of the {@link  AsyncResponse} interface
+     * (To be implemented when initializing this class)
+     */
     private AsyncResponse delegate;
+    /**
+     * Context
+     */
     private WeakReference<Context> context;
-    private FtpClient ftpClient;
+    private boolean includeSubDirs;
+    /**
+     * The path to the directory
+     */
+    private String path;
 
-    public FtpTaskFileListing( AsyncResponse asyncResponse, Context context)
+
+
+
+    //------------Constructors------------
+
+    /**
+     * Public Constructor
+     *
+     * @param context
+     * @param path
+     * @param asyncResponse
+     */
+    public FtpTaskFileListing(Context context, String path, boolean includeSubDirs, AsyncResponse asyncResponse)
     {
+        Log.d(TAG, "Constructor : new FtpTaskFileListing with : path  = " + path + " includeSubDirs = " + includeSubDirs);
+        this.includeSubDirs = includeSubDirs;
         this.delegate = asyncResponse;
+        this.path = path;
         this.context = new WeakReference<Context>(context);
     }
 
-    @Override
-    protected void onPreExecute()
-    {
-        Log.i(TAG, "onPreExecute: ");
-        super.onPreExecute();
-    }
+
+    //------------AsyncTask Implementation------------
+
 
     @Override
     protected String doInBackground(Void... params)
     {
-        ohdmFiles = new ArrayList<>();
-        ftpClient = new FtpClient();
-        ftpClient.connect(SERVER_IP, FTP_Port, USER_NAME, USER_PASSWORD);
+        remoteFiles = new ArrayList<>();
+        Log.d(TAG, "doingInBackground : initializing new FtpClient ");
+        FtpClient ftpClient = new FtpClient();
+        ftpClient.connect();
+        Log.d(TAG, "doingInBackground : connected to FtpClient");
+
         FTPFile[] files = new FTPFile[0];
         try
         {
-            files = ftpClient.getFileList();
+            if (includeSubDirs == true)
+            {
+                Log.d(TAG, "doingInBackground : getting all files including sub dirs...");
+                files = ftpClient.getAllFileList(path);
+            }
+            else
+            {
+                Log.d(TAG, "doingInBackground : getting all files...");
+                files = ftpClient.getFileList(path);
+            }
         }
         catch (IOException e)
         {
+            Log.e(TAG, "something went wrong while retrieving files from the FTP Server");
             e.printStackTrace();
         }
-
         for (FTPFile ftpFile : files)
-            {
-                Date date = ftpFile.getTimestamp().getTime();
-                OhdmFile ohdm = new OhdmFile(ftpFile.getName(), (ftpFile.getSize() / 1024), sdf.format(date.getTime()), Boolean.FALSE);
-                ohdmFiles.add(ohdm);
-                Log.i(TAG, ohdm.toString());
-            }
-
+        {
+            Date date = ftpFile.getTimestamp().getTime();
+            RemoteFile ohdm = new RemoteFile(ftpFile.getName(), (ftpFile.getSize() / 1024), sdf.format(date.getTime()), Boolean.FALSE);
+            remoteFiles.add(ohdm);
+            Log.d(TAG, "doingInBackground : got file : " + ohdm.toString());
+        }
+        Log.d(TAG, "doingInBackground : finished - closing connection : ");
+        ftpClient.closeConnection();
         return null;
     }
 
     @Override
     protected void onPostExecute(String result)
     {
-        Context context = this.context.get();
-        if (ohdmFiles.size() == 0)
-            Toast.makeText(context, "Download Service not available", Toast.LENGTH_SHORT).show();
+        if (remoteFiles.size() == 0)
+        {
+            Log.e(TAG, "Server not available or empty");
+        }
         else
-            Toast.makeText(context, "Found " + ohdmFiles.size() + " maps!", Toast.LENGTH_SHORT).show();
-        delegate.getOhdmFiles(this.ohdmFiles);
+        {
+            Log.d(TAG, "Found " + remoteFiles.size() + " files from server");
+            delegate.getOhdmFiles(this.remoteFiles);
+        }
     }
-
-
 }

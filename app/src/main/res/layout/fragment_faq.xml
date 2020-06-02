@@ -5,5 +5,4 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/backgroundColor"
-    tools:context=".Fragments.FAQFragment">
-</android.support.constraint.ConstraintLayout>
+    tools:context=".Fragments.FragmentFAQ"></android.support.constraint.ConstraintLayout>

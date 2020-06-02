@@ -2,19 +2,13 @@ package de.htwBerlin.ois.ServerCommunication;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 
-import de.htwBerlin.ois.FileStructure.OhdmFile;
-
-import static de.htwBerlin.ois.ServerCommunication.Variables.FTP_Port;
-import static de.htwBerlin.ois.ServerCommunication.Variables.SERVER_IP;
-import static de.htwBerlin.ois.ServerCommunication.Variables.USER_NAME;
-import static de.htwBerlin.ois.ServerCommunication.Variables.USER_PASSWORD;
+import de.htwBerlin.ois.FileStructure.RemoteFile;
 
 /**
  * Asynctask that downloads files from FTP Remote server
@@ -22,40 +16,49 @@ import static de.htwBerlin.ois.ServerCommunication.Variables.USER_PASSWORD;
  * @author morelly_t1
  * @author WilliBoelke
  */
-public class FtpTaskFileDownloading extends AsyncTask<OhdmFile, Integer, Long>
+public class FtpTaskFileDownloading extends AsyncTask<RemoteFile, Integer, Long>
 {
 
-    private final String TAG = getClass().getSimpleName();
-    private static final String MAP_FILE_PATH = Environment.getExternalStorageDirectory().toString() + "/OHDM";
+    //------------Instance Variables------------
 
+    private final String TAG = getClass().getSimpleName();
+    private final String path;
     private WeakReference<Context> context;
     private FtpClient ftpClient;
 
-    public FtpTaskFileDownloading(Context context)
+
+    //------------Constructors------------
+
+    public FtpTaskFileDownloading(Context context, String path)
     {
+        Log.d(TAG, "Constructor : new FtpTaskFileDownloading with : path  = " + path);
+        this.path = path;
         this.context = new WeakReference<Context>(context);
     }
 
-    @Override
-    protected void onPreExecute()
-    {
-        super.onPreExecute();
-    }
+
+    //------------AsyncTask Implementation------------
 
     @Override
-    protected Long doInBackground(OhdmFile... ohdmFile)
+    protected Long doInBackground(RemoteFile... ohdmFile)
     {
-
+        Log.d(TAG, "doingInBackground : initializing new FtpClient ");
         ftpClient = new FtpClient();
-        ftpClient.connect(SERVER_IP, FTP_Port, USER_NAME, USER_PASSWORD);
+        ftpClient.connect();
+        Log.d(TAG, "doingInBackground : connected to FtpClient");
         try
         {
-            ftpClient.downloadFile(ohdmFile[0].getFilename(), ohdmFile[0].getFilename());
+            Log.d(TAG, "doingInBackground : starting file download...");
+            ftpClient.downloadFile(ohdmFile[0].getFilename(), this.path);
+            Log.d(TAG, "doingInBackground :  download finished successfully");
         }
         catch (IOException e)
         {
+            Log.d(TAG, "doingInBackground :  something went wrong while downloading the file");
             e.printStackTrace();
         }
+        Log.d(TAG, "doingInBackground :  closing server connection");
+        ftpClient.closeConnection();
         return null;
     }
 
@@ -63,6 +66,6 @@ public class FtpTaskFileDownloading extends AsyncTask<OhdmFile, Integer, Long>
     protected void onPostExecute(Long params)
     {
         Context context = this.context.get();
-        Toast.makeText(context, "Download Finished!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Download Finished", Toast.LENGTH_SHORT).show();
     }
 }

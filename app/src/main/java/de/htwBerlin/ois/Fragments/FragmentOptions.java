@@ -10,6 +10,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
@@ -27,8 +30,11 @@ import de.htwBerlin.ois.R;
  *
  * @author WilliBoelke
  */
-public class OptionsFragment extends Fragment
+public class FragmentOptions extends Fragment
 {
+
+    //------------Instance Variables------------
+
     /**
      * Key to get the DarkMode boolean from the SharedPreferences
      */
@@ -37,18 +43,21 @@ public class OptionsFragment extends Fragment
      * SharedPreferences name
      */
     public static final String SETTINGS_SHARED_PREFERENCES = "OHDMViewerSettings";
-    private static final int ACCESS_LOCATION_PERMISSION = 34;
-    private static final int WRITE_STORAGE_PERMISSION = 56;
+    private static final int REQUEST_CODE_ACCESS_LOCATION_PERMISSION = 34;
+
+
+    //------------Static Variables------------
+    private static final int REQUEST_CODE_WRITE_STORAGE_PERMISSION = 56;
     private static final int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
-    /**
-     * Log tag
-     */
-    private final String TAG = getClass().getSimpleName();
     /**
      * Fragment ID used to identify the fragment
      * (for example by putting the ID into the Intent extra )
      */
     public static String ID = "Options";
+    /**
+     * Log tag
+     */
+    private final String TAG = getClass().getSimpleName();
     /**
      * the view
      */
@@ -57,20 +66,9 @@ public class OptionsFragment extends Fragment
      * SharedPreferences to quickly store and access user settings
      */
     private SharedPreferences prefs;
-    /**
-     * Dark mode toggle
-     */
-    private Switch darkModeToggle;
-    private Switch allowLocationToggle;
-    private Switch allowWriteLocalStorageToggle;
 
-    /**
-     * Empty Constructor
-     */
-    public OptionsFragment()
-    {
-        // Required empty public constructor
-    }
+
+    //------------Activity/Fragment Lifecycle------------
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -84,18 +82,21 @@ public class OptionsFragment extends Fragment
     {
         super.onActivityCreated(savedInstanceState);
         prefs = getActivity().getApplicationContext().getSharedPreferences(SETTINGS_SHARED_PREFERENCES, 0);
-
+        setHasOptionsMenu(true);
         this.setUpDarkModeToggle();
         this.setupAllowAccessLocationToggle();
         this.setupAllowWriteLocalStorageToggle();
     }
+
+
+    //------------Setup Views------------
 
     /**
      * Setup the allowWriteLocalStorage Switch
      */
     private void setupAllowWriteLocalStorageToggle()
     {
-        allowWriteLocalStorageToggle = view.findViewById(R.id.allow_write_storage_switch);
+        Switch allowWriteLocalStorageToggle = view.findViewById(R.id.allow_write_storage_switch);
         if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
         {
             allowWriteLocalStorageToggle.setChecked(true);
@@ -111,7 +112,7 @@ public class OptionsFragment extends Fragment
                     List<String> permissions = new ArrayList<>();
                     permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
                     String[] params = permissions.toArray(new String[permissions.size()]);
-                    requestPermissions(params, WRITE_STORAGE_PERMISSION);
+                    requestPermissions(params, REQUEST_CODE_WRITE_STORAGE_PERMISSION);
                 }
                 else
                 {
@@ -126,7 +127,7 @@ public class OptionsFragment extends Fragment
      */
     private void setupAllowAccessLocationToggle()
     {
-        allowLocationToggle = view.findViewById(R.id.allow_access_location_switch);
+        Switch allowLocationToggle = view.findViewById(R.id.allow_access_location_switch);
         if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
         {
             allowLocationToggle.setChecked(true);
@@ -142,7 +143,7 @@ public class OptionsFragment extends Fragment
                     List<String> permissions = new ArrayList<>();
                     permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
                     String[] params = permissions.toArray(new String[permissions.size()]);
-                    requestPermissions(params, ACCESS_LOCATION_PERMISSION);
+                    requestPermissions(params, REQUEST_CODE_ACCESS_LOCATION_PERMISSION);
                 }
                 else
                 {
@@ -160,7 +161,7 @@ public class OptionsFragment extends Fragment
     {
         Log.v(TAG, "Setup DarkMode toggle");
 
-        darkModeToggle = view.findViewById(R.id.dark_mode_switch);
+        Switch darkModeToggle = view.findViewById(R.id.dark_mode_switch);
 
         //Set the switch to "checked" in chase the darkmode is enabled
         if (prefs.getBoolean(DARK_MODE, false) == true)
@@ -192,6 +193,31 @@ public class OptionsFragment extends Fragment
         });
     }
 
+
+    //------------Request------------
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
+    {
+        switch (requestCode)
+        {
+            case REQUEST_CODE_ACCESS_LOCATION_PERMISSION:
+            {
+                Toast.makeText(getActivity().getApplicationContext(), "Location access granted", Toast.LENGTH_SHORT).show();
+            }
+            break;
+            case REQUEST_CODE_WRITE_STORAGE_PERMISSION:
+            {
+                Toast.makeText(getActivity().getApplicationContext(), "Allowed to access local storage", Toast.LENGTH_SHORT).show();
+            }
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+
+    //------------Others------------
+
     /**
      * reloads the MainActivity  in order to enable/disable the darkmode
      */
@@ -203,24 +229,33 @@ public class OptionsFragment extends Fragment
         startActivity(intent);
     }
 
+
+    //------------Toolbar Menu------------
+
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {
-        switch (requestCode)
-        {
-            case ACCESS_LOCATION_PERMISSION:
-            {
-                Toast.makeText(getActivity().getApplicationContext(), "Location access granted", Toast.LENGTH_SHORT).show();
-            }
-            break;
-            case WRITE_STORAGE_PERMISSION:
-            {
-                Toast.makeText(getActivity().getApplicationContext(), "Allowed to access local storage", Toast.LENGTH_SHORT).show();
-            }
-            default:
-                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
+        inflater.inflate(R.menu.actionbar_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.ab_menu_about:
+                //no implemented here,
+                return false;
+            case R.id.ab_menu_faq:
+                //no implemented here,
+                return false;
+            case R.id.ab_menu_settings:
+                //no implemented here
+                return false;
+            case R.id.ab_menu_search:
 
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

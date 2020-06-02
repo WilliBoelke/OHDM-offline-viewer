@@ -1,6 +1,8 @@
 package de.htwBerlin.ois.FileStructure;
 
-public class OhdmFile
+import java.io.Serializable;
+
+public class RemoteFile implements Serializable
 {
 
     private String filename;
@@ -8,7 +10,7 @@ public class OhdmFile
     private String creationDate;
     private boolean isDownloaded;
 
-    public OhdmFile(String filename, Long fileSize, String creationDate, boolean isDownloaded)
+    public RemoteFile(String filename, Long fileSize, String creationDate, boolean isDownloaded)
     {
         this.filename = filename;
         this.fileSize = fileSize;

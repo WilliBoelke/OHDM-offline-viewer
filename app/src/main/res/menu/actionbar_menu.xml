@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:visible="false"
+        android:id="@+id/ab_menu_search"
+        android:icon="?attr/icon_search_toolbar"
+        android:title="Search"
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="android.support.v7.widget.SearchView"/>
     <item
         android:id="@+id/ab_menu_settings"
-        android:icon="@drawable/toolbar_menu_item_settings_black"
         android:title="@string/menu_settings" />
     <item
         android:id="@+id/ab_menu_faq"
-        android:icon="@drawable/toolbar_menu_item_settings_black"
         android:title="FAQ" />
     <item
         android:id="@+id/ab_menu_about"
-        android:icon="@drawable/toolbar_menu_item_info_black"
         android:title="@string/menu_about" />
 </menu>
