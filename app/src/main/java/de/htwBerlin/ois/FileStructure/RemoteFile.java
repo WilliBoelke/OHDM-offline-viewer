@@ -1,36 +1,31 @@
 package de.htwBerlin.ois.FileStructure;
 
-import java.io.Serializable;
 
-public class RemoteFile implements Serializable
+public class RemoteFile
 {
+
+    //------------Instance Variables------------
 
     private String filename;
     private Long fileSize;
     private String creationDate;
-    private boolean isDownloaded;
 
-    public RemoteFile(String filename, Long fileSize, String creationDate, boolean isDownloaded)
+
+    //------------Constructors------------
+
+    public RemoteFile(String filename, Long fileSize, String creationDate)
     {
-        this.filename = filename;
-        this.fileSize = fileSize;
+        this.setFilename(filename);
+        this.setFileSize(fileSize);
         this.creationDate = creationDate;
-        this.isDownloaded = isDownloaded;
     }
 
-    public String getFilename()
-    {
-        return filename;
-    }
+
+    //------------Setter------------
 
     public void setFilename(String filename)
     {
-        this.filename = filename;
-    }
-
-    public Long getFileSize()
-    {
-        return fileSize;
+        this.filename = filename.trim();
     }
 
     public void setFileSize(Long fileSize)
@@ -38,29 +33,26 @@ public class RemoteFile implements Serializable
         this.fileSize = fileSize;
     }
 
-    protected String getCreationDate()
-    {
-        return creationDate;
-    }
-
     public void setCreationDate(String creationDate)
     {
         this.creationDate = creationDate;
     }
 
-    protected boolean isDownloaded()
+    //------------Getter------------
+
+
+    public Long getFileSize()
     {
-        return isDownloaded;
+        return fileSize;
     }
 
-    public void setDownloaded(boolean downloaded)
+    protected String getCreationDate()
     {
-        isDownloaded = downloaded;
+        return creationDate;
     }
 
-    @Override
-    public String toString()
+    public String getFilename()
     {
-        return "OhdmFile{" + "filename='" + filename + '\'' + ", fileSize='" + fileSize + '\'' + ", creationDate='" + creationDate + '\'' + ", isDownloaded=" + isDownloaded + '}';
+        return filename;
     }
 }

@@ -106,7 +106,7 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
         for (FTPFile ftpFile : files)
         {
             Date date = ftpFile.getTimestamp().getTime();
-            RemoteFile ohdm = new RemoteFile(ftpFile.getName(), (ftpFile.getSize() / 1024), sdf.format(date.getTime()), Boolean.FALSE);
+            RemoteFile ohdm = new RemoteFile(ftpFile.getName(), (ftpFile.getSize() / 1024), sdf.format(date.getTime()));
             remoteFiles.add(ohdm);
             Log.d(TAG, "doingInBackground : got file : " + ohdm.toString());
         }
