@@ -21,9 +21,8 @@ public class RemoteDirectory implements Serializable
 
     public RemoteDirectory(String path, String creationDate)
     {
-        this.filename = path.replace("_", " ");
-        this.path = path;
-        this.creationDate = creationDate;
+        this.setPath(path);
+        this.setCreationDate(creationDate);
     }
 
 
@@ -34,9 +33,13 @@ public class RemoteDirectory implements Serializable
         return filename;
     }
 
-    public void setFilename(String filename)
+    /**
+     * Private because the name is generated from  the path
+     * @param path
+     */
+    private void setFilename(String path)
     {
-        this.filename = filename;
+        this.filename = path.replace("_", " ").trim();
     }
 
     public String getPath()
@@ -50,6 +53,7 @@ public class RemoteDirectory implements Serializable
     public void setPath(String path)
     {
         this.path = path;
+        this.setFilename(path);
     }
 
     public String getCreationDate()
@@ -60,12 +64,5 @@ public class RemoteDirectory implements Serializable
     public void setCreationDate(String creationDate)
     {
         this.creationDate = creationDate;
-    }
-
-
-    @Override
-    public String toString()
-    {
-        return "RemoteDirectory{" + "filename='" + filename  + '\'' + ", creationDate='" + creationDate + '\'' + ", path=" + path + '}';
     }
 }

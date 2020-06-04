@@ -3,7 +3,9 @@ package de.htwBerlin.ois.FileStructure;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+;
 
 class RemoteFileTest
 {
@@ -22,9 +24,9 @@ class RemoteFileTest
     private final String FILE_TWO_DATE = "12-2-2013";
     private final String FILE_THREE_DATE = "13-3-2042";
 
-    private final long FILE_ONE_SIZE = 2134214l;
-    private final long FILE_TWO_SIZE = 2312l;
-    private final long FILE_THREE_SIZE = 21344l;
+    private final long FILE_ONE_SIZE = 2134214;
+    private final long FILE_TWO_SIZE = 2312;
+    private final long FILE_THREE_SIZE = 21344;
 
 
     //------------Setup------------
@@ -37,48 +39,42 @@ class RemoteFileTest
         remoteFile3 = new RemoteFile(FILE_THREE_NAME, FILE_THREE_SIZE, FILE_THREE_DATE);
     }
 
-    public void tearDown()
-    {
-    }
-
 
     //------------fileName Test------------
 
     @Test
     public void filenameTest()
     {
-        assertTrue(remoteFile1.getFilename().equals(FILE_ONE_NAME));
-        assertTrue(remoteFile2.getFilename().equals(FILE_TWO_NAME));
-        assertTrue(remoteFile3.getFilename().equals(FILE_THREE_NAME));
+        assertEquals(remoteFile1.getFilename(), FILE_ONE_NAME);
+        assertEquals(remoteFile2.getFilename(), FILE_TWO_NAME);
+        assertEquals(remoteFile3.getFilename(), FILE_THREE_NAME);
 
         remoteFile1.setFilename(FILE_TWO_NAME);
         remoteFile2.setFilename(FILE_ONE_NAME);
 
-        assertTrue(remoteFile1.getFilename().equals(FILE_TWO_NAME));
-        assertTrue(remoteFile2.getFilename().equals(FILE_ONE_NAME));
+        assertEquals(remoteFile1.getFilename(), FILE_TWO_NAME);
+        assertEquals(remoteFile2.getFilename(), FILE_ONE_NAME);
     }
-
 
     @Test
     public void filenameTrimTest()
     {
-        assertTrue(remoteFile1.getFilename().equals(FILE_ONE_NAME));
-        assertTrue(remoteFile2.getFilename().equals(FILE_TWO_NAME));
-        assertTrue(remoteFile3.getFilename().equals(FILE_THREE_NAME));
+        assertEquals(remoteFile1.getFilename(), FILE_ONE_NAME);
+        assertEquals(remoteFile2.getFilename(), FILE_TWO_NAME);
+        assertEquals(remoteFile3.getFilename(), FILE_THREE_NAME);
 
         remoteFile1.setFilename(FILE_TWO_NAME + "  ");
         remoteFile2.setFilename(" " + FILE_ONE_NAME);
 
-        assertTrue(remoteFile1.getFilename().equals(FILE_TWO_NAME));
-        assertTrue(remoteFile2.getFilename().equals(FILE_ONE_NAME));
+        assertEquals(remoteFile1.getFilename(), FILE_TWO_NAME);
+        assertEquals(remoteFile2.getFilename(), FILE_ONE_NAME);
     }
-
 
     @Test
     public void filenameTrimInConstructorTest()
     {
         remoteFile1 = new RemoteFile(FILE_ONE_NAME + "  ", FILE_ONE_SIZE, "11-1-2020");
-        assertTrue(remoteFile1.getFilename().equals(FILE_ONE_NAME));
+        assertEquals(remoteFile1.getFilename(), FILE_ONE_NAME);
     }
 
 
@@ -87,15 +83,15 @@ class RemoteFileTest
     @Test
     public void creationDateTest()
     {
-        assertTrue(remoteFile1.getCreationDate().equals(FILE_ONE_DATE));
-        assertTrue(remoteFile2.getCreationDate().equals(FILE_TWO_DATE));
-        assertTrue(remoteFile3.getCreationDate().equals(FILE_THREE_DATE));
+        assertEquals(remoteFile1.getCreationDate(), FILE_ONE_DATE);
+        assertEquals(remoteFile2.getCreationDate(), FILE_TWO_DATE);
+        assertEquals(remoteFile3.getCreationDate(), FILE_THREE_DATE);
 
         remoteFile1.setCreationDate(FILE_TWO_DATE);
         remoteFile2.setCreationDate(FILE_ONE_DATE);
 
-        assertTrue(remoteFile1.getCreationDate().equals(FILE_TWO_DATE));
-        assertTrue(remoteFile2.getCreationDate().equals(FILE_ONE_DATE));
+        assertEquals(remoteFile1.getCreationDate(), FILE_TWO_DATE);
+        assertEquals(remoteFile2.getCreationDate(), FILE_ONE_DATE);
     }
 
 
@@ -104,16 +100,14 @@ class RemoteFileTest
     @Test
     public void sizeTest()
     {
-        assertTrue(remoteFile1.getFileSize() == FILE_ONE_SIZE);
-        assertTrue(remoteFile2.getFileSize() == FILE_TWO_SIZE);
-        assertTrue(remoteFile3.getFileSize() == FILE_THREE_SIZE);
+        assertEquals((long) remoteFile1.getFileSize(), FILE_ONE_SIZE);
+        assertEquals((long) remoteFile2.getFileSize(), FILE_TWO_SIZE);
+        assertEquals((long) remoteFile3.getFileSize(), FILE_THREE_SIZE);
 
         remoteFile1.setFileSize(FILE_TWO_SIZE);
         remoteFile2.setFileSize(FILE_ONE_SIZE);
 
-        assertTrue(remoteFile1.getFileSize() == FILE_TWO_SIZE);
-        assertTrue(remoteFile2.getFileSize()== FILE_ONE_SIZE);
+        assertEquals((long) remoteFile1.getFileSize(), FILE_TWO_SIZE);
+        assertEquals((long) remoteFile2.getFileSize(), FILE_ONE_SIZE);
     }
-
-
 }
