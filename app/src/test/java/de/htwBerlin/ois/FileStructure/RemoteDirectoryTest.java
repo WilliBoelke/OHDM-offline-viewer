@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class RemoteDirectoryTest
 {
-    //------------Testing Objects------------
+    //------------Test Objects------------
 
     private RemoteDirectory remoteDir1;
     private RemoteDirectory remoteDir2;

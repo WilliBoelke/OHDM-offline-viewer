@@ -39,12 +39,24 @@ public class FtpClient
 
     //------------Constructors-----------
 
+    /**
+     * Empty constructor
+     * Used within the "real" code
+     */
     protected FtpClient()
     {
         Log.d(TAG, "Constructor : new FtpClient ");
     }
 
-
+    /**
+     * Constructor which takes a apache FTPClient
+     * used for testing by inserting a mocked FTPClient
+     */
+    protected FtpClient(FTPClient client)
+    {
+        this.client = client;
+        Log.d(TAG, "Constructor : new FtpClient ");
+    }
     //------------Connection-----------
 
     /**

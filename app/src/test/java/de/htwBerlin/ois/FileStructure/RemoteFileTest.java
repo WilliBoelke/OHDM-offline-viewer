@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class RemoteFileTest
 {
 
-    //------------Testing Objects------------
+    //------------Test Objects------------
 
     private RemoteFile remoteFile1;
     private RemoteFile remoteFile2;
