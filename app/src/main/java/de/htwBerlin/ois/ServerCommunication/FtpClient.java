@@ -50,6 +50,7 @@ public class FtpClient
      */
     protected FtpClient()
     {
+        this.client = new FTPClient();
         Log.d(TAG, "Constructor : new FtpClient ");
     }
 
@@ -57,9 +58,9 @@ public class FtpClient
      * Constructor which takes a apache FTPClient
      * used for testing by inserting a mocked FTPClient
      */
-    protected FtpClient(FTPClient client)
+    protected FtpClient(FTPClient mockClient)
     {
-        this.client = client;
+        this.client = mockClient;
         Log.d(TAG, "Constructor : new FtpClient ");
     }
     //------------Connection-----------
@@ -74,14 +75,12 @@ public class FtpClient
      * 4 = IO Exception
      * 5 = if already connected
      */
-    int connect()
+   protected int connect()
     {
         Log.d(TAG, "connect : connecting to ftp client...");
-        if (client == null)
+        if (! client.isConnected())
         {
             Log.d(TAG, "connect : getting passive FTP client");
-            client = new FTPClient();
-
             try
             {
                 Log.d(TAG, "connect : connecting to " + SERVER_IP + " : " + FTP_Port);
@@ -130,7 +129,8 @@ public class FtpClient
         else
         {
             Log.d(TAG, "was already connected ");
-            return 5;
+            this.closeConnection();
+            this.connect();
         }
         Log.d(TAG, "connect : successfully connected");
         return 0;
@@ -153,7 +153,7 @@ public class FtpClient
     protected void closeConnection()
     {
         Log.d(TAG, "closeConnection : trying to close connection with " + SERVER_IP + " : " + FTP_Port);
-        if (client == null)
+        if (!client.isConnected())
         {
             Log.d(TAG, "closeConnection : nothing to close, the FTPClient wasn't initialized");
             return;
@@ -183,7 +183,7 @@ public class FtpClient
      */
     protected FTPFile[] getDirList(String path) throws IOException
     {
-        if (client == null)
+        if (!client.isConnected())
         {
             Log.e(TAG, "getDirList : wasnt connected to server, call connect() first");
             return null;
@@ -208,7 +208,7 @@ public class FtpClient
      */
     protected FTPFile[] getFileList(String path) throws IOException
     {
-        if (client == null)
+        if (!client.isConnected())
         {
             Log.e(TAG, "getFileList : wasnt connected to server, call connect() first");
             return null;
@@ -238,7 +238,7 @@ public class FtpClient
      */
     protected ArrayList<RemoteFile> getAllFileList(String path) throws IOException
     {
-        if (client == null)
+        if (!client.isConnected())
         {
             Log.e(TAG, "getAllFileList : wasnt connected to server, call connect() first");
             return null;
@@ -287,7 +287,7 @@ public class FtpClient
      */
     protected boolean downloadFile(String remoteFileName, String downloadPath) throws IOException
     {
-        if (client == null)
+        if (!client.isConnected())
         {
             Log.e(TAG, "downloadFile : wasnt connected to server, call connect() first");
             return false;

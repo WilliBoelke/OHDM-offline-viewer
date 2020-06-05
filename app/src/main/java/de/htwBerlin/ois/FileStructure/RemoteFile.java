@@ -19,7 +19,7 @@ public class RemoteFile
         this.setFilename(filename);
         this.setFileSize(fileSize);
         this.setPath(path);
-        this.creationDate = creationDate;
+        this.setCreationDate(creationDate);
     }
 
 
