@@ -130,7 +130,7 @@ public class RecyclerAdapterRemoteDirectories extends RecyclerView.Adapter<Recyc
             public void onButtonClick(int position)
             {
                 Toast.makeText(context, "Download started", Toast.LENGTH_SHORT).show();
-                FtpTaskFileDownloading ftpTaskFileDownloading = new FtpTaskFileDownloading(context.getApplicationContext(), currentDirectory.getPath());
+                FtpTaskFileDownloading ftpTaskFileDownloading = new FtpTaskFileDownloading(context.getApplicationContext());
                 ftpTaskFileDownloading.execute(directoriesViewHolder.directoryContent.get(position));
             }
         });

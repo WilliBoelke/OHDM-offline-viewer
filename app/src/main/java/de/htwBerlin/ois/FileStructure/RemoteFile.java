@@ -47,7 +47,7 @@ public class RemoteFile
 
     //------------Getter------------
 
-    public String getPah()
+    public String getPath()
     {
         return this.path;
     }

@@ -181,7 +181,7 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
             public void onButtonClick(int position)
             {
                 Toast.makeText(getContext(), "Download started", Toast.LENGTH_SHORT).show();
-                FtpTaskFileDownloading ftpTaskFileDownloading = new FtpTaskFileDownloading(getActivity().getApplicationContext(), "");
+                FtpTaskFileDownloading ftpTaskFileDownloading = new FtpTaskFileDownloading(getActivity().getApplicationContext());
                 ftpTaskFileDownloading.execute(allOhdmFiles.get(position));
                 allRecyclerAdapter.notifyDataSetChanged();
             }
@@ -214,7 +214,7 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
             public void onButtonClick(int position)
             {
                 Toast.makeText(getContext(), "Download started", Toast.LENGTH_SHORT).show();
-                FtpTaskFileDownloading ftpTaskFileDownloading = new FtpTaskFileDownloading(getActivity().getApplicationContext(), MOST_RECENT_PATH);
+                FtpTaskFileDownloading ftpTaskFileDownloading = new FtpTaskFileDownloading(getActivity().getApplicationContext());
                 ftpTaskFileDownloading.execute(latestOhdmFiles.get(position));
                 allRecyclerAdapter.notifyDataSetChanged();
             }
