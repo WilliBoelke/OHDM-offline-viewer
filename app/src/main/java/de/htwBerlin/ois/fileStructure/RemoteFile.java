@@ -1,36 +1,33 @@
 package de.htwBerlin.ois.fileStructure;
 
-import java.io.Serializable;
 
-public class RemoteFile implements Serializable
+public class RemoteFile
 {
+
+    //------------Instance Variables------------
 
     private String filename;
     private Long fileSize;
     private String creationDate;
-    private boolean isDownloaded;
+    private String path;
 
-    public RemoteFile(String filename, Long fileSize, String creationDate, boolean isDownloaded)
+
+    //------------Constructors------------
+
+    public RemoteFile(String filename, String path, Long fileSize, String creationDate)
     {
-        this.filename = filename;
-        this.fileSize = fileSize;
+        this.setFilename(filename);
+        this.setFileSize(fileSize);
+        this.setPath(path);
         this.creationDate = creationDate;
-        this.isDownloaded = isDownloaded;
     }
 
-    public String getFilename()
-    {
-        return filename;
-    }
+
+    //------------Setter------------
 
     public void setFilename(String filename)
     {
-        this.filename = filename;
-    }
-
-    public Long getFileSize()
-    {
-        return fileSize;
+        this.filename = filename.trim();
     }
 
     public void setFileSize(Long fileSize)
@@ -38,29 +35,35 @@ public class RemoteFile implements Serializable
         this.fileSize = fileSize;
     }
 
-    protected String getCreationDate()
-    {
-        return creationDate;
-    }
-
     public void setCreationDate(String creationDate)
     {
         this.creationDate = creationDate;
     }
 
-    protected boolean isDownloaded()
+    public void setPath(String path)
     {
-        return isDownloaded;
+        this.path = path;
     }
 
-    public void setDownloaded(boolean downloaded)
+    //------------Getter------------
+
+    public String getPath()
     {
-        isDownloaded = downloaded;
+        return this.path;
     }
 
-    @Override
-    public String toString()
+    public Long getFileSize()
     {
-        return "OhdmFile{" + "filename='" + filename + '\'' + ", fileSize='" + fileSize + '\'' + ", creationDate='" + creationDate + '\'' + ", isDownloaded=" + isDownloaded + '}';
+        return fileSize;
+    }
+
+    public String getCreationDate()
+    {
+        return creationDate;
+    }
+
+    public String getFilename()
+    {
+        return filename;
     }
 }

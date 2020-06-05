@@ -14,7 +14,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.SocketException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+
+import de.htwBerlin.ois.fileStructure.RemoteFile;
 
 import static de.htwBerlin.ois.mainActivity.MainActivity.MAP_FILE_PATH;
 import static de.htwBerlin.ois.serverCommunication.Variables.FTP_Port;
@@ -35,16 +39,29 @@ public class FtpClient
 
     private final String TAG = getClass().getSimpleName();
     private FTPClient client;
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy");
 
 
     //------------Constructors-----------
 
+    /**
+     * Empty constructor
+     * Used within the "real" code
+     */
     protected FtpClient()
     {
         Log.d(TAG, "Constructor : new FtpClient ");
     }
 
-
+    /**
+     * Constructor which takes a apache FTPClient
+     * used for testing by inserting a mocked FTPClient
+     */
+    protected FtpClient(FTPClient client)
+    {
+        this.client = client;
+        Log.d(TAG, "Constructor : new FtpClient ");
+    }
     //------------Connection-----------
 
     /**
@@ -55,8 +72,9 @@ public class FtpClient
      * 2 = Could not login to FTP Server (probably wrong password),
      * 3 = Socket exception thrown, Server not found,
      * 4 = IO Exception
+     * 5 = if already connected
      */
-    protected int connect()
+    int connect()
     {
         Log.d(TAG, "connect : connecting to ftp client...");
         if (client == null)
@@ -112,6 +130,7 @@ public class FtpClient
         else
         {
             Log.d(TAG, "was already connected ");
+            return 5;
         }
         Log.d(TAG, "connect : successfully connected");
         return 0;
@@ -217,7 +236,7 @@ public class FtpClient
      * @return FTPFiles in current dir
      * @throws IOException couldn't read from current dir
      */
-    protected FTPFile[] getAllFileList(String path) throws IOException
+    protected ArrayList<RemoteFile> getAllFileList(String path) throws IOException
     {
         if (client == null)
         {
@@ -226,14 +245,16 @@ public class FtpClient
         }
         Log.d(TAG, " getAllFileList : getting file list for " + path + " ...");
         FTPFile[] filesAndDirs = client.listFiles(path);
-        ArrayList<FTPFile> files = new ArrayList<>();
+        ArrayList<RemoteFile> files = new ArrayList<>();
         ArrayList<FTPFile> dirs = new ArrayList<>();
 
         for (FTPFile f : filesAndDirs)
         {
             if (!f.isDirectory())
             {
-                files.add(f);
+                Date date = f.getTimestamp().getTime();
+                RemoteFile ohdm = new RemoteFile(f.getName(), path,  (f.getSize() / 1024), sdf.format(date.getTime()));
+                files.add(ohdm);
             }
             else
             {
@@ -244,15 +265,15 @@ public class FtpClient
         for (FTPFile d : dirs)
         {
             String subPath = path + "/" + d.getName();
-            FTPFile[] subFiles = getAllFileList(subPath);
+            ArrayList<RemoteFile> subFiles = getAllFileList(subPath);
 
-            for (FTPFile f : subFiles)
+            for (RemoteFile f : subFiles)
             {
                 files.add(f);
             }
         }
         Log.d(TAG, " getAllFileList : got " + files.size() + "files from " + path);
-        return files.toArray(new FTPFile[files.size()]);
+        return files;
     }
 
     //------------Downloading-----------
@@ -271,6 +292,7 @@ public class FtpClient
             Log.e(TAG, "downloadFile : wasnt connected to server, call connect() first");
             return false;
         }
+        Log.d(TAG, "downloadFile : trying to download " + remoteFileName + downloadPath);
         File downloadFile = new File(MAP_FILE_PATH, remoteFileName);
         client.changeWorkingDirectory(downloadPath);
         OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(downloadFile));

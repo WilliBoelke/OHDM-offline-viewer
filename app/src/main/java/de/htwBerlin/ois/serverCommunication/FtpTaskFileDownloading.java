@@ -22,17 +22,15 @@ public class FtpTaskFileDownloading extends AsyncTask<RemoteFile, Integer, Long>
     //------------Instance Variables------------
 
     private final String TAG = getClass().getSimpleName();
-    private final String path;
     private WeakReference<Context> context;
     private FtpClient ftpClient;
 
 
     //------------Constructors------------
 
-    public FtpTaskFileDownloading(Context context, String path)
+    public FtpTaskFileDownloading(Context context)
     {
-        Log.d(TAG, "Constructor : new FtpTaskFileDownloading with : path  = " + path);
-        this.path = path;
+        Log.d(TAG, "Constructor : new FtpTaskFileDownloading with");
         this.context = new WeakReference<Context>(context);
     }
 
@@ -49,7 +47,7 @@ public class FtpTaskFileDownloading extends AsyncTask<RemoteFile, Integer, Long>
         try
         {
             Log.d(TAG, "doingInBackground : starting file download...");
-            ftpClient.downloadFile(ohdmFile[0].getFilename(), this.path);
+            ftpClient.downloadFile(ohdmFile[0].getFilename(), ohdmFile[0].getPath());
             Log.d(TAG, "doingInBackground :  download finished successfully");
         }
         catch (IOException e)
