@@ -5,6 +5,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 class FtpClientTest
 {
 
@@ -21,6 +23,7 @@ class FtpClientTest
     @Test
     public void connectTest()
     {
-        ftpClient.connect();
+        //the FtpClient was already connected because i used the test constructor
+        assertEquals(5, ftpClient.connect());
     }
 }

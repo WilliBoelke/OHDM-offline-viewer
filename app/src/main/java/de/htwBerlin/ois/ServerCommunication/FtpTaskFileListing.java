@@ -51,8 +51,6 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
     private String path;
 
 
-
-
     //------------Constructors------------
 
     /**
@@ -90,12 +88,19 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
             if (includeSubDirs == true)
             {
                 Log.d(TAG, "doingInBackground : getting all files including sub dirs...");
-                files = ftpClient.getAllFileList(path);
+                remoteFiles.addAll(ftpClient.getAllFileList(path));
             }
             else
             {
                 Log.d(TAG, "doingInBackground : getting all files...");
                 files = ftpClient.getFileList(path);
+                for (FTPFile ftpFile : files)
+                {
+                    Date date = ftpFile.getTimestamp().getTime();
+                    RemoteFile ohdm = new RemoteFile(ftpFile.getName(), path, (ftpFile.getSize() / 1024), sdf.format(date.getTime()));
+                    remoteFiles.add(ohdm);
+                    Log.d(TAG, "doingInBackground : got file : " + ohdm.toString());
+                }
             }
         }
         catch (IOException e)
@@ -103,13 +108,7 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
             Log.e(TAG, "something went wrong while retrieving files from the FTP Server");
             e.printStackTrace();
         }
-        for (FTPFile ftpFile : files)
-        {
-            Date date = ftpFile.getTimestamp().getTime();
-            RemoteFile ohdm = new RemoteFile(ftpFile.getName(), (ftpFile.getSize() / 1024), sdf.format(date.getTime()));
-            remoteFiles.add(ohdm);
-            Log.d(TAG, "doingInBackground : got file : " + ohdm.toString());
-        }
+
         Log.d(TAG, "doingInBackground : finished - closing connection : ");
         ftpClient.closeConnection();
         return null;

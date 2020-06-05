@@ -9,14 +9,16 @@ public class RemoteFile
     private String filename;
     private Long fileSize;
     private String creationDate;
+    private String path;
 
 
     //------------Constructors------------
 
-    public RemoteFile(String filename, Long fileSize, String creationDate)
+    public RemoteFile(String filename, String path, Long fileSize, String creationDate)
     {
         this.setFilename(filename);
         this.setFileSize(fileSize);
+        this.setPath(path);
         this.creationDate = creationDate;
     }
 
@@ -38,8 +40,17 @@ public class RemoteFile
         this.creationDate = creationDate;
     }
 
+    public void setPath(String path)
+    {
+        this.path = path;
+    }
+
     //------------Getter------------
 
+    public String getPah()
+    {
+        return this.path;
+    }
 
     public Long getFileSize()
     {
