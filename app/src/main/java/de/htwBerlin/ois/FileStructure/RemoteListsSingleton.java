@@ -44,8 +44,8 @@ public class RemoteListsSingleton
 
     public void setAllMaps(ArrayList<RemoteFile> allMaps)
     {
-        RemoteListsSingleton.allMaps.clear();
-        RemoteListsSingleton.allMaps = allMaps;
+        RemoteListsSingleton. allMaps .clear();
+        RemoteListsSingleton.allMaps.addAll(allMaps);
     }
 
     public ArrayList<RemoteFile> getLatestMaps()
@@ -56,7 +56,7 @@ public class RemoteListsSingleton
     public void setLatestMaps(ArrayList<RemoteFile> latestMaps)
     {
         RemoteListsSingleton.latestMaps.clear();
-        RemoteListsSingleton.latestMaps = latestMaps;
+        RemoteListsSingleton.latestMaps.addAll(latestMaps);
     }
 
     public ArrayList<RemoteDirectory> getDirectories()
@@ -67,7 +67,7 @@ public class RemoteListsSingleton
     public void setDirectories(ArrayList<RemoteDirectory> directories)
     {
         RemoteListsSingleton.directories.clear();
-        RemoteListsSingleton.directories = directories;
+        RemoteListsSingleton.directories.addAll(directories);
     }
 
     public HashMap<String, ArrayList<RemoteFile>> getDirectoryContents()
@@ -78,6 +78,15 @@ public class RemoteListsSingleton
     public void setDirectoryContents(HashMap<String, ArrayList<RemoteFile>> directoryContents)
     {
         RemoteListsSingleton.directoryContents.clear();
-        RemoteListsSingleton.directoryContents = directoryContents;
+        RemoteListsSingleton.directoryContents.putAll(directoryContents);
+    }
+
+    /**
+     * Resets the instance
+     * used for testing
+     */
+    public void resetInstance()
+    {
+        this.instance = null;
     }
 }
