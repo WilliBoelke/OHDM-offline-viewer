@@ -56,6 +56,7 @@ public class HTTPRequestNewMap extends AsyncTask<Void, Void, String>
      */
     private URL url;
 
+    private HttpURLConnection conn;
 
     //------------Constructors------------
 
@@ -101,7 +102,10 @@ public class HTTPRequestNewMap extends AsyncTask<Void, Void, String>
         try
         {
             Log.d(TAG, "doingInBackground : connecting with server " + url);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            if (conn == null)
+            {
+                conn = (HttpURLConnection) url.openConnection();
+            }
             conn.setReadTimeout(15000);
             conn.setConnectTimeout(15000);
             conn.setRequestMethod("POST");
@@ -132,6 +136,7 @@ public class HTTPRequestNewMap extends AsyncTask<Void, Void, String>
         }
         catch (ProtocolException e)
         {
+            //This exception can occur whe calling conn.setRequestMethod()
             Log.e(TAG, "doingInBackground : couldnt connect with the server " + url);
             e.printStackTrace();
         }
@@ -155,7 +160,7 @@ public class HTTPRequestNewMap extends AsyncTask<Void, Void, String>
      */
     private String buildParamsString()
     {
-        Log.e(TAG, "buildParamsString : building params string...");
+        Log.d(TAG, "buildParamsString : building params string...");
         StringBuilder sb = new StringBuilder();
         sb.append("name=");
         sb.append(this.name);
@@ -163,8 +168,13 @@ public class HTTPRequestNewMap extends AsyncTask<Void, Void, String>
         sb.append(this.coordinates);
         sb.append("&date=");
         sb.append(this.date);
-        Log.e(TAG, "buildParamsString : builded params string");
+        Log.d(TAG, "buildParamsString : builded params string");
         return sb.toString();
     }
 
+
+    public void insertMockHTTPConnection(HttpURLConnection mock)
+    {
+        this.conn = mock;
+    }
 }
