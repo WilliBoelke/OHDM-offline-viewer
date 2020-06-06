@@ -235,6 +235,5 @@ class FtpClientTest
         assertNotEquals(ftpClient.getAllFileList("path").get(0), mockDir2);
         assertNotEquals(ftpClient.getAllFileList("path").get(1), mockDir2);
         assertNotEquals(ftpClient.getAllFileList("path").get(2), mockDir2);
-
     }
 }

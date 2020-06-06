@@ -47,6 +47,8 @@ public class FtpTaskDirListing extends AsyncTask<Void, Void, String>
      * The path to the directory
      */
     private String path;
+    FtpClient ftpClient;
+
 
 
     //------------Constructors------------
@@ -74,7 +76,11 @@ public class FtpTaskDirListing extends AsyncTask<Void, Void, String>
     {
         directoryList = new ArrayList<>();
         Log.d(TAG, "doingInBackground : initializing new FtpClient ");
-        FtpClient ftpClient = new FtpClient();
+        if(ftpClient == null)
+        {
+            // when testing a mock object is already inserted
+            ftpClient = new FtpClient();
+        }
         ftpClient.connect();
         Log.d(TAG, "doingInBackground : connected to FtpClient");
 
@@ -87,6 +93,11 @@ public class FtpTaskDirListing extends AsyncTask<Void, Void, String>
         catch (IOException e)
         {
             Log.e(TAG, "doingInBackground : something went wrong while while retrieving the directories");
+            e.printStackTrace();
+        }
+        catch (NullPointerException e)
+        {
+            Log.e(TAG, "doingInBackground : something went wrong while while retrieving the directories maybe the given path was invalid?");
             e.printStackTrace();
         }
 
@@ -114,5 +125,18 @@ public class FtpTaskDirListing extends AsyncTask<Void, Void, String>
             Log.i(TAG, "Found " + directoryList.size() + " directories");
             delegate.getRemoteDirectories(this.directoryList);
         }
+    }
+
+    /**
+     * For testing
+     */
+    public ArrayList<RemoteDirectory> getResultList()
+    {
+        return this.directoryList;
+    }
+
+    public void insertMockFtpClient(FtpClient mockClient)
+    {
+        this.ftpClient = mockClient;
     }
 }
