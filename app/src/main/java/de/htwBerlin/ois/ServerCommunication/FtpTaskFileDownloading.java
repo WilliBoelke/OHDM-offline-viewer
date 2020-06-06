@@ -38,10 +38,13 @@ public class FtpTaskFileDownloading extends AsyncTask<RemoteFile, Integer, Long>
     //------------AsyncTask Implementation------------
 
     @Override
-    protected Long doInBackground(RemoteFile... ohdmFile)
+    protected Long doInBackground(RemoteFile[] ohdmFile)
     {
         Log.d(TAG, "doingInBackground : initializing new FtpClient ");
-        ftpClient = new FtpClient();
+        if(ftpClient ==null)
+        {
+            ftpClient = new FtpClient();
+        }
         ftpClient.connect();
         Log.d(TAG, "doingInBackground : connected to FtpClient");
         try
@@ -65,5 +68,10 @@ public class FtpTaskFileDownloading extends AsyncTask<RemoteFile, Integer, Long>
     {
         Context context = this.context.get();
         Toast.makeText(context, "Download Finished", Toast.LENGTH_SHORT).show();
+    }
+
+    public void insertMockFtpClient(FtpClient mockFtpClient)
+    {
+        this.ftpClient= mockFtpClient;
     }
 }

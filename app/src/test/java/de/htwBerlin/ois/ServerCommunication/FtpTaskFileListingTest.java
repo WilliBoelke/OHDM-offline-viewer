@@ -133,6 +133,4 @@ public class FtpTaskFileListingTest
         assertEquals(mockFile2.getName(), fileListingTest.getResultList().get(1).getFilename());
 
     }
-
-
 }
