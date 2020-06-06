@@ -5,33 +5,26 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-;
-
 class RemoteFileTest
 {
 
     //------------Test Objects------------
 
-    private RemoteFile remoteFile1;
-    private RemoteFile remoteFile2;
-    private RemoteFile remoteFile3;
-
     private final String FILE_ONE_NAME = "Berlin";
     private final String FILE_TWO_NAME = "Hamburg";
     private final String FILE_THREE_NAME = "Leipzig";
-
     private final String FILE_ONE_DATE = "11-1-2020";
     private final String FILE_TWO_DATE = "12-2-2013";
     private final String FILE_THREE_DATE = "13-3-2042";
-
     private final String FILE_ONE_PATH = "pathone";
     private final String FILE_TWO_PATH = "pathtwo";
     private final String FILE_THREE_PATH = "paththree";
-
-
     private final long FILE_ONE_SIZE = 2134214;
     private final long FILE_TWO_SIZE = 2312;
     private final long FILE_THREE_SIZE = 21344;
+    private RemoteFile remoteFile1;
+    private RemoteFile remoteFile2;
+    private RemoteFile remoteFile3;
 
 
     //------------Setup------------
@@ -40,7 +33,7 @@ class RemoteFileTest
     public void setUp()
     {
         remoteFile1 = new RemoteFile(FILE_ONE_NAME, FILE_ONE_PATH, FILE_ONE_SIZE, FILE_ONE_DATE);
-        remoteFile2 = new RemoteFile(FILE_TWO_NAME, FILE_TWO_PATH,  FILE_TWO_SIZE, FILE_TWO_DATE);
+        remoteFile2 = new RemoteFile(FILE_TWO_NAME, FILE_TWO_PATH, FILE_TWO_SIZE, FILE_TWO_DATE);
         remoteFile3 = new RemoteFile(FILE_THREE_NAME, FILE_THREE_PATH, FILE_THREE_SIZE, FILE_THREE_DATE);
     }
 

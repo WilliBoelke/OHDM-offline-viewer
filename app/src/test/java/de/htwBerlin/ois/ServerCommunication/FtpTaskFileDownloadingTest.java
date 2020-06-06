@@ -2,26 +2,23 @@ package de.htwBerlin.ois.ServerCommunication;
 
 import android.content.Context;
 
-import org.apache.commons.net.ftp.FTPFile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Locale;
 
 import de.htwBerlin.ois.FileStructure.RemoteDirectory;
 import de.htwBerlin.ois.FileStructure.RemoteFile;
 
 class FtpTaskFileDownloadingTest
 {
-    FtpTaskFileDownloading fileDownloadingTest;
-    FtpClient mockFtpClient = Mockito.mock(FtpClient.class);
-    RemoteFile mockFile1;
-    Context context = Mockito.mock(Context.class);
-    RemoteFile[] files;
+    private FtpTaskFileDownloading fileDownloadingTest;
+    private FtpClient mockFtpClient = Mockito.mock(FtpClient.class);
+    private RemoteFile mockFile1;
+    private Context context = Mockito.mock(Context.class);
+    private RemoteFile[] files;
 
     AsyncResponse asyncResponse = new AsyncResponse()
     {
@@ -46,9 +43,7 @@ class FtpTaskFileDownloadingTest
 
         mockFile1 = Mockito.mock(RemoteFile.class);
         Mockito.when(mockFile1.getFilename()).thenReturn("mockFile1");
-        ;
         Mockito.when(mockFile1.getPath()).thenReturn("mockFile1");
-        ;
 
         files = new RemoteFile[1];
         files[0] = mockFile1;

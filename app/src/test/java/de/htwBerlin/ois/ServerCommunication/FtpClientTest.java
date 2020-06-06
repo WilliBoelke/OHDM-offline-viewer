@@ -10,7 +10,6 @@ import org.mockito.Mockito;
 import java.io.IOException;
 import java.net.SocketException;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 import static de.htwBerlin.ois.ServerCommunication.Variables.USER_NAME;
@@ -24,8 +23,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class FtpClientTest
 {
 
-    FTPClient mockFTPClient = Mockito.mock(FTPClient.class);
-    FtpClient ftpClient;
+    private FTPClient mockFTPClient = Mockito.mock(FTPClient.class);
+    private  FtpClient ftpClient;
 
 
     @BeforeEach
@@ -89,6 +88,7 @@ class FtpClientTest
 
         assertEquals(4, returnValue);
     }
+
 
     //------------isConnected Test------------
 

@@ -24,13 +24,11 @@ import static org.junit.Assert.assertEquals;
  */
 class FtpTaskDirListingTest
 {
+    private FtpTaskDirListing dirListingTest;
+    private FtpClient mockFtpClient = Mockito.mock(FtpClient.class);
+    private Context context = Mockito.mock(Context.class);
 
-    FtpTaskDirListing dirListingTest;
-    FtpClient mockFtpClient = Mockito.mock(FtpClient.class);
-
-    Context context = Mockito.mock(Context.class);
-
-    AsyncResponse asyncResponse = new AsyncResponse()
+    private AsyncResponse asyncResponse = new AsyncResponse()
     {
         @Override
         public void getOhdmFiles(ArrayList<RemoteFile> remoteFiles)

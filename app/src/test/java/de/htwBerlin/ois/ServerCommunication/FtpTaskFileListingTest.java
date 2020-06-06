@@ -20,10 +20,10 @@ import static org.junit.Assert.assertEquals;
 public class FtpTaskFileListingTest
 {
 
-    FtpTaskFileListing fileListingTest;
-    FtpClient mockFtpClient = Mockito.mock(FtpClient.class);
+    private FtpTaskFileListing fileListingTest;
+    private FtpClient mockFtpClient = Mockito.mock(FtpClient.class);
 
-    Context context = Mockito.mock(Context.class);
+    private Context context = Mockito.mock(Context.class);
 
     AsyncResponse asyncResponse = new AsyncResponse()
     {

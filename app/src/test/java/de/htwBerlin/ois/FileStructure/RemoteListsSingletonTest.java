@@ -1,6 +1,5 @@
 package de.htwBerlin.ois.FileStructure;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,18 +16,17 @@ class RemoteListsSingletonTest
 
     //------------Test Objects------------
 
-    private ArrayList<RemoteFile> allMaps;
-    private ArrayList<RemoteFile> latestMaps;
-    private ArrayList<RemoteDirectory> directories;
-    private HashMap<String, ArrayList<RemoteFile>> directoryContents;
-
-
-    //------------Setup------------
-
     /**
      * The tests needed to run one by one- thats why the Lock is there
      */
     Lock sequential = new ReentrantLock();
+    private ArrayList<RemoteFile> allMaps;
+    private ArrayList<RemoteFile> latestMaps;
+    private ArrayList<RemoteDirectory> directories;
+
+
+    //------------Setup------------
+    private HashMap<String, ArrayList<RemoteFile>> directoryContents;
 
     @BeforeEach
     protected void setUp()
@@ -39,21 +37,21 @@ class RemoteListsSingletonTest
         directories = new ArrayList<>();
         directoryContents = new HashMap<>();
 
-        latestMaps.add(new RemoteFile("name1", "path1",  123l, "date"));
-        latestMaps.add(new RemoteFile("name2", "path2",  123l, "date"));
-        latestMaps.add(new RemoteFile("name3", "path3",  123l, "date"));
+        latestMaps.add(new RemoteFile("name1", "path1", 123l, "date"));
+        latestMaps.add(new RemoteFile("name2", "path2", 123l, "date"));
+        latestMaps.add(new RemoteFile("name3", "path3", 123l, "date"));
 
-        allMaps.add(new RemoteFile("name1", "path1",  123l, "date"));
-        allMaps.add(new RemoteFile("name2", "path2",  123l, "date"));
-        allMaps.add(new RemoteFile("name3", "path3",  123l, "date"));
+        allMaps.add(new RemoteFile("name1", "path1", 123l, "date"));
+        allMaps.add(new RemoteFile("name2", "path2", 123l, "date"));
+        allMaps.add(new RemoteFile("name3", "path3", 123l, "date"));
 
         directories.add(new RemoteDirectory("path_one", "date"));
         directories.add(new RemoteDirectory("path_two", "date"));
         directories.add(new RemoteDirectory("path_three", "date"));
 
-        directoryContents.put ("dirname1", allMaps);
-        directoryContents.put ("dirname2", latestMaps);
-        directoryContents.put ("dirname3", allMaps);
+        directoryContents.put("dirname1", allMaps);
+        directoryContents.put("dirname2", latestMaps);
+        directoryContents.put("dirname3", allMaps);
     }
 
     @AfterEach
@@ -97,8 +95,8 @@ class RemoteListsSingletonTest
         assertEquals(3, RemoteListsSingleton.getInstance().getAllMaps().size());
 
         allMaps.clear();
-        allMaps.add(new RemoteFile("name3", "path1",  123l, "date"));
-        allMaps.add(new RemoteFile("name4", "path2",  123l, "date"));
+        allMaps.add(new RemoteFile("name3", "path1", 123l, "date"));
+        allMaps.add(new RemoteFile("name4", "path2", 123l, "date"));
         RemoteListsSingleton.getInstance().setAllMaps(allMaps);
         assertEquals(2, RemoteListsSingleton.getInstance().getAllMaps().size());
 
@@ -139,8 +137,8 @@ class RemoteListsSingletonTest
         assertEquals(3, RemoteListsSingleton.getInstance().getLatestMaps().size());
 
         latestMaps.clear();
-        latestMaps.add(new RemoteFile("name3", "path1",  123l, "date"));
-        latestMaps.add(new RemoteFile("name4", "path2",  123l, "date"));
+        latestMaps.add(new RemoteFile("name3", "path1", 123l, "date"));
+        latestMaps.add(new RemoteFile("name4", "path2", 123l, "date"));
         RemoteListsSingleton.getInstance().setLatestMaps(latestMaps);
         assertEquals(2, RemoteListsSingleton.getInstance().getLatestMaps().size());
 
@@ -177,11 +175,11 @@ class RemoteListsSingletonTest
         // The list will be cleared before new elements are added. (needs to be cleared first, because i use .addAll())
 
         RemoteListsSingleton.getInstance().setDirectories(directories);
-        assertEquals(3, RemoteListsSingleton.getInstance().getDirectories() .size());
+        assertEquals(3, RemoteListsSingleton.getInstance().getDirectories().size());
 
         directories.clear();
         directories.add(new RemoteDirectory("name3", "date"));
-        directories.add(new RemoteDirectory("name4",  "date"));
+        directories.add(new RemoteDirectory("name4", "date"));
         RemoteListsSingleton.getInstance().setDirectories(directories);
         assertEquals(2, RemoteListsSingleton.getInstance().getDirectories().size());
 
@@ -218,11 +216,11 @@ class RemoteListsSingletonTest
         // The list will be cleared before new elements are added. (needs to be cleared first, because i use .addAll())
 
         RemoteListsSingleton.getInstance().setDirectoryContents(directoryContents);
-        assertEquals(3, RemoteListsSingleton.getInstance().getDirectoryContents() .size());
+        assertEquals(3, RemoteListsSingleton.getInstance().getDirectoryContents().size());
 
         directoryContents.clear();
-        directoryContents.put ("dirname1", allMaps);
-        directoryContents.put ("dirname2", latestMaps);
+        directoryContents.put("dirname1", allMaps);
+        directoryContents.put("dirname2", latestMaps);
         RemoteListsSingleton.getInstance().setDirectoryContents(directoryContents);
         assertEquals(2, RemoteListsSingleton.getInstance().getDirectoryContents().size());
 

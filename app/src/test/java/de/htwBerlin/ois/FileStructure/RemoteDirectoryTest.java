@@ -9,21 +9,18 @@ class RemoteDirectoryTest
 {
     //------------Test Objects------------
 
-    private RemoteDirectory remoteDir1;
-    private RemoteDirectory remoteDir2;
-    private RemoteDirectory remoteDir3;
-
     private final String DIR_ONE_NAME = "Category One";
     private final String DIR_TWO_NAME = "Category Two";
     private final String DIR_THREE_NAME = "Category Three";
-
     private final String DIR_ONE_PATH = "Category_One";
     private final String DIR_TWO_PATH = "Category_Two";
     private final String DIR_THREE_PATH = "Category_Three";
-
     private final String DIR_ONE_DATE = "11-1-2020";
     private final String DIR_TWO_DATE = "12-2-2013";
     private final String DIR_THREE_DATE = "13-3-2042";
+    private RemoteDirectory remoteDir1;
+    private RemoteDirectory remoteDir2;
+    private RemoteDirectory remoteDir3;
 
 
     //------------Setup------------
@@ -56,7 +53,7 @@ class RemoteDirectoryTest
         // the path should stay the same
         remoteDir1.setPath(DIR_ONE_PATH + "  ");
         assertEquals(remoteDir1.getFilename(), DIR_ONE_NAME);
-        assertEquals(remoteDir1.getPath(), DIR_ONE_PATH+ "  ");
+        assertEquals(remoteDir1.getPath(), DIR_ONE_PATH + "  ");
     }
 
 
