@@ -51,6 +51,8 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
      */
     private String path;
 
+    private FtpClient ftpClient;
+
 
     //------------Constructors------------
 
@@ -79,12 +81,16 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
     {
         remoteFiles = new ArrayList<>();
         Log.d(TAG, "doingInBackground : initializing new FtpClient ");
-        FtpClient ftpClient = new FtpClient();
+        if (ftpClient == null)
+        {
+            ftpClient = new FtpClient();
+        }
         ftpClient.connect();
         Log.d(TAG, "doingInBackground : connected to FtpClient");
 
         FTPFile[] files = new FTPFile[0];
         try
+
         {
             if (includeSubDirs == true)
             {
@@ -106,7 +112,12 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
         }
         catch (IOException e)
         {
-            Log.e(TAG, "something went wrong while retrieving files from the FTP Server");
+            Log.e(TAG, "doinIBackground : something went wrong while retrieving files from the FTP Server");
+            e.printStackTrace();
+        }
+        catch (NullPointerException e)
+        {
+            Log.e(TAG, "doinIBackground : something went wrong while retrieving files from the FTP Server maybe the path wasnt valid?");
             e.printStackTrace();
         }
 
@@ -127,5 +138,15 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
             Log.d(TAG, "Found " + remoteFiles.size() + " files from server");
             delegate.getOhdmFiles(this.remoteFiles);
         }
+    }
+
+    public void insertMockFtpClient(FtpClient mockFtpClient)
+    {
+        this.ftpClient = mockFtpClient;
+    }
+
+    public ArrayList<RemoteFile> getResultList()
+    {
+        return this.remoteFiles;
     }
 }
