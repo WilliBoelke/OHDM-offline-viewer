@@ -28,7 +28,7 @@ import de.htwBerlin.ois.Fragments.FragmentFAQ;
 import de.htwBerlin.ois.Fragments.FragmentHome;
 import de.htwBerlin.ois.Fragments.FragmentNavigation;
 import de.htwBerlin.ois.Fragments.FragmentOptions;
-import de.htwBerlin.ois.Fragments.FramentAbout;
+import de.htwBerlin.ois.Fragments.FragmentAbout;
 import de.htwBerlin.ois.R;
 
 /**
@@ -183,7 +183,7 @@ public class MainActivity extends AppCompatActivity
         {
             case R.id.ab_menu_about:
                 Log.d(TAG, "Options Menu : replacing current fragment with FragmentAbout");
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FramentAbout()).addToBackStack(FramentAbout.ID).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentAbout()).addToBackStack(FragmentAbout.ID).commit();
                 break;
 
             case R.id.ab_menu_faq:
