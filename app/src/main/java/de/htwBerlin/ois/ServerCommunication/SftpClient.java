@@ -89,18 +89,8 @@ public class SftpClient
     public void closeConnection()
     {
         Log.d(TAG, "closeConnection :  tring to close the connection .... ");
-        try
-        {
-            channel.exit();
-            session.disconnect();
-        }
-        catch (NullPointerException e)
-        {
-            Log.e(TAG, "closeConnection :  conection wasnt established jet .... ");
-            return;
-        }
-        Log.d(TAG, "closeConnection :  connection closed");
-        return;
+        channel.exit();
+        session.disconnect();
     }
 
 
@@ -369,5 +359,20 @@ public class SftpClient
             return false;
         }
         return true;
+    }
+
+
+    //------------Testing------------
+
+    /**
+     * To insert mock objects for testing
+     *
+     * @param mockSession
+     * @param mockChannel
+     */
+    public void insertMockObjects(Session mockSession, ChannelSftp mockChannel)
+    {
+        this.session = mockSession;
+        this.channel = mockChannel;
     }
 }
