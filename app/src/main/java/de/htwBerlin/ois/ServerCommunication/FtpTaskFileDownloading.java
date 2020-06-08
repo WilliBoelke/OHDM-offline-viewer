@@ -23,7 +23,7 @@ public class FtpTaskFileDownloading extends AsyncTask<RemoteFile, Integer, Long>
 
     private final String TAG = getClass().getSimpleName();
     private WeakReference<Context> context;
-    private FtpClient ftpClient;
+    private SftpClient sftpClient;
 
 
     //------------Constructors------------
@@ -41,16 +41,16 @@ public class FtpTaskFileDownloading extends AsyncTask<RemoteFile, Integer, Long>
     protected Long doInBackground(RemoteFile[] ohdmFile)
     {
         Log.d(TAG, "doingInBackground : initializing new FtpClient ");
-        if(ftpClient ==null)
+        if(sftpClient ==null)
         {
-            ftpClient = new FtpClient();
+            sftpClient = new SftpClient();
         }
-        ftpClient.connect();
+        sftpClient.connect();
         Log.d(TAG, "doingInBackground : connected to FtpClient");
         try
         {
             Log.d(TAG, "doingInBackground : starting file download...");
-            ftpClient.downloadFile(ohdmFile[0].getFilename(), ohdmFile[0].getPath());
+            sftpClient.downloadFile(ohdmFile[0].getFilename(), ohdmFile[0].getPath());
             Log.d(TAG, "doingInBackground :  download finished successfully");
         }
         catch (IOException e)
@@ -59,7 +59,7 @@ public class FtpTaskFileDownloading extends AsyncTask<RemoteFile, Integer, Long>
             e.printStackTrace();
         }
         Log.d(TAG, "doingInBackground :  closing server connection");
-        ftpClient.closeConnection();
+        sftpClient.closeConnection();
         return null;
     }
 
@@ -70,8 +70,8 @@ public class FtpTaskFileDownloading extends AsyncTask<RemoteFile, Integer, Long>
         Toast.makeText(context, "Download Finished", Toast.LENGTH_SHORT).show();
     }
 
-    public void insertMockFtpClient(FtpClient mockFtpClient)
+    public void insertMockSftpClient(SftpClient mockSftpClient)
     {
-        this.ftpClient= mockFtpClient;
+        this.sftpClient = mockSftpClient;
     }
 }

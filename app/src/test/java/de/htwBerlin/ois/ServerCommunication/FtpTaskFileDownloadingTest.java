@@ -39,7 +39,7 @@ class FtpTaskFileDownloadingTest
     public void setup()
     {
         fileDownloadingTest = new FtpTaskFileDownloading(context);
-        fileDownloadingTest.insertMockFtpClient(mockFtpClient);
+        fileDownloadingTest.insertMockSftpClient(mockFtpClient);
 
         mockFile1 = Mockito.mock(RemoteFile.class);
         Mockito.when(mockFile1.getFilename()).thenReturn("mockFile1");
@@ -72,7 +72,7 @@ class FtpTaskFileDownloadingTest
         // Should be cached
         Mockito.when(mockFtpClient.downloadFile(Mockito.anyString(), Mockito.anyString())).thenThrow(new IOException());
 
-        fileDownloadingTest.insertMockFtpClient(mockFtpClient);
+        fileDownloadingTest.insertMockSftpClient(mockFtpClient);
         fileDownloadingTest.doInBackground(files);
     }
 }

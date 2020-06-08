@@ -20,6 +20,7 @@ import java.util.List;
 import de.htwBerlin.ois.FileStructure.RemoteDirectory;
 import de.htwBerlin.ois.FileStructure.RemoteFile;
 
+import static de.htwBerlin.ois.MainActivity.MainActivity.MAP_FILE_PATH;
 import static de.htwBerlin.ois.ServerCommunication.Variables.SERVER_IP;
 import static de.htwBerlin.ois.ServerCommunication.Variables.SFTP_PORT;
 import static de.htwBerlin.ois.ServerCommunication.Variables.USER_NAME;
@@ -243,7 +244,8 @@ public class SftpClient
     {
         try
         {
-            channel.get(remoteFileName, downloadPath);
+
+            channel.get(downloadPath+"/"+remoteFileName, MAP_FILE_PATH);
         }
         catch (SftpException e)
         {

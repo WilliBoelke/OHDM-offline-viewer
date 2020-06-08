@@ -28,10 +28,12 @@ import static de.htwBerlin.ois.ServerCommunication.Variables.USER_PASSWORD;
 
 /**
  * Wraps the apache FTPClient
+ * This should not be used annymore
  *
  * @author NoteFox
  * @author WilliBoelke
  */
+@Deprecated
 public class FtpClient
 {
 
