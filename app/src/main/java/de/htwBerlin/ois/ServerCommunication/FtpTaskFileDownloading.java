@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.io.IOException;
 import java.lang.ref.WeakReference;
 
 import de.htwBerlin.ois.FileStructure.RemoteFile;
@@ -31,7 +30,7 @@ public class FtpTaskFileDownloading extends AsyncTask<RemoteFile, Integer, Long>
     public FtpTaskFileDownloading(Context context)
     {
         Log.d(TAG, "Constructor : new FtpTaskFileDownloading with");
-        this.context = new WeakReference<Context>(context);
+        this.context = new WeakReference(context);
     }
 
 
@@ -48,17 +47,11 @@ public class FtpTaskFileDownloading extends AsyncTask<RemoteFile, Integer, Long>
         }
         sftpClient.connect();
         Log.d(TAG, "doingInBackground : connected to FtpClient");
-        try
-        {
-            Log.d(TAG, "doingInBackground : starting file download...");
-            sftpClient.downloadFile(ohdmFile[0].getFilename(), ohdmFile[0].getPath());
-            Log.d(TAG, "doingInBackground :  download finished successfully");
-        }
-        catch (IOException e)
-        {
-            Log.d(TAG, "doingInBackground :  something went wrong while downloading the file");
-            e.printStackTrace();
-        }
+
+        Log.d(TAG, "doingInBackground : starting file download...");
+        sftpClient.downloadFile(ohdmFile[0].getFilename(), ohdmFile[0].getPath());
+        Log.d(TAG, "doingInBackground :  download finished successfully");
+
         Log.d(TAG, "doingInBackground :  closing server connection");
         sftpClient.closeConnection();
         return null;

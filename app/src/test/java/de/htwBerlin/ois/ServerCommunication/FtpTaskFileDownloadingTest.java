@@ -52,13 +52,4 @@ class FtpTaskFileDownloadingTest
         Mockito.verify(mockFtpClient).closeConnection();
     }
 
-    @Test
-    public void ioException() throws IOException
-    {
-        // Should be cached
-        Mockito.when(mockFtpClient.downloadFile(Mockito.anyString(), Mockito.anyString())).thenThrow(new IOException());
-
-        fileDownloadingTest.insertMockSftpClient(mockFtpClient);
-        fileDownloadingTest.doInBackground(files);
-    }
 }

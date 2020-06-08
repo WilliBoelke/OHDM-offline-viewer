@@ -212,7 +212,7 @@ public class FtpClient
     {
         if (!client.isConnected())
         {
-            Log.e(TAG, "getFileList : wasnt connected to server, call connect() first");
+            Log.e(TAG, "getFileList : wasn't connected to server, call connect() first");
             return null;
         }
 
@@ -242,7 +242,7 @@ public class FtpClient
     {
         if (!client.isConnected())
         {
-            Log.e(TAG, "getAllFileList : wasnt connected to server, call connect() first");
+            Log.e(TAG, "getAllFileList : wasn't connected to server, call connect() first");
             return null;
         }
         Log.d(TAG, " getAllFileList : getting file list for " + path + " ...");

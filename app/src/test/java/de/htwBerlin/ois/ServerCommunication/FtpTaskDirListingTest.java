@@ -91,18 +91,6 @@ class FtpTaskDirListingTest
         assertEquals(0, dirListingTest.getResultList().size());
     }
 
-    @Test
-    public void ioException() throws IOException
-    {
-        // Should be cached
-        Mockito.when(mocksFtpClient.getDirList("path")).thenThrow(new IOException());
-
-        dirListingTest.insertMockFtpClient(mocksFtpClient);
-        dirListingTest.doInBackground();
-
-        //The list should b empty but initialized
-        assertEquals(0, dirListingTest.getResultList().size());
-    }
 
 
     @Test

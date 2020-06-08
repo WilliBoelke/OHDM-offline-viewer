@@ -87,11 +87,6 @@ public class FtpTaskDirListing extends AsyncTask<Void, Void, String>
             directoryList = sftpClient.getDirList(path);
             Log.d(TAG, "doingInBackground : got " + directoryList.size() + " dirs");
         }
-        catch (IOException e)
-        {
-            Log.e(TAG, "doingInBackground : something went wrong while while retrieving the directories");
-            e.printStackTrace();
-        }
         catch (NullPointerException e)
         {
             Log.e(TAG, "doingInBackground : something went wrong while while retrieving the directories maybe the given path was invalid?");

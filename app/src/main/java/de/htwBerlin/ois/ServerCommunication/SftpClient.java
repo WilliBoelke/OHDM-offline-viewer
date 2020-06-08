@@ -25,6 +25,9 @@ import static de.htwBerlin.ois.ServerCommunication.Variables.USER_PASSWORD;
 
 public class SftpClient
 {
+
+    //------------Instance Variables------------
+
     private Session session;
     private ChannelSftp channel;
     private final String TAG = getClass().getSimpleName();
@@ -33,12 +36,12 @@ public class SftpClient
     private String[] usableOutput;
 
 
+    //------------Connection------------
+
     public int connect()
     {
-
         try
         {
-
             Log.d(TAG, "connect :  trying to open SSh connection to " + SERVER_IP + ":" + SFTP_PORT + " ...");
 
             //Opens ssh connection
@@ -101,20 +104,25 @@ public class SftpClient
     }
 
 
+    //------------Processing Data From Server------------
+
     /**
-     * We getting a string from the Server and need to make it readable/ usable
+     * We are getting a string from the Server and need to make it readable/ usable
      *
      * @param path
      * @throws SftpException
      */
     private void updateOutput(String path) throws SftpException
     {
+        Log.d(TAG, "updateOutput :  updating output ... ");
         output = channel.ls(path).toString();
         usableOutput = analyseOutput();
+        Log.d(TAG, "updateOutput :  output updated");
     }
 
     private String[] analyseOutput()
     {
+        Log.d(TAG, "analyseOutput :  abalysing server output ... ");
         String[] outputSplit;
         outputSplit = output.substring(1, output.length() - 1).split(",");
         for (int i = 0; i < outputSplit.length; i++)
@@ -146,6 +154,7 @@ public class SftpClient
 
     private static String readDate(String[] currentSplit)
     {
+        //Log.d(TAG, "readDate :  reading and formatting date ... ");
         int offset = 0;
         String date = "";
         try
@@ -197,7 +206,6 @@ public class SftpClient
                 date += "12-";
                 break;
         }
-
         try
         {
             date += Integer.parseInt(currentSplit[6 + offset]);
@@ -210,9 +218,12 @@ public class SftpClient
     }
 
 
+    //------------Listing------------
+
     public ArrayList<RemoteFile> getAllFileList(String path) throws IOException
     {
-        if (!session.isConnected())
+        Log.d(TAG, " getAllFileList ");
+        if (!this.isConnected())
         {
             Log.e(TAG, "getAllFileList : wasnt connected to server, call connect() first");
             return null;
@@ -221,6 +232,7 @@ public class SftpClient
         ArrayList<RemoteFile> files = this.getFileList(path);
         ArrayList<RemoteDirectory> dirs = this.getDirList(path);
 
+        Log.d(TAG, " getAllFileList : getting files :  ");
         for (RemoteDirectory d : dirs)
         {
             String subPath = d.getPath();
@@ -229,46 +241,33 @@ public class SftpClient
             for (RemoteFile f : subFiles)
             {
                 files.add(f);
+                Log.d(TAG, " getAllFileList :  ----- " + f.getFilename());
             }
         }
         Log.d(TAG, " getAllFileList : got " + files.size() + "files from " + path);
         return files;
     }
 
-
-    public boolean downloadFile(String remoteFileName, String downloadPath) throws IOException
+    public ArrayList<RemoteDirectory> getDirList(String path)
     {
-        try
+        Log.d(TAG, " getDirList ");
+        if (!this.isConnected())
         {
-
-            channel.get(downloadPath + "/" + remoteFileName, MAP_FILE_PATH);
+            Log.e(TAG, "getDirList : wasnt connected to server, call connect() first");
+            return null;
         }
-        catch (SftpException e)
-        {
-            return false;
-        }
-        return true;
-    }
-
-
-    public ArrayList<RemoteDirectory> getDirList(String path) throws IOException
-    {
         try
         {
             updateOutput(path);
         }
         catch (SftpException e)
         {
-            throw new IOException("cannot talk to Server anymore");
+            Log.d(TAG, " getDirList : an error occurred while updating the output : cannot talk to Server anymore");
         }
 
         ArrayList<RemoteDirectory> remoteDirectories = new ArrayList<>();
 
-        for (String s : usableOutput)
-        {
-            System.out.println(s);
-        }
-
+        Log.d(TAG, " getDirList : Splitting output");
         for (String s : usableOutput)
         {
             String[] currentSplit = s.split(" ");
@@ -297,7 +296,6 @@ public class SftpClient
         return remoteDirectories;
     }
 
-
     /**
      * @param path
      * @return
@@ -305,25 +303,29 @@ public class SftpClient
      */
     public ArrayList<RemoteFile> getFileList(String path) throws IOException
     {
+        Log.d(TAG, " getFileList ");
+        if (!this.isConnected())
+        {
+            Log.e(TAG, "getFileList : wasnt connected to server, call connect() first");
+            return null;
+        }
         try
         {
             updateOutput(path);
         }
         catch (SftpException e)
         {
-            throw new IOException(e.toString());
+            Log.e(TAG, "getFileList : SftpException occurred");
         }
         ArrayList<RemoteFile> remoteFiles = new ArrayList<>();
-
-        for (String s : usableOutput)
-        {
-            System.out.println(s);
-        }
-
+        Log.d(TAG, "getFileList :  getting files from output ... ");
+        Log.d(TAG, "getFileList :  splitting output ... ");
         for (String s : usableOutput)
         {
             String[] currentSplit = s.split(" ");
+            Log.d(TAG, "getFileList :  currentSplit  =  " + currentSplit);
 
+            Log.d(TAG, "getFileList :  currentSplit  =  ");
             int counter = 0;
             for (int i = 0; i < currentSplit.length; i++)
             {
@@ -348,4 +350,24 @@ public class SftpClient
         return remoteFiles;
     }
 
+
+    //------------Downloading------------
+
+    public boolean downloadFile(String remoteFileName, String downloadPath)
+    {
+        if (!this.isConnected())
+        {
+            Log.e(TAG, "downloadFile : wasnt connected to server, call connect() first");
+            return false;
+        }
+        try
+        {
+            channel.get(downloadPath + "/" + remoteFileName, MAP_FILE_PATH);
+        }
+        catch (SftpException e)
+        {
+            return false;
+        }
+        return true;
+    }
 }
