@@ -9,13 +9,9 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
 
-import org.apache.commons.net.ftp.FTPFile;
-
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import de.htwBerlin.ois.FileStructure.RemoteDirectory;
 import de.htwBerlin.ois.FileStructure.RemoteFile;
@@ -43,7 +39,7 @@ public class SftpClient
         try
         {
 
-            Log.d(TAG, "-------------------------------------------try to connect ");
+            Log.d(TAG, "connect :  trying to open SSh connection to " + SERVER_IP + ":" + SFTP_PORT + " ...");
 
             //Opens ssh connection
             session = (new JSch()).getSession(USER_NAME, SERVER_IP, SFTP_PORT);
@@ -51,37 +47,34 @@ public class SftpClient
             session.setConfig("StrictHostKeyChecking", "no");
             session.connect();
 
-            Log.d(TAG, "connected");
+            Log.d(TAG, "connect :  established SSH connection " + SERVER_IP + ":" + SFTP_PORT);
         }
         catch (JSchException ex)
         {
-            Log.e(TAG, "-----------------ot connectedl---------------------");
+            Log.e(TAG, "connect :  failed to establish SSH connection " + SERVER_IP + ":" + SFTP_PORT + " maybe the loin credentials where wrong - check them in Variables");
+            ex.printStackTrace();
             return 2;
-            //Password oa. wrong
-            //throw new IOException("Fehler beim SFTP-Connect mit '" + username + "' an '" + host + "': ", ex);
         }
         try
         {
             //SFTP channel from ssh session
-            Log.e(TAG, "----------------- open channel---------------------");
+            Log.d(TAG, "connect :  trying to open  sftp channel .... ");
             channel = (ChannelSftp) session.openChannel("sftp");
             if (channel == null)
             {
                 //Trying to close existing channel and try again
                 channel.exit();
-                Log.e(TAG, "-----------------channel null---------------------");
-                //throw new IOException( "Fehler beim Oeffnen des SFTP-Channel zur SFTP-Session mit '" + session.getUserName() + "' an '" + session.getHost() + "'. " );
             }
             channel.connect();
         }
         catch (JSchException ex)
         {
             channel.exit();
-            Log.e(TAG, "-----------------channel null 2---------------------");
+            Log.e(TAG, "connect :  couldnt open the channel ");
+            ex.printStackTrace();
             return 3;
-            //throw new IOException("Fehler beim Oeffnen des SFTP-Channel zur SFTP-Session mit '" + session.getUserName() + "' an '" + session.getHost() + "': ", ex);
         }
-        Log.e(TAG, "-----------------success---------------------");
+        Log.d(TAG, "connect :  Successfully connected and opened SFTP channel ");
         return 0;
     }
 
@@ -92,6 +85,7 @@ public class SftpClient
 
     public void closeConnection()
     {
+        Log.d(TAG, "closeConnection :  tring to close the connection .... ");
         try
         {
             channel.exit();
@@ -99,8 +93,10 @@ public class SftpClient
         }
         catch (NullPointerException e)
         {
+            Log.e(TAG, "closeConnection :  conection wasnt established jet .... ");
             return;
         }
+        Log.d(TAG, "closeConnection :  connection closed");
         return;
     }
 
@@ -227,7 +223,7 @@ public class SftpClient
 
         for (RemoteDirectory d : dirs)
         {
-            String subPath =  d.getPath();
+            String subPath = d.getPath();
             ArrayList<RemoteFile> subFiles = getAllFileList(subPath);
 
             for (RemoteFile f : subFiles)
@@ -245,7 +241,7 @@ public class SftpClient
         try
         {
 
-            channel.get(downloadPath+"/"+remoteFileName, MAP_FILE_PATH);
+            channel.get(downloadPath + "/" + remoteFileName, MAP_FILE_PATH);
         }
         catch (SftpException e)
         {
@@ -303,7 +299,6 @@ public class SftpClient
 
 
     /**
-     *
      * @param path
      * @return
      * @throws IOException
