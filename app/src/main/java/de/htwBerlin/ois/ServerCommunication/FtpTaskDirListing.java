@@ -84,12 +84,11 @@ public class FtpTaskDirListing extends AsyncTask<Void, Void, String>
         ftpClient.connect();
         Log.d(TAG, "doingInBackground : connected to FtpClient");
 
-        RemoteDirectory[] files = new RemoteDirectory[0];
         try
         {
             Log.d(TAG, "doingInBackground : trying to get directories");
-            files = ftpClient.getDirList(path);
-            Log.d(TAG, "doingInBackground : got " + files.length + " dirs");
+            directoryList = ftpClient.getDirList(path);
+            Log.d(TAG, "doingInBackground : got " + directoryList.size() + " dirs");
         }
         catch (IOException e)
         {
@@ -102,12 +101,6 @@ public class FtpTaskDirListing extends AsyncTask<Void, Void, String>
             e.printStackTrace();
         }
 
-        for (RemoteDirectory ftpFile : files)
-        {
-
-            directoryList.add(ftpFile);
-            Log.d(TAG, "doingInBackground : got dir " + ftpFile.toString());
-        }
         Log.d(TAG, "doingInBackground :  closing server connection");
         ftpClient.closeConnection();
         return null;

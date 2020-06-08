@@ -91,26 +91,22 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
             if (includeSubDirs == true)
             {
                 Log.d(TAG, "doingInBackground : getting all files including sub dirs...");
-                 remoteFiles.addAll(ftpClient.getAllFileList(path));
+                remoteFiles.addAll(ftpClient.getAllFileList(path));
             }
             else
             {
                 Log.d(TAG, "doingInBackground : getting all files...");
-                files = ftpClient.getFileList(path);
-                for (RemoteFile ftpFile : files)
-                {
-                 remoteFiles.add(ftpFile);
-                }
+                remoteFiles = ftpClient.getFileList(path);
             }
         }
         catch (IOException e)
         {
-            Log.e(TAG, "doinIBackground : something went wrong while retrieving files from the FTP Server");
+            Log.e(TAG, "doingInBackground : something went wrong while retrieving files from the FTP Server");
             e.printStackTrace();
         }
         catch (NullPointerException e)
         {
-            Log.e(TAG, "doinIBackground : something went wrong while retrieving files from the FTP Server maybe the path wasnt valid?");
+            Log.e(TAG, "doingInBackground : something went wrong while retrieving files from the FTP Server maybe the path wasnt valid?");
             e.printStackTrace();
         }
 

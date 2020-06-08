@@ -9,9 +9,12 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
 
+import org.apache.commons.net.ftp.FTPFile;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import de.htwBerlin.ois.FileStructure.RemoteDirectory;
@@ -210,14 +213,29 @@ public class SftpClient
     }
 
 
-    public ArrayList getAllFileList(String path) throws IOException
+    public ArrayList<RemoteFile> getAllFileList(String path) throws IOException
     {
         if (!session.isConnected())
         {
-            //Log.e(TAG, "getAllFileList : wasnt connected to server, call connect() first");
+            Log.e(TAG, "getAllFileList : wasnt connected to server, call connect() first");
             return null;
         }
-        return null;
+        Log.d(TAG, " getAllFileList : getting file list for " + path + " ...");
+        ArrayList<RemoteFile> files = this.getFileList(path);
+        ArrayList<RemoteDirectory> dirs = this.getDirList(path);
+
+        for (RemoteDirectory d : dirs)
+        {
+            String subPath =  d.getPath();
+            ArrayList<RemoteFile> subFiles = getAllFileList(subPath);
+
+            for (RemoteFile f : subFiles)
+            {
+                files.add(f);
+            }
+        }
+        Log.d(TAG, " getAllFileList : got " + files.size() + "files from " + path);
+        return files;
     }
 
 
@@ -235,7 +253,7 @@ public class SftpClient
     }
 
 
-    public RemoteDirectory[] getDirList(String path) throws IOException
+    public ArrayList<RemoteDirectory> getDirList(String path) throws IOException
     {
         try
         {
@@ -246,7 +264,7 @@ public class SftpClient
             throw new IOException("cannot talk to Server anymore");
         }
 
-        List<RemoteDirectory> remoteDirectories = new ArrayList<>();
+        ArrayList<RemoteDirectory> remoteDirectories = new ArrayList<>();
 
         for (String s : usableOutput)
         {
@@ -274,14 +292,21 @@ public class SftpClient
             }
 
             if (currentSplit[0].startsWith("d"))
-                remoteDirectories.add(new RemoteDirectory("" + cleanedSplit[cleanedSplit.length - 1], readDate(cleanedSplit)));
-
+            {
+                remoteDirectories.add(new RemoteDirectory(path + "/" + cleanedSplit[cleanedSplit.length - 1] + "/", readDate(cleanedSplit)));
+            }
         }
-        return remoteDirectories.toArray(new RemoteDirectory[remoteDirectories.size()]);
+        return remoteDirectories;
     }
 
-    // path = "/"
-    public RemoteFile[] getFileList(String path) throws IOException
+
+    /**
+     *
+     * @param path
+     * @return
+     * @throws IOException
+     */
+    public ArrayList<RemoteFile> getFileList(String path) throws IOException
     {
         try
         {
@@ -291,7 +316,7 @@ public class SftpClient
         {
             throw new IOException(e.toString());
         }
-        List<RemoteFile> remoteFiles = new ArrayList<>();
+        ArrayList<RemoteFile> remoteFiles = new ArrayList<>();
 
         for (String s : usableOutput)
         {
@@ -320,10 +345,10 @@ public class SftpClient
 
             if (currentSplit[0].startsWith("-"))
             {
-                remoteFiles.add(new RemoteFile(cleanedSplit[cleanedSplit.length - 1], "", Long.parseLong(cleanedSplit[4]), readDate(cleanedSplit)));
+                remoteFiles.add(new RemoteFile(cleanedSplit[cleanedSplit.length - 1], path, Long.parseLong(cleanedSplit[4]), readDate(cleanedSplit)));
             }
         }
-        return remoteFiles.toArray(new RemoteFile[remoteFiles.size()]);
+        return remoteFiles;
     }
 
 }
