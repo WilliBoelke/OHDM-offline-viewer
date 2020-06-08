@@ -57,7 +57,7 @@ public class RemoteFile
         return fileSize;
     }
 
-    protected String getCreationDate()
+    public String getCreationDate()
     {
         return creationDate;
     }

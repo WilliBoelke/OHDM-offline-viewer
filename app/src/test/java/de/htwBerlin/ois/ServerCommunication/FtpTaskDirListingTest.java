@@ -25,7 +25,7 @@ import static org.junit.Assert.assertEquals;
 class FtpTaskDirListingTest
 {
     private FtpTaskDirListing dirListingTest;
-    private FtpClient mockFtpClient = Mockito.mock(FtpClient.class);
+    private SftpClient mocksFtpClient = Mockito.mock(SftpClient.class);
     private Context context = Mockito.mock(Context.class);
 
     private AsyncResponse asyncResponse = new AsyncResponse()
@@ -47,40 +47,34 @@ class FtpTaskDirListingTest
     public void setup()
     {
         dirListingTest = new FtpTaskDirListing(context, "path", asyncResponse);
-        dirListingTest.insertMockFtpClient(mockFtpClient);
+        dirListingTest.insertMockFtpClient(mocksFtpClient);
     }
+
 
 
     @Test
     public void verifyMethodCalls() throws IOException
     {
 
-        FTPFile mockFile1 = Mockito.mock(FTPFile.class);
-        FTPFile mockFile2 = Mockito.mock(FTPFile.class);
-        Mockito.when(mockFile1.getName()).thenReturn("mockFile1");
-        Mockito.when(mockFile1.getTimestamp()).thenReturn(Calendar.getInstance(Locale.GERMANY));
-        Mockito.when(mockFile2.getName()).thenReturn("mockFile2");
-        Mockito.when(mockFile2.getTimestamp()).thenReturn(Calendar.getInstance(Locale.GERMANY));
 
-        FTPFile[] files = new FTPFile[2];
-        files[0] = mockFile1;
-        files[1] = mockFile2;
+        RemoteDirectory mockFile1 = Mockito.mock(RemoteDirectory.class);
+        RemoteDirectory mockFile2 = Mockito.mock(RemoteDirectory.class);
+        Mockito.when(mockFile1.getFilename()).thenReturn("mockDir1");
+        Mockito.when(mockFile1.getCreationDate()).thenReturn("a date as strig");
+        Mockito.when(mockFile2.getFilename()).thenReturn("mockDir2");
+        Mockito.when(mockFile2.getCreationDate()).thenReturn("a date as strig");
 
+        ArrayList<RemoteDirectory> files = new ArrayList<>();
+        files.add(mockFile1);
+        files.add(mockFile2);
 
-        Mockito.when(mockFtpClient.connect()).thenReturn(1);
-        Mockito.when(mockFtpClient.getDirList("path")).thenReturn(files);
+        Mockito.when(mocksFtpClient.connect()).thenReturn(1);
+        Mockito.when(mocksFtpClient.getDirList("path")).thenReturn(files);
         dirListingTest.doInBackground();
 
-        Mockito.verify(mockFtpClient).connect();
-        Mockito.verify(mockFtpClient).getDirList("path");
-
-        Mockito.verify(mockFile1).getName();
-        Mockito.verify(mockFile1).getTimestamp();
-
-        Mockito.verify(mockFile2).getName();
-        Mockito.verify(mockFile2).getTimestamp();
-
-        Mockito.verify(mockFtpClient).closeConnection();
+        Mockito.verify(mocksFtpClient).connect();
+        Mockito.verify(mocksFtpClient).getDirList("path");
+        Mockito.verify(mocksFtpClient).closeConnection();
     }
 
 
@@ -88,9 +82,9 @@ class FtpTaskDirListingTest
     public void nullPointerException() throws IOException
     {
         // Should be cached
-        Mockito.when(mockFtpClient.getDirList("path")).thenThrow(new NullPointerException());
+        Mockito.when(mocksFtpClient.getDirList("path")).thenThrow(new NullPointerException());
 
-        dirListingTest.insertMockFtpClient(mockFtpClient);
+        dirListingTest.insertMockFtpClient(mocksFtpClient);
         dirListingTest.doInBackground();
 
         //The list should b empty but initialized
@@ -101,9 +95,9 @@ class FtpTaskDirListingTest
     public void ioException() throws IOException
     {
         // Should be cached
-        Mockito.when(mockFtpClient.getDirList("path")).thenThrow(new IOException());
+        Mockito.when(mocksFtpClient.getDirList("path")).thenThrow(new IOException());
 
-        dirListingTest.insertMockFtpClient(mockFtpClient);
+        dirListingTest.insertMockFtpClient(mocksFtpClient);
         dirListingTest.doInBackground();
 
         //The list should b empty but initialized
@@ -114,26 +108,25 @@ class FtpTaskDirListingTest
     @Test
     public void verifyValidResult() throws IOException
     {
-        FTPFile mockFile1 = Mockito.mock(FTPFile.class);
-        FTPFile mockFile2 = Mockito.mock(FTPFile.class);
-        Mockito.when(mockFile1.getName()).thenReturn("mockFile1");
-        Mockito.when(mockFile1.getTimestamp()).thenReturn(Calendar.getInstance(Locale.GERMANY));
-        Mockito.when(mockFile2.getName()).thenReturn("mockFile2");
-        Mockito.when(mockFile2.getTimestamp()).thenReturn(Calendar.getInstance(Locale.GERMANY));
+        RemoteDirectory mockFile1 = Mockito.mock(RemoteDirectory.class);
+        RemoteDirectory mockFile2 = Mockito.mock(RemoteDirectory.class);
+        Mockito.when(mockFile1.getFilename()).thenReturn("mockDir1");
+        Mockito.when(mockFile1.getCreationDate()).thenReturn("a date as strig");
+        Mockito.when(mockFile2.getFilename()).thenReturn("mockDir2");
+        Mockito.when(mockFile2.getCreationDate()).thenReturn("a date as strig");
 
-        FTPFile[] files = new FTPFile[2];
-        files[0] = mockFile1;
-        files[1] = mockFile2;
+        ArrayList<RemoteDirectory> files = new ArrayList<>();
+        files.add(mockFile1);
+        files.add(mockFile2);
 
-
-        Mockito.when(mockFtpClient.connect()).thenReturn(1);
-        Mockito.when(mockFtpClient.getDirList("path")).thenReturn(files);
+        Mockito.when(mocksFtpClient.connect()).thenReturn(1);
+        Mockito.when(mocksFtpClient.getDirList("path")).thenReturn(files);
         dirListingTest.doInBackground();
 
         assertEquals(2, dirListingTest.getResultList().size());
 
-        assertEquals(mockFile1.getName(), dirListingTest.getResultList().get(0).getFilename());
-        assertEquals(mockFile2.getName(), dirListingTest.getResultList().get(1).getFilename());
+        assertEquals(mockFile1.getFilename(), dirListingTest.getResultList().get(0).getFilename());
+        assertEquals(mockFile2.getFilename(), dirListingTest.getResultList().get(1).getFilename());
 
     }
 }

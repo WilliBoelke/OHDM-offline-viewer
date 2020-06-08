@@ -4,13 +4,10 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.apache.commons.net.ftp.FTPFile;
-
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import de.htwBerlin.ois.FileStructure.RemoteDirectory;
 
@@ -47,7 +44,7 @@ public class FtpTaskDirListing extends AsyncTask<Void, Void, String>
      * The path to the directory
      */
     private String path;
-    SftpClient ftpClient;
+    SftpClient sftpClient;
 
 
 
@@ -76,18 +73,18 @@ public class FtpTaskDirListing extends AsyncTask<Void, Void, String>
     {
         directoryList = new ArrayList<>();
         Log.d(TAG, "doingInBackground : initializing new FtpClient ");
-        if(ftpClient == null)
+        if (sftpClient == null)
         {
-            // when testing a mock object is already inserted
-            ftpClient = new SftpClient();
+            //in case a mock object was inserted before that
+            sftpClient = new SftpClient();
         }
-        ftpClient.connect();
+        sftpClient.connect();
         Log.d(TAG, "doingInBackground : connected to FtpClient");
 
         try
         {
             Log.d(TAG, "doingInBackground : trying to get directories");
-            directoryList = ftpClient.getDirList(path);
+            directoryList = sftpClient.getDirList(path);
             Log.d(TAG, "doingInBackground : got " + directoryList.size() + " dirs");
         }
         catch (IOException e)
@@ -102,7 +99,7 @@ public class FtpTaskDirListing extends AsyncTask<Void, Void, String>
         }
 
         Log.d(TAG, "doingInBackground :  closing server connection");
-        ftpClient.closeConnection();
+        sftpClient.closeConnection();
         return null;
     }
 
@@ -130,6 +127,6 @@ public class FtpTaskDirListing extends AsyncTask<Void, Void, String>
 
     public void insertMockFtpClient(SftpClient mockClient)
     {
-        this.ftpClient = mockClient;
+        this.sftpClient = mockClient;
     }
 }

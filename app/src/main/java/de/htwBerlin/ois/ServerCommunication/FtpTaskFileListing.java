@@ -48,7 +48,7 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
      */
     private String path;
 
-    private SftpClient ftpClient;
+    private SftpClient sftpClient;
 
 
     //------------Constructors------------
@@ -79,9 +79,12 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
         remoteFiles = new ArrayList<>();
         Log.d(TAG, "doingInBackground : initializing new FtpClient ");
 
-            ftpClient = new SftpClient();
-
-        ftpClient.connect();
+        if (sftpClient == null)
+        {
+            //in case a mock object was inserted before that
+            sftpClient = new SftpClient();
+        }
+        sftpClient.connect();
         Log.d(TAG, "doingInBackground : connected to FtpClient");
 
         RemoteFile[] files = new RemoteFile[0];
@@ -91,12 +94,12 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
             if (includeSubDirs == true)
             {
                 Log.d(TAG, "doingInBackground : getting all files including sub dirs...");
-                remoteFiles.addAll(ftpClient.getAllFileList(path));
+                remoteFiles.addAll(sftpClient.getAllFileList(path));
             }
             else
             {
                 Log.d(TAG, "doingInBackground : getting all files...");
-                remoteFiles = ftpClient.getFileList(path);
+                remoteFiles = sftpClient.getFileList(path);
             }
         }
         catch (IOException e)
@@ -111,7 +114,7 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
         }
 
         Log.d(TAG, "doingInBackground : finished - closing connection : ");
-        ftpClient.closeConnection();
+        sftpClient.closeConnection();
         return null;
     }
 
@@ -129,9 +132,9 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
         }
     }
 
-    public void insertMockFtpClient(FtpClient mockFtpClient)
+    public void insertMockFtpClient(SftpClient mockSftpClient)
     {
-       // this.ftpClient = mockFtpClient;
+        this.sftpClient = mockSftpClient;
     }
 
     public ArrayList<RemoteFile> getResultList()

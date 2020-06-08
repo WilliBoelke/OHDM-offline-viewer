@@ -41,8 +41,9 @@ public class FtpTaskFileDownloading extends AsyncTask<RemoteFile, Integer, Long>
     protected Long doInBackground(RemoteFile[] ohdmFile)
     {
         Log.d(TAG, "doingInBackground : initializing new FtpClient ");
-        if(sftpClient ==null)
+        if (sftpClient == null)
         {
+            //in case a mock object was inserted before that
             sftpClient = new SftpClient();
         }
         sftpClient.connect();
