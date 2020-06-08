@@ -21,7 +21,14 @@ public class Variables
      */
     protected static final int FTP_PORT = 5000;
 
+    /**
+     * the remote server port for sftp requests
+     */
     protected static final int SFTP_PORT = 5002;
+    /**
+     * The (S)FTP root directory
+     */
+    public static final String FTP_ROOT_DIRECTORY = "/map";
     /**
      * The username for ftp requests
      */

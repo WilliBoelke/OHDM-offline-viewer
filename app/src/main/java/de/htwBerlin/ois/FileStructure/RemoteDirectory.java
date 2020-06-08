@@ -2,6 +2,8 @@ package de.htwBerlin.ois.FileStructure;
 
 import java.io.Serializable;
 
+import static de.htwBerlin.ois.ServerCommunication.Variables.FTP_ROOT_DIRECTORY;
+
 /**
  * Class do describe a directory from the FTP Server
  *
@@ -39,7 +41,10 @@ public class RemoteDirectory implements Serializable
      */
     private void setFilename(String path)
     {
-        this.filename = path.replace("_", " ").trim();
+        path = path.replace(FTP_ROOT_DIRECTORY, "");
+        path = path.replace("/", "");
+        path =  path.replace("_", " ").trim();
+        this.filename = path;
     }
 
     public String getPath()

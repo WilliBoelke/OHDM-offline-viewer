@@ -31,6 +31,7 @@ import de.htwBerlin.ois.ServerCommunication.AsyncResponse;
 import de.htwBerlin.ois.ServerCommunication.FtpTaskFileDownloading;
 import de.htwBerlin.ois.ServerCommunication.FtpTaskFileListing;
 
+import static de.htwBerlin.ois.ServerCommunication.Variables.FTP_ROOT_DIRECTORY;
 import static de.htwBerlin.ois.ServerCommunication.Variables.MOST_RECENT_PATH;
 
 /**
@@ -324,7 +325,7 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
      */
     private void FTPListAllFiles()
     {
-        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(getActivity(), "/map", true, new AsyncResponse()
+        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(getActivity(), FTP_ROOT_DIRECTORY, true, new AsyncResponse()
         {
             @Override
             public void getOhdmFiles(ArrayList<RemoteFile> remoteFiles)
