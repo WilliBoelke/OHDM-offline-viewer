@@ -47,7 +47,7 @@ public class FtpTaskDirListing extends AsyncTask<Void, Void, String>
      * The path to the directory
      */
     private String path;
-    FtpClient ftpClient;
+    SftpClient ftpClient;
 
 
 
@@ -79,16 +79,17 @@ public class FtpTaskDirListing extends AsyncTask<Void, Void, String>
         if(ftpClient == null)
         {
             // when testing a mock object is already inserted
-            ftpClient = new FtpClient();
+            ftpClient = new SftpClient();
         }
         ftpClient.connect();
         Log.d(TAG, "doingInBackground : connected to FtpClient");
 
-        FTPFile[] files = new FTPFile[0];
+        RemoteDirectory[] files = new RemoteDirectory[0];
         try
         {
             Log.d(TAG, "doingInBackground : trying to get directories");
             files = ftpClient.getDirList(path);
+            Log.d(TAG, "doingInBackground : got " + files.length + " dirs");
         }
         catch (IOException e)
         {
@@ -101,12 +102,11 @@ public class FtpTaskDirListing extends AsyncTask<Void, Void, String>
             e.printStackTrace();
         }
 
-        for (FTPFile ftpFile : files)
+        for (RemoteDirectory ftpFile : files)
         {
-            Date date = ftpFile.getTimestamp().getTime();
-            RemoteDirectory dir = new RemoteDirectory(ftpFile.getName(), sdf.format(date.getTime()));
-            directoryList.add(dir);
-            Log.d(TAG, "doingInBackground : got dir " + dir.toString());
+
+            directoryList.add(ftpFile);
+            Log.d(TAG, "doingInBackground : got dir " + ftpFile.toString());
         }
         Log.d(TAG, "doingInBackground :  closing server connection");
         ftpClient.closeConnection();
@@ -135,7 +135,7 @@ public class FtpTaskDirListing extends AsyncTask<Void, Void, String>
         return this.directoryList;
     }
 
-    public void insertMockFtpClient(FtpClient mockClient)
+    public void insertMockFtpClient(SftpClient mockClient)
     {
         this.ftpClient = mockClient;
     }

@@ -4,13 +4,10 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.apache.commons.net.ftp.FTPFile;
-
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import de.htwBerlin.ois.FileStructure.RemoteFile;
 
@@ -51,7 +48,7 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
      */
     private String path;
 
-    private FtpClient ftpClient;
+    private SftpClient ftpClient;
 
 
     //------------Constructors------------
@@ -81,32 +78,28 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
     {
         remoteFiles = new ArrayList<>();
         Log.d(TAG, "doingInBackground : initializing new FtpClient ");
-        if (ftpClient == null)
-        {
-            ftpClient = new FtpClient();
-        }
+
+            ftpClient = new SftpClient();
+
         ftpClient.connect();
         Log.d(TAG, "doingInBackground : connected to FtpClient");
 
-        FTPFile[] files = new FTPFile[0];
+        RemoteFile[] files = new RemoteFile[0];
         try
 
         {
             if (includeSubDirs == true)
             {
                 Log.d(TAG, "doingInBackground : getting all files including sub dirs...");
-                remoteFiles.addAll(ftpClient.getAllFileList(path));
+                 remoteFiles.addAll(ftpClient.getAllFileList(path));
             }
             else
             {
                 Log.d(TAG, "doingInBackground : getting all files...");
                 files = ftpClient.getFileList(path);
-                for (FTPFile ftpFile : files)
+                for (RemoteFile ftpFile : files)
                 {
-                    Date date = ftpFile.getTimestamp().getTime();
-                    RemoteFile ohdm = new RemoteFile(ftpFile.getName(), path, (ftpFile.getSize() / 1024), sdf.format(date.getTime()));
-                    remoteFiles.add(ohdm);
-                    Log.d(TAG, "doingInBackground : got file : " + ohdm.toString());
+                 remoteFiles.add(ftpFile);
                 }
             }
         }
@@ -142,7 +135,7 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
 
     public void insertMockFtpClient(FtpClient mockFtpClient)
     {
-        this.ftpClient = mockFtpClient;
+       // this.ftpClient = mockFtpClient;
     }
 
     public ArrayList<RemoteFile> getResultList()

@@ -180,7 +180,7 @@ public class FragmentDownloadCenterCategories extends FragmentWithServerConnecti
 
     private void FTPGetDirectories()
     {
-        FtpTaskDirListing dirListing = new FtpTaskDirListing(getActivity(), "", asyncResponseDirListing);
+        FtpTaskDirListing dirListing = new FtpTaskDirListing(getActivity(), "/map", asyncResponseDirListing);
         dirListing.execute();
     }
 

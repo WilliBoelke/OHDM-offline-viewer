@@ -324,7 +324,7 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
      */
     private void FTPListAllFiles()
     {
-        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(getActivity(), "", true, new AsyncResponse()
+        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(getActivity(), "/map", true, new AsyncResponse()
         {
             @Override
             public void getOhdmFiles(ArrayList<RemoteFile> remoteFiles)

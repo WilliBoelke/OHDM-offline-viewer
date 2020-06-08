@@ -6,8 +6,7 @@ package de.htwBerlin.ois.ServerCommunication;
 public class Variables
 {
 
-    public static final String MOST_RECENT_PATH = "/most_recent";
-    public static final String LAST_REQUEST_PATH = "/last_request";
+    public static final String MOST_RECENT_PATH = "/map/most_recent";
     /**
      * The remote server ip
      * (For localhost in android emulator set to "10.0.2.2")
@@ -20,7 +19,9 @@ public class Variables
     /**
      * the remote server port for ftp requests
      */
-    protected static final int FTP_Port = 5000;
+    protected static final int FTP_PORT = 5000;
+
+    protected static final int SFTP_PORT = 5002;
     /**
      * The username for ftp requests
      */
