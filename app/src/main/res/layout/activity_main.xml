@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:background="?attr/backgroundColor"
     android:backgroundTint="?attr/backgroundColor"
-    tools:context=".MainActivity.MainActivity">
+    tools:context=".ui.mainActivity.MainActivity">
 
 
     <FrameLayout
