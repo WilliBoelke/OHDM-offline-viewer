@@ -15,7 +15,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-
+import  androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.File;
@@ -31,6 +31,8 @@ import de.htwBerlin.ois.ui.fragments.FragmentHome;
 import de.htwBerlin.ois.ui.fragments.FragmentNavigation;
 import de.htwBerlin.ois.ui.fragments.FragmentOptions;
 import de.htwBerlin.ois.ui.fragments.FragmentAbout;
+import de.htwBerlin.ois.factory.FragmentFactory;
+
 import de.htwBerlin.ois.R;
 
 /**
@@ -56,8 +58,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        Log.d(TAG, "onCreate : setting app theme...");
-        //supportFragmentManager.fragmentFactory
+        Log.d(TAG, "onCreate : setting app theme...");getSupportFragmentManager().setFragmentFactory(new FragmentFactory());
         super.onCreate(savedInstanceState);
         //Get settings from SharedPrefs
         if (getApplicationContext().getSharedPreferences(FragmentOptions.SETTINGS_SHARED_PREFERENCES, 0).getBoolean(FragmentOptions.DARK_MODE, false) == true)
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity
             if (intent.getStringExtra("Fragment").equals(FragmentOptions.ID))
             {
                 //if we came her from the reset method in the options fragment, we want the options fragment to appear again
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentOptions()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, FragmentOptions.class, new Bundle()).commit();
                 intent.putExtra("Fragment", "");
             }
         }
@@ -93,7 +94,7 @@ public class MainActivity extends AppCompatActivity
         {
             if(savedInstanceState == null)
             {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, defaultFragment).addToBackStack(null).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, FragmentHome.class, new Bundle()).addToBackStack(null).commit();
             }
         }
 
@@ -207,23 +208,23 @@ public class MainActivity extends AppCompatActivity
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item)
         {
-            Fragment selectedFragment = null;
+            Class selectedFragment = null;
             String id = null;
             // switch ... case to select the right Fragment to start
             switch (item.getItemId())
             {
                 case R.id.nav_home:
-                    selectedFragment = new FragmentHome();
+                    selectedFragment =  FragmentHome.class;
                     id = FragmentHome.ID;
                     break;
                 case R.id.nav_download:
-                    selectedFragment = new FragmentDownloadCenterAll();
+                    selectedFragment =  FragmentDownloadCenterAll.class;
                     id = FragmentHome.ID;
                     break;
                 case R.id.nav_navigation:
                     if (MapFileSingleton.getInstance().getFile() != null)
                     {
-                        selectedFragment = new FragmentNavigation();
+                        selectedFragment = FragmentNavigation.class;
                         id = FragmentNavigation.ID;
                     }
                     else
@@ -240,7 +241,7 @@ public class MainActivity extends AppCompatActivity
             // ... also commit
             try
             {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).addToBackStack(id).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment, new Bundle()).addToBackStack("").commit();
             }
             catch (NullPointerException e)
             {
@@ -261,16 +262,16 @@ public class MainActivity extends AppCompatActivity
         {
             case R.id.ab_menu_about:
                 Log.d(TAG, "Options Menu : replacing current fragment with FragmentAbout");
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentAbout()).addToBackStack(FragmentAbout.ID).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, FragmentAbout.class, new Bundle()).addToBackStack(FragmentAbout.ID).commit();
                 break;
 
             case R.id.ab_menu_faq:
                 Log.d(TAG, "Options Menu : replacing current fragment with FragmentFAQ");
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentFAQ()).addToBackStack(FragmentFAQ.ID).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, FragmentFAQ.class, new Bundle()).addToBackStack(FragmentFAQ.ID).commit();
                 break;
             case R.id.ab_menu_settings:
                 Log.d(TAG, "Options Menu : replacing current fragment with FragmentOptions");
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentOptions()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, FragmentOptions.class, new Bundle()).commit();
                 break;
             case R.id.ab_menu_search:
                 //no implemented here, to e implemented in fragments
