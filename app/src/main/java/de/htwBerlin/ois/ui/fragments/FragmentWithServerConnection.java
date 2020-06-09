@@ -1,6 +1,7 @@
 package de.htwBerlin.ois.ui.fragments;
 
-import android.support.v4.app.Fragment;
+
+import androidx.fragment.app.Fragment;
 
 public abstract class FragmentWithServerConnection extends Fragment
 {

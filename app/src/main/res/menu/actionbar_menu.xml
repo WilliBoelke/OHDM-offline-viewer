@@ -7,7 +7,7 @@
         android:icon="?attr/icon_search_toolbar"
         android:title="Search"
         app:showAsAction="ifRoom|collapseActionView"
-        app:actionViewClass="android.support.v7.widget.SearchView"/>
+        app:actionViewClass="android.widget.SearchView"/>
     <item
         android:id="@+id/ab_menu_settings"
         android:title="@string/menu_settings" />

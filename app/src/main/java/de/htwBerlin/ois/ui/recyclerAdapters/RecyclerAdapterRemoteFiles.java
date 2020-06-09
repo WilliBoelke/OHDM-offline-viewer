@@ -1,8 +1,6 @@
 package de.htwBerlin.ois.ui.recyclerAdapters;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,12 +10,14 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 
 import de.htwBerlin.ois.fileStructure.RemoteFile;
 import de.htwBerlin.ois.R;
 
-import static android.support.constraint.Constraints.TAG;
 
 /**
  * The RecyclerViewAdapter for ohdmFiles (->means files from the FTP server)
@@ -129,7 +129,6 @@ public class RecyclerAdapterRemoteFiles extends RecyclerView.Adapter<RecyclerAda
         protected FilterResults performFiltering(CharSequence constraint)
         {
             ArrayList<RemoteFile> filteredList = new ArrayList<>();
-            Log.e(TAG, "Size--" + ohdmFilesBackup.size());
             if (constraint == null || constraint.length() == 0)
             {
                 filteredList.addAll(ohdmFilesBackup);

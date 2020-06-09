@@ -6,15 +6,17 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -51,62 +53,11 @@ public class MainActivity extends AppCompatActivity
 
     //------------Activity/Fragment Lifecycle------------
 
-    /**
-     * Bottom Nav Listener
-     */
-    private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener()
-    {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item)
-        {
-            Fragment selectedFragment = null;
-            String id = null;
-            // switch ... case to select the right Fragment to start
-            switch (item.getItemId())
-            {
-                case R.id.nav_home:
-                    selectedFragment = new FragmentHome();
-                    id = FragmentHome.ID;
-                    break;
-                case R.id.nav_download:
-                    selectedFragment = new FragmentDownloadCenterAll();
-                    id = FragmentHome.ID;
-                    break;
-                case R.id.nav_navigation:
-                    if (MapFileSingleton.getInstance().getFile() != null)
-                    {
-                        selectedFragment = new FragmentNavigation();
-                        id = FragmentNavigation.ID;
-                    }
-                    else
-                    {
-                        Toast.makeText(getApplicationContext(), "You need to choose a map", Toast.LENGTH_LONG).show();
-                    }
-                    break;
-
-                default:
-                    return false;
-            }
-
-            // giving the FragmentManager the container and the fragment which should be loaded into view
-            // ... also commit
-            try
-            {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).addToBackStack(id).commit();
-            }
-            catch (NullPointerException e)
-            {
-                Log.e(TAG, "onNavigationItemSelected: Fragment was null ", e);
-            }
-            // return true to tell that everything did go right
-            return true;
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         Log.d(TAG, "onCreate : setting app theme...");
+        //supportFragmentManager.fragmentFactory
         super.onCreate(savedInstanceState);
         //Get settings from SharedPrefs
         if (getApplicationContext().getSharedPreferences(FragmentOptions.SETTINGS_SHARED_PREFERENCES, 0).getBoolean(FragmentOptions.DARK_MODE, false) == true)
@@ -176,31 +127,6 @@ public class MainActivity extends AppCompatActivity
 
     //------------Permissions------------
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case R.id.ab_menu_about:
-                Log.d(TAG, "Options Menu : replacing current fragment with FragmentAbout");
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentAbout()).addToBackStack(FragmentAbout.ID).commit();
-                break;
-
-            case R.id.ab_menu_faq:
-                Log.d(TAG, "Options Menu : replacing current fragment with FragmentFAQ");
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentFAQ()).addToBackStack(FragmentFAQ.ID).commit();
-                break;
-            case R.id.ab_menu_settings:
-                Log.d(TAG, "Options Menu : replacing current fragment with FragmentOptions");
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentOptions()).commit();
-                break;
-            case R.id.ab_menu_search:
-                //no implemented here, to e implemented in fragments
-                return false;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     /**
      * Checks necessary permissions
      * Source https://programtalk.com/vs/osmdroid/osmdroid-forge-app/src/main/java/org/osmdroid/forge/app/MainActivity.java/
@@ -227,9 +153,6 @@ public class MainActivity extends AppCompatActivity
             requestPermissions(params, REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
         }
     }
-
-
-    //------------Bottom Navigation------------
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
@@ -272,4 +195,88 @@ public class MainActivity extends AppCompatActivity
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
+
+
+    //------------Bottom Navigation------------
+
+    /**
+     * Bottom Nav Listener
+     */
+    private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener()
+    {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item)
+        {
+            Fragment selectedFragment = null;
+            String id = null;
+            // switch ... case to select the right Fragment to start
+            switch (item.getItemId())
+            {
+                case R.id.nav_home:
+                    selectedFragment = new FragmentHome();
+                    id = FragmentHome.ID;
+                    break;
+                case R.id.nav_download:
+                    selectedFragment = new FragmentDownloadCenterAll();
+                    id = FragmentHome.ID;
+                    break;
+                case R.id.nav_navigation:
+                    if (MapFileSingleton.getInstance().getFile() != null)
+                    {
+                        selectedFragment = new FragmentNavigation();
+                        id = FragmentNavigation.ID;
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(), "You need to choose a map", Toast.LENGTH_LONG).show();
+                    }
+                    break;
+
+                default:
+                    return false;
+            }
+
+            // giving the FragmentManager the container and the fragment which should be loaded into view
+            // ... also commit
+            try
+            {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).addToBackStack(id).commit();
+            }
+            catch (NullPointerException e)
+            {
+                Log.e(TAG, "onNavigationItemSelected: Fragment was null ", e);
+            }
+            // return true to tell that everything did go right
+            return true;
+        }
+    };
+
+
+    //------------Toolbar Menu------------
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.ab_menu_about:
+                Log.d(TAG, "Options Menu : replacing current fragment with FragmentAbout");
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentAbout()).addToBackStack(FragmentAbout.ID).commit();
+                break;
+
+            case R.id.ab_menu_faq:
+                Log.d(TAG, "Options Menu : replacing current fragment with FragmentFAQ");
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentFAQ()).addToBackStack(FragmentFAQ.ID).commit();
+                break;
+            case R.id.ab_menu_settings:
+                Log.d(TAG, "Options Menu : replacing current fragment with FragmentOptions");
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentOptions()).commit();
+                break;
+            case R.id.ab_menu_search:
+                //no implemented here, to e implemented in fragments
+                return false;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

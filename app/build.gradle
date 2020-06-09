@@ -29,10 +29,6 @@ dependencies {
     implementation group: 'org.apache.httpcomponents', name: 'httpclient-android', version: '4.3.5.1'
     implementation 'android.arch.lifecycle:extensions:1.1.1'
 
-    // OSM Mapsforge
-    implementation 'org.osmdroid:osmdroid-android:6.1.6'
-    implementation 'org.osmdroid:osmdroid-mapsforge:6.1.6'
-
     // Mapsforge
     implementation 'org.mapsforge:mapsforge-core:0.13.0'
     implementation 'org.mapsforge:mapsforge-map:0.13.0'
@@ -45,11 +41,28 @@ dependencies {
     // FTP
     implementation files('libs/commons-net-3.6.jar')
 
+    // Espresso
+    def androidx_test_espresso = "3.1.0"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_test_espresso"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$androidx_test_espresso"
+
+    // androidx.test
+    def androidx_test = "1.1.0"
+    androidTestImplementation "androidx.test:runner:$androidx_test"
+    androidTestImplementation "androidx.test:core:$androidx_test"
+    androidTestImplementation "androidx.test.ext:junit-ktx:$androidx_test"
+
+    // androidx.fragment
+    def fragment_version = "1.2.0-rc01" // must use for new factory stuff
+    debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
+    implementation "androidx.fragment:fragment:$fragment_version"
+
+    //mockito
     implementation 'org.mockito:mockito-core:3.3.3'
+
+    //JUnit
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
-
-    testImplementation group: 'org.robolectric', name: 'robolectric', version: '3.0'
     testImplementation 'junit:junit:4.12'
 }
 
