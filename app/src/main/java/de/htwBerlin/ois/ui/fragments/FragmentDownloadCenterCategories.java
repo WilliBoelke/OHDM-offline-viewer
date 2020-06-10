@@ -25,6 +25,8 @@ import de.htwBerlin.ois.R;
 import de.htwBerlin.ois.serverCommunication.AsyncResponse;
 import de.htwBerlin.ois.serverCommunication.FtpTaskDirListing;
 
+import static de.htwBerlin.ois.ServerCommunication.Variables.FTP_ROOT_DIRECTORY;
+
 
 public class FragmentDownloadCenterCategories extends FragmentWithServerConnection
 {
@@ -182,7 +184,7 @@ public class FragmentDownloadCenterCategories extends FragmentWithServerConnecti
 
     private void FTPGetDirectories()
     {
-        FtpTaskDirListing dirListing = new FtpTaskDirListing(getActivity(), "", asyncResponseDirListing);
+        FtpTaskDirListing dirListing = new FtpTaskDirListing(getActivity(), FTP_ROOT_DIRECTORY, asyncResponseDirListing);
         dirListing.execute();
     }
 

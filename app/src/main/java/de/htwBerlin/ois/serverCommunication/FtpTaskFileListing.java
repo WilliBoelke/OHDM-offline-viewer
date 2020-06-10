@@ -1,18 +1,16 @@
-package de.htwBerlin.ois.serverCommunication;
+package de.htwBerlin.ois.ServerCommunication;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.apache.commons.net.ftp.FTPFile;
-
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
-import de.htwBerlin.ois.fileStructure.RemoteFile;
+import de.htwBerlin.ois.FileStructure.RemoteFile;
+import de.htwBerlin.ois.ServerCommunication.SftpClient;
 
 
 /**
@@ -40,7 +38,7 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
      * Implementation of the {@link  AsyncResponse} interface
      * (To be implemented when initializing this class)
      */
-    private AsyncResponse delegate;
+    private de.htwBerlin.ois.ServerCommunication.AsyncResponse delegate;
     /**
      * Context
      */
@@ -51,7 +49,7 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
      */
     private String path;
 
-    private FtpClient ftpClient;
+    private SftpClient sftpClient;
 
 
     //------------Constructors------------
@@ -63,7 +61,7 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
      * @param path
      * @param asyncResponse
      */
-    public FtpTaskFileListing(Context context, String path, boolean includeSubDirs, AsyncResponse asyncResponse)
+    public FtpTaskFileListing(Context context, String path, boolean includeSubDirs, de.htwBerlin.ois.ServerCommunication.AsyncResponse asyncResponse)
     {
         Log.d(TAG, "Constructor : new FtpTaskFileListing with : path  = " + path + " includeSubDirs = " + includeSubDirs);
         this.includeSubDirs = includeSubDirs;
@@ -81,48 +79,43 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
     {
         remoteFiles = new ArrayList<>();
         Log.d(TAG, "doingInBackground : initializing new FtpClient ");
-        if (ftpClient == null)
+
+        if (sftpClient == null)
         {
-            ftpClient = new FtpClient();
+            //in case a mock object was inserted before that
+            sftpClient = new SftpClient();
         }
-        ftpClient.connect();
+        sftpClient.connect();
         Log.d(TAG, "doingInBackground : connected to FtpClient");
 
-        FTPFile[] files = new FTPFile[0];
+        RemoteFile[] files = new RemoteFile[0];
         try
 
         {
             if (includeSubDirs == true)
             {
                 Log.d(TAG, "doingInBackground : getting all files including sub dirs...");
-                remoteFiles.addAll(ftpClient.getAllFileList(path));
+                remoteFiles.addAll(sftpClient.getAllFileList(path));
             }
             else
             {
                 Log.d(TAG, "doingInBackground : getting all files...");
-                files = ftpClient.getFileList(path);
-                for (FTPFile ftpFile : files)
-                {
-                    Date date = ftpFile.getTimestamp().getTime();
-                    RemoteFile ohdm = new RemoteFile(ftpFile.getName(), path, (ftpFile.getSize() / 1024), sdf.format(date.getTime()));
-                    remoteFiles.add(ohdm);
-                    Log.d(TAG, "doingInBackground : got file : " + ohdm.toString());
-                }
+                remoteFiles = sftpClient.getFileList(path);
             }
         }
         catch (IOException e)
         {
-            Log.e(TAG, "doinIBackground : something went wrong while retrieving files from the FTP Server");
+            Log.e(TAG, "doingInBackground : something went wrong while retrieving files from the FTP Server");
             e.printStackTrace();
         }
         catch (NullPointerException e)
         {
-            Log.e(TAG, "doinIBackground : something went wrong while retrieving files from the FTP Server maybe the path wasnt valid?");
+            Log.e(TAG, "doingInBackground : something went wrong while retrieving files from the FTP Server maybe the path wasnt valid?");
             e.printStackTrace();
         }
 
         Log.d(TAG, "doingInBackground : finished - closing connection : ");
-        ftpClient.closeConnection();
+        sftpClient.closeConnection();
         return null;
     }
 
@@ -140,9 +133,9 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
         }
     }
 
-    public void insertMockFtpClient(FtpClient mockFtpClient)
+    public void insertMockFtpClient(SftpClient mockSftpClient)
     {
-        this.ftpClient = mockFtpClient;
+        this.sftpClient = mockSftpClient;
     }
 
     public ArrayList<RemoteFile> getResultList()

@@ -1,4 +1,4 @@
-package de.htwBerlin.ois.serverCommunication;
+package de.htwBerlin.ois.ServerCommunication;
 
 import android.util.Log;
 
@@ -18,20 +18,22 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import de.htwBerlin.ois.fileStructure.RemoteFile;
+import de.htwBerlin.ois.FileStructure.RemoteFile;
 
-import static de.htwBerlin.ois.ui.mainActivity.MainActivity.MAP_FILE_PATH;
-import static de.htwBerlin.ois.serverCommunication.Variables.FTP_Port;
-import static de.htwBerlin.ois.serverCommunication.Variables.SERVER_IP;
-import static de.htwBerlin.ois.serverCommunication.Variables.USER_NAME;
-import static de.htwBerlin.ois.serverCommunication.Variables.USER_PASSWORD;
+import static de.htwBerlin.ois.MainActivity.MainActivity.MAP_FILE_PATH;
+import static de.htwBerlin.ois.ServerCommunication.Variables.FTP_PORT;
+import static de.htwBerlin.ois.ServerCommunication.Variables.SERVER_IP;
+import static de.htwBerlin.ois.ServerCommunication.Variables.USER_NAME;
+import static de.htwBerlin.ois.ServerCommunication.Variables.USER_PASSWORD;
 
 /**
  * Wraps the apache FTPClient
+ * This should not be used annymore
  *
  * @author NoteFox
  * @author WilliBoelke
  */
+@Deprecated
 public class FtpClient
 {
 
@@ -75,7 +77,7 @@ public class FtpClient
      * 4 = IO Exception
      * 5 = if already connected
      */
-   protected int connect()
+    protected int connect()
     {
         Log.d(TAG, "connect : connecting to ftp client...");
         if (! client.isConnected())
@@ -83,8 +85,8 @@ public class FtpClient
             Log.d(TAG, "connect : getting passive FTP client");
             try
             {
-                Log.d(TAG, "connect : connecting to " + SERVER_IP + " : " + FTP_Port);
-                client.connect(SERVER_IP, FTP_Port);
+                Log.d(TAG, "connect : connecting to " + SERVER_IP + " : " + FTP_PORT);
+                client.connect(SERVER_IP, FTP_PORT);
                 // After connection attempt, you should check the reply code to verify
                 // success.
                 int reply = client.getReplyCode();
@@ -152,7 +154,7 @@ public class FtpClient
      */
     protected void closeConnection()
     {
-        Log.d(TAG, "closeConnection : trying to close connection with " + SERVER_IP + " : " + FTP_Port);
+        Log.d(TAG, "closeConnection : trying to close connection with " + SERVER_IP + " : " + FTP_PORT);
         if (!client.isConnected())
         {
             Log.d(TAG, "closeConnection : nothing to close, the FTPClient wasn't initialized");
@@ -210,7 +212,7 @@ public class FtpClient
     {
         if (!client.isConnected())
         {
-            Log.e(TAG, "getFileList : wasnt connected to server, call connect() first");
+            Log.e(TAG, "getFileList : wasn't connected to server, call connect() first");
             return null;
         }
 
@@ -240,7 +242,7 @@ public class FtpClient
     {
         if (!client.isConnected())
         {
-            Log.e(TAG, "getAllFileList : wasnt connected to server, call connect() first");
+            Log.e(TAG, "getAllFileList : wasn't connected to server, call connect() first");
             return null;
         }
         Log.d(TAG, " getAllFileList : getting file list for " + path + " ...");

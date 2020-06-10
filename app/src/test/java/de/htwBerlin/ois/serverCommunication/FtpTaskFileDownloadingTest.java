@@ -15,31 +15,17 @@ import de.htwBerlin.ois.fileStructure.RemoteFile;
 class FtpTaskFileDownloadingTest
 {
     private FtpTaskFileDownloading fileDownloadingTest;
-    private FtpClient mockFtpClient = Mockito.mock(FtpClient.class);
+    private SftpClient mockFtpClient = Mockito.mock(SftpClient.class);
     private RemoteFile mockFile1;
     private Context context = Mockito.mock(Context.class);
     private RemoteFile[] files;
 
-    AsyncResponse asyncResponse = new AsyncResponse()
-    {
-        @Override
-        public void getOhdmFiles(ArrayList<RemoteFile> remoteFiles)
-        {
-
-        }
-
-        @Override
-        public void getRemoteDirectories(ArrayList<RemoteDirectory> remoteDirectories)
-        {
-
-        }
-    };
 
     @BeforeEach
     public void setup()
     {
         fileDownloadingTest = new FtpTaskFileDownloading(context);
-        fileDownloadingTest.insertMockFtpClient(mockFtpClient);
+        fileDownloadingTest.insertMockSftpClient(mockFtpClient);
 
         mockFile1 = Mockito.mock(RemoteFile.class);
         Mockito.when(mockFile1.getFilename()).thenReturn("mockFile1");
@@ -66,13 +52,4 @@ class FtpTaskFileDownloadingTest
         Mockito.verify(mockFtpClient).closeConnection();
     }
 
-    @Test
-    public void ioException() throws IOException
-    {
-        // Should be cached
-        Mockito.when(mockFtpClient.downloadFile(Mockito.anyString(), Mockito.anyString())).thenThrow(new IOException());
-
-        fileDownloadingTest.insertMockFtpClient(mockFtpClient);
-        fileDownloadingTest.doInBackground(files);
-    }
 }

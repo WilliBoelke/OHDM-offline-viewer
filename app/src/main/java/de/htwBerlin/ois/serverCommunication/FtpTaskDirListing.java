@@ -4,16 +4,13 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.apache.commons.net.ftp.FTPFile;
-
-import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import de.htwBerlin.ois.fileStructure.RemoteDirectory;
 
+import de.htwBerlin.ois.ServerCommunication.SftpClient;
 /**
  * Async task that lists directories hosted on FTP Remote Server
  *
@@ -38,7 +35,7 @@ public class FtpTaskDirListing extends AsyncTask<Void, Void, String>
      * Implementation of the {@link  AsyncResponse} interface
      * (To be implemented when initializing this class)
      */
-    private AsyncResponse delegate;
+    private de.htwBerlin.ois.ServerCommunication.AsyncResponse delegate;
     /**
      * Context
      */
@@ -47,8 +44,7 @@ public class FtpTaskDirListing extends AsyncTask<Void, Void, String>
      * The path to the directory
      */
     private String path;
-    FtpClient ftpClient;
-
+    private SftpClient sftpClient;
 
 
     //------------Constructors------------
@@ -60,7 +56,7 @@ public class FtpTaskDirListing extends AsyncTask<Void, Void, String>
      * @param path
      * @param asyncResponse
      */
-    public FtpTaskDirListing(Context context, String path, AsyncResponse asyncResponse)
+    public FtpTaskDirListing(Context context, String path, de.htwBerlin.ois.ServerCommunication.AsyncResponse asyncResponse)
     {
         Log.d(TAG, "Constructor : new FtpTaskDirListing with : path  = " + path);
         this.delegate = asyncResponse;
@@ -76,24 +72,19 @@ public class FtpTaskDirListing extends AsyncTask<Void, Void, String>
     {
         directoryList = new ArrayList<>();
         Log.d(TAG, "doingInBackground : initializing new FtpClient ");
-        if(ftpClient == null)
+        if (sftpClient == null)
         {
-            // when testing a mock object is already inserted
-            ftpClient = new FtpClient();
+            //in case a mock object was inserted before that
+            sftpClient = new de.htwBerlin.ois.ServerCommunication.SftpClient();
         }
-        ftpClient.connect();
+        sftpClient.connect();
         Log.d(TAG, "doingInBackground : connected to FtpClient");
 
-        FTPFile[] files = new FTPFile[0];
         try
         {
             Log.d(TAG, "doingInBackground : trying to get directories");
-            files = ftpClient.getDirList(path);
-        }
-        catch (IOException e)
-        {
-            Log.e(TAG, "doingInBackground : something went wrong while while retrieving the directories");
-            e.printStackTrace();
+            directoryList = sftpClient.getDirList(path);
+            Log.d(TAG, "doingInBackground : got " + directoryList.size() + " dirs");
         }
         catch (NullPointerException e)
         {
@@ -101,15 +92,8 @@ public class FtpTaskDirListing extends AsyncTask<Void, Void, String>
             e.printStackTrace();
         }
 
-        for (FTPFile ftpFile : files)
-        {
-            Date date = ftpFile.getTimestamp().getTime();
-            RemoteDirectory dir = new RemoteDirectory(ftpFile.getName(), sdf.format(date.getTime()));
-            directoryList.add(dir);
-            Log.d(TAG, "doingInBackground : got dir " + dir.toString());
-        }
         Log.d(TAG, "doingInBackground :  closing server connection");
-        ftpClient.closeConnection();
+        sftpClient.closeConnection();
         return null;
     }
 
@@ -135,8 +119,8 @@ public class FtpTaskDirListing extends AsyncTask<Void, Void, String>
         return this.directoryList;
     }
 
-    public void insertMockFtpClient(FtpClient mockClient)
+    public void insertMockFtpClient(SftpClient mockClient)
     {
-        this.ftpClient = mockClient;
+        this.sftpClient = mockClient;
     }
 }
