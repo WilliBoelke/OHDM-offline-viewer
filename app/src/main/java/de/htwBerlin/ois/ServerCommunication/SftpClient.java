@@ -1,4 +1,4 @@
-package de.htwBerlin.ois.ServerCommunication;
+package de.htwBerlin.ois.serverCommunication;
 
 
 import android.util.Log;
@@ -13,14 +13,14 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import de.htwBerlin.ois.FileStructure.RemoteDirectory;
-import de.htwBerlin.ois.FileStructure.RemoteFile;
+import de.htwBerlin.ois.fileStructure.RemoteDirectory;
+import de.htwBerlin.ois.fileStructure.RemoteFile;
 
-import static de.htwBerlin.ois.MainActivity.MainActivity.MAP_FILE_PATH;
-import static de.htwBerlin.ois.ServerCommunication.Variables.SERVER_IP;
-import static de.htwBerlin.ois.ServerCommunication.Variables.SFTP_PORT;
-import static de.htwBerlin.ois.ServerCommunication.Variables.USER_NAME;
-import static de.htwBerlin.ois.ServerCommunication.Variables.USER_PASSWORD;
+import static de.htwBerlin.ois.ui.mainActivity.MainActivity.MAP_FILE_PATH;
+import static de.htwBerlin.ois.serverCommunication.Variables.SERVER_IP;
+import static de.htwBerlin.ois.serverCommunication.Variables.SFTP_PORT;
+import static de.htwBerlin.ois.serverCommunication.Variables.USER_NAME;
+import static de.htwBerlin.ois.serverCommunication.Variables.USER_PASSWORD;
 
 
 public class SftpClient

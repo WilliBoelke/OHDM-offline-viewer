@@ -12,7 +12,7 @@ import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.net.HttpURLConnection;
 
-import de.htwBerlin.ois.ServerCommunication.HTTPRequestNewMap;
+import de.htwBerlin.ois.serverCommunication.HTTPRequestNewMap;
 import static org.junit.Assert.assertEquals;
 
 class HTTPRequestNewMapTest

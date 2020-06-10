@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import de.htwBerlin.ois.fileStructure.RemoteDirectory;
 
-import de.htwBerlin.ois.ServerCommunication.SftpClient;
+import de.htwBerlin.ois.serverCommunication.SftpClient;
 /**
  * Async task that lists directories hosted on FTP Remote Server
  *
@@ -35,7 +35,7 @@ public class FtpTaskDirListing extends AsyncTask<Void, Void, String>
      * Implementation of the {@link  AsyncResponse} interface
      * (To be implemented when initializing this class)
      */
-    private de.htwBerlin.ois.ServerCommunication.AsyncResponse delegate;
+    private AsyncResponse delegate;
     /**
      * Context
      */
@@ -56,7 +56,7 @@ public class FtpTaskDirListing extends AsyncTask<Void, Void, String>
      * @param path
      * @param asyncResponse
      */
-    public FtpTaskDirListing(Context context, String path, de.htwBerlin.ois.ServerCommunication.AsyncResponse asyncResponse)
+    public FtpTaskDirListing(Context context, String path, AsyncResponse asyncResponse)
     {
         Log.d(TAG, "Constructor : new FtpTaskDirListing with : path  = " + path);
         this.delegate = asyncResponse;
@@ -75,7 +75,7 @@ public class FtpTaskDirListing extends AsyncTask<Void, Void, String>
         if (sftpClient == null)
         {
             //in case a mock object was inserted before that
-            sftpClient = new de.htwBerlin.ois.ServerCommunication.SftpClient();
+            sftpClient = new SftpClient();
         }
         sftpClient.connect();
         Log.d(TAG, "doingInBackground : connected to FtpClient");

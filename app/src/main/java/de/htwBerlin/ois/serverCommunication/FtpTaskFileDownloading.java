@@ -1,4 +1,4 @@
-package de.htwBerlin.ois.ServerCommunication;
+package de.htwBerlin.ois.serverCommunication;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -7,8 +7,8 @@ import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 
-import de.htwBerlin.ois.FileStructure.RemoteFile;
-import de.htwBerlin.ois.ServerCommunication.SftpClient;
+import de.htwBerlin.ois.fileStructure.RemoteFile;
+import de.htwBerlin.ois.serverCommunication.SftpClient;
 
 /**
  * Asynctask that downloads files from FTP Remote server

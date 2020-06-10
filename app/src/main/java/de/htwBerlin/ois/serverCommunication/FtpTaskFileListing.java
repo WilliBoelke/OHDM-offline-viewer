@@ -1,4 +1,4 @@
-package de.htwBerlin.ois.ServerCommunication;
+package de.htwBerlin.ois.serverCommunication;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -9,8 +9,8 @@ import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import de.htwBerlin.ois.FileStructure.RemoteFile;
-import de.htwBerlin.ois.ServerCommunication.SftpClient;
+import de.htwBerlin.ois.fileStructure.RemoteFile;
+import de.htwBerlin.ois.serverCommunication.SftpClient;
 
 
 /**
@@ -38,7 +38,7 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
      * Implementation of the {@link  AsyncResponse} interface
      * (To be implemented when initializing this class)
      */
-    private de.htwBerlin.ois.ServerCommunication.AsyncResponse delegate;
+    private AsyncResponse delegate;
     /**
      * Context
      */
@@ -61,7 +61,7 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
      * @param path
      * @param asyncResponse
      */
-    public FtpTaskFileListing(Context context, String path, boolean includeSubDirs, de.htwBerlin.ois.ServerCommunication.AsyncResponse asyncResponse)
+    public FtpTaskFileListing(Context context, String path, boolean includeSubDirs, AsyncResponse asyncResponse)
     {
         Log.d(TAG, "Constructor : new FtpTaskFileListing with : path  = " + path + " includeSubDirs = " + includeSubDirs);
         this.includeSubDirs = includeSubDirs;

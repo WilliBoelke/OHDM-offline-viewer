@@ -1,4 +1,4 @@
-package de.htwBerlin.ois.ServerCommunication;
+package de.htwBerlin.ois.serverCommunication;
 
 import android.util.Log;
 
@@ -18,13 +18,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import de.htwBerlin.ois.FileStructure.RemoteFile;
+import de.htwBerlin.ois.fileStructure.RemoteFile;
 
-import static de.htwBerlin.ois.MainActivity.MainActivity.MAP_FILE_PATH;
-import static de.htwBerlin.ois.ServerCommunication.Variables.FTP_PORT;
-import static de.htwBerlin.ois.ServerCommunication.Variables.SERVER_IP;
-import static de.htwBerlin.ois.ServerCommunication.Variables.USER_NAME;
-import static de.htwBerlin.ois.ServerCommunication.Variables.USER_PASSWORD;
+import static de.htwBerlin.ois.ui.mainActivity.MainActivity.MAP_FILE_PATH;
+import static de.htwBerlin.ois.serverCommunication.Variables.FTP_PORT;
+import static de.htwBerlin.ois.serverCommunication.Variables.SERVER_IP;
+import static de.htwBerlin.ois.serverCommunication.Variables.USER_NAME;
+import static de.htwBerlin.ois.serverCommunication.Variables.USER_PASSWORD;
 
 /**
  * Wraps the apache FTPClient

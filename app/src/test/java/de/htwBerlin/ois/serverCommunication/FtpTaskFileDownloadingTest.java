@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import de.htwBerlin.ois.fileStructure.RemoteDirectory;
 import de.htwBerlin.ois.fileStructure.RemoteFile;
+import de.htwBerlin.ois.serverCommunication.FtpTaskFileDownloading;
 
 class FtpTaskFileDownloadingTest
 {

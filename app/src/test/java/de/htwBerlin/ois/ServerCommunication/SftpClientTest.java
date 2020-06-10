@@ -1,4 +1,5 @@
-package de.htwBerlin.ois.ServerCommunication;
+package de.htwBerlin.ois.serverCommunication;
+
 
 
 import com.jcraft.jsch.ChannelSftp;
@@ -13,8 +14,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import de.htwBerlin.ois.FileStructure.RemoteDirectory;
-import de.htwBerlin.ois.FileStructure.RemoteFile;
+import de.htwBerlin.ois.fileStructure.RemoteDirectory;
+import de.htwBerlin.ois.fileStructure.RemoteFile;
+import de.htwBerlin.ois.fileStructure.RemoteDirectory;
+import de.htwBerlin.ois.fileStructure.RemoteFile;
+import de.htwBerlin.ois.serverCommunication.Variables;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -27,7 +31,7 @@ class SftpClientTest
 
     Session mockSession = Mockito.mock(Session.class);
     ChannelSftp mockChannel = Mockito.mock(ChannelSftp.class);
-    de.htwBerlin.ois.ServerCommunication.SftpClient testSftpClient;
+    de.htwBerlin.ois.serverCommunication.SftpClient testSftpClient;
     private String serverOutput = "[drwxr-xr-x   8 s0569194 s0569194     4096 Jun  8 15:05 ., " + "-rw-r--r--   1 s0569194 s0569194   815311 Jun  8 12:26 testRequest.map, " + "drwxr-xr-x   2 s0569194 s0569194     4096 Jun  4 11:36 EastGermany, " + "drwxr-xr-x   2 s0569194 s0569194     4096 Jun  4 11:41 last_requests, " + "drwxr-xr-x   2 s0569194 s0569194     4096 Jun  4 12:02 WestGermany," + " drwxr-xr-x   2 s0569194 s0569194     4096 Jun  4 11:43 most_recent, " + "-rw-r--r--   2 s0569194 s0569194     4096 Jun  4 11:45 berlin.map, " + "drwxr-xr-x   2 s0569194 s0569194     4096 Jun  4 11:51 SouthGermany, " + "-rw-r--r--   1 s0569194 s0569194  4718669 Jun  4 11:35 ohdm.map]";
 
     @BeforeEach
@@ -35,7 +39,7 @@ class SftpClientTest
     {
         when(mockSession.isConnected()).thenReturn(true);
         when(mockChannel.isConnected()).thenReturn(true);
-        this.testSftpClient = new de.htwBerlin.ois.ServerCommunication.SftpClient();
+        this.testSftpClient = new de.htwBerlin.ois.serverCommunication.SftpClient();
         testSftpClient.insertMockObjects(mockSession, mockChannel);
     }
 
