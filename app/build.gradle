@@ -29,9 +29,6 @@ dependencies {
     implementation group: 'org.apache.httpcomponents', name: 'httpclient-android', version: '4.3.5.1'
     implementation 'android.arch.lifecycle:extensions:1.1.1'
 
-    // OSM Mapsforge
-    implementation 'org.osmdroid:osmdroid-android:6.1.6'
-    implementation 'org.osmdroid:osmdroid-mapsforge:6.1.6'
 
     // Mapsforge
     implementation 'org.mapsforge:mapsforge-core:0.13.0'
@@ -43,6 +40,7 @@ dependencies {
     implementation 'com.caverock:androidsvg:1.4'
 
     // FTP
+
     implementation files('libs/commons-net-3.6.jar')
     implementation group: 'com.jcraft', name: 'jsch', version: '0.1.55'
 

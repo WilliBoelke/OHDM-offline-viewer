@@ -8,6 +8,7 @@ import android.widget.Toast;
 import java.lang.ref.WeakReference;
 
 import de.htwBerlin.ois.FileStructure.RemoteFile;
+import de.htwBerlin.ois.ServerCommunication.SftpClient;
 
 /**
  * Asynctask that downloads files from FTP Remote server

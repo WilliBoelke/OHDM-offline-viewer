@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import de.htwBerlin.ois.FileStructure.RemoteFile;
+import de.htwBerlin.ois.ServerCommunication.SftpClient;
 
 
 /**
@@ -37,7 +38,7 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
      * Implementation of the {@link  AsyncResponse} interface
      * (To be implemented when initializing this class)
      */
-    private AsyncResponse delegate;
+    private de.htwBerlin.ois.ServerCommunication.AsyncResponse delegate;
     /**
      * Context
      */
@@ -60,7 +61,7 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
      * @param path
      * @param asyncResponse
      */
-    public FtpTaskFileListing(Context context, String path, boolean includeSubDirs, AsyncResponse asyncResponse)
+    public FtpTaskFileListing(Context context, String path, boolean includeSubDirs, de.htwBerlin.ois.ServerCommunication.AsyncResponse asyncResponse)
     {
         Log.d(TAG, "Constructor : new FtpTaskFileListing with : path  = " + path + " includeSubDirs = " + includeSubDirs);
         this.includeSubDirs = includeSubDirs;
