@@ -59,128 +59,128 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/inner_constraint_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-
-            <TextView
-                android:id="@+id/all_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="all maps"
-                android:textAllCaps="false"
-                android:textColor="?attr/textColorPrimary"
-                android:textSize="@dimen/primary_font_size"
-                android:typeface="normal"
-                android:visibility="visible"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/latest_maps_recycler" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/latest_maps_recycler"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/inner_constraint_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lates_tv" />
-
-            <TextView
-                android:id="@+id/lates_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:text="most recent maps"
-                android:textAllCaps="false"
-                android:textColor="?attr/textColorPrimary"
-                android:textSize="@dimen/primary_font_size"
-                android:typeface="normal"
-                android:visibility="visible"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button_categories" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
 
-            <android.widget.SearchView
-                android:id="@+id/latest_sv"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintBottom_toBottomOf="@+id/lates_tv"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/lates_tv"
-                app:layout_constraintTop_toTopOf="@+id/lates_tv" />
+                <TextView
+                    android:id="@+id/all_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="all maps"
+                    android:textAllCaps="false"
+                    android:textColor="?attr/textColorPrimary"
+                    android:textSize="@dimen/primary_font_size"
+                    android:typeface="normal"
+                    android:visibility="visible"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/latest_maps_recycler" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/latest_maps_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/lates_tv" />
+
+                <TextView
+                    android:id="@+id/lates_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="most recent maps"
+                    android:textAllCaps="false"
+                    android:textColor="?attr/textColorPrimary"
+                    android:textSize="@dimen/primary_font_size"
+                    android:typeface="normal"
+                    android:visibility="visible"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/button_categories" />
 
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/available_maps_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:nestedScrollingEnabled="false"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/all_tv" />
+                <android.widget.SearchView
+                    android:id="@+id/latest_sv"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/lates_tv"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/lates_tv"
+                    app:layout_constraintTop_toTopOf="@+id/lates_tv" />
 
-            <android.widget.SearchView
-                android:id="@+id/all_sv"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintBottom_toBottomOf="@+id/all_tv"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/all_tv"
-                app:layout_constraintTop_toTopOf="@+id/all_tv" />
 
-            <Button
-                android:id="@+id/button_categories"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="8dp"
-                android:background="@android:color/transparent"
-                android:fontFamily="@font/comfortaa"
-                android:text="Categories"
-                android:textColor="?attr/textColorPrimary"
-                android:textSize="@dimen/primary_font_size"
-                app:layout_constraintEnd_toStartOf="@+id/button_all_maps"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/available_maps_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:nestedScrollingEnabled="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/all_tv" />
 
-            <Button
-                android:id="@+id/button_all_maps"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="16dp"
-                android:background="@android:color/transparent"
-                android:fontFamily="@font/comfortaa"
-                android:text="All Maps"
-                android:textColor="?attr/textColorPrimary"
-                android:textSize="@dimen/primary_font_size"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/button_categories"
-                app:layout_constraintTop_toTopOf="parent" />
+                <android.widget.SearchView
+                    android:id="@+id/all_sv"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/all_tv"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/all_tv"
+                    app:layout_constraintTop_toTopOf="@+id/all_tv" />
 
-            <View
-                android:id="@+id/space"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/available_maps_recycler" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <Button
+                    android:id="@+id/button_categories"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="@font/comfortaa"
+                    android:text="Categories"
+                    android:textColor="?attr/textColorPrimary"
+                    android:textSize="@dimen/primary_font_size"
+                    app:layout_constraintEnd_toStartOf="@+id/button_all_maps"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/button_all_maps"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="@font/comfortaa"
+                    android:text="All Maps"
+                    android:textColor="?attr/textColorPrimary"
+                    android:textSize="@dimen/primary_font_size"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/button_categories"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/space"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/available_maps_recycler" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

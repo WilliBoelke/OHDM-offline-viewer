@@ -29,27 +29,27 @@ class FragmentRequestNewMapGuiTest {
 
     @Test
     fun viewsAreDisplayed() {
-     onView(withId(R.id.fragment_request_new_map_parent)).check(matches(isDisplayed()))
-     onView(withId(R.id.inner_constraint_layout)).check(matches(isDisplayed()))
+        onView(withId(R.id.fragment_request_new_map_parent)).check(matches(isDisplayed()))
+        onView(withId(R.id.inner_constraint_layout)).check(matches(isDisplayed()))
 
-     onView(withId(R.id.name_et)).check(matches(isDisplayed()))
+        onView(withId(R.id.name_et)).check(matches(isDisplayed()))
 
-     onView(withId(R.id.content_card_info)).check(matches(isDisplayed()))
-     onView(withId(R.id.info_inner_constraint_layout)).check(matches(isDisplayed()))
-     onView(withId(R.id.info_tv)).check(matches(isDisplayed()))
+        onView(withId(R.id.content_card_info)).check(matches(isDisplayed()))
+        onView(withId(R.id.info_inner_constraint_layout)).check(matches(isDisplayed()))
+        onView(withId(R.id.info_tv)).check(matches(isDisplayed()))
 
-     onView(withId(R.id.content_card_coordinates)).check(matches(isDisplayed()))
-     onView(withId(R.id.coordinates_inner_constraint_layout)).check(matches(isDisplayed()))
-     onView(withId(R.id.long_bottom_et)).check(matches(isDisplayed()))
-     onView(withId(R.id.lat_left_et)).check(matches(isDisplayed()))
-     onView(withId(R.id.long_top_et)).check(matches(isDisplayed()))
-     onView(withId(R.id.lat_right_et)).check(matches(isDisplayed()))
-     onView(withId(R.id.coords_info_tv)).check(matches(isDisplayed()))
+        onView(withId(R.id.content_card_coordinates)).check(matches(isDisplayed()))
+        onView(withId(R.id.coordinates_inner_constraint_layout)).check(matches(isDisplayed()))
+        onView(withId(R.id.long_bottom_et)).check(matches(isDisplayed()))
+        onView(withId(R.id.lat_left_et)).check(matches(isDisplayed()))
+        onView(withId(R.id.long_top_et)).check(matches(isDisplayed()))
+        onView(withId(R.id.lat_right_et)).check(matches(isDisplayed()))
+        onView(withId(R.id.coords_info_tv)).check(matches(isDisplayed()))
 
-     onView(withId(R.id.content_card_date_picker)).check(matches(isDisplayed()))
-     onView(withId(R.id.date_picker)).check(matches(isDisplayed()))
+        onView(withId(R.id.content_card_date_picker)).check(matches(isDisplayed()))
+        onView(withId(R.id.date_picker)).check(matches(isDisplayed()))
 
-     onView(withId(R.id.request_button)).check(matches(isDisplayed()))
+        onView(withId(R.id.request_button)).check(matches(isDisplayed()))
 
     }
 
@@ -68,8 +68,7 @@ class FragmentRequestNewMapGuiTest {
     }
 
     @Test
-    fun hierarchy()
-    {
+    fun hierarchy() {
         //scroll_view just has inner.Constraint_layout as child
         onView(withId(R.id.fragment_request_new_map_parent)).check(matches(withChild(withId(R.id.inner_constraint_layout))))
 
@@ -86,9 +85,6 @@ class FragmentRequestNewMapGuiTest {
         onView(withId(R.id.name_et)).check(matches(hasChildCount(0)))
 
     }
-
-
-
 
 
 }

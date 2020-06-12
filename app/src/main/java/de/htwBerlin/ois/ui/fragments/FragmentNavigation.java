@@ -34,8 +34,8 @@ import org.mapsforge.map.rendertheme.InternalRenderTheme;
 import java.io.File;
 import java.util.List;
 
-import de.htwBerlin.ois.fileStructure.MapFileSingleton;
 import de.htwBerlin.ois.R;
+import de.htwBerlin.ois.fileStructure.MapFileSingleton;
 
 import static android.content.Context.LOCATION_SERVICE;
 

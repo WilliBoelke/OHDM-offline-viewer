@@ -23,15 +23,15 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-import de.htwBerlin.ois.ui.recyclerAdapters.OnRecyclerItemButtonClicklistenner;
-import de.htwBerlin.ois.ui.recyclerAdapters.RecyclerAdapterRemoteFiles;
+import de.htwBerlin.ois.R;
 import de.htwBerlin.ois.fileStructure.RemoteDirectory;
 import de.htwBerlin.ois.fileStructure.RemoteFile;
 import de.htwBerlin.ois.fileStructure.RemoteListsSingleton;
-import de.htwBerlin.ois.R;
 import de.htwBerlin.ois.serverCommunication.AsyncResponse;
 import de.htwBerlin.ois.serverCommunication.FtpTaskFileDownloading;
 import de.htwBerlin.ois.serverCommunication.FtpTaskFileListing;
+import de.htwBerlin.ois.ui.recyclerAdapters.OnRecyclerItemButtonClicklistenner;
+import de.htwBerlin.ois.ui.recyclerAdapters.RecyclerAdapterRemoteFiles;
 
 import static de.htwBerlin.ois.serverCommunication.Variables.FTP_ROOT_DIRECTORY;
 import static de.htwBerlin.ois.serverCommunication.Variables.MOST_RECENT_PATH;
@@ -369,7 +369,7 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
      */
     private void FTPListLatestFiles()
     {
-        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(getActivity(), MOST_RECENT_PATH, false,  new AsyncResponse()
+        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(getActivity(), MOST_RECENT_PATH, false, new AsyncResponse()
         {
             @Override
             public void getOhdmFiles(ArrayList<RemoteFile> remoteFiles)

@@ -1,7 +1,6 @@
 package de.htwBerlin.ois.serverCommunication;
 
 
-
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
@@ -16,9 +15,6 @@ import java.util.Vector;
 
 import de.htwBerlin.ois.fileStructure.RemoteDirectory;
 import de.htwBerlin.ois.fileStructure.RemoteFile;
-import de.htwBerlin.ois.fileStructure.RemoteDirectory;
-import de.htwBerlin.ois.fileStructure.RemoteFile;
-import de.htwBerlin.ois.serverCommunication.Variables;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -239,12 +235,8 @@ class SftpClientTest
     public void getAllFileListTest2() throws IOException, SftpException
     {
 
-        serverOutput = "[drwxr-xr-x   8 s0569194 s0569194     4096 Jun  8 15:05 ., " +
-                "-rw-r--r--   1 s0569194 s0569194   815311 Jun  8 12:26 testRequest.map, " +
-                "drwxr-xr-x   2 s0569194 s0569194     4096 Jun  4 11:36 EastGermany, " +
-                "-rw-r--r--   1 s0569194 s0569194  4718669 Jun  4 11:35 ohdm.map]";
-        String serverOutputSubDir = "[drwxr-xr-x   8 s0569194 s0569194     4096 Jun  8 15:05 ., " +
-                "-rw-r--r--   1 s0569194 s0569194  4718669 Jun  4 11:35 hamburg.map]";
+        serverOutput = "[drwxr-xr-x   8 s0569194 s0569194     4096 Jun  8 15:05 ., " + "-rw-r--r--   1 s0569194 s0569194   815311 Jun  8 12:26 testRequest.map, " + "drwxr-xr-x   2 s0569194 s0569194     4096 Jun  4 11:36 EastGermany, " + "-rw-r--r--   1 s0569194 s0569194  4718669 Jun  4 11:35 ohdm.map]";
+        String serverOutputSubDir = "[drwxr-xr-x   8 s0569194 s0569194     4096 Jun  8 15:05 ., " + "-rw-r--r--   1 s0569194 s0569194  4718669 Jun  4 11:35 hamburg.map]";
         Vector mockVecRoot = Mockito.mock(Vector.class);
         Vector mockVecSubDir = Mockito.mock(Vector.class);
         Mockito.when(mockVecRoot.toString()).thenReturn(serverOutput);

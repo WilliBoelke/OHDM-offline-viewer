@@ -17,7 +17,7 @@ public class FragmentFactory extends androidx.fragment.app.FragmentFactory
     private String TAG = getClass().getSimpleName();
 
     @Override
-    public  Fragment instantiate(ClassLoader classLoader, String className)
+    public Fragment instantiate(ClassLoader classLoader, String className)
     {
 
         if (className.equals(FragmentHome.class.getName()))
@@ -53,7 +53,7 @@ public class FragmentFactory extends androidx.fragment.app.FragmentFactory
             return new FragmentFAQ();
         }
 
-        return  new FragmentHome();
+        return new FragmentHome();
     }
 
 }

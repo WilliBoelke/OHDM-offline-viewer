@@ -12,18 +12,16 @@ import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.net.HttpURLConnection;
 
-import de.htwBerlin.ois.serverCommunication.HTTPRequestNewMap;
 import static org.junit.Assert.assertEquals;
 
 class HTTPRequestNewMapTest
 {
+    PipedInputStream pipeInput;
     private HTTPRequestNewMap httpRequestNewMap;
-    private HttpURLConnection mockHTTPConn = Mockito.mock(HttpURLConnection.class);
     ;
+    private HttpURLConnection mockHTTPConn = Mockito.mock(HttpURLConnection.class);
     private BufferedReader reader;
     private BufferedOutputStream out;
-    PipedInputStream pipeInput;
-
 
     @BeforeEach
     public void setup() throws IOException

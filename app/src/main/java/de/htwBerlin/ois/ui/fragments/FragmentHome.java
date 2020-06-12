@@ -22,13 +22,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.io.File;
 import java.util.ArrayList;
 
+import de.htwBerlin.ois.R;
 import de.htwBerlin.ois.fileStructure.MapFileSingleton;
+import de.htwBerlin.ois.ui.mainActivity.MainActivity;
 import de.htwBerlin.ois.ui.recyclerAdapters.RecyclerAdapterLocalFiles;
 import de.htwBerlin.ois.ui.recyclerAdapters.RecyclerAdapterSwipeGestures;
 import de.htwBerlin.ois.ui.recyclerAdapters.SwipeCallbackLeft;
 import de.htwBerlin.ois.ui.recyclerAdapters.SwipeCallbackRight;
-import de.htwBerlin.ois.ui.mainActivity.MainActivity;
-import de.htwBerlin.ois.R;
 
 /**
  * Represents the HOME Tab and thus, the starting point for the OHDM Offline Viewer application

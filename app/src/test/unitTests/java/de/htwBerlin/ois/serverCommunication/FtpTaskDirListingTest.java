@@ -2,15 +2,12 @@ package de.htwBerlin.ois.serverCommunication;
 
 import android.content.Context;
 
-import org.apache.commons.net.ftp.FTPFile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Locale;
 
 import de.htwBerlin.ois.fileStructure.RemoteDirectory;
 import de.htwBerlin.ois.fileStructure.RemoteFile;
@@ -51,7 +48,6 @@ class FtpTaskDirListingTest
     }
 
 
-
     @Test
     public void verifyMethodCalls() throws IOException
     {
@@ -90,7 +86,6 @@ class FtpTaskDirListingTest
         //The list should b empty but initialized
         assertEquals(0, dirListingTest.getResultList().size());
     }
-
 
 
     @Test

@@ -8,6 +8,10 @@ public class Variables
 
     public static final String MOST_RECENT_PATH = "/map/most_recent";
     /**
+     * The (S)FTP root directory
+     */
+    public static final String FTP_ROOT_DIRECTORY = "/map";
+    /**
      * The remote server ip
      * (For localhost in android emulator set to "10.0.2.2")
      */
@@ -20,15 +24,10 @@ public class Variables
      * the remote server port for ftp requests
      */
     protected static final int FTP_PORT = 5000;
-
     /**
      * the remote server port for sftp requests
      */
     protected static final int SFTP_PORT = 5002;
-    /**
-     * The (S)FTP root directory
-     */
-    public static final String FTP_ROOT_DIRECTORY = "/map";
     /**
      * The username for ftp requests
      */

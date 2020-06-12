@@ -16,8 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.io.File;
 import java.util.ArrayList;
 
-import de.htwBerlin.ois.fileStructure.MapFileSingleton;
 import de.htwBerlin.ois.R;
+import de.htwBerlin.ois.fileStructure.MapFileSingleton;
 
 /**
  * @author WilliBoelke

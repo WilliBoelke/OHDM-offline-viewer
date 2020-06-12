@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 import de.htwBerlin.ois.fileStructure.RemoteDirectory;
 
-import de.htwBerlin.ois.serverCommunication.SftpClient;
 /**
  * Async task that lists directories hosted on FTP Remote Server
  *

@@ -2,15 +2,12 @@ package de.htwBerlin.ois.serverCommunication;
 
 import android.content.Context;
 
-import org.apache.commons.net.ftp.FTPFile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Locale;
 
 import de.htwBerlin.ois.fileStructure.RemoteDirectory;
 import de.htwBerlin.ois.fileStructure.RemoteFile;
@@ -19,11 +16,6 @@ import static org.junit.Assert.assertEquals;
 
 public class FtpTaskFileListingTest
 {
-
-    private FtpTaskFileListing fileListingTest;
-    private SftpClient mockSftpClient = Mockito.mock(SftpClient.class);
-
-    private Context context = Mockito.mock(Context.class);
 
     AsyncResponse asyncResponse = new AsyncResponse()
     {
@@ -39,6 +31,9 @@ public class FtpTaskFileListingTest
 
         }
     };
+    private FtpTaskFileListing fileListingTest;
+    private SftpClient mockSftpClient = Mockito.mock(SftpClient.class);
+    private Context context = Mockito.mock(Context.class);
 
     @BeforeEach
     public void setup()

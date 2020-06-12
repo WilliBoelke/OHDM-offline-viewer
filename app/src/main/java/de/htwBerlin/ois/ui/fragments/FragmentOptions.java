@@ -23,8 +23,8 @@ import androidx.fragment.app.Fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.htwBerlin.ois.ui.mainActivity.MainActivity;
 import de.htwBerlin.ois.R;
+import de.htwBerlin.ois.ui.mainActivity.MainActivity;
 
 /**
  * Fragment to show the applications settings

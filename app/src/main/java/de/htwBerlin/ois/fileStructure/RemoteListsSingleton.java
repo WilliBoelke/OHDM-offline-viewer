@@ -44,7 +44,7 @@ public class RemoteListsSingleton
 
     public void setAllMaps(ArrayList<RemoteFile> allMaps)
     {
-        RemoteListsSingleton. allMaps .clear();
+        RemoteListsSingleton.allMaps.clear();
         RemoteListsSingleton.allMaps.addAll(allMaps);
     }
 

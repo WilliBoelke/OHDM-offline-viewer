@@ -15,7 +15,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import  androidx.fragment.app.FragmentTransaction;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.File;
@@ -24,16 +24,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import de.htwBerlin.ois.R;
+import de.htwBerlin.ois.factory.FragmentFactory;
 import de.htwBerlin.ois.fileStructure.MapFileSingleton;
+import de.htwBerlin.ois.ui.fragments.FragmentAbout;
 import de.htwBerlin.ois.ui.fragments.FragmentDownloadCenterAll;
 import de.htwBerlin.ois.ui.fragments.FragmentFAQ;
 import de.htwBerlin.ois.ui.fragments.FragmentHome;
 import de.htwBerlin.ois.ui.fragments.FragmentNavigation;
 import de.htwBerlin.ois.ui.fragments.FragmentOptions;
-import de.htwBerlin.ois.ui.fragments.FragmentAbout;
-import de.htwBerlin.ois.factory.FragmentFactory;
-
-import de.htwBerlin.ois.R;
 
 /**
  * @author WilliBoelke
@@ -54,11 +53,66 @@ public class MainActivity extends AppCompatActivity
 
 
     //------------Activity/Fragment Lifecycle------------
+    /**
+     * Bottom Nav Listener
+     */
+    private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener()
+    {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item)
+        {
+            Class selectedFragment = null;
+            String id = null;
+            // switch ... case to select the right Fragment to start
+            switch (item.getItemId())
+            {
+                case R.id.nav_home:
+                    selectedFragment = FragmentHome.class;
+                    id = FragmentHome.ID;
+                    break;
+                case R.id.nav_download:
+                    selectedFragment = FragmentDownloadCenterAll.class;
+                    id = FragmentHome.ID;
+                    break;
+                case R.id.nav_navigation:
+                    if (MapFileSingleton.getInstance().getFile() != null)
+                    {
+                        selectedFragment = FragmentNavigation.class;
+                        id = FragmentNavigation.ID;
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(), "You need to choose a map", Toast.LENGTH_LONG).show();
+                    }
+                    break;
+
+                default:
+                    return false;
+            }
+
+            // giving the FragmentManager the container and the fragment which should be loaded into view
+            // ... also commit
+            try
+            {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment, new Bundle()).addToBackStack("").commit();
+            }
+            catch (NullPointerException e)
+            {
+                Log.e(TAG, "onNavigationItemSelected: Fragment was null ", e);
+            }
+            // return true to tell that everything did go right
+            return true;
+        }
+    };
+
+
+    //------------Toolbar Menu------------
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        Log.d(TAG, "onCreate : setting app theme...");getSupportFragmentManager().setFragmentFactory(new FragmentFactory());
+        Log.d(TAG, "onCreate : setting app theme...");
+        getSupportFragmentManager().setFragmentFactory(new FragmentFactory());
         super.onCreate(savedInstanceState);
         //Get settings from SharedPrefs
         if (getApplicationContext().getSharedPreferences(FragmentOptions.SETTINGS_SHARED_PREFERENCES, 0).getBoolean(FragmentOptions.DARK_MODE, false) == true)
@@ -92,7 +146,7 @@ public class MainActivity extends AppCompatActivity
         }
         else
         {
-            if(savedInstanceState == null)
+            if (savedInstanceState == null)
             {
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, FragmentHome.class, new Bundle()).addToBackStack(null).commit();
             }
@@ -106,7 +160,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    //------------Toolbar Menu------------
+    //------------Permissions------------
 
     /**
      * Creates OHDM Folder if not exists
@@ -124,9 +178,6 @@ public class MainActivity extends AppCompatActivity
         }
         Log.d(TAG, "createOhdmDirectory : OHDM directory created");
     }
-
-
-    //------------Permissions------------
 
     /**
      * Checks necessary permissions
@@ -154,6 +205,9 @@ public class MainActivity extends AppCompatActivity
             requestPermissions(params, REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
         }
     }
+
+
+    //------------Bottom Navigation------------
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
@@ -196,61 +250,6 @@ public class MainActivity extends AppCompatActivity
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
-
-
-    //------------Bottom Navigation------------
-
-    /**
-     * Bottom Nav Listener
-     */
-    private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener()
-    {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item)
-        {
-            Class selectedFragment = null;
-            String id = null;
-            // switch ... case to select the right Fragment to start
-            switch (item.getItemId())
-            {
-                case R.id.nav_home:
-                    selectedFragment =  FragmentHome.class;
-                    id = FragmentHome.ID;
-                    break;
-                case R.id.nav_download:
-                    selectedFragment =  FragmentDownloadCenterAll.class;
-                    id = FragmentHome.ID;
-                    break;
-                case R.id.nav_navigation:
-                    if (MapFileSingleton.getInstance().getFile() != null)
-                    {
-                        selectedFragment = FragmentNavigation.class;
-                        id = FragmentNavigation.ID;
-                    }
-                    else
-                    {
-                        Toast.makeText(getApplicationContext(), "You need to choose a map", Toast.LENGTH_LONG).show();
-                    }
-                    break;
-
-                default:
-                    return false;
-            }
-
-            // giving the FragmentManager the container and the fragment which should be loaded into view
-            // ... also commit
-            try
-            {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment, new Bundle()).addToBackStack("").commit();
-            }
-            catch (NullPointerException e)
-            {
-                Log.e(TAG, "onNavigationItemSelected: Fragment was null ", e);
-            }
-            // return true to tell that everything did go right
-            return true;
-        }
-    };
 
 
     //------------Toolbar Menu------------

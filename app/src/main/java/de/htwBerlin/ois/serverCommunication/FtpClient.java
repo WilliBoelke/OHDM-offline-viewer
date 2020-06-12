@@ -20,11 +20,11 @@ import java.util.Date;
 
 import de.htwBerlin.ois.fileStructure.RemoteFile;
 
-import static de.htwBerlin.ois.ui.mainActivity.MainActivity.MAP_FILE_PATH;
 import static de.htwBerlin.ois.serverCommunication.Variables.FTP_PORT;
 import static de.htwBerlin.ois.serverCommunication.Variables.SERVER_IP;
 import static de.htwBerlin.ois.serverCommunication.Variables.USER_NAME;
 import static de.htwBerlin.ois.serverCommunication.Variables.USER_PASSWORD;
+import static de.htwBerlin.ois.ui.mainActivity.MainActivity.MAP_FILE_PATH;
 
 /**
  * Wraps the apache FTPClient
@@ -39,9 +39,9 @@ public class FtpClient
 
     //------------Instance Variables------------
 
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy");
     private final String TAG = getClass().getSimpleName();
     private FTPClient client;
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy");
 
 
     //------------Constructors-----------
@@ -80,7 +80,7 @@ public class FtpClient
     protected int connect()
     {
         Log.d(TAG, "connect : connecting to ftp client...");
-        if (! client.isConnected())
+        if (!client.isConnected())
         {
             Log.d(TAG, "connect : getting passive FTP client");
             try
@@ -255,7 +255,7 @@ public class FtpClient
             if (!f.isDirectory())
             {
                 Date date = f.getTimestamp().getTime();
-                RemoteFile ohdm = new RemoteFile(f.getName(), path,  (f.getSize() / 1024), sdf.format(date.getTime()));
+                RemoteFile ohdm = new RemoteFile(f.getName(), path, (f.getSize() / 1024), sdf.format(date.getTime()));
                 files.add(ohdm);
             }
             else

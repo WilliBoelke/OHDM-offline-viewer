@@ -17,13 +17,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-import de.htwBerlin.ois.ui.recyclerAdapters.RecyclerAdapterRemoteDirectories;
+import de.htwBerlin.ois.R;
 import de.htwBerlin.ois.fileStructure.RemoteDirectory;
 import de.htwBerlin.ois.fileStructure.RemoteFile;
 import de.htwBerlin.ois.fileStructure.RemoteListsSingleton;
-import de.htwBerlin.ois.R;
 import de.htwBerlin.ois.serverCommunication.AsyncResponse;
 import de.htwBerlin.ois.serverCommunication.FtpTaskDirListing;
+import de.htwBerlin.ois.ui.recyclerAdapters.RecyclerAdapterRemoteDirectories;
 
 import static de.htwBerlin.ois.serverCommunication.Variables.FTP_ROOT_DIRECTORY;
 

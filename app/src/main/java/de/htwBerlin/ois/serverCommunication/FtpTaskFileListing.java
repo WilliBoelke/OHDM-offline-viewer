@@ -10,7 +10,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import de.htwBerlin.ois.fileStructure.RemoteFile;
-import de.htwBerlin.ois.serverCommunication.SftpClient;
 
 
 /**

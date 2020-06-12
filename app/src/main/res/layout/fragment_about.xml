@@ -38,9 +38,9 @@
                 app:layout_constraintTop_toBottomOf="@+id/content_card1">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/inner_constraint_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/inner_constraint_layout"
                     android:elevation="20dp"
                     app:layout_constraintEnd_toEndOf="parent">
 

@@ -37,13 +37,14 @@ public class RemoteDirectory implements Serializable
 
     /**
      * Private because the name is generated from  the path
+     *
      * @param path
      */
     private void setFilename(String path)
     {
         path = path.replace(FTP_ROOT_DIRECTORY, "");
         path = path.replace("/", "");
-        path =  path.replace("_", " ").trim();
+        path = path.replace("_", " ").trim();
         this.filename = path;
     }
 

@@ -28,6 +28,10 @@ public class FragmentrequestNewMap extends Fragment
 {
     //------------Instance Variables------------
 
+    public static final int MIN_LATITUDE = -180;
+    public static final int MAX_LATITUDE = 180;
+    public static final int MAX_LONGITUDE = 90;
+    public static final int MIN_LONGITUDE = -90;
     /**
      * Fragment ID used to identify the fragment
      * (for example by putting the ID into the Intent extra )
@@ -46,17 +50,10 @@ public class FragmentrequestNewMap extends Fragment
      */
     private DatePicker datePicker;
     private Button requestButton;
-
     private EditText longitudeTop;
     private EditText longitudeBottom;
     private EditText latitudeRight;
     private EditText latitudeLeft;
-
-    public static final int MIN_LATITUDE = -180;
-    public static final int MAX_LATITUDE = 180;
-    public static final int MAX_LONGITUDE = 90;
-    public static final int MIN_LONGITUDE = -90;
-
     //------------Static Variables------------
     private EditText name;
 
@@ -219,17 +216,17 @@ public class FragmentrequestNewMap extends Fragment
         double latLeft = Double.parseDouble(latitudeLeft.getText().toString());
         double latRight = Double.parseDouble(latitudeRight.getText().toString());
 
-        if (longTop< MIN_LONGITUDE || longTop > MAX_LONGITUDE)
+        if (longTop < MIN_LONGITUDE || longTop > MAX_LONGITUDE)
         {
             Toast.makeText(getActivity(), "You inserted a invalid top latitude ", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (longBottom< MIN_LONGITUDE || longBottom > MAX_LONGITUDE)
+        if (longBottom < MIN_LONGITUDE || longBottom > MAX_LONGITUDE)
         {
             Toast.makeText(getActivity(), "You inserted a invalid bottom latitude ", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (latRight< MIN_LATITUDE || latRight > MAX_LATITUDE)
+        if (latRight < MIN_LATITUDE || latRight > MAX_LATITUDE)
         {
             Toast.makeText(getActivity(), "You inserted a invalid right longitude ", Toast.LENGTH_SHORT).show();
             return false;

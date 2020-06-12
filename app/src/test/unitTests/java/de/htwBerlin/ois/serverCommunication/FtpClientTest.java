@@ -24,7 +24,7 @@ class FtpClientTest
 {
 
     private FTPClient mockFTPClient = Mockito.mock(FTPClient.class);
-    private  FtpClient ftpClient;
+    private FtpClient ftpClient;
 
 
     @BeforeEach
