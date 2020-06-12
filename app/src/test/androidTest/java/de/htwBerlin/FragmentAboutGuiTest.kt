@@ -8,6 +8,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import de.htwBerlin.ois.R
 import de.htwBerlin.ois.factory.FragmentFactory
+import de.htwBerlin.ois.serverCommunication.SftpClient
 import de.htwBerlin.ois.ui.fragments.FragmentAbout
 import org.junit.Before
 import org.junit.Test
@@ -18,7 +19,8 @@ class FragmentAboutGuiTest {
 
     @Before
     fun setup() {
-        val fragmentFactory = FragmentFactory()
+        val sftpClient = SftpClient()
+        val fragmentFactory = FragmentFactory(sftpClient)
         val bundle = Bundle()
         val scenario = launchFragmentInContainer<FragmentAbout>(themeResId = R.style.LightTheme, fragmentArgs = bundle, factory = fragmentFactory)
     }
