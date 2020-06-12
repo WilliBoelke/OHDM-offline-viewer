@@ -24,7 +24,7 @@ import de.htwBerlin.ois.serverCommunication.HTTPRequestNewMap;
  *
  * @author WilliBoelke
  */
-public class FragmentrequestNewMap extends Fragment
+public class FragmentRequestNewMap extends Fragment
 {
     //------------Instance Variables------------
 

@@ -8,7 +8,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import de.htwBerlin.ois.R
 import de.htwBerlin.ois.factory.FragmentFactory
-import de.htwBerlin.ois.ui.fragments.FragmentrequestNewMap
+import de.htwBerlin.ois.ui.fragments.FragmentRequestNewMap
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -21,7 +21,7 @@ class FragmentRequestNewMapGuiTest {
     fun setup() {
         val fragmentFactory = FragmentFactory()
         val bundle = Bundle()
-        val scenario = launchFragmentInContainer<FragmentrequestNewMap>(themeResId = R.style.LightTheme, fragmentArgs = bundle, factory = fragmentFactory)
+        val scenario = launchFragmentInContainer<FragmentRequestNewMap>(themeResId = R.style.LightTheme, fragmentArgs = bundle, factory = fragmentFactory)
     }
 
 

@@ -145,7 +145,7 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
 
     /**
      * Setup the FloatingActionButton to replace this fragment with the
-     * {@link FragmentrequestNewMap}
+     * {@link FragmentRequestNewMap}
      */
     private void setupFAB()
     {
@@ -155,7 +155,7 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
             @Override
             public void onClick(View v)
             {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentrequestNewMap()).addToBackStack(null).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentRequestNewMap()).addToBackStack(null).commit();
             }
         });
     }
