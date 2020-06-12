@@ -86,7 +86,6 @@ public class RecyclerAdapterRemoteFiles extends RecyclerView.Adapter<RecyclerAda
 
     //------------OnClickListener------------
 
-
     /**
      * Setter for the implemented onItemClick method
      *

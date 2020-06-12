@@ -133,12 +133,12 @@
                         android:textSize="@dimen/primary_font_size"
                         android:typeface="normal"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/ohdm_öogo_iv"
+                        app:layout_constraintEnd_toStartOf="@+id/ohdm_logo_iv"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/headline1_tv" />
 
                     <ImageView
-                        android:id="@+id/ohdm_öogo_iv"
+                        android:id="@+id/ohdm_logo_iv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"

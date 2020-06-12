@@ -18,7 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.fragments.FragmentrequestNewMap"></activity>
+        <activity android:name=".ui.fragments.MainActivity"></activity>
+        <activity android:name=".ui.fragments.FragmentrequestNewMap" />
         <activity android:name=".ui.mainActivity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,7 +27,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <uses-library android:name="android.test.runner"
+
+        <uses-library
+            android:name="android.test.runner"
             android:required="false" />
     </application>
 
