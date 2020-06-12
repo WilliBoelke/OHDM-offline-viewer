@@ -98,6 +98,14 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="name">enter an name</string>
+    <string name="long_bottom">Long Bottom</string>
+    <string name="lat_left">Lat Left</string>
+    <string name="long_top">Long Top</string>
+    <string name="lat_right">Lat Right</string>
+    <string name="coords_info">Enter latitude and longitude</string>
+    <string name="submit_request">submit request</string>
+    <string name="menu_faq">FAQ</string>
 
 
 </resources>

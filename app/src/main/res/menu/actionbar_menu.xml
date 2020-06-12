@@ -13,7 +13,7 @@
         android:title="@string/menu_settings" />
     <item
         android:id="@+id/ab_menu_faq"
-        android:title="FAQ" />
+        android:title="@+id/menu_faq" />
     <item
         android:id="@+id/ab_menu_about"
         android:title="@string/menu_about" />

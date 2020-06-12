@@ -75,7 +75,7 @@ public class FragmentrequestNewMap extends Fragment
     {
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
-        datePicker = view.findViewById(R.id.simpleDatePicker);
+        datePicker = view.findViewById(R.id.date_picker);
         //no calender view
         datePicker.setCalendarViewShown(false);
         name = view.findViewById(R.id.name_et);
