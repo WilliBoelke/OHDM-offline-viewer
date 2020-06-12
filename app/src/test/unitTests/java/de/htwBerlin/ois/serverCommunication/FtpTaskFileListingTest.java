@@ -38,8 +38,7 @@ public class FtpTaskFileListingTest
     @BeforeEach
     public void setup()
     {
-        fileListingTest = new FtpTaskFileListing(context, "path", false, asyncResponse);
-        fileListingTest.insertMockFtpClient(mockSftpClient);
+        fileListingTest = new FtpTaskFileListing(context, "path", mockSftpClient, false, asyncResponse);
     }
 
 
@@ -73,7 +72,6 @@ public class FtpTaskFileListingTest
         // Should be cached
         Mockito.when(mockSftpClient.getFileList("path")).thenThrow(new NullPointerException());
 
-        fileListingTest.insertMockFtpClient(mockSftpClient);
         fileListingTest.doInBackground();
 
         //The list should b empty but initialized
@@ -85,8 +83,7 @@ public class FtpTaskFileListingTest
     {
         // Should be cached
         Mockito.when(mockSftpClient.getFileList("path")).thenThrow(new IOException());
-
-        fileListingTest.insertMockFtpClient(mockSftpClient);
+        
         fileListingTest.doInBackground();
 
         //The list should b empty but initialized

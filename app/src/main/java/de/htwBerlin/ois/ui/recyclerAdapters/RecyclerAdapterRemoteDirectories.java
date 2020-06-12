@@ -21,6 +21,7 @@ import de.htwBerlin.ois.fileStructure.RemoteListsSingleton;
 import de.htwBerlin.ois.serverCommunication.AsyncResponse;
 import de.htwBerlin.ois.serverCommunication.FtpTaskFileDownloading;
 import de.htwBerlin.ois.serverCommunication.FtpTaskFileListing;
+import de.htwBerlin.ois.serverCommunication.SftpClient;
 import de.htwBerlin.ois.ui.fragments.FragmentDownloadCenterCategories;
 
 
@@ -58,6 +59,8 @@ public class RecyclerAdapterRemoteDirectories extends RecyclerView.Adapter<Recyc
      */
     private Context context;
 
+    private SftpClient sftpClient;
+
 
     //------------Constructors------------
 
@@ -66,13 +69,14 @@ public class RecyclerAdapterRemoteDirectories extends RecyclerView.Adapter<Recyc
      *
      * @param context
      * @param directoryList
-     * @param ressource
+     * @param resource
      */
-    public RecyclerAdapterRemoteDirectories(Context context, ArrayList<RemoteDirectory> directoryList, int ressource)
+    public RecyclerAdapterRemoteDirectories(Context context, ArrayList<RemoteDirectory> directoryList, int resource, SftpClient sftpClient)
     {
         this.context = context;
-        this.ressource = ressource;
+        this.ressource = resource;
         this.directoryList = directoryList;
+        this.sftpClient = sftpClient;
     }
 
 
@@ -139,7 +143,7 @@ public class RecyclerAdapterRemoteDirectories extends RecyclerView.Adapter<Recyc
      */
     private void ftpGetDirectoryContent(final String path, final ArrayList<RemoteFile> list, final ArrayList<RemoteFile> backup, final RecyclerAdapterRemoteFiles adapter)
     {
-        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(context, path, false, new AsyncResponse()
+        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(context, path, this.sftpClient, false, new AsyncResponse()
         {
             @Override
             public void getOhdmFiles(ArrayList<RemoteFile> remoteFiles)

@@ -23,6 +23,7 @@ import de.htwBerlin.ois.fileStructure.RemoteFile;
 import de.htwBerlin.ois.fileStructure.RemoteListsSingleton;
 import de.htwBerlin.ois.serverCommunication.AsyncResponse;
 import de.htwBerlin.ois.serverCommunication.FtpTaskDirListing;
+import de.htwBerlin.ois.serverCommunication.SftpClient;
 import de.htwBerlin.ois.ui.recyclerAdapters.RecyclerAdapterRemoteDirectories;
 
 import static de.htwBerlin.ois.serverCommunication.Variables.FTP_ROOT_DIRECTORY;
@@ -49,6 +50,16 @@ public class FragmentDownloadCenterCategories extends FragmentWithServerConnecti
      * The RecyclerAdapter
      */
     private RecyclerAdapterRemoteDirectories recyclerViewAdapter;
+
+    private SftpClient sftpClient;
+
+
+    //------------Activity/Fragment Lifecycle------------
+
+    public  FragmentDownloadCenterCategories (SftpClient sftpClient)
+    {
+        this.sftpClient = sftpClient;
+    }
 
 
     //------------Activity/Fragment Lifecycle------------
@@ -127,7 +138,7 @@ public class FragmentDownloadCenterCategories extends FragmentWithServerConnecti
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this.getContext());
 
         //The recycler adapter
-        recyclerViewAdapter = new RecyclerAdapterRemoteDirectories(getActivity().getApplicationContext(), directoryList, R.layout.recycler_item_directory);
+        recyclerViewAdapter = new RecyclerAdapterRemoteDirectories(getActivity().getApplicationContext(), directoryList, R.layout.recycler_item_directory,  sftpClient);
 
 
         //Putting everything together
@@ -143,7 +154,7 @@ public class FragmentDownloadCenterCategories extends FragmentWithServerConnecti
             @Override
             public void onClick(View v)
             {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentDownloadCenterAll()).addToBackStack(null).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,  FragmentDownloadCenterAll.class , null).addToBackStack(null).commit();
             }
         });
     }

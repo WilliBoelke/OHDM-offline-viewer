@@ -27,6 +27,7 @@ import java.util.Map;
 import de.htwBerlin.ois.R;
 import de.htwBerlin.ois.factory.FragmentFactory;
 import de.htwBerlin.ois.fileStructure.MapFileSingleton;
+import de.htwBerlin.ois.serverCommunication.SftpClient;
 import de.htwBerlin.ois.ui.fragments.FragmentAbout;
 import de.htwBerlin.ois.ui.fragments.FragmentDownloadCenterAll;
 import de.htwBerlin.ois.ui.fragments.FragmentFAQ;
@@ -112,7 +113,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         Log.d(TAG, "onCreate : setting app theme...");
-        getSupportFragmentManager().setFragmentFactory(new FragmentFactory());
+        getSupportFragmentManager().setFragmentFactory(new FragmentFactory(new SftpClient()));
         super.onCreate(savedInstanceState);
         //Get settings from SharedPrefs
         if (getApplicationContext().getSharedPreferences(FragmentOptions.SETTINGS_SHARED_PREFERENCES, 0).getBoolean(FragmentOptions.DARK_MODE, false) == true)

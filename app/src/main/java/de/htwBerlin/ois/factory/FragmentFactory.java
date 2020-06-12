@@ -10,6 +10,7 @@ import de.htwBerlin.ois.serverCommunication.FtpTaskDirListing;
 import de.htwBerlin.ois.serverCommunication.FtpTaskFileDownloading;
 import de.htwBerlin.ois.serverCommunication.FtpTaskFileListing;
 import de.htwBerlin.ois.serverCommunication.HTTPRequestNewMap;
+import de.htwBerlin.ois.serverCommunication.SftpClient;
 import de.htwBerlin.ois.ui.fragments.FragmentAbout;
 import de.htwBerlin.ois.ui.fragments.FragmentDownloadCenterAll;
 import de.htwBerlin.ois.ui.fragments.FragmentDownloadCenterCategories;
@@ -24,6 +25,12 @@ public class FragmentFactory extends androidx.fragment.app.FragmentFactory
 {
 
     private String TAG = getClass().getSimpleName();
+    private SftpClient sftpClient;
+
+    public FragmentFactory(SftpClient sftpClient)
+    {
+        this.sftpClient = sftpClient;
+    }
 
     @Override
     public Fragment instantiate(ClassLoader classLoader, String className)
@@ -42,12 +49,12 @@ public class FragmentFactory extends androidx.fragment.app.FragmentFactory
         if (className.equals(FragmentDownloadCenterAll.class.getName()))
         {
             Log.d(TAG, "Instantiate : FragmentDownloadCenterAll");
-            return new FragmentDownloadCenterAll();
+            return new FragmentDownloadCenterAll(sftpClient);
         }
         if (className.equals(FragmentDownloadCenterCategories.class.getName()))
         {
             Log.d(TAG, "Instantiate : FragmentDownloadCenterCategories");
-            return new FragmentDownloadCenterCategories();
+            return new FragmentDownloadCenterCategories(sftpClient);
         }
         if (className.equals(FragmentRequestNewMap.class.getName()))
         {

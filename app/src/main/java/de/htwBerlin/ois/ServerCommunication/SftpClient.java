@@ -156,8 +156,15 @@ public class SftpClient
     public void closeConnection()
     {
         Log.d(TAG, "closeConnection :  tring to close the connection .... ");
-        channel.exit();
-        session.disconnect();
+        try
+        {
+            channel.exit();
+            session.disconnect();
+        }
+        catch(NullPointerException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     /**

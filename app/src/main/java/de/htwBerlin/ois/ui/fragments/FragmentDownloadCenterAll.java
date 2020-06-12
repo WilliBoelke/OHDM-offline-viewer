@@ -30,6 +30,7 @@ import de.htwBerlin.ois.fileStructure.RemoteListsSingleton;
 import de.htwBerlin.ois.serverCommunication.AsyncResponse;
 import de.htwBerlin.ois.serverCommunication.FtpTaskFileDownloading;
 import de.htwBerlin.ois.serverCommunication.FtpTaskFileListing;
+import de.htwBerlin.ois.serverCommunication.SftpClient;
 import de.htwBerlin.ois.ui.recyclerAdapters.OnRecyclerItemButtonClicklistenner;
 import de.htwBerlin.ois.ui.recyclerAdapters.RecyclerAdapterRemoteFiles;
 
@@ -75,7 +76,7 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
      */
     private RecyclerView allMapsRecyclerView;
     private RecyclerView latestMapsRecyclerView;
-
+    private SftpClient sftpClient;
 
     //------------Static Variables------------
     /**
@@ -83,7 +84,12 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
      */
     private View view;
 
+    //------------Constructor------------
 
+    public  FragmentDownloadCenterAll(SftpClient sftpClient)
+    {
+        this.sftpClient = sftpClient;
+    }
     //------------Activity/Fragment Lifecycle------------
 
     @Nullable
@@ -236,7 +242,7 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
             @Override
             public void onClick(View v)
             {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentDownloadCenterCategories()).addToBackStack(null).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,  FragmentDownloadCenterCategories.class, null).addToBackStack(null).commit();
             }
         });
     }
@@ -327,7 +333,7 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
      */
     private void FTPListAllFiles()
     {
-        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(getActivity(), FTP_ROOT_DIRECTORY, true, new AsyncResponse()
+        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(getActivity(), FTP_ROOT_DIRECTORY, this.sftpClient, true, new AsyncResponse()
         {
             @Override
             public void getOhdmFiles(ArrayList<RemoteFile> remoteFiles)
@@ -369,7 +375,7 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
      */
     private void FTPListLatestFiles()
     {
-        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(getActivity(), MOST_RECENT_PATH, false, new AsyncResponse()
+        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(getActivity(), MOST_RECENT_PATH, this.sftpClient,false, new AsyncResponse()
         {
             @Override
             public void getOhdmFiles(ArrayList<RemoteFile> remoteFiles)
