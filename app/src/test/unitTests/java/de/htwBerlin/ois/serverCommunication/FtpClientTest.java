@@ -9,8 +9,12 @@ import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.net.SocketException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
+
+import de.htwBerlin.ois.fileStructure.RemoteDirectory;
+import de.htwBerlin.ois.fileStructure.RemoteFile;
 
 import static de.htwBerlin.ois.serverCommunication.Variables.USER_NAME;
 import static de.htwBerlin.ois.serverCommunication.Variables.USER_PASSWORD;
@@ -114,18 +118,21 @@ class FtpClientTest
         FTPFile[] files = new FTPFile[2];
         FTPFile one = new FTPFile();
         one.setName("MapOne");
+        one.setTimestamp(Calendar.getInstance(Locale.GERMANY));
         files[0] = one;
         FTPFile two = new FTPFile();
-        one.setName("MaTwo");
+        two.setName("MaTwo");
+        two.setTimestamp(Calendar.getInstance(Locale.GERMANY));
         files[1] = two;
         Mockito.when(mockFTPClient.listFiles("path")).thenReturn(files);
         Mockito.when(mockFTPClient.isConnected()).thenReturn(true);
 
-        FTPFile[] returnFiles = ftpClient.getFileList("path");
+        ArrayList<RemoteFile> returnFiles = ftpClient.getFileList("path");
 
-        assertEquals(files.length, returnFiles.length);
-        assertEquals(files[0], returnFiles[0]);
-        assertEquals(files[1].getName(), returnFiles[1].getName());
+        assertEquals(files.length, returnFiles.size());
+
+        assertEquals(files[0].getName(), returnFiles.get(0).getFilename());
+        assertEquals(files[1].getName(), returnFiles.get(1).getFilename());
     }
 
     @Test
@@ -151,10 +158,12 @@ class FtpClientTest
         FTPFile mockDir1 = Mockito.mock(FTPFile.class);
         Mockito.when(mockDir1.isDirectory()).thenReturn(true);
         Mockito.when(mockDir1.getName()).thenReturn("Dir1");
+        Mockito.when(mockDir1.getTimestamp()).thenReturn( Calendar.getInstance(Locale.GERMANY));
 
         FTPFile mockDir2 = Mockito.mock(FTPFile.class);
         Mockito.when(mockDir2.isDirectory()).thenReturn(true);
         Mockito.when(mockDir2.getName()).thenReturn("Dir2");
+        Mockito.when(mockDir2.getTimestamp()).thenReturn( Calendar.getInstance(Locale.GERMANY));
 
         FTPFile[] files = new FTPFile[3];
         files[0] = mockDir1;
@@ -165,11 +174,11 @@ class FtpClientTest
         files[1] = two;
         Mockito.when(mockFTPClient.listFiles("path")).thenReturn(files);
 
-        FTPFile[] returnFiles = ftpClient.getDirList("path");
+        ArrayList<RemoteDirectory> returnFiles = ftpClient.getDirList("path");
 
-        assertEquals(returnFiles.length, 2);
-        assertNotEquals(two, returnFiles[0]);
-        assertNotEquals(two, returnFiles[1]);
+        assertEquals(returnFiles.size(), 2);
+        assertNotEquals(two.getName(), returnFiles.get(0).getFilename());
+        assertNotEquals(two.getName(), returnFiles.get(1).getFilename());
     }
 
     @Test

@@ -35,7 +35,7 @@ class FtpTaskFileDownloadingTest
 
 
     @Test
-    public void verifyMethodCalls() throws IOException
+    public void verifyMethodCalls()
     {
 
 

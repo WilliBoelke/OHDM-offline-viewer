@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import de.htwBerlin.ois.fileStructure.RemoteDirectory;
 import de.htwBerlin.ois.fileStructure.RemoteFile;
 
 import static de.htwBerlin.ois.serverCommunication.Variables.FTP_PORT;
@@ -34,7 +35,7 @@ import static de.htwBerlin.ois.ui.mainActivity.MainActivity.MAP_FILE_PATH;
  * @author WilliBoelke
  */
 @Deprecated
-public class FtpClient
+public class FtpClient implements Client
 {
 
     //------------Instance Variables------------
@@ -65,6 +66,8 @@ public class FtpClient
         this.client = mockClient;
         Log.d(TAG, "Constructor : new FtpClient ");
     }
+
+
     //------------Connection-----------
 
     /**
@@ -77,7 +80,7 @@ public class FtpClient
      * 4 = IO Exception
      * 5 = if already connected
      */
-    protected int connect()
+    public int connect()
     {
         Log.d(TAG, "connect : connecting to ftp client...");
         if (!client.isConnected())
@@ -143,7 +146,7 @@ public class FtpClient
      *
      * @return true if connected, else false
      */
-    boolean isConnected()
+    public boolean isConnected()
     {
         return client.isConnected();
     }
@@ -152,7 +155,7 @@ public class FtpClient
      * closes connection
      * pls always use at the end !!!!
      */
-    protected void closeConnection()
+    public void closeConnection()
     {
         Log.d(TAG, "closeConnection : trying to close connection with " + SERVER_IP + " : " + FTP_PORT);
         if (!client.isConnected())
@@ -183,7 +186,7 @@ public class FtpClient
      * @return all directories
      * @throws IOException
      */
-    protected FTPFile[] getDirList(String path) throws IOException
+    public ArrayList<RemoteDirectory> getDirList(String path)
     {
         if (!client.isConnected())
         {
@@ -191,14 +194,29 @@ public class FtpClient
             return null;
         }
         Log.d(TAG, " getDirList : getting file list for " + path + " ...");
-        FTPFile[] files = client.listFiles(path);
-        ArrayList<FTPFile> dirList = new ArrayList<>();
+
+        FTPFile[] files = new FTPFile[0];
+
+        try
+        {
+            files = client.listFiles(path);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        ArrayList<RemoteDirectory> dirList = new ArrayList<>();
         for (FTPFile f : files)
         {
-            if (f.isDirectory()) dirList.add(f);
+            if (f.isDirectory())
+            {
+                RemoteDirectory dir = new RemoteDirectory(path + f.getName(), f.getTimestamp().toString());
+                dirList.add(dir);
+            }
         }
         Log.d(TAG, " getDirList : got " + dirList.size() + "dirs  from " + path);
-        return dirList.toArray(new FTPFile[dirList.size()]);
+        return dirList;
     }
 
     /**
@@ -208,7 +226,7 @@ public class FtpClient
      * @return FTPFiles in current dir
      * @throws IOException couldn't read from current dir
      */
-    protected FTPFile[] getFileList(String path) throws IOException
+    public ArrayList<RemoteFile> getFileList(String path) throws IOException
     {
         if (!client.isConnected())
         {
@@ -218,17 +236,18 @@ public class FtpClient
 
         Log.d(TAG, " getFileList : getting file list for " + path + " ...");
         FTPFile[] filesAndDirs = client.listFiles(path);
-        ArrayList<FTPFile> files = new ArrayList<>();
+        ArrayList<RemoteFile> files = new ArrayList<>();
 
         for (FTPFile f : filesAndDirs)
         {
             if (!f.isDirectory())
             {
-                files.add(f);
+                RemoteFile file = new RemoteFile(f.getName(), path, f.getSize(), f.getTimestamp().toString());
+                files.add(file);
             }
         }
         Log.d(TAG, " getFileList : got " + files.size() + "files from " + path);
-        return files.toArray(new FTPFile[files.size()]);
+        return files;
     }
 
     /**
@@ -238,7 +257,7 @@ public class FtpClient
      * @return FTPFiles in current dir
      * @throws IOException couldn't read from current dir
      */
-    protected ArrayList<RemoteFile> getAllFileList(String path) throws IOException
+    public ArrayList<RemoteFile> getAllFileList(String path) throws IOException
     {
         if (!client.isConnected())
         {
@@ -287,7 +306,7 @@ public class FtpClient
      * @param downloadPath   Path to write to
      * @throws IOException couldn't download from current dir
      */
-    protected boolean downloadFile(String remoteFileName, String downloadPath) throws IOException
+    public boolean downloadFile(String remoteFileName, String downloadPath)
     {
         if (!client.isConnected())
         {
@@ -296,28 +315,37 @@ public class FtpClient
         }
         Log.d(TAG, "downloadFile : trying to download " + remoteFileName + downloadPath);
         File downloadFile = new File(MAP_FILE_PATH, remoteFileName);
-        client.changeWorkingDirectory(downloadPath);
-        OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(downloadFile));
-        InputStream inputStream = client.retrieveFileStream(remoteFileName);
-        byte[] bytesArray = new byte[4096];
-
-        long total = 0;
-        int bytesRead;
-        double progress;
-
-        while (-1 != (bytesRead = inputStream.read(bytesArray)))
+        try
         {
-            total += bytesRead;
-            progress = ((total * 100) / (23 * 1024));
-            outputStream.write(bytesArray, 0, bytesRead);
-            Log.i(TAG, "Download progress " + (int) progress);
+            client.changeWorkingDirectory(downloadPath);
+            OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(downloadFile));
+            InputStream inputStream = null;
+
+            inputStream = client.retrieveFileStream(remoteFileName);
+
+            byte[] bytesArray = new byte[4096];
+
+            long total = 0;
+            int bytesRead;
+            double progress;
+
+            while (-1 != (bytesRead = inputStream.read(bytesArray)))
+            {
+                total += bytesRead;
+                progress = ((total * 100) / (23 * 1024));
+                outputStream.write(bytesArray, 0, bytesRead);
+                Log.i(TAG, "Download progress " + (int) progress);
+            }
+
+            if (client.completePendingCommand()) Log.i(TAG, "File Download successful");
+
+            outputStream.close();
+            inputStream.close();
         }
-
-        if (client.completePendingCommand()) Log.i(TAG, "File Download successful");
-
-        outputStream.close();
-        inputStream.close();
-
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
         return true;
     }
 

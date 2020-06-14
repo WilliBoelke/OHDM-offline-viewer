@@ -49,12 +49,14 @@ dependencies {
     implementation 'android.arch.lifecycle:extensions:1.1.1'
 
     // Mapsforge
-    implementation 'org.mapsforge:mapsforge-core:0.13.0'
-    implementation 'org.mapsforge:mapsforge-map:0.13.0'
-    implementation 'org.mapsforge:mapsforge-map-reader:0.13.0'
-    implementation 'org.mapsforge:mapsforge-themes:0.13.0'
+    def mapsforge_version ="0.13.0"
+    implementation "org.mapsforge:mapsforge-core:$mapsforge_version"
+    implementation "org.mapsforge:mapsforge-map:$mapsforge_version"
+    implementation "org.mapsforge:mapsforge-map-reader:$mapsforge_version"
+    implementation "org.mapsforge:mapsforge-themes:$mapsforge_version"
+    implementation "org.mapsforge:mapsforge-map-android:$mapsforge_version"
+
     implementation 'net.sf.kxml:kxml2:2.3.0'
-    implementation 'org.mapsforge:mapsforge-map-android:0.13.0'
     implementation 'com.caverock:androidsvg:1.4'
 
     // FTP
@@ -88,12 +90,13 @@ dependencies {
     androidTestImplementation 'com.google.truth:truth:0.42'
 
     // Espresso dependencies
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-accessibility:3.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-web:3.1.0'
-    androidTestImplementation 'androidx.test.espresso.idling:idling-concurrent:3.1.0'
+    def espresso_version = "3.1.0"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso_version"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$espresso_version"
+    androidTestImplementation "androidx.test.espresso:espresso-accessibility:$espresso_version"
+    androidTestImplementation "androidx.test.espresso:espresso-web:$espresso_version"
+    androidTestImplementation "androidx.test.espresso.idling:idling-concurrent:$espresso_version"
 
     // The following Espresso dependency can be either "implementation"
     // or "androidTestImplementation", depending on whether you want the
@@ -107,12 +110,15 @@ dependencies {
     implementation "androidx.fragment:fragment:$fragment_version"
 
     //mockito
-    androidTestImplementation 'org.mockito:mockito-core:3.3.3'
-    androidTestImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
+    def mockito_version ="3.3.3"
+    //mockito
+    implementation "org.mockito:mockito-core:$mockito_version"
 
     //Mockk
-    testImplementation "io.mockk:mockk:1.10.0"
-    androidTestImplementation "io.mockk:mockk-android:1.10.0"
+    def mockK_version = "1.10.0"
+    testImplementation "io.mockk:mockk:$mockK_version"
+    androidTestImplementation "io.mockk:mockk-android:$mockK_version"
+
     //JUnit
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
