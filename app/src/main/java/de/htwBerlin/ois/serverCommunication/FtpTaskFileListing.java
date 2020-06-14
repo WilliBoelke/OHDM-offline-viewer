@@ -48,7 +48,8 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
      */
     private String path;
 
-    private SftpClient sftpClient;
+
+    private Client client;
 
 
     //------------Constructors------------
@@ -60,13 +61,13 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
      * @param path
      * @param asyncResponse
      */
-    public FtpTaskFileListing(Context context, String path, SftpClient sftpClient, boolean includeSubDirs, AsyncResponse asyncResponse)
+    public FtpTaskFileListing(Context context, String path, Client client, boolean includeSubDirs, AsyncResponse asyncResponse)
     {
         Log.d(TAG, "Constructor : new FtpTaskFileListing with : path  = " + path + " includeSubDirs = " + includeSubDirs);
         this.includeSubDirs = includeSubDirs;
         this.delegate = asyncResponse;
         this.path = path;
-        this.sftpClient = sftpClient;
+        this.client = client;
         this.context = new WeakReference<Context>(context);
     }
 
@@ -80,7 +81,7 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
         remoteFiles = new ArrayList<>();
         Log.d(TAG, "doingInBackground : initializing new FtpClient ");
 
-        sftpClient.connect();
+        client.connect();
         Log.d(TAG, "doingInBackground : connected to FtpClient");
 
         try
@@ -88,12 +89,12 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
             if (includeSubDirs == true)
             {
                 Log.d(TAG, "doingInBackground : getting all files including sub dirs...");
-                remoteFiles.addAll(sftpClient.getAllFileList(path));
+                remoteFiles.addAll(client.getAllFileList(path));
             }
             else
             {
                 Log.d(TAG, "doingInBackground : getting all files...");
-                remoteFiles.addAll(sftpClient.getFileList(path));
+                remoteFiles.addAll(client.getFileList(path));
             }
         }
         catch (IOException e)
@@ -108,7 +109,7 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
         }
 
         Log.d(TAG, "doingInBackground : finished - closing connection : ");
-        sftpClient.closeConnection();
+        client.closeConnection();
         return null;
     }
 

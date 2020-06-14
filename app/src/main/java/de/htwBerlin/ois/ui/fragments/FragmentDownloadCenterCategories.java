@@ -22,6 +22,7 @@ import de.htwBerlin.ois.fileStructure.RemoteDirectory;
 import de.htwBerlin.ois.fileStructure.RemoteFile;
 import de.htwBerlin.ois.fileStructure.RemoteListsSingleton;
 import de.htwBerlin.ois.serverCommunication.AsyncResponse;
+import de.htwBerlin.ois.serverCommunication.Client;
 import de.htwBerlin.ois.serverCommunication.FtpTaskDirListing;
 import de.htwBerlin.ois.serverCommunication.SftpClient;
 import de.htwBerlin.ois.ui.recyclerAdapters.RecyclerAdapterRemoteDirectories;
@@ -51,14 +52,14 @@ public class FragmentDownloadCenterCategories extends FragmentWithServerConnecti
      */
     private RecyclerAdapterRemoteDirectories recyclerViewAdapter;
 
-    private SftpClient sftpClient;
+    private Client client;
 
 
     //------------Activity/Fragment Lifecycle------------
 
-    public  FragmentDownloadCenterCategories (SftpClient sftpClient)
+    public  FragmentDownloadCenterCategories (Client client)
     {
-        this.sftpClient = sftpClient;
+        this.client = client;
     }
 
 
@@ -138,7 +139,7 @@ public class FragmentDownloadCenterCategories extends FragmentWithServerConnecti
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this.getContext());
 
         //The recycler adapter
-        recyclerViewAdapter = new RecyclerAdapterRemoteDirectories(getActivity().getApplicationContext(), directoryList, R.layout.recycler_item_directory,  sftpClient);
+        recyclerViewAdapter = new RecyclerAdapterRemoteDirectories(getActivity().getApplicationContext(), directoryList, R.layout.recycler_item_directory, client);
 
 
         //Putting everything together

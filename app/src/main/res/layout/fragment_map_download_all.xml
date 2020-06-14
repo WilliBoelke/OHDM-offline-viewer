@@ -49,7 +49,7 @@
         android:layout_height="match_parent">
 
         <androidx.core.widget.NestedScrollView
-            android:id="@+id/scrollView2"
+            android:id="@+id/scroll_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -78,17 +78,8 @@
                     android:typeface="normal"
                     android:visibility="visible"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/latest_maps_recycler" />
+                    app:layout_constraintTop_toBottomOf="@+id/most_recent_maps_recycler" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/latest_maps_recycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/lates_tv" />
 
                 <TextView
                     android:id="@+id/lates_tv"
@@ -105,9 +96,18 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/button_categories" />
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/most_recent_maps_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/lates_tv" />
 
                 <android.widget.SearchView
-                    android:id="@+id/latest_sv"
+                    android:id="@+id/recent_sv"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_marginStart="16dp"
@@ -119,7 +119,7 @@
 
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/available_maps_recycler"
+                    android:id="@+id/all_maps_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -179,7 +179,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/available_maps_recycler" />
+                    app:layout_constraintTop_toBottomOf="@+id/all_maps_recycler" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

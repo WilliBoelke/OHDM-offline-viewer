@@ -1,4 +1,4 @@
-package de.htwBerlin
+package de.htwBerlin.ois.ui.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.testing.launchFragmentInContainer
@@ -29,7 +29,8 @@ class FragmentAboutGuiTest {
     //------------Layout Tests------------
 
     @Test
-    fun viewsAreDisplayed() {
+    fun viewsAreDisplayed()
+    {
         onView(withId(R.id.info1_tv)).check(ViewAssertions.matches(isDisplayed()))
         onView(withId(R.id.info2_tv)).check(ViewAssertions.matches(isDisplayed()))
         onView(withId(R.id.info3_tv)).check(ViewAssertions.matches(isDisplayed()))

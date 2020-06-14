@@ -1,4 +1,4 @@
-package de.htwBerlin
+package de.htwBerlin.ois.ui.fragments
 
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso

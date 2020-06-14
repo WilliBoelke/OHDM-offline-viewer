@@ -28,9 +28,9 @@ import de.htwBerlin.ois.fileStructure.RemoteDirectory;
 import de.htwBerlin.ois.fileStructure.RemoteFile;
 import de.htwBerlin.ois.fileStructure.RemoteListsSingleton;
 import de.htwBerlin.ois.serverCommunication.AsyncResponse;
+import de.htwBerlin.ois.serverCommunication.Client;
 import de.htwBerlin.ois.serverCommunication.FtpTaskFileDownloading;
 import de.htwBerlin.ois.serverCommunication.FtpTaskFileListing;
-import de.htwBerlin.ois.serverCommunication.SftpClient;
 import de.htwBerlin.ois.ui.recyclerAdapters.OnRecyclerItemButtonClicklistenner;
 import de.htwBerlin.ois.ui.recyclerAdapters.RecyclerAdapterRemoteFiles;
 
@@ -76,7 +76,7 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
      */
     private RecyclerView allMapsRecyclerView;
     private RecyclerView latestMapsRecyclerView;
-    private SftpClient sftpClient;
+    private Client client;
 
     //------------Static Variables------------
     /**
@@ -86,10 +86,12 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
 
     //------------Constructor------------
 
-    public  FragmentDownloadCenterAll(SftpClient sftpClient)
+    public  FragmentDownloadCenterAll(Client client)
     {
-        this.sftpClient = sftpClient;
+        this.client = client;
     }
+
+
     //------------Activity/Fragment Lifecycle------------
 
     @Nullable
@@ -174,7 +176,7 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
      */
     private void setupAllMapsRecyclerView()
     {
-        allMapsRecyclerView = view.findViewById(R.id.available_maps_recycler);
+        allMapsRecyclerView = view.findViewById(R.id.all_maps_recycler);
 
         allMapsRecyclerView.setVisibility(View.INVISIBLE);  // is invisible till the server responds
 
@@ -207,7 +209,7 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
      */
     private void setupLatestMapsRecyclerView()
     {
-        latestMapsRecyclerView = view.findViewById(R.id.latest_maps_recycler);
+        latestMapsRecyclerView = view.findViewById(R.id.most_recent_maps_recycler);
 
         latestMapsRecyclerView.setVisibility(View.INVISIBLE);  // is invisible till the server responds
 
@@ -303,7 +305,7 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
      */
     private void setupLatestSearchView()
     {
-        SearchView searchView = view.findViewById(R.id.latest_sv);
+        SearchView searchView = view.findViewById(R.id.recent_sv);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
         {
             @Override
@@ -333,7 +335,7 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
      */
     private void FTPListAllFiles()
     {
-        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(getActivity(), FTP_ROOT_DIRECTORY, this.sftpClient, true, new AsyncResponse()
+        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(getActivity(), FTP_ROOT_DIRECTORY, this.client, true, new AsyncResponse()
         {
             @Override
             public void getOhdmFiles(ArrayList<RemoteFile> remoteFiles)
@@ -375,7 +377,7 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
      */
     private void FTPListLatestFiles()
     {
-        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(getActivity(), MOST_RECENT_PATH, this.sftpClient,false, new AsyncResponse()
+        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(getActivity(), MOST_RECENT_PATH, this.client,false, new AsyncResponse()
         {
             @Override
             public void getOhdmFiles(ArrayList<RemoteFile> remoteFiles)
@@ -509,7 +511,7 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
         view.findViewById(R.id.connecting_pb).setVisibility(View.INVISIBLE);
         view.findViewById(R.id.all_tv).setVisibility(View.INVISIBLE);
         view.findViewById(R.id.all_sv).setVisibility(View.INVISIBLE);
-        view.findViewById(R.id.latest_sv).setVisibility(View.INVISIBLE);
+        view.findViewById(R.id.recent_sv).setVisibility(View.INVISIBLE);
         view.findViewById(R.id.lates_tv).setVisibility(View.INVISIBLE);
         allMapsRecyclerView.setVisibility(View.INVISIBLE);
         latestMapsRecyclerView.setVisibility(View.INVISIBLE);
@@ -523,7 +525,7 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
 
         view.findViewById(R.id.all_sv).setVisibility(View.INVISIBLE);
         view.findViewById(R.id.all_tv).setVisibility(View.INVISIBLE);
-        view.findViewById(R.id.latest_sv).setVisibility(View.INVISIBLE);
+        view.findViewById(R.id.recent_sv).setVisibility(View.INVISIBLE);
         view.findViewById(R.id.lates_tv).setVisibility(View.INVISIBLE);
         allMapsRecyclerView.setVisibility(View.INVISIBLE);
         latestMapsRecyclerView.setVisibility(View.INVISIBLE);
@@ -537,7 +539,7 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
 
         view.findViewById(R.id.all_sv).setVisibility(View.VISIBLE);
         view.findViewById(R.id.all_tv).setVisibility(View.VISIBLE);
-        view.findViewById(R.id.latest_sv).setVisibility(View.VISIBLE);
+        view.findViewById(R.id.recent_sv).setVisibility(View.VISIBLE);
         view.findViewById(R.id.lates_tv).setVisibility(View.VISIBLE);
         allMapsRecyclerView.setVisibility(View.VISIBLE);
         latestMapsRecyclerView.setVisibility(View.VISIBLE);

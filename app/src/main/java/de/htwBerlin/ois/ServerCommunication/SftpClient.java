@@ -23,7 +23,7 @@ import static de.htwBerlin.ois.serverCommunication.Variables.USER_PASSWORD;
 import static de.htwBerlin.ois.ui.mainActivity.MainActivity.MAP_FILE_PATH;
 
 
-public class SftpClient
+public class SftpClient implements Client
 {
 
     //------------Instance Variables------------

@@ -19,9 +19,9 @@ import de.htwBerlin.ois.fileStructure.RemoteDirectory;
 import de.htwBerlin.ois.fileStructure.RemoteFile;
 import de.htwBerlin.ois.fileStructure.RemoteListsSingleton;
 import de.htwBerlin.ois.serverCommunication.AsyncResponse;
+import de.htwBerlin.ois.serverCommunication.Client;
 import de.htwBerlin.ois.serverCommunication.FtpTaskFileDownloading;
 import de.htwBerlin.ois.serverCommunication.FtpTaskFileListing;
-import de.htwBerlin.ois.serverCommunication.SftpClient;
 import de.htwBerlin.ois.ui.fragments.FragmentDownloadCenterCategories;
 
 
@@ -59,7 +59,7 @@ public class RecyclerAdapterRemoteDirectories extends RecyclerView.Adapter<Recyc
      */
     private Context context;
 
-    private SftpClient sftpClient;
+    private Client client;
 
 
     //------------Constructors------------
@@ -71,12 +71,12 @@ public class RecyclerAdapterRemoteDirectories extends RecyclerView.Adapter<Recyc
      * @param directoryList
      * @param resource
      */
-    public RecyclerAdapterRemoteDirectories(Context context, ArrayList<RemoteDirectory> directoryList, int resource, SftpClient sftpClient)
+    public RecyclerAdapterRemoteDirectories(Context context, ArrayList<RemoteDirectory> directoryList, int resource, Client client)
     {
         this.context = context;
         this.ressource = resource;
         this.directoryList = directoryList;
-        this.sftpClient = sftpClient;
+        this.client = client;
     }
 
 
@@ -143,7 +143,7 @@ public class RecyclerAdapterRemoteDirectories extends RecyclerView.Adapter<Recyc
      */
     private void ftpGetDirectoryContent(final String path, final ArrayList<RemoteFile> list, final ArrayList<RemoteFile> backup, final RecyclerAdapterRemoteFiles adapter)
     {
-        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(context, path, this.sftpClient, false, new AsyncResponse()
+        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(context, path, this.client, false, new AsyncResponse()
         {
             @Override
             public void getOhdmFiles(ArrayList<RemoteFile> remoteFiles)
