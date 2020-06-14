@@ -82,7 +82,7 @@ public class FtpTaskDirListing extends AsyncTask<Void, Void, String>
         try
         {
             Log.d(TAG, "doingInBackground : trying to get directories");
-            directoryList = sftpClient.getDirList(path);
+            directoryList.addAll(sftpClient.getDirList(path));
             Log.d(TAG, "doingInBackground : got " + directoryList.size() + " dirs");
         }
         catch (NullPointerException e)

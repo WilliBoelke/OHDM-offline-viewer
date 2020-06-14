@@ -80,17 +80,10 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
         remoteFiles = new ArrayList<>();
         Log.d(TAG, "doingInBackground : initializing new FtpClient ");
 
-        if (sftpClient == null)
-        {
-            //in case a mock object was inserted before that
-            sftpClient = new SftpClient();
-        }
         sftpClient.connect();
         Log.d(TAG, "doingInBackground : connected to FtpClient");
 
-        RemoteFile[] files = new RemoteFile[0];
         try
-
         {
             if (includeSubDirs == true)
             {
@@ -100,7 +93,7 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
             else
             {
                 Log.d(TAG, "doingInBackground : getting all files...");
-                remoteFiles = sftpClient.getFileList(path);
+                remoteFiles.addAll(sftpClient.getFileList(path));
             }
         }
         catch (IOException e)
