@@ -38,6 +38,18 @@ public class FragmentOptions extends Fragment
     //------------Instance Variables------------
 
     /**
+     * Log tag
+     */
+    private final String TAG = getClass().getSimpleName();
+    /**
+     * the view
+     */
+    private View view;
+    /**
+     * SharedPreferences to quickly store and access user settings
+     */
+    private SharedPreferences prefs;
+    /**
      * Key to get the DarkMode boolean from the SharedPreferences
      */
     public static final String DARK_MODE = "darkmode_settings";
@@ -50,6 +62,7 @@ public class FragmentOptions extends Fragment
 
 
     //------------Static Variables------------
+
     private static final int REQUEST_CODE_WRITE_STORAGE_PERMISSION = 56;
     private static final int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
     /**
@@ -57,18 +70,6 @@ public class FragmentOptions extends Fragment
      * (for example by putting the ID into the Intent extra )
      */
     public static String ID = "Options";
-    /**
-     * Log tag
-     */
-    private final String TAG = getClass().getSimpleName();
-    /**
-     * the view
-     */
-    private View view;
-    /**
-     * SharedPreferences to quickly store and access user settings
-     */
-    private SharedPreferences prefs;
 
 
     //------------Activity/Fragment Lifecycle------------
@@ -91,6 +92,7 @@ public class FragmentOptions extends Fragment
         this.setupAllowWriteLocalStorageToggle();
         this.setupIDView();
     }
+
 
     //------------Setup Views------------
 

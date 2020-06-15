@@ -31,6 +31,15 @@ public class HttpRequest extends AsyncTask<Void, Void, String>
 {
     public static final String REQUEST_TYPE_ID = "/id";
     public static final String REQUEST_TYPE_MAP_REQUEST = "/request";
+    /**
+     * Ypu need to pass the id in the paramsString
+     * when using this request type
+     *
+     * example :
+     * id=63Wjwqs
+     *
+     */
+    public static final String REQUEST_TYP_STATUS_BY_ID = "/statusByID";
 
     //------------Instance Variables------------
 

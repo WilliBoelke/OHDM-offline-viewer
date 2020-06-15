@@ -177,9 +177,7 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
     private void setupAllMapsRecyclerView()
     {
         allMapsRecyclerView = view.findViewById(R.id.all_maps_recycler);
-
         allMapsRecyclerView.setVisibility(View.INVISIBLE);  // is invisible till the server responds
-
         RecyclerView.LayoutManager recyclerLayoutManager = new LinearLayoutManager(this.getContext());//layout manager vor vertical scrolling recycler
 
         //The recycler adapter

@@ -108,6 +108,11 @@
     <string name="menu_faq">FAQ</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="status_info_done">The server has prossecced your request sucessfully. You can now download the map in the download Tab</string>
+    <string name="status_info_error" />
+    <string name="status_info_downloading" />
+    <string name="status_info_converting" />
+    <string name="status_info_requesting" />
 
 
 </resources>

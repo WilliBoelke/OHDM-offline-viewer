@@ -35,20 +35,9 @@ import static de.htwBerlin.ois.ui.fragments.FragmentOptions.SETTINGS_SHARED_PREF
  */
 public class FragmentRequestNewMap extends Fragment
 {
+
     //------------Instance Variables------------
 
-    public static final int MIN_LATITUDE = -180;
-    public static final int MAX_LATITUDE = 180;
-    public static final int MAX_LONGITUDE = 90;
-    public static final int MIN_LONGITUDE = -90;
-    /**
-     * Fragment ID used to identify the fragment
-     * (for example by putting the ID into the Intent extra )
-     */
-    public static String ID = "RequestMap";
-    /**
-     * Log Tag
-     */
     private final String TAG = this.getClass().getSimpleName();
     /**
      * The View
@@ -63,8 +52,24 @@ public class FragmentRequestNewMap extends Fragment
     private EditText longitudeBottom;
     private EditText latitudeRight;
     private EditText latitudeLeft;
-    //------------Static Variables------------
     private EditText name;
+
+
+    //------------Static Variables------------
+
+    public static final int MIN_LATITUDE = -180;
+    public static final int MAX_LATITUDE = 180;
+    public static final int MAX_LONGITUDE = 90;
+    public static final int MIN_LONGITUDE = -90;
+    /**
+     * Fragment ID used to identify the fragment
+     * (for example by putting the ID into the Intent extra )
+     */
+    public static String ID = "RequestMap";
+    /**
+     * Log Tag
+     */
+
 
 
     //------------Activity/Fragment Lifecycle------------
@@ -99,7 +104,7 @@ public class FragmentRequestNewMap extends Fragment
             {
                 if (checkForNullName() == true && checkForNullCoordinates() == true)
                 {
-                    HttpRequest httpRequestNewMap = new HttpRequest( REQUEST_TYPE_MAP_REQUEST ,buildParamsString(),
+                    HttpRequest httpRequestNewMap = new HttpRequest( REQUEST_TYPE_MAP_REQUEST , buildParamsString(),
                     new AsyncResponse()
                     {
                         @Override
@@ -288,7 +293,6 @@ public class FragmentRequestNewMap extends Fragment
     {
         Log.d(TAG, "buildParamsString : building params string...");
         StringBuilder sb = new StringBuilder();
-        sb.append("/request?");
         sb.append("name=");
         sb.append(this.name.getText().toString());
         sb.append("&coords=");

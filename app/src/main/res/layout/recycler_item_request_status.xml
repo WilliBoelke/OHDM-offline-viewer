@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="180dp"
     android:layout_marginLeft="@dimen/activity_horizontal_margin"
     android:layout_marginTop="@dimen/activity_horizontal_margin"
     android:layout_marginRight="@dimen/activity_horizontal_margin"
@@ -19,7 +19,7 @@
 
         <TextView
             android:id="@+id/request_name_tv"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
@@ -39,14 +39,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
             android:fontFamily="@font/comfortaa"
             android:text="Status : "
             android:textSize="@dimen/secondary_font_size"
             android:textStyle="normal"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/request_name_tv"
+            app:layout_constraintTop_toBottomOf="@+id/passed_time"
             tools:text="Status : " />
 
         <TextView
@@ -63,16 +61,30 @@
             tools:text="done" />
 
         <TextView
+            android:id="@+id/request_status_information"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:text="TextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/request_status"
+            tools:text='The status "done" means that the server finished generating the map and you now gan download in in the download tab' />
+
+        <TextView
             android:id="@+id/passed_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
             android:fontFamily="@font/comfortaa"
             android:text="Time since request : "
             android:textSize="@dimen/secondary_font_size"
             android:textStyle="normal"
-            app:layout_constraintStart_toEndOf="@+id/request_status_tv"
-            app:layout_constraintTop_toTopOf="@+id/request_status_tv" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/request_name_tv" />
 
         <TextView
             android:id="@+id/passed_time_tv"
