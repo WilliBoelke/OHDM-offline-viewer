@@ -20,6 +20,7 @@ import de.htwBerlin.ois.ui.fragments.FragmentHome;
 import de.htwBerlin.ois.ui.fragments.FragmentNavigation;
 import de.htwBerlin.ois.ui.fragments.FragmentOptions;
 import de.htwBerlin.ois.ui.fragments.FragmentRequestNewMap;
+import de.htwBerlin.ois.ui.fragments.FragmentRequestStatus;
 
 
 public class FragmentFactory extends androidx.fragment.app.FragmentFactory
@@ -76,6 +77,11 @@ public class FragmentFactory extends androidx.fragment.app.FragmentFactory
         {
             Log.d(TAG, "Instantiate : FragmentFAQ");
             return new FragmentFAQ();
+        }
+        if (className.equals(FragmentRequestStatus.class.getName()))
+        {
+            Log.d(TAG, "Instantiate : FragmentRequestStatus");
+            return new FragmentRequestStatus();
         }
         else
         {

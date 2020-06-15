@@ -106,6 +106,8 @@
     <string name="coords_info">Enter latitude and longitude</string>
     <string name="submit_request">submit request</string>
     <string name="menu_faq">FAQ</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>
