@@ -19,11 +19,10 @@ import de.htwBerlin.ois.fileStructure.RemoteFile;
 import static de.htwBerlin.ois.serverCommunication.HttpRequest.REQUEST_TYPE_MAP_REQUEST;
 import static org.junit.Assert.assertEquals;
 
-class HTTPRequestNewMapTest
+class HTTPRequestTest
 {
     PipedInputStream pipeInput;
     private HttpRequest httpRequestNewMap;
-    ;
     private HttpURLConnection mockHTTPConn = Mockito.mock(HttpURLConnection.class);
     private BufferedReader reader;
     private BufferedOutputStream out;
