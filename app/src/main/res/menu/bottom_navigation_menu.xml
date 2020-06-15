@@ -14,4 +14,9 @@
         android:id="@+id/nav_download"
         android:icon="?attr/bottom_nav_icon_map_download"
         android:title="Maps" />
+
+    <item
+        android:id="@+id/request_status"
+        android:icon="?attr/bottom_nav_icon_request"
+        android:title="Request Status" />
 </menu>
