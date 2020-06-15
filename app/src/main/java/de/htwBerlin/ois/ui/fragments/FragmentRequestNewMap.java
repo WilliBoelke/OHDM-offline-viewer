@@ -1,5 +1,6 @@
 package de.htwBerlin.ois.ui.fragments;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -113,7 +114,14 @@ public class FragmentRequestNewMap extends Fragment
                         @Override
                         public void getHttpResponse(String response)
                         {
-
+                            if(response == null)
+                            {
+                                Toast.makeText(getActivity().getApplicationContext(), "The server doesn't respond, try it again later", Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(getActivity().getApplicationContext(), "The server received your request", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     });
                     httpRequestNewMap.execute();

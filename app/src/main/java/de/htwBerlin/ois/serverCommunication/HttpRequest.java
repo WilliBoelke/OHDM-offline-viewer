@@ -90,7 +90,7 @@ public class HttpRequest extends AsyncTask<Void, Void, String>
     @Override
     protected String doInBackground(Void... params)
     {
-        response = null;
+        response = "";
         try
         {
             Log.d(TAG, "doingInBackground : connecting with server " + url);

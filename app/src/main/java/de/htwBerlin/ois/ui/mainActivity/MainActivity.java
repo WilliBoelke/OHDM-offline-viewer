@@ -2,6 +2,7 @@ package de.htwBerlin.ois.ui.mainActivity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,6 +28,10 @@ import java.util.Map;
 import de.htwBerlin.ois.R;
 import de.htwBerlin.ois.factory.FragmentFactory;
 import de.htwBerlin.ois.fileStructure.MapFileSingleton;
+import de.htwBerlin.ois.fileStructure.RemoteDirectory;
+import de.htwBerlin.ois.fileStructure.RemoteFile;
+import de.htwBerlin.ois.serverCommunication.AsyncResponse;
+import de.htwBerlin.ois.serverCommunication.HttpRequest;
 import de.htwBerlin.ois.serverCommunication.SftpClient;
 import de.htwBerlin.ois.ui.fragments.FragmentAbout;
 import de.htwBerlin.ois.ui.fragments.FragmentDownloadCenterAll;
@@ -35,6 +40,9 @@ import de.htwBerlin.ois.ui.fragments.FragmentHome;
 import de.htwBerlin.ois.ui.fragments.FragmentNavigation;
 import de.htwBerlin.ois.ui.fragments.FragmentOptions;
 import de.htwBerlin.ois.ui.fragments.FragmentRequestStatus;
+
+import static de.htwBerlin.ois.ui.fragments.FragmentOptions.SERVER_ID;
+import static de.htwBerlin.ois.ui.fragments.FragmentOptions.SETTINGS_SHARED_PREFERENCES;
 
 /**
  * @author WilliBoelke
@@ -63,7 +71,7 @@ public class MainActivity extends AppCompatActivity
         getSupportFragmentManager().setFragmentFactory(new FragmentFactory(new SftpClient()));
         super.onCreate(savedInstanceState);
         //Get settings from SharedPrefs
-        if (getApplicationContext().getSharedPreferences(FragmentOptions.SETTINGS_SHARED_PREFERENCES, 0).getBoolean(FragmentOptions.DARK_MODE, false) == true)
+        if (getApplicationContext().getSharedPreferences(SETTINGS_SHARED_PREFERENCES, 0).getBoolean(FragmentOptions.DARK_MODE, false) == true)
         {
             setTheme(R.style.DarkTheme);
             Log.d(TAG, "onCreate :  app theme DARK");
@@ -105,6 +113,7 @@ public class MainActivity extends AppCompatActivity
             checkPermissions();
         }
         createOhdmDirectory();
+        HttpGetIdFromServer();
     }
 
 
@@ -286,8 +295,47 @@ public class MainActivity extends AppCompatActivity
         Log.d(TAG, "createOhdmDirectory : OHDM directory created");
     }
 
+    /**
+     * At the first start oft the app, i want to ge an ID
+     * from the server, to identify the user and his requests,
+     * but completely anonymous
+     */
     private void HttpGetIdFromServer()
     {
+        HttpRequest httpRequest = new HttpRequest("/id", new AsyncResponse()
+        {
+            @Override
+            public void getRemoteFiles(ArrayList<RemoteFile> remoteFiles)
+            {
+                //not needed here
+            }
 
+            @Override
+            public void getRemoteDirectories(ArrayList<RemoteDirectory> remoteDirectories)
+            {
+                //not needed here
+            }
+
+            @Override
+            public void getHttpResponse(String response)
+            {
+                SharedPreferences prefs = getApplicationContext().getSharedPreferences(SETTINGS_SHARED_PREFERENCES, 0);
+                if (prefs.getString(SERVER_ID, null) == null)
+                {
+                    if (response == null)
+                    {
+                        Toast.makeText(getApplicationContext(), "Something went Wrong", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(), "Response = " + response, Toast.LENGTH_SHORT).show();
+                        prefs.edit().putString(SERVER_ID, response).commit();
+                        Log.d(TAG, "ID from server = " + response);
+                    }
+                }
+            }
+        });
+
+        httpRequest.execute();
     }
 }

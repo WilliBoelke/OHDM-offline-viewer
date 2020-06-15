@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -40,6 +41,7 @@ public class FragmentOptions extends Fragment
      * Key to get the DarkMode boolean from the SharedPreferences
      */
     public static final String DARK_MODE = "darkmode_settings";
+    public static final String SERVER_ID = "server_id";
     /**
      * SharedPreferences name
      */
@@ -87,8 +89,8 @@ public class FragmentOptions extends Fragment
         this.setUpDarkModeToggle();
         this.setupAllowAccessLocationToggle();
         this.setupAllowWriteLocalStorageToggle();
+        this.setupIDView();
     }
-
 
     //------------Setup Views------------
 
@@ -192,6 +194,12 @@ public class FragmentOptions extends Fragment
                 }
             }
         });
+    }
+
+    private void setupIDView()
+    {
+        TextView idTextView = view.findViewById(R.id.your_id_tv);
+        idTextView.setText(prefs.getString(SERVER_ID, ""));
     }
 
 
