@@ -41,6 +41,8 @@ import de.htwBerlin.ois.ui.fragments.FragmentNavigation;
 import de.htwBerlin.ois.ui.fragments.FragmentOptions;
 import de.htwBerlin.ois.ui.fragments.FragmentRequestStatus;
 
+import static de.htwBerlin.ois.serverCommunication.HttpRequest.REQUEST_TYPE_ID;
+import static de.htwBerlin.ois.serverCommunication.HttpRequest.REQUEST_TYPE_MAP_REQUEST;
 import static de.htwBerlin.ois.ui.fragments.FragmentOptions.SERVER_ID;
 import static de.htwBerlin.ois.ui.fragments.FragmentOptions.SETTINGS_SHARED_PREFERENCES;
 
@@ -302,26 +304,27 @@ public class MainActivity extends AppCompatActivity
      */
     private void HttpGetIdFromServer()
     {
-        HttpRequest httpRequest = new HttpRequest("/id", new AsyncResponse()
+        SharedPreferences prefs = getApplicationContext().getSharedPreferences(SETTINGS_SHARED_PREFERENCES, 0);
+        if (prefs.getString(SERVER_ID, null) == null)
         {
-            @Override
-            public void getRemoteFiles(ArrayList<RemoteFile> remoteFiles)
+            HttpRequest httpRequest = new HttpRequest(REQUEST_TYPE_ID,"", new AsyncResponse()
             {
-                //not needed here
-            }
-
-            @Override
-            public void getRemoteDirectories(ArrayList<RemoteDirectory> remoteDirectories)
-            {
-                //not needed here
-            }
-
-            @Override
-            public void getHttpResponse(String response)
-            {
-                SharedPreferences prefs = getApplicationContext().getSharedPreferences(SETTINGS_SHARED_PREFERENCES, 0);
-                if (prefs.getString(SERVER_ID, null) == null)
+                @Override
+                public void getRemoteFiles(ArrayList<RemoteFile> remoteFiles)
                 {
+                    //not needed here
+                }
+
+                @Override
+                public void getRemoteDirectories(ArrayList<RemoteDirectory> remoteDirectories)
+                {
+                    //not needed here
+                }
+
+                @Override
+                public void getHttpResponse(String response)
+                {
+
                     if (response == null)
                     {
                         Toast.makeText(getApplicationContext(), "Something went Wrong", Toast.LENGTH_SHORT).show();
@@ -332,10 +335,11 @@ public class MainActivity extends AppCompatActivity
                         prefs.edit().putString(SERVER_ID, response).commit();
                         Log.d(TAG, "ID from server = " + response);
                     }
-                }
-            }
-        });
 
-        httpRequest.execute();
+                }
+            });
+
+            httpRequest.execute();
+        }
     }
 }

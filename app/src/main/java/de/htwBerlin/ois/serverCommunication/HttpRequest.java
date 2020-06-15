@@ -29,7 +29,8 @@ import static de.htwBerlin.ois.serverCommunication.Variables.SERVER_IP;
  */
 public class HttpRequest extends AsyncTask<Void, Void, String>
 {
-
+    public static final String REQUEST_TYPE_ID = "/id";
+    public static final String REQUEST_TYPE_MAP_REQUEST = "/request";
 
     //------------Instance Variables------------
 
@@ -37,10 +38,11 @@ public class HttpRequest extends AsyncTask<Void, Void, String>
      * Log tag
      */
     private final String TAG = this.getClass().getSimpleName();
+    private final String requestType;
     /**
      * A date as String
      */
-    private String requestString;
+    private String paramsString;
 
     /**
      * Remote server url
@@ -60,10 +62,11 @@ public class HttpRequest extends AsyncTask<Void, Void, String>
      *
      * @param
      */
-    public HttpRequest(String requestString, AsyncResponse asyncResponse)
+    public HttpRequest(String requestType, String paramsString, AsyncResponse asyncResponse)
     {
-        Log.d(TAG, "Constructor:  new HttpRequestNewMap with : request = " + requestString);
-        this.requestString = requestString;
+        Log.d(TAG, "Constructor:  new HttpRequestNewMap with : request = " + paramsString);
+        this.paramsString = paramsString;
+        this.requestType = requestType;
         this.delegate = asyncResponse;
     }
 
@@ -76,7 +79,7 @@ public class HttpRequest extends AsyncTask<Void, Void, String>
         Log.d(TAG, "onPreExecute:  building url ....");
         try
         {
-            url = new URL("http://" + SERVER_IP + ":" + HTTP_PORT + "/request");
+            url = new URL("http://" + SERVER_IP + ":" + HTTP_PORT + requestType);
             Log.d(TAG, "onPreExecute:  Url = " + url);
         }
         catch (MalformedURLException e)
@@ -105,10 +108,10 @@ public class HttpRequest extends AsyncTask<Void, Void, String>
             conn.setDoOutput(true);
             Log.d(TAG, "doingInBackground : connected successfully");
 
-            Log.d(TAG, "doingInBackground : writing to server, request = " + requestString);
+            Log.d(TAG, "doingInBackground : writing to server, request = " + paramsString);
             OutputStream os = conn.getOutputStream();
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, StandardCharsets.UTF_8));
-            writer.write(requestString);
+            writer.write(paramsString);
             writer.flush();
             writer.close();
             os.close();

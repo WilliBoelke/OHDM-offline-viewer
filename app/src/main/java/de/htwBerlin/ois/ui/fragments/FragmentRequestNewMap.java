@@ -25,6 +25,9 @@ import de.htwBerlin.ois.fileStructure.RemoteFile;
 import de.htwBerlin.ois.serverCommunication.AsyncResponse;
 import de.htwBerlin.ois.serverCommunication.HttpRequest;
 
+import static de.htwBerlin.ois.serverCommunication.HttpRequest.REQUEST_TYPE_MAP_REQUEST;
+import static de.htwBerlin.ois.ui.fragments.FragmentOptions.SETTINGS_SHARED_PREFERENCES;
+
 /**
  * Fragment to allow the user to request a new map
  *
@@ -96,7 +99,7 @@ public class FragmentRequestNewMap extends Fragment
             {
                 if (checkForNullName() == true && checkForNullCoordinates() == true)
                 {
-                    HttpRequest httpRequestNewMap = new HttpRequest(buildParamsString(),
+                    HttpRequest httpRequestNewMap = new HttpRequest( REQUEST_TYPE_MAP_REQUEST ,buildParamsString(),
                     new AsyncResponse()
                     {
                         @Override
@@ -275,7 +278,9 @@ public class FragmentRequestNewMap extends Fragment
     /**
      * Builds a string as accepted by the server
      * example:
-     * name=mapname&coords=13.005,15.123_13.005,15.123_13.005,15.123_13.005,15.123_13.005,15.123&date=2117-12-11
+     * name=mapname&coords=13.005,15.123_13.005,15.123_13.005,15.123_13.005,15.123_13.005,15.123&date=2117-12-11&id=1JWd3wc
+     *
+     * note: the id part is optional
      *
      * @return the String
      */
@@ -283,12 +288,15 @@ public class FragmentRequestNewMap extends Fragment
     {
         Log.d(TAG, "buildParamsString : building params string...");
         StringBuilder sb = new StringBuilder();
+        sb.append("/request?");
         sb.append("name=");
         sb.append(this.name.getText().toString());
         sb.append("&coords=");
         sb.append(this.getCoordinatesAsString());
         sb.append("&date=");
         sb.append(this.getDatePickerValuesAsString());
+        sb.append("&id=");
+        sb.append(getActivity().getSharedPreferences(SETTINGS_SHARED_PREFERENCES, 0).getString(FragmentOptions.SERVER_ID, ""));
         Log.d(TAG, "buildParamsString : builded params string");
         return sb.toString();
     }
