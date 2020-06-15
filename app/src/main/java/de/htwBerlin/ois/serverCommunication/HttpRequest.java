@@ -24,12 +24,10 @@ import static de.htwBerlin.ois.serverCommunication.Variables.SERVER_IP;
 /**
  * AsyncTask to make a HTTP Request to the Server
  * <p>
- * The request contains name, coordinates and a date.
- * The server will the create that map and make it available
  *
  * @author WilliBoelke
  */
-public class HTTPRequestNewMap extends AsyncTask<Void, Void, String>
+public class HttpRequest extends AsyncTask<Void, Void, String>
 {
 
 
@@ -42,19 +40,16 @@ public class HTTPRequestNewMap extends AsyncTask<Void, Void, String>
     /**
      * A date as String
      */
-    private String date;
-    /**
-     * 8 Coordinates (Lat/Long) as String
-     */
-    private String coordinates;
-    /**
-     * map name
-     */
-    private String name;
+    private String requestString;
+
     /**
      * Remote server url
      */
     private URL url;
+
+    private AsyncResponse delegate;
+
+    private String response;
 
     private HttpURLConnection conn;
 
@@ -63,16 +58,13 @@ public class HTTPRequestNewMap extends AsyncTask<Void, Void, String>
     /**
      * Public constructor
      *
-     * @param date        the date of the requested map
-     * @param coordinates the coordinates of the requested map
-     * @param name        the name of the requested map
+     * @param
      */
-    public HTTPRequestNewMap(String date, String coordinates, String name)
+    public HttpRequest(String requestString, AsyncResponse asyncResponse)
     {
-        Log.d(TAG, "Constructor:  new HttpRequestNewMap with : date = " + date + " coords = " + coordinates + " name = " + name);
-        this.date = date;
-        this.name = name;
-        this.coordinates = coordinates;
+        Log.d(TAG, "Constructor:  new HttpRequestNewMap with : request = " + requestString);
+        this.requestString = requestString;
+        this.delegate = asyncResponse;
     }
 
 
@@ -98,7 +90,7 @@ public class HTTPRequestNewMap extends AsyncTask<Void, Void, String>
     @Override
     protected String doInBackground(Void... params)
     {
-        String response = null;
+        response = null;
         try
         {
             Log.d(TAG, "doingInBackground : connecting with server " + url);
@@ -113,10 +105,10 @@ public class HTTPRequestNewMap extends AsyncTask<Void, Void, String>
             conn.setDoOutput(true);
             Log.d(TAG, "doingInBackground : connected successfully");
 
-            Log.d(TAG, "doingInBackground : writing to server, request = " + this.buildParamsString());
+            Log.d(TAG, "doingInBackground : writing to server, request = " + requestString);
             OutputStream os = conn.getOutputStream();
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, StandardCharsets.UTF_8));
-            writer.write(this.buildParamsString());
+            writer.write(requestString);
             writer.flush();
             writer.close();
             os.close();
@@ -148,30 +140,12 @@ public class HTTPRequestNewMap extends AsyncTask<Void, Void, String>
         return null;
     }
 
-
-    //------------Others------------
-
-    /**
-     * Builds a string as accepted by the server
-     * example:
-     * name=mapname&coords=13.005,15.123_13.005,15.123_13.005,15.123_13.005,15.123_13.005,15.123&date=2117-12-11
-     *
-     * @return the String
-     */
-    private String buildParamsString()
+    @Override
+    protected void onPostExecute(String s)
     {
-        Log.d(TAG, "buildParamsString : building params string...");
-        StringBuilder sb = new StringBuilder();
-        sb.append("name=");
-        sb.append(this.name);
-        sb.append("&coords=");
-        sb.append(this.coordinates);
-        sb.append("&date=");
-        sb.append(this.date);
-        Log.d(TAG, "buildParamsString : builded params string");
-        return sb.toString();
+        super.onPostExecute(s);
+        delegate.getHttpResponse(this.response);
     }
-
 
     public void insertMockHTTPConnection(HttpURLConnection mock)
     {

@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 class HTTPRequestNewMapTest
 {
     PipedInputStream pipeInput;
-    private HTTPRequestNewMap httpRequestNewMap;
+    private HttpRequest httpRequestNewMap;
     ;
     private HttpURLConnection mockHTTPConn = Mockito.mock(HttpURLConnection.class);
     private BufferedReader reader;
@@ -26,7 +26,7 @@ class HTTPRequestNewMapTest
     @BeforeEach
     public void setup() throws IOException
     {
-        httpRequestNewMap = new HTTPRequestNewMap("date", "coords", "name");
+        httpRequestNewMap = new HttpRequest("date", "coords", "name");
         pipeInput = new PipedInputStream();
         reader = new BufferedReader(new InputStreamReader(pipeInput));
         out = new BufferedOutputStream(new PipedOutputStream(pipeInput));

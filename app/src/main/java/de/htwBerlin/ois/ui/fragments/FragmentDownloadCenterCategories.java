@@ -70,7 +70,7 @@ public class FragmentDownloadCenterCategories extends FragmentWithServerConnecti
     private AsyncResponse asyncResponseDirListing = new AsyncResponse()
     {
         @Override
-        public void getOhdmFiles(ArrayList<RemoteFile> remoteFiles)
+        public void getRemoteFiles(ArrayList<RemoteFile> remoteFiles)
         {
 
         }
@@ -90,6 +90,12 @@ public class FragmentDownloadCenterCategories extends FragmentWithServerConnecti
                 changeVisibilities(STATE_NO_CONNECTION);
             }
 
+        }
+
+        @Override
+        public void getHttpResponse(String response)
+        {
+            //Not needed here
         }
     };
 

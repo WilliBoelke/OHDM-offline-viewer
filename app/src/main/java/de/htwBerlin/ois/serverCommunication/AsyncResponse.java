@@ -7,7 +7,9 @@ import de.htwBerlin.ois.fileStructure.RemoteFile;
 
 public interface AsyncResponse
 {
-    void getOhdmFiles(ArrayList<RemoteFile> remoteFiles);
+    void getRemoteFiles(ArrayList<RemoteFile> remoteFiles);
 
     void getRemoteDirectories(ArrayList<RemoteDirectory> remoteDirectories);
+
+    void getHttpResponse(String response);
 }

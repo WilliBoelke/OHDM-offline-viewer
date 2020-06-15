@@ -338,7 +338,7 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
         FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(getActivity(), FTP_ROOT_DIRECTORY, this.client, true, new AsyncResponse()
         {
             @Override
-            public void getOhdmFiles(ArrayList<RemoteFile> remoteFiles)
+            public void getRemoteFiles(ArrayList<RemoteFile> remoteFiles)
             {
                 if (remoteFiles.size() > 0)
                 {
@@ -365,6 +365,12 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
             {
 
             }
+
+            @Override
+            public void getHttpResponse(String response)
+            {
+                //Not needed here
+            }
         });
         ftpTaskFileListing.execute();
     }
@@ -380,7 +386,7 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
         FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(getActivity(), MOST_RECENT_PATH, this.client,false, new AsyncResponse()
         {
             @Override
-            public void getOhdmFiles(ArrayList<RemoteFile> remoteFiles)
+            public void getRemoteFiles(ArrayList<RemoteFile> remoteFiles)
             {
                 if (remoteFiles.size() > 0)
                 {
@@ -402,7 +408,13 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
             @Override
             public void getRemoteDirectories(ArrayList<RemoteDirectory> dirs)
             {
+                //Not needed here
+            }
 
+            @Override
+            public void getHttpResponse(String response)
+            {
+                //Not needed here
             }
         });
         ftpTaskFileListing.execute();

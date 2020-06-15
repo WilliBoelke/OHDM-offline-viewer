@@ -123,7 +123,7 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
         else
         {
             Log.d(TAG, "Found " + remoteFiles.size() + " files from server");
-            delegate.getOhdmFiles(this.remoteFiles);
+            delegate.getRemoteFiles(this.remoteFiles);
         }
     }
 

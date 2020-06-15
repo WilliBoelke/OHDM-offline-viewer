@@ -34,6 +34,7 @@ import de.htwBerlin.ois.ui.fragments.FragmentFAQ;
 import de.htwBerlin.ois.ui.fragments.FragmentHome;
 import de.htwBerlin.ois.ui.fragments.FragmentNavigation;
 import de.htwBerlin.ois.ui.fragments.FragmentOptions;
+import de.htwBerlin.ois.ui.fragments.FragmentRequestStatus;
 
 /**
  * @author WilliBoelke
@@ -41,7 +42,7 @@ import de.htwBerlin.ois.ui.fragments.FragmentOptions;
 public class MainActivity extends AppCompatActivity
 {
 
-    //------------Instance Variables------------
+    //------------Static Variables------------
 
     public static final String MAP_FILE_PATH = Environment.getExternalStorageDirectory().toString() + "/OHDM";
     private static final int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
@@ -54,60 +55,6 @@ public class MainActivity extends AppCompatActivity
 
 
     //------------Activity/Fragment Lifecycle------------
-    /**
-     * Bottom Nav Listener
-     */
-    private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener()
-    {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item)
-        {
-            Class selectedFragment = null;
-            String id = null;
-            // switch ... case to select the right Fragment to start
-            switch (item.getItemId())
-            {
-                case R.id.nav_home:
-                    selectedFragment = FragmentHome.class;
-                    id = FragmentHome.ID;
-                    break;
-                case R.id.nav_download:
-                    selectedFragment = FragmentDownloadCenterAll.class;
-                    id = FragmentHome.ID;
-                    break;
-                case R.id.nav_navigation:
-                    if (MapFileSingleton.getInstance().getFile() != null)
-                    {
-                        selectedFragment = FragmentNavigation.class;
-                        id = FragmentNavigation.ID;
-                    }
-                    else
-                    {
-                        Toast.makeText(getApplicationContext(), "You need to choose a map", Toast.LENGTH_LONG).show();
-                    }
-                    break;
-
-                default:
-                    return false;
-            }
-
-            // giving the FragmentManager the container and the fragment which should be loaded into view
-            // ... also commit
-            try
-            {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment, new Bundle()).addToBackStack("").commit();
-            }
-            catch (NullPointerException e)
-            {
-                Log.e(TAG, "onNavigationItemSelected: Fragment was null ", e);
-            }
-            // return true to tell that everything did go right
-            return true;
-        }
-    };
-
-
-    //------------Toolbar Menu------------
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -161,54 +108,66 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    //------------Bottom Navigation ------------
+
+    /**
+     * Bottom Nav Listener
+     */
+    private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener()
+    {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item)
+        {
+            Class selectedFragment = null;
+            String id = null;
+            // switch ... case to select the right Fragment to start
+            switch (item.getItemId())
+            {
+                case R.id.nav_home:
+                    selectedFragment = FragmentHome.class;
+                    id = FragmentHome.ID;
+                    break;
+                case R.id.nav_download:
+                    selectedFragment = FragmentDownloadCenterAll.class;
+                    id = FragmentHome.ID;
+                    break;
+                case R.id.nav_request_status:
+                    selectedFragment = FragmentRequestStatus.class;
+                    id = FragmentRequestStatus.ID;
+                    break;
+                case R.id.nav_navigation:
+                    if (MapFileSingleton.getInstance().getFile() != null)
+                    {
+                        selectedFragment = FragmentNavigation.class;
+                        id = FragmentNavigation.ID;
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(), "You need to choose a map", Toast.LENGTH_LONG).show();
+                    }
+                    break;
+
+                default:
+                    return false;
+            }
+
+            // giving the FragmentManager the container and the fragment which should be loaded into view
+            // ... also commit
+            try
+            {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment, new Bundle()).addToBackStack("").commit();
+            }
+            catch (NullPointerException e)
+            {
+                Log.e(TAG, "onNavigationItemSelected: Fragment was null ", e);
+            }
+            // return true to tell that everything did go right
+            return true;
+        }
+    };
+
+
     //------------Permissions------------
-
-    /**
-     * Creates OHDM Folder if not exists
-     */
-    private void createOhdmDirectory()
-    {
-        Log.d(TAG, "createOhdmDirectory : Creating OHDM directory...");
-        File dir = new File(MAP_FILE_PATH);
-        boolean status;
-        if (!dir.exists())
-        {
-            status = dir.mkdirs();
-            if (status) Toast.makeText(this, "Created OHDM Directory.", Toast.LENGTH_SHORT).show();
-            else Toast.makeText(this, "Couldn't create OHDM Directory.", Toast.LENGTH_SHORT).show();
-        }
-        Log.d(TAG, "createOhdmDirectory : OHDM directory created");
-    }
-
-    /**
-     * Checks necessary permissions
-     * Source https://programtalk.com/vs/osmdroid/osmdroid-forge-app/src/main/java/org/osmdroid/forge/app/MainActivity.java/
-     */
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private void checkPermissions()
-    {
-        List<String> permissions = new ArrayList<>();
-        String message = "OHDM Offline Viewer permissions:";
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-        {
-            permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
-            message += "\nStorage access to store map Files.";
-        }
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-        {
-            permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            message += "\nLocation to show user location.";
-        }
-        if (!permissions.isEmpty())
-        {
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-            String[] params = permissions.toArray(new String[permissions.size()]);
-            requestPermissions(params, REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
-        }
-    }
-
-
-    //------------Bottom Navigation------------
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
@@ -252,6 +211,33 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Checks necessary permissions
+     * Source https://programtalk.com/vs/osmdroid/osmdroid-forge-app/src/main/java/org/osmdroid/forge/app/MainActivity.java/
+     */
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void checkPermissions()
+    {
+        List<String> permissions = new ArrayList<>();
+        String message = "OHDM Offline Viewer permissions:";
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
+            permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
+            message += "\nStorage access to store map Files.";
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+        {
+            permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            message += "\nLocation to show user location.";
+        }
+        if (!permissions.isEmpty())
+        {
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+            String[] params = permissions.toArray(new String[permissions.size()]);
+            requestPermissions(params, REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
+        }
+    }
+
 
     //------------Toolbar Menu------------
 
@@ -280,4 +266,28 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+
+    //------------On First App Start------------
+
+    /**
+     * Creates OHDM Folder if not exists
+     */
+    private void createOhdmDirectory()
+    {
+        Log.d(TAG, "createOhdmDirectory : Creating OHDM directory...");
+        File dir = new File(MAP_FILE_PATH);
+        boolean status;
+        if (!dir.exists())
+        {
+            status = dir.mkdirs();
+            if (status) Toast.makeText(this, "Created OHDM Directory.", Toast.LENGTH_SHORT).show();
+            else Toast.makeText(this, "Couldn't create OHDM Directory.", Toast.LENGTH_SHORT).show();
+        }
+        Log.d(TAG, "createOhdmDirectory : OHDM directory created");
+    }
+
+    private void HttpGetIdFromServer()
+    {
+
+    }
 }

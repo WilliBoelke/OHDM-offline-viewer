@@ -15,6 +15,11 @@ import de.htwBerlin.ois.R;
 public class FragmentRequestStatus extends Fragment
 {
     private View view;
+    /**
+     * Fragment ID used to identify the fragment
+     * (for example by putting the ID into the Intent extra )
+     */
+    public static String ID = "RequestStatus";
 
     public FragmentRequestStatus()
     {

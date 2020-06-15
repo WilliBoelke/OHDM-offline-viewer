@@ -146,7 +146,7 @@ public class RecyclerAdapterRemoteDirectories extends RecyclerView.Adapter<Recyc
         FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(context, path, this.client, false, new AsyncResponse()
         {
             @Override
-            public void getOhdmFiles(ArrayList<RemoteFile> remoteFiles)
+            public void getRemoteFiles(ArrayList<RemoteFile> remoteFiles)
             {
                 if (remoteFiles.size() > 0)
                 {
@@ -160,12 +160,19 @@ public class RecyclerAdapterRemoteDirectories extends RecyclerView.Adapter<Recyc
                 {
 
                 }
+
             }
 
             @Override
             public void getRemoteDirectories(ArrayList<RemoteDirectory> dirs)
             {
                 //No need to be implemented here
+            }
+
+            @Override
+            public void getHttpResponse(String response)
+            {
+                //Not needed here
             }
         });
         ftpTaskFileListing.execute();

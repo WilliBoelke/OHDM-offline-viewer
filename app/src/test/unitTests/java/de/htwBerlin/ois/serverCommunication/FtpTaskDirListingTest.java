@@ -28,7 +28,7 @@ class FtpTaskDirListingTest
     private AsyncResponse asyncResponse = new AsyncResponse()
     {
         @Override
-        public void getOhdmFiles(ArrayList<RemoteFile> remoteFiles)
+        public void getRemoteFiles(ArrayList<RemoteFile> remoteFiles)
         {
 
         }

@@ -6,17 +6,17 @@ package de.htwBerlin.ois.serverCommunication;
 public class Variables
 {
 
-    public static final String MOST_RECENT_PATH = "/map/most_recent";
+    public static final String MOST_RECENT_PATH = "/most_recent";
     /**
      * The (S)FTP root directory
      */
-    public static final String FTP_ROOT_DIRECTORY = "/map";
+    public static final String FTP_ROOT_DIRECTORY = "/";
     /**
      * The remote server ip
      * (For localhost in android emulator set to "10.0.2.2")
      */
-    protected static final String SERVER_IP = "141.45.146.200";
-    /**
+    protected static final String SERVER_IP = "ohm.f4.htw-berlin.de";
+     /**
      * The remote server port for HTTP requests
      */
     protected static final int HTTP_PORT = 5001;

@@ -4,14 +4,7 @@ import android.util.Log;
 
 import androidx.fragment.app.Fragment;
 
-import org.apache.http.impl.client.HttpRequestFutureTask;
-
 import de.htwBerlin.ois.serverCommunication.Client;
-import de.htwBerlin.ois.serverCommunication.FtpTaskDirListing;
-import de.htwBerlin.ois.serverCommunication.FtpTaskFileDownloading;
-import de.htwBerlin.ois.serverCommunication.FtpTaskFileListing;
-import de.htwBerlin.ois.serverCommunication.HTTPRequestNewMap;
-import de.htwBerlin.ois.serverCommunication.SftpClient;
 import de.htwBerlin.ois.ui.fragments.FragmentAbout;
 import de.htwBerlin.ois.ui.fragments.FragmentDownloadCenterAll;
 import de.htwBerlin.ois.ui.fragments.FragmentDownloadCenterCategories;

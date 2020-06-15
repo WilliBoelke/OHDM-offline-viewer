@@ -16,8 +16,13 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import java.util.ArrayList;
+
 import de.htwBerlin.ois.R;
-import de.htwBerlin.ois.serverCommunication.HTTPRequestNewMap;
+import de.htwBerlin.ois.fileStructure.RemoteDirectory;
+import de.htwBerlin.ois.fileStructure.RemoteFile;
+import de.htwBerlin.ois.serverCommunication.AsyncResponse;
+import de.htwBerlin.ois.serverCommunication.HttpRequest;
 
 /**
  * Fragment to allow the user to request a new map
@@ -90,7 +95,27 @@ public class FragmentRequestNewMap extends Fragment
             {
                 if (checkForNullName() == true && checkForNullCoordinates() == true)
                 {
-                    HTTPRequestNewMap httpRequestNewMap = new HTTPRequestNewMap(getDatePickerValuesAsString(), getCoordinatesAsString(), name.getText().toString());
+                    HttpRequest httpRequestNewMap = new HttpRequest(buildParamsString(),
+                    new AsyncResponse()
+                    {
+                        @Override
+                        public void getRemoteFiles(ArrayList<RemoteFile> remoteFiles)
+                        {
+                            //not needed here
+                        }
+
+                        @Override
+                        public void getRemoteDirectories(ArrayList<RemoteDirectory> remoteDirectories)
+                        {
+                            //not needed here
+                        }
+
+                        @Override
+                        public void getHttpResponse(String response)
+                        {
+
+                        }
+                    });
                     httpRequestNewMap.execute();
                 }
             }
@@ -237,6 +262,27 @@ public class FragmentRequestNewMap extends Fragment
             return false;
         }
         return true;
+    }
+
+    /**
+     * Builds a string as accepted by the server
+     * example:
+     * name=mapname&coords=13.005,15.123_13.005,15.123_13.005,15.123_13.005,15.123_13.005,15.123&date=2117-12-11
+     *
+     * @return the String
+     */
+    private String buildParamsString()
+    {
+        Log.d(TAG, "buildParamsString : building params string...");
+        StringBuilder sb = new StringBuilder();
+        sb.append("name=");
+        sb.append(this.name.getText().toString());
+        sb.append("&coords=");
+        sb.append(this.getCoordinatesAsString());
+        sb.append("&date=");
+        sb.append(this.getDatePickerValuesAsString());
+        Log.d(TAG, "buildParamsString : builded params string");
+        return sb.toString();
     }
 
 
