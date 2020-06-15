@@ -11,7 +11,12 @@ import java.io.InputStreamReader;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.net.HttpURLConnection;
+import java.util.ArrayList;
 
+import de.htwBerlin.ois.fileStructure.RemoteDirectory;
+import de.htwBerlin.ois.fileStructure.RemoteFile;
+
+import static de.htwBerlin.ois.serverCommunication.HttpRequest.REQUEST_TYPE_MAP_REQUEST;
 import static org.junit.Assert.assertEquals;
 
 class HTTPRequestNewMapTest
@@ -26,7 +31,26 @@ class HTTPRequestNewMapTest
     @BeforeEach
     public void setup() throws IOException
     {
-        httpRequestNewMap = new HttpRequest("date", "coords", "name");
+        httpRequestNewMap = new HttpRequest(REQUEST_TYPE_MAP_REQUEST, "name=mapname&coords=13.005,15.123_13.005,15.123_13.005,15.123_13.005,15.123_13.005,15.123&date=2117-12-11&id=1JWd3wc", new AsyncResponse()
+        {
+            @Override
+            public void getRemoteFiles(ArrayList<RemoteFile> remoteFiles)
+            {
+
+            }
+
+            @Override
+            public void getRemoteDirectories(ArrayList<RemoteDirectory> remoteDirectories)
+            {
+
+            }
+
+            @Override
+            public void getHttpResponse(String response)
+            {
+
+            }
+        });
         pipeInput = new PipedInputStream();
         reader = new BufferedReader(new InputStreamReader(pipeInput));
         out = new BufferedOutputStream(new PipedOutputStream(pipeInput));
@@ -56,6 +80,6 @@ class HTTPRequestNewMapTest
         Mockito.when(mockHTTPConn.getOutputStream()).thenReturn(out);
         httpRequestNewMap.doInBackground();
         String s = reader.readLine();
-        assertEquals("name=name&coords=coords&date=date", s);
+        assertEquals("name=mapname&coords=13.005,15.123_13.005,15.123_13.005,15.123_13.005,15.123_13.005,15.123&date=2117-12-11&id=1JWd3wc", s);
     }
 }

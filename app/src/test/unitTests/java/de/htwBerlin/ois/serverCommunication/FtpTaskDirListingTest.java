@@ -38,6 +38,12 @@ class FtpTaskDirListingTest
         {
 
         }
+
+        @Override
+        public void getHttpResponse(String response)
+        {
+
+        }
     };
 
     @BeforeEach

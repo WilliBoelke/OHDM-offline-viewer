@@ -30,6 +30,12 @@ public class FtpTaskFileListingTest
         {
 
         }
+
+        @Override
+        public void getHttpResponse(String response)
+        {
+
+        }
     };
     private FtpTaskFileListing fileListingTest;
     private SftpClient mockSftpClient = Mockito.mock(SftpClient.class);
