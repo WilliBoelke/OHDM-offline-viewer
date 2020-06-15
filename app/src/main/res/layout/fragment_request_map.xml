@@ -84,7 +84,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="100dp"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="100dp"
                     android:layout_marginBottom="16dp"
                     android:background="?attr/edit_text_background"
@@ -99,7 +99,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.498"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/lat_left_et" />
+                    app:layout_constraintTop_toBottomOf="@+id/coords_info_tv" />
 
                 <EditText
                     android:id="@+id/lat_left_et"
@@ -115,6 +115,7 @@
                     android:textAlignment="center"
                     android:textColor="?attr/textColorPrimary"
                     android:textColorHint="?attr/textColorSecondary"
+                    app:layout_constraintBottom_toBottomOf="@+id/lat_right_et"
                     app:layout_constraintEnd_toStartOf="@+id/coords_info_tv"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/lat_right_et" />
@@ -126,6 +127,7 @@
                     android:layout_marginStart="100dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="100dp"
+                    android:layout_marginBottom="8dp"
                     android:background="?attr/edit_text_background"
                     android:ems="10"
                     android:fontFamily="@font/comfortaa"
@@ -134,6 +136,7 @@
                     android:textAlignment="center"
                     android:textColor="?attr/textColorPrimary"
                     android:textColorHint="?attr/textColorSecondary"
+                    app:layout_constraintBottom_toTopOf="@+id/coords_info_tv"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -144,7 +147,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="32dp"
                     android:layout_marginEnd="16dp"
                     android:background="?attr/edit_text_background"
                     android:ems="10"
@@ -154,6 +156,7 @@
                     android:textAlignment="center"
                     android:textColor="?attr/textColorPrimary"
                     android:textColorHint="?attr/textColorSecondary"
+                    app:layout_constraintBottom_toTopOf="@+id/long_bottom_et"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/coords_info_tv"
                     app:layout_constraintTop_toBottomOf="@+id/long_top_et" />
@@ -162,7 +165,9 @@
                     android:id="@+id/coords_info_tv"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
                     android:background="?attr/foreground"
                     android:fontFamily="@font/comfortaa"

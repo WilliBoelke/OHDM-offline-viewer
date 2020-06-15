@@ -17,22 +17,30 @@ import de.htwBerlin.ois.serverCommunication.Client;
 class MockClient implements Client
 {
 
-    private RemoteFile remoteFileOne = new RemoteFile("nameOne", "pathOne", 2321l, "11.11.1111");
-    private RemoteFile remoteFileTwo = new RemoteFile("nameOne", "pathOne", 2321l, "11.11.1111");
-    private RemoteFile remoteFileThree = new RemoteFile("nameOne", "pathOne", 2321l, "11.11.1111");
-    private RemoteFile remoteFileFour = new RemoteFile("nameOne", "pathOne", 2321l, "11.11.1111");
+    private RemoteFile remoteFileOne = new RemoteFile("MapOne", "pathOne", 1234l, "11.11.1111");
+    private RemoteFile remoteFileTwo = new RemoteFile("MapTwo", "pathTwo", 2345l, "11.11.1111");
+    private RemoteFile remoteFileThree = new RemoteFile("MapThree", "pathThree", 3456l, "11.11.1111");
+    private RemoteFile remoteFileFour = new RemoteFile("MapFour", "pathFour", 4567l, "11.11.1111");
+    private RemoteFile remoteFileFive = new RemoteFile("MapFive", "pathFive", 5678l, "11.11.1111");
+    private RemoteFile remoteFileSix = new RemoteFile("MapSix", "pathSix", 6789l, "11.11.1111");
     private ArrayList allFiles = new ArrayList<RemoteFile>();
 
-    private ArrayList recentFiles = new  ArrayList<RemoteFile>();
+    private ArrayList recentFiles = new ArrayList<RemoteFile>();
 
-    public MockClient()
+    private Boolean wait = false;
+    private Boolean returnNull = false;
+
+    public MockClient(Boolean wait, boolean returnNull)
     {
-        allFiles.add (remoteFileOne);
+        allFiles.add(remoteFileOne);
         allFiles.add(remoteFileTwo);
         allFiles.add(remoteFileThree);
         allFiles.add(remoteFileFour);
-        recentFiles.add(remoteFileFour);
-        recentFiles.add(remoteFileTwo);
+        recentFiles.add(remoteFileFive);
+        recentFiles.add(remoteFileSix);
+
+        this.wait = wait;
+        this.returnNull = returnNull;
     }
 
     @Override
@@ -56,6 +64,22 @@ class MockClient implements Client
     @Override
     public ArrayList<RemoteFile> getAllFileList(String path) throws IOException
     {
+        if(wait)
+        {
+            try
+            {
+                Thread.sleep(200);
+                return allFiles;
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        if(returnNull)
+        {
+            return null;
+        }
         return allFiles;
     }
 
@@ -68,6 +92,22 @@ class MockClient implements Client
     @Override
     public ArrayList<RemoteFile> getFileList(String path) throws IOException
     {
+        if(wait)
+        {
+            try
+            {
+                Thread.sleep(200);
+                return recentFiles;
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        if(returnNull)
+        {
+            return null;
+        }
         return recentFiles;
     }
 
