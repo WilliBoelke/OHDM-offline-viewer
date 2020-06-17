@@ -19,14 +19,36 @@ import javax.net.ssl.HttpsURLConnection;
 import static de.htwBerlin.ois.serverCommunication.Variables.HTTP_PORT;
 import static de.htwBerlin.ois.serverCommunication.Variables.SERVER_IP;
 
+/**
+ * A simple wrapper class for the {@link java.net.HttpURLConnection}
+ *
+ * @author WilliBoelke
+ */
 public class HttpClient
 {
 
-    private final String TAG = this.getClass().getSimpleName();
-    private HttpURLConnection conn;
-    private URL url;
-    private String response = "";
+    //------------Instance Variables------------
 
+    /**
+     * Log Tag
+     */
+    private final String TAG = this.getClass().getSimpleName();
+    /**
+     * Java HttpUrlConnection
+     * which in the end this is a wrapper for
+     */
+    private HttpURLConnection conn;
+    /**
+     * The URL, formatted like that:
+     * "http://[server_ip]:[port]+[request type]
+     */
+    private URL url;
+    /**
+     * The servers response
+     */
+    private String response;
+
+    //------------Connection------------
 
     public int connect(String requestType)
     {
@@ -73,10 +95,23 @@ public class HttpClient
         return 0;
     }
 
+    public void closeConnection()
+    {
+        conn.disconnect();
+        conn = null;
+    }
 
+
+    //------------Request/Response------------
+
+    /**
+     * Sends the paramsString to the server
+     *
+     * @param paramsString
+     * @return
+     */
     public int sendRequest(String paramsString)
     {
-
         try
         {
             Log.d(TAG, "sendRequest : writing to server, request = " + paramsString);
@@ -88,17 +123,7 @@ public class HttpClient
             os.close();
             Log.d(TAG, "sendRequest : transmission to server finished");
             Log.d(TAG, "sendRequest : getting server response code...");
-            int responseCode = conn.getResponseCode();
-            if (responseCode == HttpsURLConnection.HTTP_OK)
-            {
-                String line;
-                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                while ((line = br.readLine()) != null)
-                {
-                    response += line;
-                }
-                Log.d(TAG, "sendRequest: server response : " + response);
-            }
+            retrieveResponse();
         }
         catch (ProtocolException e)
         {
@@ -109,25 +134,52 @@ public class HttpClient
         }
         catch (IOException e)
         {
-            Log.e(TAG, "sendRequest : couldn't write to the server ");
+            Log.e(TAG, "sendRequest : either problem to write to write to the server  or problem to get the servers response");
             e.printStackTrace();
             return 2;
         }
         return 0;
     }
 
-
-    public void closeConnection()
+    /**
+     * Gets the response from the server after a request was send
+     *
+     * @throws IOException
+     */
+    private void retrieveResponse() throws IOException
     {
-        conn.disconnect();
-        conn = null;
+        response = ""; // needs to be here ...trus me
+        int responseCode = conn.getResponseCode();
+        if (responseCode == HttpsURLConnection.HTTP_OK)
+        {
+            String line;
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            while ((line = br.readLine()) != null)
+            {
+                response += line;
+            }
+            Log.d(TAG, "sendRequest: server response : " + response);
+        }
     }
 
+    /**
+     * Returns the servers response
+     *
+     * @return Server response
+     */
     public String getServerResponse()
     {
         return this.response;
     }
 
+
+    //------------Test------------
+
+    /**
+     * To insert a mocked {@link HttpURLConnection}
+     *
+     * @param mock
+     */
     public void insertMockHTTPConnection(HttpURLConnection mock)
     {
         this.conn = mock;

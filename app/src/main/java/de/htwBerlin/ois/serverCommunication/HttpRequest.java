@@ -5,7 +5,7 @@ import android.util.Log;
 
 
 /**
- * AsyncTask to make a HTTP Request to the Server
+ * AsyncTask to make HTTP request using the {@link HttpClient}
  * <p>
  *
  * @author WilliBoelke
@@ -48,6 +48,10 @@ public class HttpRequest extends AsyncTask<Void, Void, String>
 
     //------------Setter------------
 
+    /**
+     * setter for the 
+     * @param client
+     */
     public void setHttpClient(HttpClient client)
     {
         this.httpClient = client;

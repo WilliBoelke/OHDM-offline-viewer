@@ -161,7 +161,7 @@ public class SftpClient implements Client
             channel.exit();
             session.disconnect();
         }
-        catch(NullPointerException e)
+        catch (NullPointerException e)
         {
             e.printStackTrace();
         }
