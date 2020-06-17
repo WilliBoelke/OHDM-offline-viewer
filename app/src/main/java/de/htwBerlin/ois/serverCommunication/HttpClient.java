@@ -27,6 +27,9 @@ import static de.htwBerlin.ois.serverCommunication.Variables.SERVER_IP;
 public class HttpClient
 {
 
+    public static final String RESPONSE_NO_CONNECTION = "";
+    public static final String RESPONSE_NO_REQUESTS= "[]";
+
     //------------Instance Variables------------
 
     /**
@@ -161,6 +164,10 @@ public class HttpClient
                 response += line;
             }
             Log.d(TAG, "sendRequest: server response : " + response);
+        }
+        if(response == null)
+        {
+            response = RESPONSE_NO_CONNECTION;
         }
     }
 

@@ -4,32 +4,18 @@ import android.os.Bundle
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import de.htwBerlin.ois.R
 import de.htwBerlin.ois.factory.FragmentFactory
 import de.htwBerlin.ois.serverCommunication.HttpClient
-import org.hamcrest.Matchers.not
+import org.hamcrest.Matchers
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
 
-
-@RunWith(AndroidJUnit4ClassRunner::class)
-class FragmentDownloadCenterAllTest {
-
+class FragmentDownloadCenterCategoriesTest
+{
     @Before
     fun setup() {
-
-        /*val mockSftpClient = mockk<SftpClient>()
-        every {
-            mockSftpClient.getAllFileList(FTP_ROOT_DIRECTORY)
-        } returns allFiles
-        every {
-            mockSftpClient.getFileList(MOST_RECENT_PATH)
-        } returns recentFiles*/
         val sftpClient = MockClient(false, false)
         val httpClient = HttpClient()
         val fragmentFactory = FragmentFactory(sftpClient, httpClient)
@@ -65,10 +51,7 @@ class FragmentDownloadCenterAllTest {
         Espresso.onView(ViewMatchers.withId(R.id.button_all_maps)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 
-    @Test
-    fun searchTest() {
 
-    }
 
     @Test
     fun recyclerViewTestIsDisplayed() {
@@ -78,15 +61,15 @@ class FragmentDownloadCenterAllTest {
         val bundle = Bundle()
         val scenario = launchFragmentInContainer<FragmentDownloadCenterAll>(themeResId = R.style.LightTheme, fragmentArgs = bundle, factory = fragmentFactory)
 
-        Espresso.onView(ViewMatchers.withText("MapOne")).check(matches(isDisplayed()))
-        Espresso.onView(ViewMatchers.withText("MapTwo")).check(matches(isDisplayed()))
-        Espresso.onView(ViewMatchers.withText("MapThree")).check(matches(isDisplayed()))
-        Espresso.onView(ViewMatchers.withText("MapFour")).check(matches(isDisplayed()))
-        Espresso.onView(ViewMatchers.withText("MapFive")).check(matches(isDisplayed()))
-        Espresso.onView(ViewMatchers.withText("MapSix")).check(matches(isDisplayed()))
+        Espresso.onView(ViewMatchers.withText("MapOne")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(ViewMatchers.withText("MapTwo")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(ViewMatchers.withText("MapThree")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(ViewMatchers.withText("MapFour")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(ViewMatchers.withText("MapFive")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(ViewMatchers.withText("MapSix")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
-        Espresso.onView(ViewMatchers.withId(R.id.connecting_pb)).check(matches(not(isDisplayed())))
-        Espresso.onView(ViewMatchers.withId(R.id.connecting_tv)).check(matches(not(isDisplayed())))
+        Espresso.onView(ViewMatchers.withId(R.id.connecting_pb)).check(ViewAssertions.matches(Matchers.not(ViewMatchers.isDisplayed())))
+        Espresso.onView(ViewMatchers.withId(R.id.connecting_tv)).check(ViewAssertions.matches(Matchers.not(ViewMatchers.isDisplayed())))
     }
 
     @Test
@@ -97,10 +80,10 @@ class FragmentDownloadCenterAllTest {
         val bundle = Bundle()
         val scenario = launchFragmentInContainer<FragmentDownloadCenterAll>(themeResId = R.style.LightTheme, fragmentArgs = bundle, factory = fragmentFactory)
 
-        Espresso.onView(ViewMatchers.withId(R.id.all_maps_recycler)).check(matches(not(isDisplayed())))
-        Espresso.onView(ViewMatchers.withId(R.id.most_recent_maps_recycler)).check(matches(not(isDisplayed())))
+        Espresso.onView(ViewMatchers.withId(R.id.all_maps_recycler)).check(ViewAssertions.matches(Matchers.not(ViewMatchers.isDisplayed())))
+        Espresso.onView(ViewMatchers.withId(R.id.most_recent_maps_recycler)).check(ViewAssertions.matches(Matchers.not(ViewMatchers.isDisplayed())))
 
-        Espresso.onView(ViewMatchers.withId(R.id.connecting_pb)).check(matches(isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.connecting_tv)).check(matches(isDisplayed()))
+        Espresso.onView(ViewMatchers.withId(R.id.connecting_pb)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(ViewMatchers.withId(R.id.connecting_tv)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 }

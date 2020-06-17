@@ -24,14 +24,17 @@ class MockClient implements Client
     private RemoteFile remoteFileFive = new RemoteFile("MapFive", "pathFive", 5678l, "11.11.1111");
     private RemoteFile remoteFileSix = new RemoteFile("MapSix", "pathSix", 6789l, "11.11.1111");
     private ArrayList allFiles = new ArrayList<RemoteFile>();
-
     private ArrayList recentFiles = new ArrayList<RemoteFile>();
-
     private Boolean wait = false;
     private Boolean returnNull = false;
+    private RemoteDirectory remoteDirOne = new RemoteDirectory("pathOne", "11-11-1111");
+    private RemoteDirectory remoteDirTwo = new RemoteDirectory("pathTwo", "11-11-1111");
+    private ArrayList<RemoteDirectory> dirList = new ArrayList<>();
 
     public MockClient(Boolean wait, boolean returnNull)
     {
+        dirList.add(remoteDirOne);
+        dirList.add(remoteDirTwo);
         allFiles.add(remoteFileOne);
         allFiles.add(remoteFileTwo);
         allFiles.add(remoteFileThree);
@@ -64,6 +67,7 @@ class MockClient implements Client
     @Override
     public ArrayList<RemoteFile> getAllFileList(String path) throws IOException
     {
+
         if(wait)
         {
             try
@@ -92,11 +96,17 @@ class MockClient implements Client
     @Override
     public ArrayList<RemoteFile> getFileList(String path) throws IOException
     {
+
         if(wait)
         {
             try
             {
                 Thread.sleep(200);
+
+                if(path.equals(equals(remoteDirOne.getPath())))
+                {
+                    return allFiles;
+                }
                 return recentFiles;
             }
             catch (InterruptedException e)

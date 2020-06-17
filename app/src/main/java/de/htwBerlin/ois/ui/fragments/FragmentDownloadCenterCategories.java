@@ -2,6 +2,9 @@ package de.htwBerlin.ois.ui.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -204,6 +207,7 @@ public class FragmentDownloadCenterCategories extends FragmentWithServerConnecti
         dirListing.execute();
     }
 
+
     //------------Save/Restore Instance State------------
 
     private void storeFiles()
@@ -257,5 +261,36 @@ public class FragmentDownloadCenterCategories extends FragmentWithServerConnecti
 
         view.findViewById(R.id.directory_recycler).setVisibility(View.VISIBLE);
 
+    }
+
+
+    //------------Toolbar Menu------------
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
+        inflater.inflate(R.menu.actionbar_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.ab_menu_about:
+                //no implemented here,
+                return false;
+            case R.id.ab_menu_faq:
+                //no implemented here,
+                return false;
+            case R.id.ab_menu_settings:
+                //no implemented here
+                return false;
+            case R.id.ab_menu_search:
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

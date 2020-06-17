@@ -3,6 +3,8 @@ package de.htwBerlin.ois.serverCommunication;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import static de.htwBerlin.ois.serverCommunication.HttpClient.RESPONSE_NO_CONNECTION;
+
 
 /**
  * AsyncTask to make HTTP request using the {@link HttpClient}
@@ -30,6 +32,7 @@ public class HttpRequest extends AsyncTask<Void, Void, String>
     private String paramsString;
     private AsyncResponse delegate;
     private HttpClient httpClient;
+    private String response;
 
 
     //------------Constructors------------
@@ -78,14 +81,27 @@ public class HttpRequest extends AsyncTask<Void, Void, String>
     @Override
     protected void onPreExecute()
     {
-        httpClient.connect(requestType);
+        int result = httpClient.connect(requestType);
+        if (result  != 0)
+        {
+            response = RESPONSE_NO_CONNECTION;
+            this.onPostExecute("");
+        }
     }
 
     @Override
     protected String doInBackground(Void... params)
     {
-        httpClient.sendRequest(paramsString);
-        httpClient.closeConnection();
+        int result = httpClient.sendRequest(paramsString);
+        if(result == 0)
+        {
+            response = httpClient.getServerResponse();
+            httpClient.closeConnection();
+        }
+        else
+        {
+            response =RESPONSE_NO_CONNECTION;
+        }
         return "";
     }
 
@@ -93,7 +109,7 @@ public class HttpRequest extends AsyncTask<Void, Void, String>
     protected void onPostExecute(String s)
     {
         super.onPostExecute(s);
-        delegate.getHttpResponse(httpClient.getServerResponse());
+        delegate.getHttpResponse(response);
     }
 
 

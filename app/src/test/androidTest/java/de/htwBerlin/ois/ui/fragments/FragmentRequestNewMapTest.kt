@@ -17,7 +17,7 @@ import org.junit.runner.RunWith
 
 
 @RunWith(AndroidJUnit4ClassRunner::class)
-class FragmentRequestNewMapGuiTest {
+class FragmentRequestNewMapTest {
 
     @Before
     fun setup() {
@@ -86,7 +86,14 @@ class FragmentRequestNewMapGuiTest {
 
         //name et
         onView(withId(R.id.name_et)).check(matches(withParent(withId(R.id.inner_constraint_layout))))
+
+        //coordinates_card
+        onView(withId(R.id.content_card_coordinates)).check(matches(withParent(withId(R.id.inner_constraint_layout))))
+        onView(withId(R.id.coordinates_inner_constraint_layout)).check(matches(withParent(withId(R.id.content_card_coordinates))))
+        onView(withId(R.id.lat_min_et)).check(matches(withParent(withId(R.id.coordinates_inner_constraint_layout))))
+        onView(withId(R.id.lat_max_et)).check(matches(withParent(withId(R.id.coordinates_inner_constraint_layout))))
+        onView(withId(R.id.long_max_et)).check(matches(withParent(withId(R.id.coordinates_inner_constraint_layout))))
+        onView(withId(R.id.long_min_et)).check(matches(withParent(withId(R.id.coordinates_inner_constraint_layout))))
+        onView(withId(R.id.coords_info_tv)).check(matches(withParent(withId(R.id.coordinates_inner_constraint_layout))))
     }
-
-
 }

@@ -243,10 +243,8 @@ public class FragmentHome extends Fragment
             //The itemTouchhelper for the swipe gestures on the recycler Items
             ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new RecyclerAdapterSwipeGestures(recyclerAdapter, this.swipeCallbackRight, this.swipeCallbackLeft));
 
-
             //Putting everything together
             itemTouchHelper.attachToRecyclerView(localMapsRecyclerView);
-
 
             //Putting everything together
             localMapsRecyclerView.setLayoutManager(recyclerLayoutManager);
