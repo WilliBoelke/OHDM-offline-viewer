@@ -4,7 +4,6 @@ package de.htwBerlin.ois.serverCommunication;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
 import de.htwBerlin.ois.fileStructure.RemoteDirectory;
 import de.htwBerlin.ois.fileStructure.RemoteFile;
 
@@ -13,16 +12,16 @@ public interface Client
 
     //------------Connection------------
 
-     int connect();
+    int connect();
 
-     boolean isConnected();
+    boolean isConnected();
 
-     void closeConnection();
+    void closeConnection();
 
 
     //------------Listing------------
 
-     ArrayList<RemoteFile> getAllFileList(String path) throws IOException;
+    ArrayList<RemoteFile> getAllFileList(String path) throws IOException;
 
     ArrayList<RemoteDirectory> getDirList(String path);
 
@@ -31,11 +30,11 @@ public interface Client
      * @return
      * @throws IOException
      */
-     ArrayList<RemoteFile> getFileList(String path) throws IOException;
+    ArrayList<RemoteFile> getFileList(String path) throws IOException;
 
 
     //------------Downloading------------
 
-     boolean downloadFile(String remoteFileName, String downloadPath);
+    boolean downloadFile(String remoteFileName, String downloadPath);
 
 }

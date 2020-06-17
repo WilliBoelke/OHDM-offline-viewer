@@ -18,6 +18,7 @@ import de.htwBerlin.ois.R;
 import de.htwBerlin.ois.fileStructure.RemoteDirectory;
 import de.htwBerlin.ois.fileStructure.RemoteFile;
 import de.htwBerlin.ois.serverCommunication.AsyncResponse;
+import de.htwBerlin.ois.serverCommunication.HttpClient;
 import de.htwBerlin.ois.serverCommunication.HttpRequest;
 import de.htwBerlin.ois.ui.recyclerAdapters.RecyclerAdapterRequestStatus;
 
@@ -31,10 +32,6 @@ public class FragmentRequestStatus extends Fragment
 
     //------------Instance Variables------------
 
-    private View view;
-    private ArrayList<String> requests;
-    private ArrayList<String> requestsBackup;
-    private RecyclerAdapterRequestStatus adapterRequestStatus;
     /**
      * Fragment ID used to identify the fragment
      * (for example by putting the ID into the Intent extra )
@@ -44,13 +41,18 @@ public class FragmentRequestStatus extends Fragment
     //------------Static Variables------------
 
     public static String ID = "RequestStatus";
+    private View view;
+    private ArrayList<String> requests;
+    private ArrayList<String> requestsBackup;
+    private RecyclerAdapterRequestStatus adapterRequestStatus;
+    private HttpClient httpClient;
 
 
     //------------Constructors------------
 
-    public FragmentRequestStatus()
+    public FragmentRequestStatus(HttpClient httpClient)
     {
-        // Required empty public constructor
+        this.httpClient = httpClient;
     }
 
 
@@ -93,7 +95,11 @@ public class FragmentRequestStatus extends Fragment
 
     private void httpRequestStatus()
     {
-        HttpRequest httpRequest = new HttpRequest(REQUEST_TYP_STATUS_BY_ID, "id="+getActivity().getSharedPreferences(SETTINGS_SHARED_PREFERENCES, 0).getString(SERVER_ID, null), new AsyncResponse()
+        HttpRequest httpRequest = new HttpRequest();
+        httpRequest.setParams("id=" + getActivity().getSharedPreferences(SETTINGS_SHARED_PREFERENCES, 0).getString(SERVER_ID, null));
+        httpRequest.setRequestType(REQUEST_TYP_STATUS_BY_ID);
+        httpRequest.setHttpClient(httpClient);
+        httpRequest.setAsyncResponse(new AsyncResponse()
         {
 
             @Override

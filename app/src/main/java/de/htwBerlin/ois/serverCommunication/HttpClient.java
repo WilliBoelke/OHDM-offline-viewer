@@ -1,0 +1,135 @@
+package de.htwBerlin.ois.serverCommunication;
+
+import android.util.Log;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+
+import javax.net.ssl.HttpsURLConnection;
+
+import static de.htwBerlin.ois.serverCommunication.Variables.HTTP_PORT;
+import static de.htwBerlin.ois.serverCommunication.Variables.SERVER_IP;
+
+public class HttpClient
+{
+
+    private final String TAG = this.getClass().getSimpleName();
+    private HttpURLConnection conn;
+    private URL url;
+    private String response = "";
+
+
+    public int connect(String requestType)
+    {
+        Log.d(TAG, "connect:  building url ....");
+        try
+        {
+            url = new URL("http://" + SERVER_IP + ":" + HTTP_PORT + requestType);
+            Log.d(TAG, "connect:  Url = " + url);
+
+
+            Log.d(TAG, "connectconnecting with server " + url);
+
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(15000);
+            conn.setConnectTimeout(15000);
+            conn.setRequestMethod("POST");
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+        }
+        catch (ProtocolException e)
+        {
+            e.printStackTrace();
+            return 1;
+        }
+        catch (IllegalStateException e)
+        {
+            Log.e(TAG, "connect : Already connected");
+            e.printStackTrace();
+            closeConnection();
+            return connect(requestType);
+        }
+        catch (MalformedURLException e)
+        {
+            Log.e(TAG, "connect : Something went wrong while building the URL");
+            e.printStackTrace();
+            return 2;
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            return 3;
+        }
+        Log.d(TAG, "connect : connected successfully");
+        return 0;
+    }
+
+
+    public int sendRequest(String paramsString)
+    {
+
+        try
+        {
+            Log.d(TAG, "sendRequest : writing to server, request = " + paramsString);
+            OutputStream os = conn.getOutputStream();
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, StandardCharsets.UTF_8));
+            writer.write(paramsString);
+            writer.flush();
+            writer.close();
+            os.close();
+            Log.d(TAG, "sendRequest : transmission to server finished");
+            Log.d(TAG, "sendRequest : getting server response code...");
+            int responseCode = conn.getResponseCode();
+            if (responseCode == HttpsURLConnection.HTTP_OK)
+            {
+                String line;
+                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                while ((line = br.readLine()) != null)
+                {
+                    response += line;
+                }
+                Log.d(TAG, "sendRequest: server response : " + response);
+            }
+        }
+        catch (ProtocolException e)
+        {
+            //This exception can occur whe calling conn.setRequestMethod()
+            Log.e(TAG, "sendRequest : couldn't connect with the server " + url);
+            e.printStackTrace();
+            return 1;
+        }
+        catch (IOException e)
+        {
+            Log.e(TAG, "sendRequest : couldn't write to the server ");
+            e.printStackTrace();
+            return 2;
+        }
+        return 0;
+    }
+
+
+    public void closeConnection()
+    {
+        conn.disconnect();
+        conn = null;
+    }
+
+    public String getServerResponse()
+    {
+        return this.response;
+    }
+
+    public void insertMockHTTPConnection(HttpURLConnection mock)
+    {
+        this.conn = mock;
+    }
+}

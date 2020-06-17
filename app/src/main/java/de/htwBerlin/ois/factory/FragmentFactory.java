@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.fragment.app.Fragment;
 
 import de.htwBerlin.ois.serverCommunication.Client;
+import de.htwBerlin.ois.serverCommunication.HttpClient;
 import de.htwBerlin.ois.ui.fragments.FragmentAbout;
 import de.htwBerlin.ois.ui.fragments.FragmentDownloadCenterAll;
 import de.htwBerlin.ois.ui.fragments.FragmentDownloadCenterCategories;
@@ -19,11 +20,13 @@ import de.htwBerlin.ois.ui.fragments.FragmentRequestStatus;
 public class FragmentFactory extends androidx.fragment.app.FragmentFactory
 {
 
+    private HttpClient httpClient;
     private String TAG = getClass().getSimpleName();
     private Client client;
 
-    public FragmentFactory(Client client)
+    public FragmentFactory(Client client, HttpClient httpClient)
     {
+        this.httpClient = httpClient;
         this.client = client;
     }
 
@@ -54,7 +57,7 @@ public class FragmentFactory extends androidx.fragment.app.FragmentFactory
         if (className.equals(FragmentRequestNewMap.class.getName()))
         {
             Log.d(TAG, "Instantiate : FragmentRequestNewMap");
-            return new FragmentRequestNewMap();
+            return new FragmentRequestNewMap(httpClient);
         }
         if (className.equals(FragmentAbout.class.getName()))
         {
@@ -74,7 +77,7 @@ public class FragmentFactory extends androidx.fragment.app.FragmentFactory
         if (className.equals(FragmentRequestStatus.class.getName()))
         {
             Log.d(TAG, "Instantiate : FragmentRequestStatus");
-            return new FragmentRequestStatus();
+            return new FragmentRequestStatus(httpClient);
         }
         else
         {

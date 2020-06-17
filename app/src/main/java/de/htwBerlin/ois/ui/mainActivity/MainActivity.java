@@ -31,6 +31,7 @@ import de.htwBerlin.ois.fileStructure.MapFileSingleton;
 import de.htwBerlin.ois.fileStructure.RemoteDirectory;
 import de.htwBerlin.ois.fileStructure.RemoteFile;
 import de.htwBerlin.ois.serverCommunication.AsyncResponse;
+import de.htwBerlin.ois.serverCommunication.HttpClient;
 import de.htwBerlin.ois.serverCommunication.HttpRequest;
 import de.htwBerlin.ois.serverCommunication.SftpClient;
 import de.htwBerlin.ois.ui.fragments.FragmentAbout;
@@ -42,7 +43,6 @@ import de.htwBerlin.ois.ui.fragments.FragmentOptions;
 import de.htwBerlin.ois.ui.fragments.FragmentRequestStatus;
 
 import static de.htwBerlin.ois.serverCommunication.HttpRequest.REQUEST_TYPE_ID;
-import static de.htwBerlin.ois.serverCommunication.HttpRequest.REQUEST_TYPE_MAP_REQUEST;
 import static de.htwBerlin.ois.ui.fragments.FragmentOptions.SERVER_ID;
 import static de.htwBerlin.ois.ui.fragments.FragmentOptions.SETTINGS_SHARED_PREFERENCES;
 
@@ -65,62 +65,6 @@ public class MainActivity extends AppCompatActivity
 
 
     //------------Activity/Fragment Lifecycle------------
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-        Log.d(TAG, "onCreate : setting app theme...");
-        getSupportFragmentManager().setFragmentFactory(new FragmentFactory(new SftpClient()));
-        super.onCreate(savedInstanceState);
-        //Get settings from SharedPrefs
-        if (getApplicationContext().getSharedPreferences(SETTINGS_SHARED_PREFERENCES, 0).getBoolean(FragmentOptions.DARK_MODE, false) == true)
-        {
-            setTheme(R.style.DarkTheme);
-            Log.d(TAG, "onCreate :  app theme DARK");
-        }
-        else
-        {
-            setTheme(R.style.LightTheme);
-            Log.d(TAG, "onCreate :  app theme LIGHT");
-        }
-
-        setContentView(R.layout.activity_main);
-
-
-        // setting up the BottomNavigationView with Listener
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
-        bottomNav.setOnNavigationItemSelectedListener(navListener);
-
-        //Open the correct fragment
-        Intent intent = getIntent();
-        if (intent.getStringExtra("Fragment") != null)
-        {
-            if (intent.getStringExtra("Fragment").equals(FragmentOptions.ID))
-            {
-                //if we came her from the reset method in the options fragment, we want the options fragment to appear again
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, FragmentOptions.class, new Bundle()).commit();
-                intent.putExtra("Fragment", "");
-            }
-        }
-        else
-        {
-            if (savedInstanceState == null)
-            {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, FragmentHome.class, new Bundle()).addToBackStack(null).commit();
-            }
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        {
-            checkPermissions();
-        }
-        createOhdmDirectory();
-        HttpGetIdFromServer();
-    }
-
-
-    //------------Bottom Navigation ------------
-
     /**
      * Bottom Nav Listener
      */
@@ -176,6 +120,61 @@ public class MainActivity extends AppCompatActivity
             return true;
         }
     };
+
+
+    //------------Bottom Navigation ------------
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        Log.d(TAG, "onCreate : setting app theme...");
+        getSupportFragmentManager().setFragmentFactory(new FragmentFactory(new SftpClient(), new HttpClient()));
+        super.onCreate(savedInstanceState);
+        //Get settings from SharedPrefs
+        if (getApplicationContext().getSharedPreferences(SETTINGS_SHARED_PREFERENCES, 0).getBoolean(FragmentOptions.DARK_MODE, false) == true)
+        {
+            setTheme(R.style.DarkTheme);
+            Log.d(TAG, "onCreate :  app theme DARK");
+        }
+        else
+        {
+            setTheme(R.style.LightTheme);
+            Log.d(TAG, "onCreate :  app theme LIGHT");
+        }
+
+        setContentView(R.layout.activity_main);
+
+
+        // setting up the BottomNavigationView with Listener
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_view);
+        bottomNav.setOnNavigationItemSelectedListener(navListener);
+
+        //Open the correct fragment
+        Intent intent = getIntent();
+        if (intent.getStringExtra("Fragment") != null)
+        {
+            if (intent.getStringExtra("Fragment").equals(FragmentOptions.ID))
+            {
+                //if we came her from the reset method in the options fragment, we want the options fragment to appear again
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, FragmentOptions.class, new Bundle()).commit();
+                intent.putExtra("Fragment", "");
+            }
+        }
+        else
+        {
+            if (savedInstanceState == null)
+            {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, FragmentHome.class, new Bundle()).addToBackStack(null).commit();
+            }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            checkPermissions();
+        }
+        createOhdmDirectory();
+        HttpGetIdFromServer();
+    }
 
 
     //------------Permissions------------
@@ -307,7 +306,9 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences prefs = getApplicationContext().getSharedPreferences(SETTINGS_SHARED_PREFERENCES, 0);
         if (prefs.getString(SERVER_ID, null) == null)
         {
-            HttpRequest httpRequest = new HttpRequest(REQUEST_TYPE_ID,"", new AsyncResponse()
+            HttpRequest httpRequest = new HttpRequest();
+            httpRequest.setRequestType(REQUEST_TYPE_ID);
+            httpRequest.setAsyncResponse(new AsyncResponse()
             {
                 @Override
                 public void getRemoteFiles(ArrayList<RemoteFile> remoteFiles)

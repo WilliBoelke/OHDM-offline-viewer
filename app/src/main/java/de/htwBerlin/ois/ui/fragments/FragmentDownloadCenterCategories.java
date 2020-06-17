@@ -24,7 +24,6 @@ import de.htwBerlin.ois.fileStructure.RemoteListsSingleton;
 import de.htwBerlin.ois.serverCommunication.AsyncResponse;
 import de.htwBerlin.ois.serverCommunication.Client;
 import de.htwBerlin.ois.serverCommunication.FtpTaskDirListing;
-import de.htwBerlin.ois.serverCommunication.SftpClient;
 import de.htwBerlin.ois.ui.recyclerAdapters.RecyclerAdapterRemoteDirectories;
 
 import static de.htwBerlin.ois.serverCommunication.Variables.FTP_ROOT_DIRECTORY;
@@ -53,14 +52,6 @@ public class FragmentDownloadCenterCategories extends FragmentWithServerConnecti
     private RecyclerAdapterRemoteDirectories recyclerViewAdapter;
 
     private Client client;
-
-
-    //------------Activity/Fragment Lifecycle------------
-
-    public  FragmentDownloadCenterCategories (Client client)
-    {
-        this.client = client;
-    }
 
 
     //------------Activity/Fragment Lifecycle------------
@@ -98,6 +89,13 @@ public class FragmentDownloadCenterCategories extends FragmentWithServerConnecti
             //Not needed here
         }
     };
+
+
+    //------------Activity/Fragment Lifecycle------------
+    public FragmentDownloadCenterCategories(Client client)
+    {
+        this.client = client;
+    }
 
     @Nullable
     @Override
@@ -161,7 +159,7 @@ public class FragmentDownloadCenterCategories extends FragmentWithServerConnecti
             @Override
             public void onClick(View v)
             {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,  FragmentDownloadCenterAll.class , null).addToBackStack(null).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, FragmentDownloadCenterAll.class, null).addToBackStack(null).commit();
             }
         });
     }
@@ -195,7 +193,7 @@ public class FragmentDownloadCenterCategories extends FragmentWithServerConnecti
             @Override
             public void onClick(View v)
             {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentRequestNewMap()).addToBackStack(null).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, FragmentRequestNewMap.class, null).addToBackStack(null).commit();
             }
         });
     }

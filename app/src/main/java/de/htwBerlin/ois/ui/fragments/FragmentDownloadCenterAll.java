@@ -86,7 +86,7 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
 
     //------------Constructor------------
 
-    public  FragmentDownloadCenterAll(Client client)
+    public FragmentDownloadCenterAll(Client client)
     {
         this.client = client;
     }
@@ -163,7 +163,7 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
             @Override
             public void onClick(View v)
             {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentRequestNewMap()).addToBackStack(null).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, FragmentRequestNewMap.class, null).addToBackStack(null).commit();
             }
         });
     }
@@ -242,7 +242,7 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
             @Override
             public void onClick(View v)
             {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,  FragmentDownloadCenterCategories.class, null).addToBackStack(null).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, FragmentDownloadCenterCategories.class, null).addToBackStack(null).commit();
             }
         });
     }
@@ -381,7 +381,7 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
      */
     private void FTPListLatestFiles()
     {
-        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(getActivity(), MOST_RECENT_PATH, this.client,false, new AsyncResponse()
+        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(getActivity(), MOST_RECENT_PATH, this.client, false, new AsyncResponse()
         {
             @Override
             public void getRemoteFiles(ArrayList<RemoteFile> remoteFiles)

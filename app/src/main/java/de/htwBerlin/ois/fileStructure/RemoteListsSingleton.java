@@ -87,6 +87,6 @@ public class RemoteListsSingleton
      */
     public void resetInstance()
     {
-        this.instance = null;
+        instance = null;
     }
 }

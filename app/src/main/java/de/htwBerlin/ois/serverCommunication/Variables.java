@@ -16,7 +16,7 @@ public class Variables
      * (For localhost in android emulator set to "10.0.2.2")
      */
     protected static final String SERVER_IP = "ohm.f4.htw-berlin.de";
-     /**
+    /**
      * The remote server port for HTTP requests
      */
     protected static final int HTTP_PORT = 5001;

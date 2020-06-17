@@ -154,13 +154,13 @@ public class RecyclerAdapterRequestStatus extends RecyclerView.Adapter<RecyclerA
     public void onBindViewHolder(@NonNull RecyclerAdapterRequestStatus.RequestStatusViewHolder requestStatusViewHolder, final int position)
     {
         String currentRequest = this.requests.get(position);
-        StringTokenizer st = new StringTokenizer(currentRequest ," ");
+        StringTokenizer st = new StringTokenizer(currentRequest, " ");
         requestStatusViewHolder.nameTextView.setText(st.nextToken());
         String status = st.nextToken();
         requestStatusViewHolder.statusTextView.setText(status);
         requestStatusViewHolder.timeTextView.setText(st.nextToken());
 
-        switch(status)
+        switch (status)
         {
             case "DONE":
                 requestStatusViewHolder.statusInfoTextView.setText(R.string.status_info_done);

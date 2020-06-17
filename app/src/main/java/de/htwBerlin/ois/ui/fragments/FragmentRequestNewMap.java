@@ -22,6 +22,7 @@ import de.htwBerlin.ois.R;
 import de.htwBerlin.ois.fileStructure.RemoteDirectory;
 import de.htwBerlin.ois.fileStructure.RemoteFile;
 import de.htwBerlin.ois.serverCommunication.AsyncResponse;
+import de.htwBerlin.ois.serverCommunication.HttpClient;
 import de.htwBerlin.ois.serverCommunication.HttpRequest;
 
 import static de.htwBerlin.ois.serverCommunication.HttpRequest.REQUEST_TYPE_MAP_REQUEST;
@@ -37,6 +38,15 @@ public class FragmentRequestNewMap extends Fragment
 
     //------------Instance Variables------------
 
+    public static final int MIN_LATITUDE = -180;
+    public static final int MAX_LATITUDE = 180;
+    public static final int MAX_LONGITUDE = 90;
+    public static final int MIN_LONGITUDE = -90;
+    /**
+     * Fragment ID used to identify the fragment
+     * (for example by putting the ID into the Intent extra )
+     */
+    public static String ID = "RequestMap";
     private final String TAG = this.getClass().getSimpleName();
     /**
      * The View
@@ -48,27 +58,21 @@ public class FragmentRequestNewMap extends Fragment
     private DatePicker datePicker;
     private Button requestButton;
     private EditText latitudeMax;
+
+    //------------Static Variables------------
     private EditText latitudeMin;
     private EditText longitudeMax;
     private EditText longitudeMin;
     private EditText name;
+    private HttpClient httpClient;
 
 
-    //------------Static Variables------------
+    //------------Constructors------------
 
-    public static final int MIN_LATITUDE = -180;
-    public static final int MAX_LATITUDE = 180;
-    public static final int MAX_LONGITUDE = 90;
-    public static final int MIN_LONGITUDE = -90;
-    /**
-     * Fragment ID used to identify the fragment
-     * (for example by putting the ID into the Intent extra )
-     */
-    public static String ID = "RequestMap";
-    /**
-     * Log Tag
-     */
-
+    public FragmentRequestNewMap(HttpClient httpClient)
+    {
+        this.httpClient = httpClient;
+    }
 
 
     //------------Activity/Fragment Lifecycle------------
@@ -103,8 +107,11 @@ public class FragmentRequestNewMap extends Fragment
             {
                 if (checkForNullName() == true && checkForNullCoordinates() == true)
                 {
-                    HttpRequest httpRequestNewMap = new HttpRequest( REQUEST_TYPE_MAP_REQUEST , buildParamsString(),
-                    new AsyncResponse()
+                    HttpRequest httpRequest = new HttpRequest();
+                    httpRequest.setRequestType(REQUEST_TYPE_MAP_REQUEST);
+                    httpRequest.setParams(buildParamsString());
+                    httpRequest.setHttpClient(httpClient);
+                    httpRequest.setAsyncResponse(new AsyncResponse()
                     {
                         @Override
                         public void getRemoteFiles(ArrayList<RemoteFile> remoteFiles)
@@ -121,7 +128,7 @@ public class FragmentRequestNewMap extends Fragment
                         @Override
                         public void getHttpResponse(String response)
                         {
-                            if(response == null)
+                            if (response == null)
                             {
                                 Toast.makeText(getActivity().getApplicationContext(), "The server doesn't respond, try it again later", Toast.LENGTH_SHORT).show();
                             }
@@ -131,7 +138,7 @@ public class FragmentRequestNewMap extends Fragment
                             }
                         }
                     });
-                    httpRequestNewMap.execute();
+                    httpRequest.execute();
                 }
             }
         });
@@ -283,7 +290,7 @@ public class FragmentRequestNewMap extends Fragment
      * Builds a string as accepted by the server
      * example:
      * name=mapname&coords=13.005,15.123_13.005,15.123_13.005,15.123_13.005,15.123_13.005,15.123&date=2117-12-11&id=1JWd3wc
-     *
+     * <p>
      * note: the id part is optional
      *
      * @return the String
