@@ -1,6 +1,5 @@
 package de.htwBerlin.ois.ui.fragments;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -48,10 +47,10 @@ public class FragmentRequestNewMap extends Fragment
      */
     private DatePicker datePicker;
     private Button requestButton;
-    private EditText longitudeTop;
-    private EditText longitudeBottom;
-    private EditText latitudeRight;
-    private EditText latitudeLeft;
+    private EditText latitudeMax;
+    private EditText latitudeMin;
+    private EditText longitudeMax;
+    private EditText longitudeMin;
     private EditText name;
 
 
@@ -91,10 +90,10 @@ public class FragmentRequestNewMap extends Fragment
         datePicker.setCalendarViewShown(false);
         name = view.findViewById(R.id.name_et);
         requestButton = view.findViewById(R.id.request_button);
-        longitudeTop = view.findViewById(R.id.long_top_et);
-        longitudeBottom = view.findViewById(R.id.long_bottom_et);
-        latitudeRight = view.findViewById(R.id.lat_right_et);
-        latitudeLeft = view.findViewById(R.id.lat_left_et);
+        latitudeMax = view.findViewById(R.id.lat_max_et);
+        latitudeMin = view.findViewById(R.id.lat_min_et);
+        longitudeMax = view.findViewById(R.id.long_max_et);
+        longitudeMin = view.findViewById(R.id.long_min_et);
 
 
         requestButton.setOnClickListener(new View.OnClickListener()
@@ -170,37 +169,37 @@ public class FragmentRequestNewMap extends Fragment
      */
     private String getCoordinatesAsString()
     {
-        String longTop = longitudeTop.getText().toString();
-        String longBottom = longitudeBottom.getText().toString();
-        String latLeft = latitudeLeft.getText().toString();
-        String latRight = latitudeRight.getText().toString();
+        String latMax = latitudeMax.getText().toString();
+        String latMin = latitudeMin.getText().toString();
+        String longMin = longitudeMin.getText().toString();
+        String longMax = longitudeMax.getText().toString();
 
         Log.i(TAG, "getCoordinatesAsString: creating coordinates string ...");
         StringBuilder stringBuilder = new StringBuilder();
 
-        stringBuilder.append(longTop);
+        stringBuilder.append(longMin);
         stringBuilder.append(", ");
-        stringBuilder.append(latLeft);
+        stringBuilder.append(latMin);
         stringBuilder.append("_");
 
-        stringBuilder.append(longTop);
+        stringBuilder.append(longMin);
         stringBuilder.append(", ");
-        stringBuilder.append(latRight);
+        stringBuilder.append(latMax);
         stringBuilder.append("_");
 
-        stringBuilder.append(longBottom);
+        stringBuilder.append(longMax);
         stringBuilder.append(", ");
-        stringBuilder.append(latRight);
+        stringBuilder.append(latMax);
         stringBuilder.append("_");
 
-        stringBuilder.append(longBottom);
+        stringBuilder.append(longMax);
         stringBuilder.append(", ");
-        stringBuilder.append(latLeft);
+        stringBuilder.append(latMin);
         stringBuilder.append("_");
 
-        stringBuilder.append(longTop);
+        stringBuilder.append(longMin);
         stringBuilder.append(", ");
-        stringBuilder.append(latLeft);
+        stringBuilder.append(latMin);
         Log.i(TAG, "getCoordinatesAsString: String created");
         Log.i(TAG, "getCoordinatesAsString: result: " + stringBuilder.toString());
         return stringBuilder.toString();
@@ -231,31 +230,31 @@ public class FragmentRequestNewMap extends Fragment
      */
     private boolean checkForNullCoordinates()
     {
-        if (longitudeTop.getText().toString().length() == 0)
+        if (latitudeMax.getText().toString().length() == 0)
         {
             Toast.makeText(getActivity(), "Please insert a top latitude ", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (longitudeBottom.getText().toString().length() == 0)
+        if (latitudeMin.getText().toString().length() == 0)
         {
             Toast.makeText(getActivity(), "Please insert the bottom latitude ", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (latitudeRight.getText().toString().length() == 0)
+        if (longitudeMax.getText().toString().length() == 0)
         {
             Toast.makeText(getActivity(), "Please insert the right longitude ", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (latitudeLeft.getText().toString().length() == 0)
+        if (longitudeMin.getText().toString().length() == 0)
         {
             Toast.makeText(getActivity(), "Please insert the left longitude", Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        double longTop = Double.parseDouble(longitudeTop.getText().toString());
-        double longBottom = Double.parseDouble(longitudeBottom.getText().toString());
-        double latLeft = Double.parseDouble(latitudeLeft.getText().toString());
-        double latRight = Double.parseDouble(latitudeRight.getText().toString());
+        double longTop = Double.parseDouble(latitudeMax.getText().toString());
+        double longBottom = Double.parseDouble(latitudeMin.getText().toString());
+        double latLeft = Double.parseDouble(longitudeMin.getText().toString());
+        double latRight = Double.parseDouble(longitudeMax.getText().toString());
 
         if (longTop < MIN_LONGITUDE || longTop > MAX_LONGITUDE)
         {

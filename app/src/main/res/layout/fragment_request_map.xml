@@ -80,7 +80,7 @@
                 android:background="?attr/foreground">
 
                 <EditText
-                    android:id="@+id/long_bottom_et"
+                    android:id="@+id/lat_min_et"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="100dp"
@@ -90,7 +90,7 @@
                     android:background="?attr/edit_text_background"
                     android:ems="10"
                     android:fontFamily="@font/comfortaa"
-                    android:hint="@string/long_bottom"
+                    android:hint="@string/lat_min"
                     android:inputType="numberSigned|numberDecimal"
                     android:textAlignment="center"
                     android:textColor="?attr/textColorPrimary"
@@ -102,7 +102,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/coords_info_tv" />
 
                 <EditText
-                    android:id="@+id/lat_left_et"
+                    android:id="@+id/long_min_et"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -110,18 +110,18 @@
                     android:background="?attr/edit_text_background"
                     android:ems="10"
                     android:fontFamily="@font/comfortaa"
-                    android:hint="@string/lat_left"
+                    android:hint="@string/long_min"
                     android:inputType="numberSigned|numberDecimal"
                     android:textAlignment="center"
                     android:textColor="?attr/textColorPrimary"
                     android:textColorHint="?attr/textColorSecondary"
-                    app:layout_constraintBottom_toBottomOf="@+id/lat_right_et"
+                    app:layout_constraintBottom_toBottomOf="@+id/long_max_et"
                     app:layout_constraintEnd_toStartOf="@+id/coords_info_tv"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/lat_right_et" />
+                    app:layout_constraintTop_toTopOf="@+id/long_max_et" />
 
                 <EditText
-                    android:id="@+id/long_top_et"
+                    android:id="@+id/lat_max_et"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="100dp"
@@ -131,7 +131,7 @@
                     android:background="?attr/edit_text_background"
                     android:ems="10"
                     android:fontFamily="@font/comfortaa"
-                    android:hint="@string/long_top"
+                    android:hint="@string/lat_max"
                     android:inputType="numberSigned|numberDecimal"
                     android:textAlignment="center"
                     android:textColor="?attr/textColorPrimary"
@@ -143,7 +143,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
-                    android:id="@+id/lat_right_et"
+                    android:id="@+id/long_max_et"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -151,15 +151,15 @@
                     android:background="?attr/edit_text_background"
                     android:ems="10"
                     android:fontFamily="@font/comfortaa"
-                    android:hint="@string/lat_right"
+                    android:hint="@string/long_max"
                     android:inputType="numberSigned|numberDecimal"
                     android:textAlignment="center"
                     android:textColor="?attr/textColorPrimary"
                     android:textColorHint="?attr/textColorSecondary"
-                    app:layout_constraintBottom_toTopOf="@+id/long_bottom_et"
+                    app:layout_constraintBottom_toTopOf="@+id/lat_min_et"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/coords_info_tv"
-                    app:layout_constraintTop_toBottomOf="@+id/long_top_et" />
+                    app:layout_constraintTop_toBottomOf="@+id/lat_max_et" />
 
                 <TextView
                     android:id="@+id/coords_info_tv"
@@ -178,10 +178,10 @@
                     android:textColor="?attr/textColorPrimary"
                     android:textSize="@dimen/primary_font_size"
                     android:typeface="normal"
-                    app:layout_constraintBottom_toTopOf="@+id/long_bottom_et"
-                    app:layout_constraintEnd_toStartOf="@+id/lat_right_et"
-                    app:layout_constraintStart_toEndOf="@+id/lat_left_et"
-                    app:layout_constraintTop_toBottomOf="@+id/long_top_et"
+                    app:layout_constraintBottom_toTopOf="@+id/lat_min_et"
+                    app:layout_constraintEnd_toStartOf="@+id/long_max_et"
+                    app:layout_constraintStart_toEndOf="@+id/long_min_et"
+                    app:layout_constraintTop_toBottomOf="@+id/lat_max_et"
                     app:layout_constraintVertical_bias="0.0" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
