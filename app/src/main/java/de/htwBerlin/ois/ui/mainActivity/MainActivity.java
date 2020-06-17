@@ -308,6 +308,7 @@ public class MainActivity extends AppCompatActivity
         {
             HttpRequest httpRequest = new HttpRequest();
             httpRequest.setRequestType(REQUEST_TYPE_ID);
+            httpRequest.setHttpClient(new HttpClient());
             httpRequest.setAsyncResponse(new AsyncResponse()
             {
                 @Override
