@@ -55,13 +55,15 @@ public class HttpClient
         Log.d(TAG, "connect:  building url ....");
         try
         {
+
             url = new URL("http://" + SERVER_IP + ":" + HTTP_PORT + requestType);
             Log.d(TAG, "connect:  Url = " + url);
 
-
-            Log.d(TAG, "connectconnecting with server " + url);
-
-            conn = (HttpURLConnection) url.openConnection();
+            if(conn == null)
+            {
+                Log.d(TAG, "connect: connecting with server " + url);
+                conn = (HttpURLConnection) url.openConnection();
+            }
             conn.setReadTimeout(15000);
             conn.setConnectTimeout(15000);
             conn.setRequestMethod("POST");

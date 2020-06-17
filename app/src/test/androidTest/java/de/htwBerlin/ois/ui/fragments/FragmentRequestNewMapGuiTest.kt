@@ -8,6 +8,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import de.htwBerlin.ois.R
 import de.htwBerlin.ois.factory.FragmentFactory
+import de.htwBerlin.ois.serverCommunication.HttpClient
 import de.htwBerlin.ois.serverCommunication.SftpClient
 import de.htwBerlin.ois.ui.fragments.FragmentRequestNewMap
 import org.junit.Before
@@ -20,8 +21,9 @@ class FragmentRequestNewMapGuiTest {
 
     @Before
     fun setup() {
-        val sftpClient = SftpClient()
-        val fragmentFactory = FragmentFactory(sftpClient)
+        val sftpClient = MockClient(false, false)
+        val httpClient = HttpClient()
+        val fragmentFactory = FragmentFactory(sftpClient, httpClient)
         val bundle = Bundle()
         val scenario = launchFragmentInContainer<FragmentRequestNewMap>(themeResId = R.style.LightTheme, fragmentArgs = bundle, factory = fragmentFactory)
     }
@@ -42,10 +44,10 @@ class FragmentRequestNewMapGuiTest {
 
         onView(withId(R.id.content_card_coordinates)).check(matches(isDisplayed()))
         onView(withId(R.id.coordinates_inner_constraint_layout)).check(matches(isDisplayed()))
-        onView(withId(R.id.long_bottom_et)).check(matches(isDisplayed()))
-        onView(withId(R.id.lat_left_et)).check(matches(isDisplayed()))
-        onView(withId(R.id.long_top_et)).check(matches(isDisplayed()))
-        onView(withId(R.id.lat_right_et)).check(matches(isDisplayed()))
+        onView(withId(R.id.lat_max_et)).check(matches(isDisplayed()))
+        onView(withId(R.id.lat_min_et)).check(matches(isDisplayed()))
+        onView(withId(R.id.long_max_et)).check(matches(isDisplayed()))
+        onView(withId(R.id.long_min_et)).check(matches(isDisplayed()))
         onView(withId(R.id.coords_info_tv)).check(matches(isDisplayed()))
 
         onView(withId(R.id.content_card_date_picker)).check(matches(isDisplayed()))
@@ -60,10 +62,10 @@ class FragmentRequestNewMapGuiTest {
         onView(withId(R.id.info_tv)).check(matches(withText(R.string.request_map_info)))
         onView(withId(R.id.name_et)).check(matches(withHint(R.string.name)))
 
-        onView(withId(R.id.long_bottom_et)).check(matches(withHint(R.string.long_bottom)))
-        onView(withId(R.id.lat_left_et)).check(matches(withHint(R.string.lat_left)))
-        onView(withId(R.id.long_top_et)).check(matches(withHint(R.string.long_top)))
-        onView(withId(R.id.lat_right_et)).check(matches(withHint(R.string.lat_right)))
+        onView(withId(R.id.lat_min_et)).check(matches(withHint(R.string.lat_min)))
+        onView(withId(R.id.lat_max_et)).check(matches(withHint(R.string.lat_max)))
+        onView(withId(R.id.long_max_et)).check(matches(withHint(R.string.long_max)))
+        onView(withId(R.id.long_min_et)).check(matches(withHint(R.string.long_min)))
         onView(withId(R.id.coords_info_tv)).check(matches(withText(R.string.coords_info)))
 
         onView(withId(R.id.request_button)).check(matches(withText(R.string.submit_request)))
@@ -84,8 +86,6 @@ class FragmentRequestNewMapGuiTest {
 
         //name et
         onView(withId(R.id.name_et)).check(matches(withParent(withId(R.id.inner_constraint_layout))))
-        onView(withId(R.id.name_et)).check(matches(hasChildCount(0)))
-
     }
 
 

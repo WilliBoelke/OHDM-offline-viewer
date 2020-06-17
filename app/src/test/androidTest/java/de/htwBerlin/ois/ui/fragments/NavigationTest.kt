@@ -69,8 +69,8 @@ class NavigationTest {
         //Open the ActionBars option menu
         openActionBarOverflowOrOptionsMenu(getInstrumentation().targetContext);
         //Open the FragmentFAQ
-        onView(withText(R.id.ab_menu_faq)).check(matches(isDisplayed()))
-        onView(withText(R.id.ab_menu_faq)).perform(click())
+        onView(withText(R.string.menu_faq)).check(matches(isDisplayed()))
+        onView(withText(R.string.menu_faq)).perform(click())
         onView(withId(R.id.menu_faq_parent)).check(matches(isDisplayed()))
         //Open the ActionBars option menu
         openActionBarOverflowOrOptionsMenu(getInstrumentation().targetContext);

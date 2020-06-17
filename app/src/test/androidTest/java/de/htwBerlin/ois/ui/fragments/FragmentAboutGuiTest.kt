@@ -8,6 +8,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import de.htwBerlin.ois.R
 import de.htwBerlin.ois.factory.FragmentFactory
+import de.htwBerlin.ois.serverCommunication.HttpClient
 import de.htwBerlin.ois.serverCommunication.SftpClient
 import de.htwBerlin.ois.ui.fragments.FragmentAbout
 import org.junit.Before
@@ -19,8 +20,9 @@ class FragmentAboutGuiTest {
 
     @Before
     fun setup() {
-        val sftpClient = SftpClient()
-        val fragmentFactory = FragmentFactory(sftpClient)
+        val sftpClient = MockClient(false, false)
+        val httpClient = HttpClient()
+        val fragmentFactory = FragmentFactory(sftpClient, httpClient)
         val bundle = Bundle()
         val scenario = launchFragmentInContainer<FragmentAbout>(themeResId = R.style.LightTheme, fragmentArgs = bundle, factory = fragmentFactory)
     }
@@ -42,9 +44,6 @@ class FragmentAboutGuiTest {
         onView(withId(R.id.headline1_tv)).check(ViewAssertions.matches(isDisplayed()))
         onView(withId(R.id.headline2_tv)).check(ViewAssertions.matches(isDisplayed()))
         onView(withId(R.id.headline3_tv)).check(ViewAssertions.matches(isDisplayed()))
-
-        onView(withId(R.id.ohdm_logo_iv)).check(ViewAssertions.matches(isDisplayed()))
-        onView(withId(R.id.htw_logo_iv)).check(ViewAssertions.matches(isDisplayed()))
     }
 
     @Test

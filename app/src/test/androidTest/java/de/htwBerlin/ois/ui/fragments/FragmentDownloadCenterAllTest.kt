@@ -10,6 +10,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import de.htwBerlin.ois.R
 import de.htwBerlin.ois.factory.FragmentFactory
+import de.htwBerlin.ois.serverCommunication.HttpClient
 import org.hamcrest.Matchers.not
 import org.junit.Before
 import org.junit.Test
@@ -29,8 +30,9 @@ class FragmentDownloadCenterAllTest {
         every {
             mockSftpClient.getFileList(MOST_RECENT_PATH)
         } returns recentFiles*/
-
-        val fragmentFactory = FragmentFactory(MockClient(false, false))
+        val sftpClient = MockClient(false, false)
+        val httpClient = HttpClient()
+        val fragmentFactory = FragmentFactory(sftpClient, httpClient)
         val bundle = Bundle()
         val scenario = launchFragmentInContainer<FragmentDownloadCenterAll>(themeResId = R.style.LightTheme, fragmentArgs = bundle, factory = fragmentFactory)
     }
@@ -38,7 +40,9 @@ class FragmentDownloadCenterAllTest {
 
     @Test
     fun viewsAreDisplayed() {
-        val fragmentFactory = FragmentFactory(MockClient(false, false))
+        val sftpClient = MockClient(false, false)
+        val httpClient = HttpClient()
+        val fragmentFactory = FragmentFactory(sftpClient, httpClient)
         val bundle = Bundle()
         val scenario = launchFragmentInContainer<FragmentDownloadCenterAll>(themeResId = R.style.LightTheme, fragmentArgs = bundle, factory = fragmentFactory)
 
@@ -68,7 +72,9 @@ class FragmentDownloadCenterAllTest {
 
     @Test
     fun recyclerViewTestIsDisplayed() {
-        val fragmentFactory = FragmentFactory(MockClient(false, false))
+        val sftpClient = MockClient(false, false)
+        val httpClient = HttpClient()
+        val fragmentFactory = FragmentFactory(sftpClient, httpClient)
         val bundle = Bundle()
         val scenario = launchFragmentInContainer<FragmentDownloadCenterAll>(themeResId = R.style.LightTheme, fragmentArgs = bundle, factory = fragmentFactory)
 
@@ -85,7 +91,9 @@ class FragmentDownloadCenterAllTest {
 
     @Test
     fun recyclerViewTestNotDisplayed() {
-        val fragmentFactory = FragmentFactory(MockClient(false, true))
+        val sftpClient = MockClient(false, true)
+        val httpClient = HttpClient()
+        val fragmentFactory = FragmentFactory(sftpClient, httpClient)
         val bundle = Bundle()
         val scenario = launchFragmentInContainer<FragmentDownloadCenterAll>(themeResId = R.style.LightTheme, fragmentArgs = bundle, factory = fragmentFactory)
 
