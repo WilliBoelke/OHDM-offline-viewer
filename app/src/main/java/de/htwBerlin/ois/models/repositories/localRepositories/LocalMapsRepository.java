@@ -1,4 +1,4 @@
-package de.htwBerlin.ois.repositories.localRepositories;
+package de.htwBerlin.ois.models.repositories.localRepositories;
 
 import android.util.Log;
 
@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import java.io.File;
 import java.util.ArrayList;
 
-import de.htwBerlin.ois.repositories.cacheRepostitories.MapFileSingleton;
+import de.htwBerlin.ois.models.repositories.cacheRepostitories.MapFileSingleton;
 import de.htwBerlin.ois.views.mainActivity.MainActivity;
 
 

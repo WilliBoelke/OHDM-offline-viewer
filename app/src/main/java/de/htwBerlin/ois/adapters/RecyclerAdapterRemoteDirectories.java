@@ -17,11 +17,11 @@ import java.util.ArrayList;
 import de.htwBerlin.ois.R;
 import de.htwBerlin.ois.models.fileStructure.RemoteDirectory;
 import de.htwBerlin.ois.models.fileStructure.RemoteFile;
-import de.htwBerlin.ois.repositories.cacheRepostitories.RemoteListsSingleton;
-import de.htwBerlin.ois.repositories.remoteRepositories.AsyncResponse;
-import de.htwBerlin.ois.repositories.remoteRepositories.Client;
-import de.htwBerlin.ois.repositories.remoteRepositories.FtpTaskFileDownloading;
-import de.htwBerlin.ois.repositories.remoteRepositories.FtpTaskFileListing;
+import de.htwBerlin.ois.models.repositories.cacheRepostitories.RemoteListsSingleton;
+import de.htwBerlin.ois.serverCommunication.AsyncResponse;
+import de.htwBerlin.ois.serverCommunication.Client;
+import de.htwBerlin.ois.serverCommunication.FtpTaskFileDownloading;
+import de.htwBerlin.ois.serverCommunication.FtpTaskFileListing;
 import de.htwBerlin.ois.views.fragments.FragmentDownloadCenterCategories;
 
 

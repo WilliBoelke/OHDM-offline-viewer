@@ -1,9 +1,9 @@
-package de.htwBerlin.ois.repositories.remoteRepositories;
+package de.htwBerlin.ois.serverCommunication;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
-import static de.htwBerlin.ois.repositories.remoteRepositories.HttpClient.RESPONSE_NO_CONNECTION;
+import static de.htwBerlin.ois.serverCommunication.HttpClient.RESPONSE_NO_CONNECTION;
 
 
 /**

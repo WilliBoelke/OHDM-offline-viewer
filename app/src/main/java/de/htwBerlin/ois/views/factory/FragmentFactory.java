@@ -4,8 +4,8 @@ import android.util.Log;
 
 import androidx.fragment.app.Fragment;
 
-import de.htwBerlin.ois.repositories.remoteRepositories.Client;
-import de.htwBerlin.ois.repositories.remoteRepositories.HttpClient;
+import de.htwBerlin.ois.serverCommunication.Client;
+import de.htwBerlin.ois.serverCommunication.HttpClient;
 import de.htwBerlin.ois.views.fragments.FragmentAbout;
 import de.htwBerlin.ois.views.fragments.FragmentDownloadCenterAll;
 import de.htwBerlin.ois.views.fragments.FragmentDownloadCenterCategories;

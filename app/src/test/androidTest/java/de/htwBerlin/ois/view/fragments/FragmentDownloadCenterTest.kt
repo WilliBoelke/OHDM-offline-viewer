@@ -10,7 +10,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import de.htwBerlin.ois.R
 import de.htwBerlin.ois.views.factory.FragmentFactory
-import de.htwBerlin.ois.repositories.remoteRepositories.HttpClient
+import de.htwBerlin.ois.serverCommunication.HttpClient
 import de.htwBerlin.ois.views.fragments.FragmentDownloadCenterAll
 import org.hamcrest.Matchers.not
 import org.junit.Before

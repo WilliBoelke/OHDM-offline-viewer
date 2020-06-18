@@ -1,6 +1,7 @@
 package de.htwBerlin.ois.views.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -11,25 +12,19 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 import de.htwBerlin.ois.R;
-import de.htwBerlin.ois.models.fileStructure.RemoteDirectory;
-import de.htwBerlin.ois.models.fileStructure.RemoteFile;
-import de.htwBerlin.ois.repositories.remoteRepositories.AsyncResponse;
-import de.htwBerlin.ois.repositories.remoteRepositories.HttpClient;
-import de.htwBerlin.ois.repositories.remoteRepositories.HttpRequest;
 import de.htwBerlin.ois.adapters.RecyclerAdapterRemoteFiles;
 import de.htwBerlin.ois.adapters.RecyclerAdapterRequestStatus;
-
-import static de.htwBerlin.ois.repositories.remoteRepositories.HttpClient.RESPONSE_NO_CONNECTION;
-import static de.htwBerlin.ois.repositories.remoteRepositories.HttpClient.RESPONSE_NO_REQUESTS;
-import static de.htwBerlin.ois.repositories.remoteRepositories.HttpRequest.REQUEST_TYP_STATUS_BY_ID;
+import de.htwBerlin.ois.serverCommunication.HttpClient;
+import de.htwBerlin.ois.viewModels.FragmentRequestStatusViewModel;
 
 
 public class FragmentRequestStatus extends FragmentWithServerConnection
@@ -42,12 +37,10 @@ public class FragmentRequestStatus extends FragmentWithServerConnection
      * (for example by putting the ID into the Intent extra )
      */
     private View view;
-    private ArrayList<String> requests;
-    private ArrayList<String> requestsBackup;
     private RecyclerAdapterRequestStatus adapterRequestStatus;
-    private HttpClient httpClient;
     private final String TAG = getClass().getSimpleName();
     private RecyclerView statusRecycler;
+    private FragmentRequestStatusViewModel viewModel;
 
 
     //------------Static Variables------------
@@ -59,7 +52,7 @@ public class FragmentRequestStatus extends FragmentWithServerConnection
 
     public FragmentRequestStatus(HttpClient httpClient)
     {
-        this.httpClient = httpClient;
+
     }
 
 
@@ -74,6 +67,7 @@ public class FragmentRequestStatus extends FragmentWithServerConnection
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        Log.d(TAG, "onCreate");
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_request_status, container, false);
         return view;
@@ -82,14 +76,97 @@ public class FragmentRequestStatus extends FragmentWithServerConnection
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState)
     {
+        Log.d(TAG, "onActivityCreated");
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
-        requests = new ArrayList<>();
-        requestsBackup = new ArrayList<>();
-        setupRecyclerView();
-        changeVisibilities(STATE_CONNECTING);
-        httpRequestStatus();
-        setupSwipeToRefresh();
+        Log.d(TAG, "onActivityCreated : initializing ViewModel");
+        viewModel = ViewModelProviders.of(this).get(FragmentRequestStatusViewModel.class);
+        viewModel.init();
+        //Observer
+        Log.d(TAG, "onActivityCreated : setup  observer");
+        this.onRequestsChangeObserver();
+        this.onConnectionChangeObservers();
+        this.onResponseChangeObserver();
+        //Views
+        Log.d(TAG, "onActivityCreated : setup views");
+        this.setupRecyclerView();
+        this.setupSwipeToRefresh();
+        viewModel.refresh();
+    }
+
+
+    //------------Observers------------
+
+    private void onResponseChangeObserver()
+    {
+        viewModel.getResponse().observe(this.getViewLifecycleOwner(), new Observer<String>()
+        {
+            @Override
+            public void onChanged(String response)
+            {
+                Log.d(TAG, "onResponseChangeObserver : called with Response = " + response);
+                viewModel.processString(response);
+            }
+        });
+    }
+
+    private void onRequestsChangeObserver()
+    {
+        viewModel.getRequests().observe(this.getViewLifecycleOwner(), new Observer<ArrayList<String>>()
+        {
+            @Override
+            public void onChanged(ArrayList<String> strings)
+            {
+                Log.d(TAG, "onRequestsChangeObserver : called with = " + strings.toString());
+                adapterRequestStatus.setData(strings);
+            }
+        });
+    }
+
+    private void onConnectionChangeObservers()
+    {
+        viewModel.getNoConnectionBoolean().observe(this.getViewLifecycleOwner(), new Observer<Boolean>()
+        {
+
+            @Override
+            public void onChanged(Boolean bool)
+            {
+
+                    changeVisibilities(STATE_NO_CONNECTION);
+                    Log.d(TAG, "onConnectionChangeObservers :  noConnection called");
+            }
+        });
+
+        viewModel.getNoRequestsForIdBoolean().observe(this.getViewLifecycleOwner(), new Observer<Boolean>()
+        {
+
+            @Override
+            public void onChanged(Boolean bool)
+            {
+                    onUnknownId();
+                    Log.d(TAG, "onConnectionChangeObservers :  noRequests called");
+            }
+        });
+
+        viewModel.getRequestReceivedBoolean().observe(this.getViewLifecycleOwner(), new Observer<Boolean>()
+        {
+            @Override
+            public void onChanged(Boolean bool)
+            {
+                    changeVisibilities(STATE_CONNECTED);
+                    Log.d(TAG, "onConnectionChangeObservers :  requestsReceived called");
+            }
+        });
+
+        viewModel.getConnectionBoolean().observe(this.getViewLifecycleOwner(), new Observer<Boolean>()
+        {
+            @Override
+            public void onChanged(Boolean bool)
+            {
+                    changeVisibilities(STATE_CONNECTING);
+                    Log.d(TAG, "onConnectionChangeObservers :  requestsReceived called");
+            }
+        });
     }
 
 
@@ -97,15 +174,13 @@ public class FragmentRequestStatus extends FragmentWithServerConnection
 
     private void setupRecyclerView()
     {
+
         statusRecycler = view.findViewById(R.id.status_recycler_view);
-        adapterRequestStatus = new RecyclerAdapterRequestStatus(getActivity(), requests, requestsBackup, R.layout.recycler_item_request_status);
+        adapterRequestStatus = new RecyclerAdapterRequestStatus(getActivity(), viewModel.getRequests().getValue(), R.layout.recycler_item_request_status);
         RecyclerView.LayoutManager recyclerLayoutManager = new LinearLayoutManager(getActivity());
         statusRecycler.setLayoutManager(recyclerLayoutManager);
         statusRecycler.setAdapter(adapterRequestStatus);
     }
-
-
-    //------------Swipe To Refresh------------
 
     private void setupSwipeToRefresh()
     {
@@ -116,9 +191,8 @@ public class FragmentRequestStatus extends FragmentWithServerConnection
             public void onRefresh()
             {
                 swipeRefreshLayout.setRefreshing(true);
+                viewModel.refresh();
                 changeVisibilities(STATE_CONNECTING);
-                httpRequestStatus();
-                adapterRequestStatus.notifyDataSetChanged();
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -143,74 +217,16 @@ public class FragmentRequestStatus extends FragmentWithServerConnection
             public boolean onQueryTextChange(String newText)
             {
                 adapterRequestStatus.getFilter().filter(newText);
-                ;
                 return false;
             }
         });
-    }
-
-    //------------HTTP------------
-
-    private void httpRequestStatus()
-    {
-        HttpRequest httpRequest = new HttpRequest();
-        httpRequest.setParams("id=" + getActivity().getSharedPreferences(FragmentOptions.SETTINGS_SHARED_PREFERENCES, 0).getString(FragmentOptions.SERVER_ID, null));
-        httpRequest.setRequestType(REQUEST_TYP_STATUS_BY_ID);
-        httpRequest.setHttpClient(httpClient);
-        httpRequest.setAsyncResponse(new AsyncResponse()
-        {
-
-            @Override
-            public void getRemoteFiles(ArrayList<RemoteFile> remoteFiles)
-            {
-
-            }
-
-            @Override
-            public void getRemoteDirectories(ArrayList<RemoteDirectory> remoteDirectories)
-            {
-
-            }
-
-            @Override
-            public void getHttpResponse(String response)
-            {
-                if (response.equals(RESPONSE_NO_CONNECTION))
-                {
-                    changeVisibilities(STATE_NO_CONNECTION);
-                }
-                else if (response.equals(RESPONSE_NO_REQUESTS))
-                {
-                    onUnknownId();
-                }
-                else
-                {
-                    String formatted = response.replace("-", " ");
-                    formatted = formatted.replace("[", "");
-                    formatted = formatted.replace("]", "");
-                    formatted = formatted.replace("\"", "");
-                    StringTokenizer st = new StringTokenizer(formatted, ",");
-                    requests.clear();
-                    requestsBackup.clear();
-                    while (st.hasMoreTokens())
-                    {
-                        requests.add(st.nextToken());
-                    }
-                    requestsBackup.addAll(requests);
-                    adapterRequestStatus.notifyDataSetChanged();
-                    changeVisibilities(STATE_CONNECTED);
-                }
-            }
-        });
-
-        httpRequest.execute();
     }
 
 
     //------------Fragment With Server Connection Methods------------
 
     @Override
-    protected void onNoConnection()
+    public void onNoConnection()
     {
         view.findViewById(R.id.connecting_tv).setVisibility(View.VISIBLE);
         ((TextView) view.findViewById(R.id.connecting_tv)).setText("Couldn't make connection");
@@ -220,7 +236,7 @@ public class FragmentRequestStatus extends FragmentWithServerConnection
     }
 
     @Override
-    protected void onConnecting()
+    public void onConnecting()
     {
         view.findViewById(R.id.connecting_tv).setVisibility(View.VISIBLE);
         view.findViewById(R.id.connecting_pb).setVisibility(View.VISIBLE);
@@ -229,15 +245,16 @@ public class FragmentRequestStatus extends FragmentWithServerConnection
     }
 
     @Override
-    protected void onConnected()
+    public void onConnected()
     {
+        Log.d(TAG, "onConnected:  change visibility ");
         view.findViewById(R.id.connecting_tv).setVisibility(View.INVISIBLE);
         view.findViewById(R.id.connecting_pb).setVisibility(View.INVISIBLE);
 
         statusRecycler.setVisibility(View.VISIBLE);
     }
 
-    private void onUnknownId()
+    public void onUnknownId()
     {
         view.findViewById(R.id.connecting_tv).setVisibility(View.VISIBLE);
         ((TextView) view.findViewById(R.id.connecting_tv)).setText("You haven't made any requests yet");
@@ -256,7 +273,6 @@ public class FragmentRequestStatus extends FragmentWithServerConnection
         MenuItem searchItem = menu.findItem(R.id.ab_menu_search).setVisible(true);
         setupGeneralSearchView((SearchView) searchItem.getActionView());
         super.onCreateOptionsMenu(menu, inflater);
-
     }
 
     @Override

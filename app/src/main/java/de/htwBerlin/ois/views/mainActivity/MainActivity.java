@@ -26,14 +26,15 @@ import java.util.List;
 import java.util.Map;
 
 import de.htwBerlin.ois.R;
+import de.htwBerlin.ois.models.repositories.cacheRepostitories.RuntimeVariables;
 import de.htwBerlin.ois.views.factory.FragmentFactory;
-import de.htwBerlin.ois.repositories.cacheRepostitories.MapFileSingleton;
+import de.htwBerlin.ois.models.repositories.cacheRepostitories.MapFileSingleton;
 import de.htwBerlin.ois.models.fileStructure.RemoteDirectory;
 import de.htwBerlin.ois.models.fileStructure.RemoteFile;
-import de.htwBerlin.ois.repositories.remoteRepositories.AsyncResponse;
-import de.htwBerlin.ois.repositories.remoteRepositories.HttpClient;
-import de.htwBerlin.ois.repositories.remoteRepositories.HttpRequest;
-import de.htwBerlin.ois.repositories.remoteRepositories.SftpClient;
+import de.htwBerlin.ois.serverCommunication.AsyncResponse;
+import de.htwBerlin.ois.serverCommunication.HttpClient;
+import de.htwBerlin.ois.serverCommunication.HttpRequest;
+import de.htwBerlin.ois.serverCommunication.SftpClient;
 import de.htwBerlin.ois.views.fragments.FragmentAbout;
 import de.htwBerlin.ois.views.fragments.FragmentDownloadCenterAll;
 import de.htwBerlin.ois.views.fragments.FragmentFAQ;
@@ -42,7 +43,7 @@ import de.htwBerlin.ois.views.fragments.FragmentNavigation;
 import de.htwBerlin.ois.views.fragments.FragmentOptions;
 import de.htwBerlin.ois.views.fragments.FragmentRequestStatus;
 
-import static de.htwBerlin.ois.repositories.remoteRepositories.HttpRequest.REQUEST_TYPE_ID;
+import static de.htwBerlin.ois.serverCommunication.HttpRequest.REQUEST_TYPE_ID;
 
 /**
  * @author WilliBoelke
@@ -127,6 +128,8 @@ public class MainActivity extends AppCompatActivity
     {
         Log.d(TAG, "onCreate : setting app theme...");
         getSupportFragmentManager().setFragmentFactory(new FragmentFactory(new SftpClient(), new HttpClient()));
+        RuntimeVariables.Instance();
+        RuntimeVariables.Instance().init(getApplicationContext());
         super.onCreate(savedInstanceState);
         //Get settings from SharedPrefs
         if (getApplicationContext().getSharedPreferences(FragmentOptions.SETTINGS_SHARED_PREFERENCES, 0).getBoolean(FragmentOptions.DARK_MODE, false) == true)

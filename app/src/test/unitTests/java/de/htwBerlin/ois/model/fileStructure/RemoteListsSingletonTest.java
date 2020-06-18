@@ -11,7 +11,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import de.htwBerlin.ois.models.fileStructure.RemoteDirectory;
 import de.htwBerlin.ois.models.fileStructure.RemoteFile;
-import de.htwBerlin.ois.repositories.cacheRepostitories.RemoteListsSingleton;
+import de.htwBerlin.ois.models.repositories.cacheRepostitories.RemoteListsSingleton;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

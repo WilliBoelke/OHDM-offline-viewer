@@ -21,11 +21,11 @@ import java.util.ArrayList;
 import de.htwBerlin.ois.R;
 import de.htwBerlin.ois.models.fileStructure.RemoteDirectory;
 import de.htwBerlin.ois.models.fileStructure.RemoteFile;
-import de.htwBerlin.ois.repositories.remoteRepositories.AsyncResponse;
-import de.htwBerlin.ois.repositories.remoteRepositories.HttpClient;
-import de.htwBerlin.ois.repositories.remoteRepositories.HttpRequest;
+import de.htwBerlin.ois.serverCommunication.AsyncResponse;
+import de.htwBerlin.ois.serverCommunication.HttpClient;
+import de.htwBerlin.ois.serverCommunication.HttpRequest;
 
-import static de.htwBerlin.ois.repositories.remoteRepositories.HttpRequest.REQUEST_TYPE_MAP_REQUEST;
+import static de.htwBerlin.ois.serverCommunication.HttpRequest.REQUEST_TYPE_MAP_REQUEST;
 
 /**
  * Fragment to allow the user to request a new map

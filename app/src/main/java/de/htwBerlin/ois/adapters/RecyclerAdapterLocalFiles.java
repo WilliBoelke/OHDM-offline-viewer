@@ -17,7 +17,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import de.htwBerlin.ois.R;
-import de.htwBerlin.ois.repositories.cacheRepostitories.MapFileSingleton;
+import de.htwBerlin.ois.models.repositories.cacheRepostitories.MapFileSingleton;
 
 /**
  * @author WilliBoelke
@@ -59,6 +59,9 @@ public class RecyclerAdapterLocalFiles extends RecyclerView.Adapter<RecyclerAdap
 
 
     //------------Constructors------------
+
+
+    //------------RecyclerViewAdapter Methods------------
     private Filter nameFilter = new Filter()
     {
         @Override
@@ -94,14 +97,11 @@ public class RecyclerAdapterLocalFiles extends RecyclerView.Adapter<RecyclerAdap
         }
     };
 
-
-    //------------RecyclerViewAdapter Methods------------
-
-    public RecyclerAdapterLocalFiles(Context context, ArrayList<File> ohdmFiles, int ressource)
+    public RecyclerAdapterLocalFiles(Context context, ArrayList<File> localMapFiles, int ressource)
     {
-        this.mapArrayListBackup = new ArrayList<>(ohdmFiles); // need to be initialized like that
+        this.mapArrayListBackup = new ArrayList<>(localMapFiles); // need to be initialized like that
         this.resource = ressource;
-        this.mapArrayList = ohdmFiles;
+        this.mapArrayList = localMapFiles;
         this.context = context;
     }
 
@@ -113,6 +113,9 @@ public class RecyclerAdapterLocalFiles extends RecyclerView.Adapter<RecyclerAdap
         LocalMapsViewHolder localMapsViewHolder = new LocalMapsViewHolder(view, this.onItemClickListener);
         return localMapsViewHolder;
     }
+
+
+    //------------OnItemClickListener------------
 
     @Override
     public void onBindViewHolder(@NonNull LocalMapsViewHolder localMapsViewHolder, int position)
@@ -140,14 +143,14 @@ public class RecyclerAdapterLocalFiles extends RecyclerView.Adapter<RecyclerAdap
         }
     }
 
-
-    //------------OnItemClickListener------------
-
     @Override
     public int getItemCount()
     {
         return mapArrayList.size();
     }
+
+
+    //------------Filter (Name)------------
 
     /**
      * Setter for the implemented onItemClick method
@@ -158,9 +161,6 @@ public class RecyclerAdapterLocalFiles extends RecyclerView.Adapter<RecyclerAdap
     {
         this.onItemClickListener = listener;
     }
-
-
-    //------------Filter (Name)------------
 
     @Override
     public Filter getFilter()

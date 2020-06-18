@@ -11,9 +11,9 @@ import java.util.ArrayList;
 
 import de.htwBerlin.ois.models.fileStructure.RemoteDirectory;
 import de.htwBerlin.ois.models.fileStructure.RemoteFile;
-import de.htwBerlin.ois.repositories.remoteRepositories.AsyncResponse;
-import de.htwBerlin.ois.repositories.remoteRepositories.FtpTaskDirListing;
-import de.htwBerlin.ois.repositories.remoteRepositories.SftpClient;
+import de.htwBerlin.ois.serverCommunication.AsyncResponse;
+import de.htwBerlin.ois.serverCommunication.FtpTaskDirListing;
+import de.htwBerlin.ois.serverCommunication.SftpClient;
 
 import static org.junit.Assert.assertEquals;
 

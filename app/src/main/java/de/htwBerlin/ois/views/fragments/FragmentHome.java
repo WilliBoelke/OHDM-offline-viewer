@@ -28,7 +28,7 @@ import de.htwBerlin.ois.adapters.RecyclerAdapterLocalFiles;
 import de.htwBerlin.ois.adapters.RecyclerAdapterSwipeGestures;
 import de.htwBerlin.ois.adapters.SwipeCallbackLeft;
 import de.htwBerlin.ois.adapters.SwipeCallbackRight;
-import de.htwBerlin.ois.repositories.cacheRepostitories.MapFileSingleton;
+import de.htwBerlin.ois.models.repositories.cacheRepostitories.MapFileSingleton;
 import de.htwBerlin.ois.viewModels.FragmentHomeViewModel;
 
 /**
@@ -88,10 +88,10 @@ public class FragmentHome extends Fragment
         setHasOptionsMenu(true);
         viewModel = ViewModelProviders.of(this).get(FragmentHomeViewModel.class);
         viewModel.init();
-        //Observers
-        this.onLocalMapsChangeObserver();
         //Views
         this.setupRecycler();
+        //Observers
+        this.onLocalMapsChangeObserver();
     }
 
 

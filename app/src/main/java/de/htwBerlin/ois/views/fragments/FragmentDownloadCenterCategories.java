@@ -23,13 +23,13 @@ import java.util.ArrayList;
 import de.htwBerlin.ois.R;
 import de.htwBerlin.ois.models.fileStructure.RemoteDirectory;
 import de.htwBerlin.ois.models.fileStructure.RemoteFile;
-import de.htwBerlin.ois.repositories.cacheRepostitories.RemoteListsSingleton;
-import de.htwBerlin.ois.repositories.remoteRepositories.AsyncResponse;
-import de.htwBerlin.ois.repositories.remoteRepositories.Client;
-import de.htwBerlin.ois.repositories.remoteRepositories.FtpTaskDirListing;
+import de.htwBerlin.ois.models.repositories.cacheRepostitories.RemoteListsSingleton;
+import de.htwBerlin.ois.serverCommunication.AsyncResponse;
+import de.htwBerlin.ois.serverCommunication.Client;
+import de.htwBerlin.ois.serverCommunication.FtpTaskDirListing;
 import de.htwBerlin.ois.adapters.RecyclerAdapterRemoteDirectories;
 
-import static de.htwBerlin.ois.repositories.remoteRepositories.Variables.FTP_ROOT_DIRECTORY;
+import static de.htwBerlin.ois.serverCommunication.Variables.FTP_ROOT_DIRECTORY;
 
 
 public class FragmentDownloadCenterCategories extends FragmentWithServerConnection

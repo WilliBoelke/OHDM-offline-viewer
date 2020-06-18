@@ -15,8 +15,8 @@ import java.util.Vector;
 
 import de.htwBerlin.ois.models.fileStructure.RemoteDirectory;
 import de.htwBerlin.ois.models.fileStructure.RemoteFile;
-import de.htwBerlin.ois.repositories.remoteRepositories.SftpClient;
-import de.htwBerlin.ois.repositories.remoteRepositories.Variables;
+import de.htwBerlin.ois.serverCommunication.SftpClient;
+import de.htwBerlin.ois.serverCommunication.Variables;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;

@@ -6,7 +6,7 @@ import org.mockito.Mockito;
 
 import java.io.File;
 
-import de.htwBerlin.ois.repositories.cacheRepostitories.MapFileSingleton;
+import de.htwBerlin.ois.models.repositories.cacheRepostitories.MapFileSingleton;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;

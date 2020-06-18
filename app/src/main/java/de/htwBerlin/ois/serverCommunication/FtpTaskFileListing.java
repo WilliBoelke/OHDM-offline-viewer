@@ -1,4 +1,4 @@
-package de.htwBerlin.ois.repositories.remoteRepositories;
+package de.htwBerlin.ois.serverCommunication;
 
 import android.content.Context;
 import android.os.AsyncTask;

@@ -5,7 +5,7 @@ import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import de.htwBerlin.ois.R
 import de.htwBerlin.ois.views.factory.FragmentFactory
-import de.htwBerlin.ois.repositories.remoteRepositories.HttpClient
+import de.htwBerlin.ois.serverCommunication.HttpClient
 import de.htwBerlin.ois.views.fragments.FragmentRequestNewMap
 import org.junit.Before
 import org.junit.runner.RunWith

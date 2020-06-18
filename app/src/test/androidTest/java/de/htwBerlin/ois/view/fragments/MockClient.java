@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import de.htwBerlin.ois.models.fileStructure.RemoteDirectory;
 import de.htwBerlin.ois.models.fileStructure.RemoteFile;
-import de.htwBerlin.ois.repositories.remoteRepositories.Client;
+import de.htwBerlin.ois.serverCommunication.Client;
 
 /**
  * This is a "Mock" implementation used to substitute

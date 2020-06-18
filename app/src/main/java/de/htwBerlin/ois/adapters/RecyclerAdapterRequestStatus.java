@@ -1,6 +1,7 @@
 package de.htwBerlin.ois.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +52,6 @@ public class RecyclerAdapterRequestStatus extends RecyclerView.Adapter<RecyclerA
 
 
     //------------Constructors------------
-
     private Filter nameFilter = new Filter()
     {
         @Override
@@ -87,33 +87,35 @@ public class RecyclerAdapterRequestStatus extends RecyclerView.Adapter<RecyclerA
         }
     };
 
-
-    //------------RecyclerViewAdapter Methods------------
-
-
     /**
      * Public constructor
      *
      * @param context
      */
-    public RecyclerAdapterRequestStatus(Context context, ArrayList<String> requests, ArrayList<String> requestsBackup, int resource)
+    public RecyclerAdapterRequestStatus(Context context, ArrayList<String> requests, int resource)
     {
         this.context = context;
         this.resource = resource;
         this.requests = requests;
-        this.requestsBackup = requestsBackup;
+        this.requestsBackup = new ArrayList<>(requests);
     }
 
 
     //------------OnClickListener------------
 
+    public void setData(ArrayList<String> requests)
+    {
+        Log.e("", "recycler -------------------------------");
+        this.requests = requests;
+        this.requestsBackup = new ArrayList<>(requests);
+        notifyDataSetChanged();
+    }
 
     @Override
     public int getItemCount()
     {
         return requests.size();
     }
-
 
     /**
      * Setter for the implemented onItemClick method
@@ -125,19 +127,21 @@ public class RecyclerAdapterRequestStatus extends RecyclerView.Adapter<RecyclerA
         this.onItemClickListener = listener;
     }
 
+
+    //------------Filter (Name)------------
+
     public void setOnItemButtonClickListener(OnRecyclerItemButtonClicklistenner listener)
     {
         this.onButtonClickListener = listener;
     }
-
-
-    //------------Filter (Name)------------
 
     @Override
     public Filter getFilter()
     {
         return nameFilter;
     }
+
+    //------------RecyclerViewAdapter Methods------------
 
     @NonNull
     @Override

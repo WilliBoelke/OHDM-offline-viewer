@@ -7,7 +7,7 @@ import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import de.htwBerlin.ois.R
 import de.htwBerlin.ois.views.factory.FragmentFactory
-import de.htwBerlin.ois.repositories.remoteRepositories.HttpClient
+import de.htwBerlin.ois.serverCommunication.HttpClient
 import de.htwBerlin.ois.views.fragments.FragmentDownloadCenterAll
 import org.hamcrest.Matchers
 import org.junit.Before

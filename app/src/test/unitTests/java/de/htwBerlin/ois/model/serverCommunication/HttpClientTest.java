@@ -12,9 +12,9 @@ import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.net.HttpURLConnection;
 
-import de.htwBerlin.ois.repositories.remoteRepositories.HttpClient;
+import de.htwBerlin.ois.serverCommunication.HttpClient;
 
-import static de.htwBerlin.ois.repositories.remoteRepositories.HttpRequest.REQUEST_TYPE_MAP_REQUEST;
+import static de.htwBerlin.ois.serverCommunication.HttpRequest.REQUEST_TYPE_MAP_REQUEST;
 import static org.junit.Assert.assertEquals;
 
 class HttpClientTest

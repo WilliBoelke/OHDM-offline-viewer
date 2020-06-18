@@ -1,4 +1,4 @@
-package de.htwBerlin.ois.repositories.remoteRepositories;
+package de.htwBerlin.ois.serverCommunication;
 
 import java.util.ArrayList;
 

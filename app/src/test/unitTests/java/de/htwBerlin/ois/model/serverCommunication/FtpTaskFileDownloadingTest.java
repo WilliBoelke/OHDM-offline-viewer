@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import de.htwBerlin.ois.models.fileStructure.RemoteFile;
-import de.htwBerlin.ois.repositories.remoteRepositories.FtpTaskFileDownloading;
-import de.htwBerlin.ois.repositories.remoteRepositories.SftpClient;
+import de.htwBerlin.ois.serverCommunication.FtpTaskFileDownloading;
+import de.htwBerlin.ois.serverCommunication.SftpClient;
 
 class FtpTaskFileDownloadingTest
 {

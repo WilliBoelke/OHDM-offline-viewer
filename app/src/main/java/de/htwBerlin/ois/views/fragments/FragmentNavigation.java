@@ -35,7 +35,7 @@ import java.io.File;
 import java.util.List;
 
 import de.htwBerlin.ois.R;
-import de.htwBerlin.ois.repositories.cacheRepostitories.MapFileSingleton;
+import de.htwBerlin.ois.models.repositories.cacheRepostitories.MapFileSingleton;
 
 import static android.content.Context.LOCATION_SERVICE;
 

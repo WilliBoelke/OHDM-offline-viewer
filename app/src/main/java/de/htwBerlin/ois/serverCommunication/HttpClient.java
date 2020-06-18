@@ -1,4 +1,4 @@
-package de.htwBerlin.ois.repositories.remoteRepositories;
+package de.htwBerlin.ois.serverCommunication;
 
 import android.util.Log;
 
@@ -16,8 +16,8 @@ import java.nio.charset.StandardCharsets;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import static de.htwBerlin.ois.repositories.remoteRepositories.Variables.HTTP_PORT;
-import static de.htwBerlin.ois.repositories.remoteRepositories.Variables.SERVER_IP;
+import static de.htwBerlin.ois.serverCommunication.Variables.HTTP_PORT;
+import static de.htwBerlin.ois.serverCommunication.Variables.SERVER_IP;
 
 /**
  * A simple wrapper class for the {@link java.net.HttpURLConnection}
@@ -27,7 +27,7 @@ import static de.htwBerlin.ois.repositories.remoteRepositories.Variables.SERVER_
 public class HttpClient
 {
 
-    public static final String RESPONSE_NO_CONNECTION = "";
+    public static final String RESPONSE_NO_CONNECTION = "noconn";
     public static final String RESPONSE_NO_REQUESTS= "[]";
 
     //------------Instance Variables------------
