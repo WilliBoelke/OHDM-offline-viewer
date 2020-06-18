@@ -5,7 +5,7 @@
     android:id="@+id/fragment_map_download_categories_parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.FragmentDownloadCenterCategories">
+    tools:context="de.htwBerlin.ois.views.fragments.FragmentDownloadCenterCategories">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/request_new_map_fab"

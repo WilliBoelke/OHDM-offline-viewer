@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="?attr/backgroundColor"
     android:backgroundTint="?attr/backgroundColor"
-    tools:context=".ui.mainActivity.MainActivity">
+    tools:context=".views.mainActivity.MainActivity">
 
 
     <androidx.fragment.app.FragmentContainerView

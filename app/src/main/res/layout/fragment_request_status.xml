@@ -5,7 +5,7 @@
     android:id="@+id/fragment_request_status_parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.FragmentRequestStatus">
+    tools:context="de.htwBerlin.ois.views.fragments.FragmentRequestStatus">
 
     <TextView
         android:id="@+id/connecting_tv"
