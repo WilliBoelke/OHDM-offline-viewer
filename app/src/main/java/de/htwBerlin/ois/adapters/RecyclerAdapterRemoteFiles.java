@@ -19,7 +19,7 @@ import de.htwBerlin.ois.models.fileStructure.RemoteFile;
 
 
 /**
- * The RecyclerViewAdapter for ohdmFiles (->means files from the FTP server)
+ *  RecyclerViewAdapter for remoteFiles (->means files from the S/FTP server)
  *
  * @author WilliBölke
  */
@@ -31,12 +31,12 @@ public class RecyclerAdapterRemoteFiles extends RecyclerView.Adapter<RecyclerAda
     /**
      * This list will be altered when the user searches for maps
      */
-    private ArrayList<RemoteFile> ohdmFiles;
+    private ArrayList<RemoteFile> remoteFiles;
     /**
      * This list will always contain all maps
      * Its here as a backup for the mapArrayList
      */
-    private ArrayList<RemoteFile> ohdmFilesBackup;
+    private ArrayList<RemoteFile> remoteFilesBackup;
     /**
      * Resource id for the RecyclerItem layout
      */
@@ -49,73 +49,60 @@ public class RecyclerAdapterRemoteFiles extends RecyclerView.Adapter<RecyclerAda
      * The on itemClickListener
      */
     private OnItemClickListener onItemClickListener;
-
+    /**
+     * On click listener for the button inside the recycler view item
+     */
     private OnRecyclerItemButtonClicklistenner onButtonClickListener;
 
 
     //------------Constructors------------
-    private Filter nameFilter = new Filter()
-    {
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint)
-        {
-            ArrayList<RemoteFile> filteredList = new ArrayList<>();
-            if (constraint == null || constraint.length() == 0)
-            {
-                filteredList.addAll(ohdmFilesBackup);
-            }
-            else
-            {
-                String filterPattern = constraint.toString().toLowerCase().trim();
-                for (RemoteFile map : ohdmFilesBackup)
-                {
-                    if (map.getFilename().toLowerCase().trim().contains(filterPattern))
-                    {
-                        filteredList.add(map);
-                    }
-                }
-            }
-            FilterResults results = new FilterResults();
-            results.values = filteredList;
-            return results;
-        }
-
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results)
-        {
-            ohdmFiles.clear();
-            ohdmFiles.addAll((ArrayList) results.values);
-            notifyDataSetChanged();
-        }
-    };
-
-
-    //------------RecyclerViewAdapter Methods------------
-
 
     /**
      * Public constructor
      *
      * @param context
-     * @param ohdmFiles
-     * @param mapArrayListBackup
-     * @param ressource
+     * @param remoteFiles
+     * @param resource
      */
-    public RecyclerAdapterRemoteFiles(Context context, ArrayList<RemoteFile> ohdmFiles, ArrayList<RemoteFile> mapArrayListBackup, int ressource)
+    public RecyclerAdapterRemoteFiles(Context context, ArrayList<RemoteFile> remoteFiles, int resource)
     {
         this.context = context;
-        this.ressource = ressource;
-        this.ohdmFiles = ohdmFiles;
-        this.ohdmFilesBackup = mapArrayListBackup;
+        this.ressource = resource;
+        this.setData(remoteFiles);
+    }
+
+    /**
+     * Sets the displayed list and the backup list,
+     * this can't be done just with the constructor when using LiveData
+     * @param remoteFiles
+     */
+    public void setData(ArrayList<RemoteFile> remoteFiles)
+    {
+        this.remoteFiles = remoteFiles;
+        remoteFilesBackup = new ArrayList<>();
+        this.remoteFilesBackup.addAll(remoteFiles);
+        this.notifyDataSetChanged();
     }
 
 
     //------------OnClickListener------------
 
+    /**
+     * An interface to define the
+     * onItemClick method
+     * <p>
+     * can be implemented and set as on itemClickListener through the
+     * {@link this#setOnItemClickListener} method
+     */
+    public interface OnItemClickListener
+    {
+        void onItemClick(int position);
+    }
+
     @Override
     public int getItemCount()
     {
-        return ohdmFiles.size();
+        return remoteFiles.size();
     }
 
     /**
@@ -134,13 +121,54 @@ public class RecyclerAdapterRemoteFiles extends RecyclerView.Adapter<RecyclerAda
     }
 
 
-    //------------Filter (Name)------------
+    //------------RecyclerViewAdapter Methods------------
 
     @Override
     public Filter getFilter()
     {
         return nameFilter;
     }
+
+
+    //------------Filter (Name)------------
+
+    private Filter nameFilter = new Filter()
+    {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint)
+        {
+            ArrayList<RemoteFile> filteredList = new ArrayList<>();
+            if (constraint == null || constraint.length() == 0)
+            {
+                filteredList.addAll(remoteFilesBackup);
+            }
+            else
+            {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+                for (RemoteFile map : remoteFilesBackup)
+                {
+                    if (map.getFilename().toLowerCase().trim().contains(filterPattern))
+                    {
+                        filteredList.add(map);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results)
+        {
+            remoteFiles.clear();
+            remoteFiles.addAll((ArrayList) results.values);
+            notifyDataSetChanged();
+        }
+    };
+
+
+    //------------View Holder------------
 
     @NonNull
     @Override
@@ -150,13 +178,10 @@ public class RecyclerAdapterRemoteFiles extends RecyclerView.Adapter<RecyclerAda
         return new RecyclerAdapterRemoteFiles.OhdmFileViewHolder(view, this.onItemClickListener);
     }
 
-
-    //------------View Holder------------
-
     @Override
     public void onBindViewHolder(@NonNull RecyclerAdapterRemoteFiles.OhdmFileViewHolder ohdmFileViewHolder, final int position)
     {
-        RemoteFile currentOhdmFile = this.ohdmFiles.get(position);
+        RemoteFile currentOhdmFile = this.remoteFiles.get(position);
         String name = currentOhdmFile.getFilename();
         name = name.replace(".map", "");
         ohdmFileViewHolder.nameTextView.setText(name);
@@ -171,19 +196,6 @@ public class RecyclerAdapterRemoteFiles extends RecyclerView.Adapter<RecyclerAda
             }
         });
     }
-
-    /**
-     * An interface to define the
-     * onItemClick method
-     * <p>
-     * can be implemented and set as on itemClickListener through the
-     * {@link this#setOnItemClickListener} method
-     */
-    public interface OnItemClickListener
-    {
-        void onItemClick(int position);
-    }
-
     protected static class OhdmFileViewHolder extends RecyclerView.ViewHolder
     {
 

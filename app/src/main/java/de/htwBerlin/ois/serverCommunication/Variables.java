@@ -6,7 +6,7 @@ package de.htwBerlin.ois.serverCommunication;
 public class Variables
 {
 
-    public static final String MOST_RECENT_PATH = "/most_recent";
+    public static final String MOST_RECENT_PATH = "/last_requests";
     /**
      * The (S)FTP root directory
      */

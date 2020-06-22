@@ -45,4 +45,5 @@ public abstract class FragmentWithServerConnection extends Fragment
     protected abstract void onConnecting();
 
     protected abstract void onConnected();
+
 }

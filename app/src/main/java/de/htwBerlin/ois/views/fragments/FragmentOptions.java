@@ -247,7 +247,6 @@ public class FragmentOptions extends Fragment
     {
         inflater.inflate(R.menu.actionbar_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
-
     }
 
     @Override

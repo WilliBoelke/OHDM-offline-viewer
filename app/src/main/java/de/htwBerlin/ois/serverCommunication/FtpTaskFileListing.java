@@ -38,10 +38,7 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
      * (To be implemented when initializing this class)
      */
     private AsyncResponse delegate;
-    /**
-     * Context
-     */
-    private WeakReference<Context> context;
+
     private boolean includeSubDirs;
     /**
      * The path to the directory
@@ -57,18 +54,16 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
     /**
      * Public Constructor
      *
-     * @param context
      * @param path
      * @param asyncResponse
      */
-    public FtpTaskFileListing(Context context, String path, Client client, boolean includeSubDirs, AsyncResponse asyncResponse)
+    public FtpTaskFileListing( String path, Client client, boolean includeSubDirs, AsyncResponse asyncResponse)
     {
         Log.d(TAG, "Constructor : new FtpTaskFileListing with : path  = " + path + " includeSubDirs = " + includeSubDirs);
         this.includeSubDirs = includeSubDirs;
         this.delegate = asyncResponse;
         this.path = path;
         this.client = client;
-        this.context = new WeakReference<Context>(context);
     }
 
 

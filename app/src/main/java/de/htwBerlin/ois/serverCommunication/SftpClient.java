@@ -22,6 +22,7 @@ import static de.htwBerlin.ois.views.mainActivity.MainActivity.MAP_FILE_PATH;
 public class SftpClient implements Client
 {
 
+
     //------------Instance Variables------------
 
     private final String TAG = getClass().getSimpleName();

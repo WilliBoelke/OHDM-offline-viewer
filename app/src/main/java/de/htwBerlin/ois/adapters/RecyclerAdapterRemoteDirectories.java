@@ -104,14 +104,13 @@ public class RecyclerAdapterRemoteDirectories extends RecyclerView.Adapter<Recyc
     {
         final RemoteDirectory currentDirectory = this.directoryList.get(position);
 
-
         directoriesViewHolder.nameTextView.setText(currentDirectory.getFilename());
 
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(context);//layout manager vor vertical scrolling recycler
         recyclerLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
         //The recycler adapter
-        RecyclerAdapterRemoteFiles latestRecyclerAdapter = new RecyclerAdapterRemoteFiles(context, directoriesViewHolder.directoryContent, directoriesViewHolder.directoryContentBackup, R.layout.recycler_item_horizonal);
+        RecyclerAdapterRemoteFiles latestRecyclerAdapter = new RecyclerAdapterRemoteFiles(context, directoriesViewHolder.directoryContent, R.layout.recycler_item_horizonal);
 
         //on button click listener
         latestRecyclerAdapter.setOnItemButtonClickListener(new OnRecyclerItemButtonClicklistenner()
@@ -143,7 +142,7 @@ public class RecyclerAdapterRemoteDirectories extends RecyclerView.Adapter<Recyc
      */
     private void ftpGetDirectoryContent(final String path, final ArrayList<RemoteFile> list, final ArrayList<RemoteFile> backup, final RecyclerAdapterRemoteFiles adapter)
     {
-        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(context, path, this.client, false, new AsyncResponse()
+        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(path, this.client, false, new AsyncResponse()
         {
             @Override
             public void getRemoteFiles(ArrayList<RemoteFile> remoteFiles)
