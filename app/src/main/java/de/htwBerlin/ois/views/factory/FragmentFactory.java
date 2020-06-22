@@ -77,7 +77,7 @@ public class FragmentFactory extends androidx.fragment.app.FragmentFactory
         if (className.equals(FragmentRequestStatus.class.getName()))
         {
             Log.d(TAG, "Instantiate : FragmentRequestStatus");
-            return new FragmentRequestStatus(httpClient);
+            return new FragmentRequestStatus();
         }
         else
         {

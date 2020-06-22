@@ -1,4 +1,4 @@
-package de.htwBerlin.ois.models.repositories.cacheRepostitories;
+package de.htwBerlin.ois.models.repositories.localRepositories;
 
 import android.content.Context;
 import android.content.SharedPreferences;

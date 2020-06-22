@@ -35,7 +35,9 @@ import de.htwBerlin.ois.views.mainActivity.MainActivity;
 public class FragmentOptions extends Fragment
 {
 
-    //------------Instance Variables------------
+
+    //------------Static Variables------------
+
 
     /**
      * Key to get the DarkMode boolean from the SharedPreferences
@@ -56,7 +58,8 @@ public class FragmentOptions extends Fragment
     public static String ID = "Options";
 
 
-    //------------Static Variables------------
+    //------------Instance Variables------------
+
     /**
      * Log tag
      */

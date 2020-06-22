@@ -1,10 +1,13 @@
 package de.htwBerlin.ois.serverCommunication;
 
+import android.os.Environment;
+
 /**
  * @author WilliBoelke
  */
 public class Variables
 {
+    public static final String MAP_FILE_PATH = Environment.getExternalStorageDirectory().toString() + "/OHDM";
 
     public static final String MOST_RECENT_PATH = "/last_requests";
     /**

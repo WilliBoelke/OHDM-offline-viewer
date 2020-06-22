@@ -32,28 +32,11 @@ public class FragmentRequestStatus extends FragmentWithServerConnection
 
     //------------Instance Variables------------
 
-    /**
-     * Fragment ID used to identify the fragment
-     * (for example by putting the ID into the Intent extra )
-     */
     private View view;
     private RecyclerAdapterRequestStatus adapterRequestStatus;
     private final String TAG = getClass().getSimpleName();
     private RecyclerView statusRecycler;
     private ViewModelRequestStatus viewModel;
-
-
-    //------------Static Variables------------
-
-    public static String ID = "RequestStatus";
-
-
-    //------------Constructors------------
-
-    public FragmentRequestStatus(HttpClient httpClient)
-    {
-
-    }
 
 
     //------------Activity/Fragment Lifecycle------------
@@ -174,9 +157,8 @@ public class FragmentRequestStatus extends FragmentWithServerConnection
 
     private void setupRecyclerView()
     {
-
         statusRecycler = view.findViewById(R.id.status_recycler_view);
-        adapterRequestStatus = new RecyclerAdapterRequestStatus(getActivity(), viewModel.getRequests().getValue(), R.layout.recycler_item_request_status);
+        adapterRequestStatus = new RecyclerAdapterRequestStatus(viewModel.getRequests().getValue(), R.layout.recycler_item_request_status);
         RecyclerView.LayoutManager recyclerLayoutManager = new LinearLayoutManager(getActivity());
         statusRecycler.setLayoutManager(recyclerLayoutManager);
         statusRecycler.setAdapter(adapterRequestStatus);

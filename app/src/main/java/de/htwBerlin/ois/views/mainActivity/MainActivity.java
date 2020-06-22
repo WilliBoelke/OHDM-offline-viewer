@@ -26,9 +26,9 @@ import java.util.List;
 import java.util.Map;
 
 import de.htwBerlin.ois.R;
-import de.htwBerlin.ois.models.repositories.cacheRepostitories.RuntimeVariables;
+import de.htwBerlin.ois.models.repositories.localRepositories.RuntimeVariables;
 import de.htwBerlin.ois.views.factory.FragmentFactory;
-import de.htwBerlin.ois.models.repositories.cacheRepostitories.MapFileSingleton;
+import de.htwBerlin.ois.models.repositories.localRepositories.MapFileSingleton;
 import de.htwBerlin.ois.models.fileStructure.RemoteDirectory;
 import de.htwBerlin.ois.models.fileStructure.RemoteFile;
 import de.htwBerlin.ois.serverCommunication.AsyncResponse;
@@ -44,6 +44,7 @@ import de.htwBerlin.ois.views.fragments.FragmentOptions;
 import de.htwBerlin.ois.views.fragments.FragmentRequestStatus;
 
 import static de.htwBerlin.ois.serverCommunication.HttpRequest.REQUEST_TYPE_ID;
+import static de.htwBerlin.ois.serverCommunication.Variables.MAP_FILE_PATH;
 
 /**
  * @author WilliBoelke
@@ -53,14 +54,12 @@ public class MainActivity extends AppCompatActivity
 
     //------------Static Variables------------
 
-    public static final String MAP_FILE_PATH = Environment.getExternalStorageDirectory().toString() + "/OHDM";
     private static final int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
 
 
     //------------Instance Variables------------
 
     private String TAG = getClass().getSimpleName();
-    private Fragment defaultFragment = new FragmentHome();
 
 
     //------------Activity/Fragment Lifecycle------------
@@ -73,27 +72,22 @@ public class MainActivity extends AppCompatActivity
         public boolean onNavigationItemSelected(@NonNull MenuItem item)
         {
             Class selectedFragment = null;
-            String id = null;
             // switch ... case to select the right Fragment to start
             switch (item.getItemId())
             {
                 case R.id.nav_home:
                     selectedFragment = FragmentHome.class;
-                    id = FragmentHome.ID;
                     break;
                 case R.id.nav_download:
                     selectedFragment = FragmentDownloadCenterAll.class;
-                    id = FragmentHome.ID;
                     break;
                 case R.id.nav_request_status:
                     selectedFragment = FragmentRequestStatus.class;
-                    id = FragmentRequestStatus.ID;
                     break;
                 case R.id.nav_navigation:
                     if (MapFileSingleton.getInstance().getFile() != null)
                     {
                         selectedFragment = FragmentNavigation.class;
-                        id = FragmentNavigation.ID;
                     }
                     else
                     {

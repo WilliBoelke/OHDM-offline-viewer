@@ -28,7 +28,7 @@ import de.htwBerlin.ois.adapters.RecyclerAdapterLocalFiles;
 import de.htwBerlin.ois.adapters.RecyclerAdapterSwipeGestures;
 import de.htwBerlin.ois.adapters.SwipeCallbackLeft;
 import de.htwBerlin.ois.adapters.SwipeCallbackRight;
-import de.htwBerlin.ois.models.repositories.cacheRepostitories.MapFileSingleton;
+import de.htwBerlin.ois.models.repositories.localRepositories.MapFileSingleton;
 import de.htwBerlin.ois.viewModels.FragmentHomeViewModel;
 
 /**

@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData;
 import java.io.File;
 import java.util.ArrayList;
 
-import de.htwBerlin.ois.models.repositories.cacheRepostitories.MapFileSingleton;
 import de.htwBerlin.ois.views.mainActivity.MainActivity;
 
 

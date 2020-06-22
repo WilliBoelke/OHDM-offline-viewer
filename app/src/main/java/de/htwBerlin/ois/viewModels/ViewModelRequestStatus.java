@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModel;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-import de.htwBerlin.ois.models.repositories.remoteRepositories.RequestStatusRepository;
+import de.htwBerlin.ois.models.repositories.remoteRepositories.HttpRequestsRepository;
 
 import static de.htwBerlin.ois.serverCommunication.HttpClient.RESPONSE_NO_CONNECTION;
 import static de.htwBerlin.ois.serverCommunication.HttpClient.RESPONSE_NO_REQUESTS;
@@ -19,7 +19,7 @@ public class ViewModelRequestStatus extends ViewModel
     //------------Instance Variables------------
 
     private final String TAG = getClass().getSimpleName();
-    RequestStatusRepository requestStatusRepository;
+    HttpRequestsRepository requestStatusRepository;
     MutableLiveData<String> response;
     MutableLiveData<Boolean> requestReceived;
     MutableLiveData<Boolean> noConnection;
