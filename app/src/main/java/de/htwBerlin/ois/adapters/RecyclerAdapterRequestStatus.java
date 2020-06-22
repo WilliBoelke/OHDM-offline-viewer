@@ -1,7 +1,6 @@
 package de.htwBerlin.ois.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,32 +25,66 @@ public class RecyclerAdapterRequestStatus extends RecyclerView.Adapter<RecyclerA
      * This list will be altered when the user searches for maps
      */
     private ArrayList<String> requests;
-
     /**
      * This list will always contain all requests
      * Its here as a backup for the requests list
      */
     private ArrayList<String> requestsBackup;
-
     /**
      * Resource id for the RecyclerItem layout
      */
     private int resource;
-
-    /**
-     * Context
-     */
-    private Context context;
-
     /**
      * The on itemClickListener
      */
     private RecyclerAdapterRequestStatus.OnItemClickListener onItemClickListener;
 
-    private OnRecyclerItemButtonClicklistenner onButtonClickListener;
-
 
     //------------Constructors------------
+
+    /**
+     * Public constructor
+     *
+     */
+    public RecyclerAdapterRequestStatus(ArrayList<String> requests, int resource)
+    {
+        this.resource = resource;
+        this.requests = requests;
+        this.requestsBackup = new ArrayList<>(requests);
+    }
+
+
+    //------------Setter------------
+
+    /**
+     * Should be used to refresh the displayed data when using
+     * {@link androidx.lifecycle.LiveData} because i that case a simple
+     * .notifyDataSetChanged wont work
+     * @param requests
+     */
+    public void setData(ArrayList<String> requests)
+    {
+        this.requests = requests;
+        this.requestsBackup = new ArrayList<>(requests);
+        notifyDataSetChanged();
+    }
+
+
+    //------------OnClickListener------------
+
+    /**
+     * Setter for the implemented onItemClick method
+     *
+     * @param listener
+     */
+    public void setOnItemClickListener(RecyclerAdapterRequestStatus.OnItemClickListener listener)
+    {
+        this.onItemClickListener = listener;
+    }
+
+
+    //------------Filter (Name)------------
+
     private Filter nameFilter = new Filter()
     {
         @Override
@@ -87,29 +120,14 @@ public class RecyclerAdapterRequestStatus extends RecyclerView.Adapter<RecyclerA
         }
     };
 
-    /**
-     * Public constructor
-     *
-     * @param context
-     */
-    public RecyclerAdapterRequestStatus(Context context, ArrayList<String> requests, int resource)
+    @Override
+    public Filter getFilter()
     {
-        this.context = context;
-        this.resource = resource;
-        this.requests = requests;
-        this.requestsBackup = new ArrayList<>(requests);
+        return nameFilter;
     }
 
 
-    //------------OnClickListener------------
-
-    public void setData(ArrayList<String> requests)
-    {
-        Log.e("", "recycler -------------------------------");
-        this.requests = requests;
-        this.requestsBackup = new ArrayList<>(requests);
-        notifyDataSetChanged();
-    }
+    //------------RecyclerViewAdapter Methods------------
 
     @Override
     public int getItemCount()
@@ -117,31 +135,8 @@ public class RecyclerAdapterRequestStatus extends RecyclerView.Adapter<RecyclerA
         return requests.size();
     }
 
-    /**
-     * Setter for the implemented onItemClick method
-     *
-     * @param listener
-     */
-    public void setOnItemClickListener(RecyclerAdapterRequestStatus.OnItemClickListener listener)
-    {
-        this.onItemClickListener = listener;
-    }
 
-
-    //------------Filter (Name)------------
-
-    public void setOnItemButtonClickListener(OnRecyclerItemButtonClicklistenner listener)
-    {
-        this.onButtonClickListener = listener;
-    }
-
-    @Override
-    public Filter getFilter()
-    {
-        return nameFilter;
-    }
-
-    //------------RecyclerViewAdapter Methods------------
+    //------------View Holder------------
 
     @NonNull
     @Override
@@ -150,9 +145,6 @@ public class RecyclerAdapterRequestStatus extends RecyclerView.Adapter<RecyclerA
         View view = LayoutInflater.from(parent.getContext()).inflate(resource, parent, false);
         return new RecyclerAdapterRequestStatus.RequestStatusViewHolder(view, this.onItemClickListener);
     }
-
-
-    //------------View Holder------------
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerAdapterRequestStatus.RequestStatusViewHolder requestStatusViewHolder, final int position)
@@ -183,7 +175,6 @@ public class RecyclerAdapterRequestStatus extends RecyclerView.Adapter<RecyclerA
                 break;
         }
     }
-
 
     /**
      * An interface to define the

@@ -24,7 +24,7 @@ import de.htwBerlin.ois.R;
 import de.htwBerlin.ois.adapters.RecyclerAdapterRemoteFiles;
 import de.htwBerlin.ois.adapters.RecyclerAdapterRequestStatus;
 import de.htwBerlin.ois.serverCommunication.HttpClient;
-import de.htwBerlin.ois.viewModels.FragmentRequestStatusViewModel;
+import de.htwBerlin.ois.viewModels.ViewModelRequestStatus;
 
 
 public class FragmentRequestStatus extends FragmentWithServerConnection
@@ -40,7 +40,7 @@ public class FragmentRequestStatus extends FragmentWithServerConnection
     private RecyclerAdapterRequestStatus adapterRequestStatus;
     private final String TAG = getClass().getSimpleName();
     private RecyclerView statusRecycler;
-    private FragmentRequestStatusViewModel viewModel;
+    private ViewModelRequestStatus viewModel;
 
 
     //------------Static Variables------------
@@ -80,7 +80,7 @@ public class FragmentRequestStatus extends FragmentWithServerConnection
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
         Log.d(TAG, "onActivityCreated : initializing ViewModel");
-        viewModel = ViewModelProviders.of(this).get(FragmentRequestStatusViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(ViewModelRequestStatus.class);
         viewModel.init();
         //Observer
         Log.d(TAG, "onActivityCreated : setup  observer");

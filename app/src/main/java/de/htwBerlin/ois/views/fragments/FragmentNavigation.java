@@ -125,7 +125,6 @@ public class FragmentNavigation extends Fragment
         {
             Toast.makeText(getActivity().getApplicationContext(), "Your map file is invalid", Toast.LENGTH_LONG).show();
         }
-
     }
 
     /**

@@ -25,11 +25,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 
 import de.htwBerlin.ois.R;
-import de.htwBerlin.ois.adapters.OnRecyclerItemButtonClicklistenner;
+import de.htwBerlin.ois.adapters.OnRecyclerItemDownloadButtonClick;
 import de.htwBerlin.ois.adapters.RecyclerAdapterRemoteFiles;
 import de.htwBerlin.ois.models.fileStructure.RemoteFile;
 import de.htwBerlin.ois.serverCommunication.Client;
-import de.htwBerlin.ois.viewModels.FragmentDownloadCenterAllViewModel;
+import de.htwBerlin.ois.viewModels.ViewModelDownloadCenterAll;
 
 /**
  * This Activity represents a small map file download center
@@ -55,13 +55,14 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
     /**
      * The ViewModel of this Fragment
      */
-    private FragmentDownloadCenterAllViewModel viewModel;
+    private ViewModelDownloadCenterAll viewModel;
     /**
      * The recyclerView
      */
     private RecyclerView allMapsRecyclerView;
     private RecyclerView mostRecentMapsRecyclerView;
     private Client client;
+
 
     //------------Static Variables------------
     /**
@@ -92,7 +93,7 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
     public void onActivityCreated(@Nullable Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
-        viewModel = ViewModelProviders.of(this).get(FragmentDownloadCenterAllViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(ViewModelDownloadCenterAll.class);
         viewModel.init();
 
         setHasOptionsMenu(true);
@@ -133,7 +134,6 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
             }
         });
     }
-
 
     private void onMostRecentMapsChangeObserver()
     {
@@ -190,13 +190,13 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
         allRecyclerAdapter = new RecyclerAdapterRemoteFiles(getActivity().getApplicationContext(), viewModel.getAllMaps().getValue(), R.layout.recycler_item_vertical);
 
         //OnClickListener for the button inside the RecyclerView item layout
-        allRecyclerAdapter.setOnItemButtonClickListener(new OnRecyclerItemButtonClicklistenner()
+        allRecyclerAdapter.setOnItemButtonClickListener(new OnRecyclerItemDownloadButtonClick()
         {
             @Override
-            public void onButtonClick(int position)
+            public void onButtonClick(RemoteFile fileToDownload)
             {
                 Toast.makeText(getContext(), "Download started", Toast.LENGTH_SHORT).show();
-                viewModel.downloadMap(position);
+                viewModel.downloadMap(fileToDownload);
             }
         });
         allMapsRecyclerView.setLayoutManager(recyclerLayoutManager);
@@ -221,13 +221,13 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
         //The recycler adapter
         mostRecentMapsRecyclerAdapter = new RecyclerAdapterRemoteFiles(getActivity().getApplicationContext(), viewModel.getMostRecentMaps().getValue(), R.layout.recycler_item_horizonal);
 
-        mostRecentMapsRecyclerAdapter.setOnItemButtonClickListener(new OnRecyclerItemButtonClicklistenner()
+        mostRecentMapsRecyclerAdapter.setOnItemButtonClickListener(new OnRecyclerItemDownloadButtonClick()
         {
             @Override
-            public void onButtonClick(int position)
+            public void onButtonClick(RemoteFile fileToDownload)
             {
                 Toast.makeText(getContext(), "Download started", Toast.LENGTH_SHORT).show();
-                viewModel.downloadMap(position);
+                viewModel.downloadMap(fileToDownload);
             }
         });
 

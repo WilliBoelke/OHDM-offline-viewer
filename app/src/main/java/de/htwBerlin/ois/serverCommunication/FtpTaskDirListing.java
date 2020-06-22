@@ -36,10 +36,6 @@ public class FtpTaskDirListing extends AsyncTask<Void, Void, String>
      */
     private AsyncResponse delegate;
     /**
-     * Context
-     */
-    private WeakReference<Context> context;
-    /**
      * The path to the directory
      */
     private String path;
@@ -51,16 +47,14 @@ public class FtpTaskDirListing extends AsyncTask<Void, Void, String>
     /**
      * Public Constructor
      *
-     * @param context
      * @param path
      * @param asyncResponse
      */
-    public FtpTaskDirListing(Context context, String path, AsyncResponse asyncResponse)
+    public FtpTaskDirListing( String path, AsyncResponse asyncResponse)
     {
         Log.d(TAG, "Constructor : new FtpTaskDirListing with : path  = " + path);
         this.delegate = asyncResponse;
         this.path = path;
-        this.context = new WeakReference<Context>(context);
     }
 
 

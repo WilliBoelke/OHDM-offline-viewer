@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -19,17 +21,15 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import de.htwBerlin.ois.R;
+import de.htwBerlin.ois.adapters.OnRecyclerItemDownloadButtonClick;
+import de.htwBerlin.ois.adapters.RecyclerAdapterRemoteDirectories;
 import de.htwBerlin.ois.models.fileStructure.RemoteDirectory;
 import de.htwBerlin.ois.models.fileStructure.RemoteFile;
-import de.htwBerlin.ois.models.repositories.cacheRepostitories.RemoteListsSingleton;
-import de.htwBerlin.ois.serverCommunication.AsyncResponse;
 import de.htwBerlin.ois.serverCommunication.Client;
-import de.htwBerlin.ois.serverCommunication.FtpTaskDirListing;
-import de.htwBerlin.ois.adapters.RecyclerAdapterRemoteDirectories;
-
-import static de.htwBerlin.ois.serverCommunication.Variables.FTP_ROOT_DIRECTORY;
+import de.htwBerlin.ois.viewModels.ViewModelMapDownloadCenterCategories;
 
 
 public class FragmentDownloadCenterCategories extends FragmentWithServerConnection
@@ -46,55 +46,16 @@ public class FragmentDownloadCenterCategories extends FragmentWithServerConnecti
      */
     private View view;
     /**
-     * The list of directories from the FTP server
-     */
-    private ArrayList<RemoteDirectory> directoryList;
-    /**
      * The RecyclerAdapter
      */
     private RecyclerAdapterRemoteDirectories recyclerViewAdapter;
-
+    private ViewModelMapDownloadCenterCategories viewModel;
     private Client client;
 
 
     //------------Activity/Fragment Lifecycle------------
-    /**
-     * Code to be executed after the FtpTaskDirListing finished
-     */
-    private AsyncResponse asyncResponseDirListing = new AsyncResponse()
-    {
-        @Override
-        public void getRemoteFiles(ArrayList<RemoteFile> remoteFiles)
-        {
-
-        }
-
-        @Override
-        public void getRemoteDirectories(ArrayList<RemoteDirectory> dirs)
-        {
-            if (dirs.size() != 0)
-            {
-                directoryList.clear();
-                directoryList.addAll(dirs);
-                recyclerViewAdapter.notifyDataSetChanged();
-                changeVisibilities(STATE_CONNECTED);
-            }
-            else
-            {
-                changeVisibilities(STATE_NO_CONNECTION);
-            }
-
-        }
-
-        @Override
-        public void getHttpResponse(String response)
-        {
-            //Not needed here
-        }
-    };
 
 
-    //------------Activity/Fragment Lifecycle------------
     public FragmentDownloadCenterCategories(Client client)
     {
         this.client = client;
@@ -113,24 +74,67 @@ public class FragmentDownloadCenterCategories extends FragmentWithServerConnecti
     public void onActivityCreated(@Nullable Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
-        directoryList = new ArrayList<>();
+        viewModel = ViewModelProviders.of(this).get(ViewModelMapDownloadCenterCategories.class);
+        viewModel.init();
         setHasOptionsMenu(true);
+
+        //Setup Observers
+        this.setupOnDirectoriesChangeObserver();
+        this.setupOnDirectoriesContentsChangeObserver();
+        //Setup Views
         this.setupDirRecycler();
-        this.changeVisibilities(STATE_CONNECTING);
         this.setupToAllMapsButton();
         this.setupFAB();
-        this.restoreFiles();
         this.setupSwipeToRefresh();
+        this.changeVisibilities(STATE_CONNECTING);
     }
+
+    //------------Setup Observers------------
+
+    private void setupOnDirectoriesChangeObserver()
+    {
+        viewModel.getDirectories().observe(this.getViewLifecycleOwner(), new Observer<ArrayList<RemoteDirectory>>()
+        {
+            @Override
+            public void onChanged(ArrayList<RemoteDirectory> remoteDirectories)
+            {
+                if (remoteDirectories.size() == 0)
+                {
+                    changeVisibilities(STATE_NO_CONNECTION);
+                }
+                else
+                {
+                    changeVisibilities(STATE_CONNECTED);
+                    recyclerViewAdapter.setDirectories(remoteDirectories);
+                }
+            }
+        });
+    }
+
+
+    private void setupOnDirectoriesContentsChangeObserver()
+    {
+        viewModel.getDirectoriesContents().observe(this.getViewLifecycleOwner(), new Observer<HashMap<String, ArrayList<RemoteFile>>>()
+        {
+            @Override
+            public void onChanged(HashMap<String, ArrayList<RemoteFile>> dirContents)
+            {
+                if (dirContents.size() == 0)
+                {
+                    changeVisibilities(STATE_NO_CONNECTION);
+                }
+                else
+                {
+                    changeVisibilities(STATE_CONNECTED);
+                    recyclerViewAdapter.setDirectoryContents(dirContents);
+                }
+            }
+        });
+
+    }
+
 
     //------------Setup Views------------
-
-    @Override
-    public void onPause()
-    {
-        super.onPause();
-        this.storeFiles();
-    }
 
     /**
      * Setup for the directory recycler.
@@ -146,9 +150,15 @@ public class FragmentDownloadCenterCategories extends FragmentWithServerConnecti
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this.getContext());
 
         //The recycler adapter
-        recyclerViewAdapter = new RecyclerAdapterRemoteDirectories(getActivity().getApplicationContext(), directoryList, R.layout.recycler_item_directory, client);
-
-
+        recyclerViewAdapter = new RecyclerAdapterRemoteDirectories(getActivity().getApplicationContext(), viewModel.getDirectories().getValue(), viewModel.getDirectoriesContents().getValue(), R.layout.recycler_item_directory);
+        recyclerViewAdapter.setOnItemButtonClickListener(new OnRecyclerItemDownloadButtonClick()
+        {
+            @Override
+            public void onButtonClick(RemoteFile fileToDownload)
+            {
+                viewModel.downloadMap(fileToDownload);
+            }
+        });
         //Putting everything together
         dirRecycler.setLayoutManager(recyclerLayoutManager);
         dirRecycler.setAdapter(recyclerViewAdapter);
@@ -167,6 +177,7 @@ public class FragmentDownloadCenterCategories extends FragmentWithServerConnecti
         });
     }
 
+
     private void setupSwipeToRefresh()
     {
         final SwipeRefreshLayout swipeToRefreshLayout = view.findViewById(R.id.swipe_to_refresh);
@@ -177,7 +188,7 @@ public class FragmentDownloadCenterCategories extends FragmentWithServerConnecti
             {
                 swipeToRefreshLayout.setRefreshing(true);
                 changeVisibilities(STATE_CONNECTING);
-                FTPGetDirectories();
+                viewModel.refresh();
                 setupDirRecycler();
                 swipeToRefreshLayout.setRefreshing(false);
             }
@@ -201,39 +212,34 @@ public class FragmentDownloadCenterCategories extends FragmentWithServerConnecti
         });
     }
 
-    private void FTPGetDirectories()
-    {
-        FtpTaskDirListing dirListing = new FtpTaskDirListing(getActivity(), FTP_ROOT_DIRECTORY, asyncResponseDirListing);
-        dirListing.execute();
-    }
-
 
     //------------Save/Restore Instance State------------
 
-    private void storeFiles()
-    {
-        RemoteListsSingleton.getInstance().setDirectories(this.directoryList);
-    }
-
-    private void restoreFiles()
-    {
-        if (RemoteListsSingleton.getInstance().getDirectories().size() != 0)
-        {
-            this.directoryList.clear();
-            this.directoryList.addAll(RemoteListsSingleton.getInstance().getDirectories());
-            this.changeVisibilities(STATE_CONNECTED);
-        }
-        else
-        {
-            FTPGetDirectories();
-            recyclerViewAdapter.notifyDataSetChanged();
-        }
-
-    }
+    /**
+     * private void storeFiles()
+     * {
+     * RemoteListsSingleton.getInstance().setDirectories(this.directoryList);
+     * }
+     * <p>
+     * private void restoreFiles()
+     * {
+     * if (RemoteListsSingleton.getInstance().getDirectories().size() != 0)
+     * {
+     * this.directoryList.clear();
+     * this.directoryList.addAll(RemoteListsSingleton.getInstance().getDirectories());
+     * this.changeVisibilities(STATE_CONNECTED);
+     * }
+     * else
+     * {
+     * FTPGetDirectories();
+     * recyclerViewAdapter.notifyDataSetChanged();
+     * }
+     * <p>
+     * }
+     **/
 
 
     //------------Fragment With Server Connection Methods------------
-
     @Override
     protected void onNoConnection()
     {

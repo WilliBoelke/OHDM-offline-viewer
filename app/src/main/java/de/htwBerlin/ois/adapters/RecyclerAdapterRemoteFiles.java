@@ -19,11 +19,11 @@ import de.htwBerlin.ois.models.fileStructure.RemoteFile;
 
 
 /**
- *  RecyclerViewAdapter for remoteFiles (->means files from the S/FTP server)
+ * RecyclerViewAdapter for remoteFiles (->means files from the S/FTP server)
  *
  * @author WilliBölke
  */
-public class RecyclerAdapterRemoteFiles extends RecyclerView.Adapter<RecyclerAdapterRemoteFiles.OhdmFileViewHolder> implements Filterable
+public class RecyclerAdapterRemoteFiles extends RecyclerView.Adapter<RecyclerAdapterRemoteFiles.RemoteFileFileViewHolder> implements Filterable
 {
 
     //------------Instance Variables------------
@@ -40,11 +40,7 @@ public class RecyclerAdapterRemoteFiles extends RecyclerView.Adapter<RecyclerAda
     /**
      * Resource id for the RecyclerItem layout
      */
-    private int ressource;
-    /**
-     * Context
-     */
-    private Context context;
+    private int resource;
     /**
      * The on itemClickListener
      */
@@ -52,7 +48,7 @@ public class RecyclerAdapterRemoteFiles extends RecyclerView.Adapter<RecyclerAda
     /**
      * On click listener for the button inside the recycler view item
      */
-    private OnRecyclerItemButtonClicklistenner onButtonClickListener;
+    private OnRecyclerItemDownloadButtonClick onButtonClickListener;
 
 
     //------------Constructors------------
@@ -60,20 +56,22 @@ public class RecyclerAdapterRemoteFiles extends RecyclerView.Adapter<RecyclerAda
     /**
      * Public constructor
      *
-     * @param context
      * @param remoteFiles
      * @param resource
      */
-    public RecyclerAdapterRemoteFiles(Context context, ArrayList<RemoteFile> remoteFiles, int resource)
+    public RecyclerAdapterRemoteFiles(ArrayList<RemoteFile> remoteFiles, int resource)
     {
-        this.context = context;
-        this.ressource = resource;
+        this.resource = resource;
         this.setData(remoteFiles);
     }
 
+
+    //------------Setter------------
+
     /**
-     * Sets the displayed list and the backup list,
-     * this can't be done just with the constructor when using LiveData
+     * Should be used to refresh the displayed data when using
+     * {@link androidx.lifecycle.LiveData} because i that case a simple
+     * .notifyDataSetChanged wont work
      * @param remoteFiles
      */
     public void setData(ArrayList<RemoteFile> remoteFiles)
@@ -99,12 +97,6 @@ public class RecyclerAdapterRemoteFiles extends RecyclerView.Adapter<RecyclerAda
         void onItemClick(int position);
     }
 
-    @Override
-    public int getItemCount()
-    {
-        return remoteFiles.size();
-    }
-
     /**
      * Setter for the implemented onItemClick method
      *
@@ -115,7 +107,7 @@ public class RecyclerAdapterRemoteFiles extends RecyclerView.Adapter<RecyclerAda
         this.onItemClickListener = listener;
     }
 
-    public void setOnItemButtonClickListener(OnRecyclerItemButtonClicklistenner listener)
+    public void setOnItemButtonClickListener(OnRecyclerItemDownloadButtonClick listener)
     {
         this.onButtonClickListener = listener;
     }
@@ -124,13 +116,19 @@ public class RecyclerAdapterRemoteFiles extends RecyclerView.Adapter<RecyclerAda
     //------------RecyclerViewAdapter Methods------------
 
     @Override
-    public Filter getFilter()
+    public int getItemCount()
     {
-        return nameFilter;
+        return remoteFiles.size();
     }
 
 
     //------------Filter (Name)------------
+
+    @Override
+    public Filter getFilter()
+    {
+        return nameFilter;
+    }
 
     private Filter nameFilter = new Filter()
     {
@@ -172,31 +170,32 @@ public class RecyclerAdapterRemoteFiles extends RecyclerView.Adapter<RecyclerAda
 
     @NonNull
     @Override
-    public OhdmFileViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i)
+    public RemoteFileFileViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i)
     {
-        View view = LayoutInflater.from(parent.getContext()).inflate(ressource, parent, false);
-        return new RecyclerAdapterRemoteFiles.OhdmFileViewHolder(view, this.onItemClickListener);
+        View view = LayoutInflater.from(parent.getContext()).inflate(resource, parent, false);
+        return new RemoteFileFileViewHolder(view, this.onItemClickListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerAdapterRemoteFiles.OhdmFileViewHolder ohdmFileViewHolder, final int position)
+    public void onBindViewHolder(@NonNull RemoteFileFileViewHolder ohdmFileViewHolder, final int position)
     {
-        RemoteFile currentOhdmFile = this.remoteFiles.get(position);
-        String name = currentOhdmFile.getFilename();
+        RemoteFile currentRemoteFileFile = this.remoteFiles.get(position);
+        String name = currentRemoteFileFile.getFilename();
         name = name.replace(".map", "");
         ohdmFileViewHolder.nameTextView.setText(name);
-        ohdmFileViewHolder.sizeTextView.setText((int) (double) (currentOhdmFile.getFileSize() / 1024) + " KB");
-        ohdmFileViewHolder.dateTextView.setText(currentOhdmFile.getCreationDate());
+        ohdmFileViewHolder.sizeTextView.setText((int) (double) (currentRemoteFileFile.getFileSize() / 1024) + " KB");
+        ohdmFileViewHolder.dateTextView.setText(currentRemoteFileFile.getCreationDate());
         ohdmFileViewHolder.downloadbutton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                onButtonClickListener.onButtonClick(position);
+                onButtonClickListener.onButtonClick(currentRemoteFileFile);
             }
         });
     }
-    protected static class OhdmFileViewHolder extends RecyclerView.ViewHolder
+
+    protected static class RemoteFileFileViewHolder extends RecyclerView.ViewHolder
     {
 
         public TextView nameTextView;
@@ -204,7 +203,7 @@ public class RecyclerAdapterRemoteFiles extends RecyclerView.Adapter<RecyclerAda
         public TextView dateTextView;
         public Button downloadbutton;
 
-        public OhdmFileViewHolder(@NonNull View itemView, final RecyclerAdapterRemoteFiles.OnItemClickListener listener)
+        public RemoteFileFileViewHolder(@NonNull View itemView, final RecyclerAdapterRemoteFiles.OnItemClickListener listener)
         {
             super(itemView);
             sizeTextView = itemView.findViewById(R.id.map_size_tv);

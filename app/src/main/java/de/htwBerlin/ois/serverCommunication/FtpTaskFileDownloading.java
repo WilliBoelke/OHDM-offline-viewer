@@ -21,23 +21,21 @@ public class FtpTaskFileDownloading extends AsyncTask<RemoteFile, Integer, Long>
     //------------Instance Variables------------
 
     private final String TAG = getClass().getSimpleName();
-    private WeakReference<Context> context;
     private SftpClient sftpClient;
 
 
     //------------Constructors------------
 
-    public FtpTaskFileDownloading(Context context)
+    public FtpTaskFileDownloading()
     {
         Log.d(TAG, "Constructor : new FtpTaskFileDownloading with");
-        this.context = new WeakReference(context);
     }
 
 
     //------------AsyncTask Implementation------------
 
     @Override
-    protected Long doInBackground(RemoteFile[] ohdmFile)
+    protected Long doInBackground(RemoteFile[] remoteFile)
     {
         Log.d(TAG, "doingInBackground : initializing new FtpClient ");
         if (sftpClient == null)
@@ -49,7 +47,7 @@ public class FtpTaskFileDownloading extends AsyncTask<RemoteFile, Integer, Long>
         Log.d(TAG, "doingInBackground : connected to FtpClient");
 
         Log.d(TAG, "doingInBackground : starting file download...");
-        sftpClient.downloadFile(ohdmFile[0].getFilename(), ohdmFile[0].getPath());
+        sftpClient.downloadFile(remoteFile[0].getFilename(), remoteFile[0].getPath());
         Log.d(TAG, "doingInBackground :  download finished successfully");
 
         Log.d(TAG, "doingInBackground :  closing server connection");
@@ -60,8 +58,9 @@ public class FtpTaskFileDownloading extends AsyncTask<RemoteFile, Integer, Long>
     @Override
     protected void onPostExecute(Long params)
     {
-        Context context = this.context.get();
-        Toast.makeText(context, "Download Finished", Toast.LENGTH_SHORT).show();
+        // Context context = this.context.get();
+      //  TODO
+       // Toast.makeText(context, "Download Finished", Toast.LENGTH_SHORT).show();
     }
 
     public void insertMockSftpClient(SftpClient mockSftpClient)

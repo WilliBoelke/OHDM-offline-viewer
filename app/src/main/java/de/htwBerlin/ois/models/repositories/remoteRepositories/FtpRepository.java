@@ -5,29 +5,41 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import de.htwBerlin.ois.models.fileStructure.RemoteDirectory;
 import de.htwBerlin.ois.models.fileStructure.RemoteFile;
 import de.htwBerlin.ois.serverCommunication.AsyncResponse;
+import de.htwBerlin.ois.serverCommunication.FtpTaskDirListing;
+import de.htwBerlin.ois.serverCommunication.FtpTaskFileDownloading;
 import de.htwBerlin.ois.serverCommunication.FtpTaskFileListing;
 import de.htwBerlin.ois.serverCommunication.SftpClient;
 
 import static de.htwBerlin.ois.serverCommunication.Variables.FTP_ROOT_DIRECTORY;
 import static de.htwBerlin.ois.serverCommunication.Variables.MOST_RECENT_PATH;
 
+/**
+ * This Repository manages all access to the ftp server
+ */
 public class FtpRepository
 {
-    private static  FtpRepository instance;
+    private static FtpRepository instance;
     private final String TAG = this.getClass().getSimpleName();
     private MutableLiveData<ArrayList<RemoteFile>> allMaps;
     private MutableLiveData<ArrayList<RemoteFile>> mostRecentMaps;
+    private MutableLiveData<ArrayList<RemoteDirectory>> directories;
+    /**
+     * Stores K/V pairs where the String is the name of the
+     * RemoteDirectory and the ArrayList the contents of the named dir
+     */
+    private MutableLiveData<HashMap<String, ArrayList<RemoteFile>>> remoteDirectoriesContents;
 
     private FtpRepository()
     {
-        allMaps = new MutableLiveData<>();
-        mostRecentMaps = new MutableLiveData<>();
-        allMaps.setValue(new ArrayList<>());
-        mostRecentMaps.setValue(new ArrayList<>());
+        allMaps = new MutableLiveData<>(new ArrayList<>());
+        mostRecentMaps = new MutableLiveData<>(new ArrayList<>());
+        directories = new MutableLiveData<>(new ArrayList<>());
+        remoteDirectoriesContents = new MutableLiveData<>(new HashMap<>());
         refresh();
     }
 
@@ -40,10 +52,14 @@ public class FtpRepository
         return instance;
     }
 
-
     public MutableLiveData<ArrayList<RemoteFile>> getMapsFrom(String path)
     {
         return null;
+    }
+
+    public  MutableLiveData<HashMap<String, ArrayList<RemoteFile>>> getDirectoryContents()
+    {
+        return remoteDirectoriesContents;
     }
 
     public MutableLiveData<ArrayList<RemoteFile>> getMostRecentMaps()
@@ -57,7 +73,12 @@ public class FtpRepository
         return allMaps;
     }
 
-    private void getRemoteFilesFrom(String path, MutableLiveData<ArrayList<RemoteFile>> liveData)
+    public MutableLiveData<ArrayList<RemoteDirectory>> getDirectories()
+    {
+        return directories;
+    }
+
+    private void retrieveRemoteFilesFrom(String path, MutableLiveData<ArrayList<RemoteFile>> liveData)
     {
         FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(path, new SftpClient(), true, new AsyncResponse()
         {
@@ -91,15 +112,97 @@ public class FtpRepository
         ftpTaskFileListing.execute();
     }
 
+    private void retrieveRemoteDirectories()
+    {
+        FtpTaskDirListing dirListing = new FtpTaskDirListing(FTP_ROOT_DIRECTORY, new AsyncResponse()
+        {
+            @Override
+            public void getRemoteFiles(ArrayList<RemoteFile> remoteFiles)
+            {
+
+            }
+
+            @Override
+            public void getRemoteDirectories(ArrayList<RemoteDirectory> dirs)
+            {
+                if (dirs.size() == 0)
+                {
+
+                }
+                else
+                {
+                    directories.postValue(dirs);
+                    for (RemoteDirectory d : dirs)
+                    {
+                        retrieveDirContent(d.getPath());
+                    }
+                }
+            }
+
+            @Override
+            public void getHttpResponse(String response)
+            {
+                //Not needed here
+            }
+        });
+        dirListing.execute();
+    }
+
+    private void retrieveDirContent(String path)
+    {
+        FtpTaskFileListing ftpTaskFileListing = new FtpTaskFileListing(path, new SftpClient(), false, new AsyncResponse()
+        {
+            @Override
+            public void getRemoteFiles(ArrayList<RemoteFile> remoteFiles)
+            {
+                if (remoteFiles.size() == 0) // Server directory was empty or server hasn't responded
+                {
+
+                }
+                else
+                {
+                    Log.i(TAG, "received " + remoteFiles.size() + " files.");
+                    HashMap<String, ArrayList<RemoteFile>> temp = remoteDirectoriesContents.getValue();
+                    temp.put(path, remoteFiles);
+                    remoteDirectoriesContents.postValue(temp);
+                }
+
+            }
+
+            @Override
+            public void getRemoteDirectories(ArrayList<RemoteDirectory> dirs)
+            {
+                //No need to be implemented here
+            }
+
+            @Override
+            public void getHttpResponse(String response)
+            {
+                //Not needed here
+            }
+        }); ftpTaskFileListing.execute();
+    }
+
     public void refresh()
     {
         Log.d(TAG, "Refresh called");
-        getRemoteFilesFrom(MOST_RECENT_PATH, mostRecentMaps);
-        getRemoteFilesFrom(FTP_ROOT_DIRECTORY, allMaps);
+        retrieveRemoteFilesFrom(MOST_RECENT_PATH, mostRecentMaps);
+        retrieveRemoteFilesFrom(FTP_ROOT_DIRECTORY, allMaps);
+        retrieveRemoteDirectories();
     }
 
-    public void downloadMap(int index)
+    /**
+     *Starts the executing of an AsyncTask witch downloads the passed remoteFile
+     *
+     * Using a remoteFile instead of an index
+     * because we are working with several different
+     * lists an thou with different indices
+     *
+     * @param fileToDownload The file7map to be downloaded
+     */
+    public void downloadMap(RemoteFile fileToDownload)
     {
-
+        FtpTaskFileDownloading ftpTaskFileDownloading = new FtpTaskFileDownloading();
+        ftpTaskFileDownloading.execute(fileToDownload);
     }
 }

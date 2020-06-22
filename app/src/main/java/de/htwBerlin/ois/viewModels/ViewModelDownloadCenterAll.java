@@ -11,19 +11,28 @@ import java.util.ArrayList;
 import de.htwBerlin.ois.models.fileStructure.RemoteFile;
 import de.htwBerlin.ois.models.repositories.remoteRepositories.FtpRepository;
 
-public class FragmentDownloadCenterAllViewModel extends ViewModel
+/**
+ * ViewModel for the {@link de.htwBerlin.ois.views.fragments.FragmentDownloadCenterAll}
+ * Communicates with the {@link FtpRepository} to retrieve the Data
+ *
+ * @author  WilliBoelke
+ */
+public class ViewModelDownloadCenterAll extends ViewModel
 {
+
     //------------Instance Variables------------
 
-    /**
-     *
-     */
     private MutableLiveData<ArrayList<RemoteFile>> allMaps;
     private MutableLiveData<ArrayList<RemoteFile>> mostRecentMaps;
     private final String TAG = getClass().getSimpleName();
     private FtpRepository ftpRepository;
 
 
+    //------------Constructors------------
+
+    /**
+     * Initializes all necessary Objects for the first time
+     */
     public void init()
     {
         Log.d(TAG, "init : initializing ");
@@ -32,6 +41,8 @@ public class FragmentDownloadCenterAllViewModel extends ViewModel
         mostRecentMaps = ftpRepository.getInstance().getMostRecentMaps();
     }
 
+
+    //------------Getter------------
 
     public LiveData<ArrayList<RemoteFile>> getAllMaps()
     {
@@ -43,13 +54,24 @@ public class FragmentDownloadCenterAllViewModel extends ViewModel
         return mostRecentMaps;
     }
 
-    public void downloadMap(int index)
+
+    //------------Others------------
+
+    /**
+     * Starts the download of a RemoteFile via the FtpRepository
+     * @param fileToDownload
+     */
+    public void downloadMap(RemoteFile fileToDownload)
     {
-        ftpRepository.downloadMap(index);
+        ftpRepository.downloadMap(fileToDownload);
     }
 
+    /**
+     * Triggers a refresh of ALL data manged by the {@link FtpRepository}
+     * thou also for the data displayed by the {@link de.htwBerlin.ois.views.fragments.FragmentDownloadCenterCategories}
+     */
     public void refresh()
     {
-         ftpRepository.getInstance().refresh();
+         ftpRepository.refresh();
     }
 }

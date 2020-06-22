@@ -14,7 +14,7 @@ import de.htwBerlin.ois.models.repositories.remoteRepositories.RequestStatusRepo
 import static de.htwBerlin.ois.serverCommunication.HttpClient.RESPONSE_NO_CONNECTION;
 import static de.htwBerlin.ois.serverCommunication.HttpClient.RESPONSE_NO_REQUESTS;
 
-public class FragmentRequestStatusViewModel extends ViewModel
+public class ViewModelRequestStatus extends ViewModel
 {
     //------------Instance Variables------------
 
