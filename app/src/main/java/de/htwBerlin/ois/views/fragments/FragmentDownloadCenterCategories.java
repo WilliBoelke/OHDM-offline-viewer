@@ -1,6 +1,7 @@
 package de.htwBerlin.ois.views.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -79,7 +80,6 @@ public class FragmentDownloadCenterCategories extends FragmentWithServerConnecti
         setHasOptionsMenu(true);
 
         //Setup Observers
-        this.setupOnDirectoriesChangeObserver();
         this.setupOnDirectoriesContentsChangeObserver();
         //Setup Views
         this.setupDirRecycler();
@@ -89,28 +89,8 @@ public class FragmentDownloadCenterCategories extends FragmentWithServerConnecti
         this.changeVisibilities(STATE_CONNECTING);
     }
 
+
     //------------Setup Observers------------
-
-    private void setupOnDirectoriesChangeObserver()
-    {
-        viewModel.getDirectories().observe(this.getViewLifecycleOwner(), new Observer<ArrayList<RemoteDirectory>>()
-        {
-            @Override
-            public void onChanged(ArrayList<RemoteDirectory> remoteDirectories)
-            {
-                if (remoteDirectories.size() == 0)
-                {
-                    changeVisibilities(STATE_NO_CONNECTION);
-                }
-                else
-                {
-                    changeVisibilities(STATE_CONNECTED);
-                    recyclerViewAdapter.setDirectories(remoteDirectories);
-                }
-            }
-        });
-    }
-
 
     private void setupOnDirectoriesContentsChangeObserver()
     {
@@ -126,7 +106,7 @@ public class FragmentDownloadCenterCategories extends FragmentWithServerConnecti
                 else
                 {
                     changeVisibilities(STATE_CONNECTED);
-                    recyclerViewAdapter.setDirectoryContents(dirContents);
+                    recyclerViewAdapter.setData(viewModel.getDirectories().getValue(), dirContents );
                 }
             }
         });

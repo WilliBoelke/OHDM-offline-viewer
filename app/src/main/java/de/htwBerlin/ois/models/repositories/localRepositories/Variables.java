@@ -1,4 +1,4 @@
-package de.htwBerlin.ois.serverCommunication;
+package de.htwBerlin.ois.models.repositories.localRepositories;
 
 import android.os.Environment;
 
@@ -7,7 +7,16 @@ import android.os.Environment;
  */
 public class Variables
 {
+
+    private Variables()
+    {
+        //ot to be initialized
+    }
+
     public static final String MAP_FILE_PATH = Environment.getExternalStorageDirectory().toString() + "/OHDM";
+
+
+    //------------Server------------
 
     public static final String MOST_RECENT_PATH = "/last_requests";
     /**
@@ -18,30 +27,33 @@ public class Variables
      * The remote server ip
      * (For localhost in android emulator set to "10.0.2.2")
      */
-    protected static final String SERVER_IP = "ohm.f4.htw-berlin.de";
+    public static final String SERVER_IP = "ohm.f4.htw-berlin.de";
     /**
      * The remote server port for HTTP requests
      */
-    protected static final int HTTP_PORT = 5001;
+    public static final int HTTP_PORT = 5001;
     /**
      * the remote server port for ftp requests
      */
-    protected static final int FTP_PORT = 5000;
+    public static final int FTP_PORT = 5000;
     /**
      * the remote server port for sftp requests
      */
-    protected static final int SFTP_PORT = 5002;
+    public static final int SFTP_PORT = 5002;
     /**
      * The username for ftp requests
      */
-    protected static final String USER_NAME = "ohdmOffViewer";
+    public static final String USER_NAME = "ohdmOffViewer";
     /**
      * The remote server user password
      */
-    protected static final String USER_PASSWORD = "H!3r0glyph Sat3llite Era$er";
+    public static final String USER_PASSWORD = "H!3r0glyph Sat3llite Era$er";
 
-    private Variables()
-    {
-        //ot to be initialized
-    }
+
+    //------------Permissions------------
+
+    public static final int REQUEST_CODE_ACCESS_LOCATION_PERMISSION = 34;
+    public static final int REQUEST_CODE_WRITE_STORAGE_PERMISSION = 56;
+    public static final int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
+
 }

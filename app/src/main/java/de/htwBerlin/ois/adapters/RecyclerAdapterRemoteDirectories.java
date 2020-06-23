@@ -1,6 +1,7 @@
 package de.htwBerlin.ois.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,8 +68,7 @@ public class RecyclerAdapterRemoteDirectories extends RecyclerView.Adapter<Recyc
     {
         this.context = context;
         this.resource = resource;
-        this.setDirectories(directories);
-        this.setDirectoryContents(dirContents);
+        this.setData(directories, dirContents);
     }
 
 
@@ -78,23 +78,14 @@ public class RecyclerAdapterRemoteDirectories extends RecyclerView.Adapter<Recyc
      * Should be used to refresh the displayed data when using
      * {@link androidx.lifecycle.LiveData} because i that case a simple
      * .notifyDataSetChanged wont work
-     * @param directories
-     */
-    public void setDirectories(ArrayList<RemoteDirectory> directories)
-    {
-        this.directories = directories;
-        this.notifyDataSetChanged();
-    }
-
-    /**
-     * Should be used to refresh the displayed data when using
-     * {@link androidx.lifecycle.LiveData} because i that case a simple
-     * .notifyDataSetChanged wont work
      * @param dirContents
      */
-    public void setDirectoryContents(HashMap<String, ArrayList<RemoteFile>> dirContents)
+    public void setData(ArrayList<RemoteDirectory> directories, HashMap<String, ArrayList<RemoteFile>> dirContents)
     {
-        this.dirContents = dirContents;
+        this.directories = new ArrayList<>();
+        this.directories.addAll(directories);
+        this.dirContents = new HashMap<>();
+        this.dirContents.putAll(dirContents);
         this.notifyDataSetChanged();
     }
 

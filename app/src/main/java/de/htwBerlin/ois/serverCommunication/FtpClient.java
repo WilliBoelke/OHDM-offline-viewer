@@ -20,8 +20,10 @@ import java.util.Date;
 
 import de.htwBerlin.ois.models.fileStructure.RemoteDirectory;
 import de.htwBerlin.ois.models.fileStructure.RemoteFile;
+import de.htwBerlin.ois.models.repositories.localRepositories.Variables;
 
-import static de.htwBerlin.ois.views.mainActivity.MainActivity.MAP_FILE_PATH;
+import static de.htwBerlin.ois.models.repositories.localRepositories.Variables.MAP_FILE_PATH;
+
 
 /**
  * Wraps the apache FTPClient

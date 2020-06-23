@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -15,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -26,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import de.htwBerlin.ois.R;
-import de.htwBerlin.ois.models.repositories.localRepositories.RuntimeVariables;
+import de.htwBerlin.ois.models.repositories.localRepositories.UserPreferences;
 import de.htwBerlin.ois.views.factory.FragmentFactory;
 import de.htwBerlin.ois.models.repositories.localRepositories.MapFileSingleton;
 import de.htwBerlin.ois.models.fileStructure.RemoteDirectory;
@@ -43,8 +41,9 @@ import de.htwBerlin.ois.views.fragments.FragmentNavigation;
 import de.htwBerlin.ois.views.fragments.FragmentOptions;
 import de.htwBerlin.ois.views.fragments.FragmentRequestStatus;
 
+import static de.htwBerlin.ois.models.repositories.localRepositories.UserPreferences.SETTINGS_SHARED_PREFERENCES;
 import static de.htwBerlin.ois.serverCommunication.HttpRequest.REQUEST_TYPE_ID;
-import static de.htwBerlin.ois.serverCommunication.Variables.MAP_FILE_PATH;
+import static de.htwBerlin.ois.models.repositories.localRepositories.Variables.MAP_FILE_PATH;
 
 /**
  * @author WilliBoelke
@@ -122,11 +121,11 @@ public class MainActivity extends AppCompatActivity
     {
         Log.d(TAG, "onCreate : setting app theme...");
         getSupportFragmentManager().setFragmentFactory(new FragmentFactory(new SftpClient(), new HttpClient()));
-        RuntimeVariables.Instance();
-        RuntimeVariables.Instance().init(getApplicationContext());
+        UserPreferences.getInstance();
+        UserPreferences.getInstance().init(getApplicationContext());
         super.onCreate(savedInstanceState);
         //Get settings from SharedPrefs
-        if (getApplicationContext().getSharedPreferences(FragmentOptions.SETTINGS_SHARED_PREFERENCES, 0).getBoolean(FragmentOptions.DARK_MODE, false) == true)
+        if (UserPreferences.getInstance().isDarkModeEnabled())
         {
             setTheme(R.style.DarkTheme);
             Log.d(TAG, "onCreate :  app theme DARK");
@@ -298,8 +297,8 @@ public class MainActivity extends AppCompatActivity
      */
     private void HttpGetIdFromServer()
     {
-        SharedPreferences prefs = getApplicationContext().getSharedPreferences(FragmentOptions.SETTINGS_SHARED_PREFERENCES, 0);
-        if (prefs.getString(FragmentOptions.SERVER_ID, null) == null)
+        SharedPreferences prefs = getApplicationContext().getSharedPreferences(SETTINGS_SHARED_PREFERENCES, 0);
+        if (UserPreferences.getInstance().getUserID() == null)
         {
             HttpRequest httpRequest = new HttpRequest();
             httpRequest.setRequestType(REQUEST_TYPE_ID);
@@ -329,7 +328,7 @@ public class MainActivity extends AppCompatActivity
                     else
                     {
                         Toast.makeText(getApplicationContext(), "Response = " + response, Toast.LENGTH_SHORT).show();
-                        prefs.edit().putString(FragmentOptions.SERVER_ID, response).commit();
+                        UserPreferences.getInstance().setUserId(response);
                         Log.d(TAG, "ID from server = " + response);
                     }
 

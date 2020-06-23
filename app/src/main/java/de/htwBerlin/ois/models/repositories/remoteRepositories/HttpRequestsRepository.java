@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import de.htwBerlin.ois.models.fileStructure.RemoteDirectory;
 import de.htwBerlin.ois.models.fileStructure.RemoteFile;
-import de.htwBerlin.ois.models.repositories.localRepositories.RuntimeVariables;
+import de.htwBerlin.ois.models.repositories.localRepositories.UserPreferences;
 import de.htwBerlin.ois.serverCommunication.AsyncResponse;
 import de.htwBerlin.ois.serverCommunication.HttpClient;
 import de.htwBerlin.ois.serverCommunication.HttpRequest;
@@ -76,7 +76,7 @@ public class HttpRequestsRepository
     private void retrieveRequests()
     {
         HttpRequest httpRequest = new HttpRequest();
-        httpRequest.setParams("id=" + RuntimeVariables.Instance().getUserID());
+        httpRequest.setParams("id=" + UserPreferences.getInstance().getUserID());
         httpRequest.setRequestType(REQUEST_TYP_STATUS_BY_ID);
         httpRequest.setHttpClient(new HttpClient());
         httpRequest.setAsyncResponse(new AsyncResponse()

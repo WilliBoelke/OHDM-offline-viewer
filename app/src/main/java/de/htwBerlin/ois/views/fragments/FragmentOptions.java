@@ -2,9 +2,10 @@ package de.htwBerlin.ois.views.fragments;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,12 +21,17 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import de.htwBerlin.ois.R;
+import de.htwBerlin.ois.viewModels.ViewModelOptions;
 import de.htwBerlin.ois.views.mainActivity.MainActivity;
+
+import static de.htwBerlin.ois.models.repositories.localRepositories.Variables.REQUEST_CODE_ACCESS_LOCATION_PERMISSION;
+import static de.htwBerlin.ois.models.repositories.localRepositories.Variables.REQUEST_CODE_WRITE_STORAGE_PERMISSION;
 
 /**
  * Fragment to show the applications settings
@@ -35,22 +41,8 @@ import de.htwBerlin.ois.views.mainActivity.MainActivity;
 public class FragmentOptions extends Fragment
 {
 
-
     //------------Static Variables------------
 
-
-    /**
-     * Key to get the DarkMode boolean from the SharedPreferences
-     */
-    public static final String DARK_MODE = "darkmode_settings";
-    public static final String SERVER_ID = "server_id";
-    /**
-     * SharedPreferences name
-     */
-    public static final String SETTINGS_SHARED_PREFERENCES = "OHDMViewerSettings";
-    private static final int REQUEST_CODE_ACCESS_LOCATION_PERMISSION = 34;
-    private static final int REQUEST_CODE_WRITE_STORAGE_PERMISSION = 56;
-    private static final int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
     /**
      * Fragment ID used to identify the fragment
      * (for example by putting the ID into the Intent extra )
@@ -69,9 +61,9 @@ public class FragmentOptions extends Fragment
      */
     private View view;
     /**
-     * SharedPreferences to quickly store and access user settings
+     * The ViewModel of this Fragment
      */
-    private SharedPreferences prefs;
+    private ViewModelOptions viewModel;
 
 
     //------------Activity/Fragment Lifecycle------------
@@ -87,8 +79,9 @@ public class FragmentOptions extends Fragment
     public void onActivityCreated(@Nullable Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
-        prefs = getActivity().getApplicationContext().getSharedPreferences(SETTINGS_SHARED_PREFERENCES, 0);
         setHasOptionsMenu(true);
+        viewModel = ViewModelProviders.of(this).get(ViewModelOptions.class);
+        viewModel.init();
         this.setUpDarkModeToggle();
         this.setupAllowAccessLocationToggle();
         this.setupAllowWriteLocalStorageToggle();
@@ -123,7 +116,9 @@ public class FragmentOptions extends Fragment
                 }
                 else
                 {
-                    //TODO withdraw permission
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.fromParts("package", getActivity().getPackageName(), null));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 }
             }
         });
@@ -154,7 +149,9 @@ public class FragmentOptions extends Fragment
                 }
                 else
                 {
-                    //TODO withdraw permission
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.fromParts("package", getActivity().getPackageName(), null));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 }
             }
         });
@@ -171,7 +168,7 @@ public class FragmentOptions extends Fragment
         Switch darkModeToggle = view.findViewById(R.id.dark_mode_switch);
 
         //Set the switch to "checked" in chase the darkmode is enabled
-        if (prefs.getBoolean(DARK_MODE, false) == true)
+        if (viewModel.darkModeEnabled() == true)
         {
             Log.v(TAG, "Setup DarkMode toggle: DarkMode ON, toggle checked");
             darkModeToggle.setChecked(true);
@@ -186,13 +183,13 @@ public class FragmentOptions extends Fragment
             {
                 if (isChecked)
                 {
-                    prefs.edit().putBoolean(DARK_MODE, true).commit();
+                    viewModel.enableDarkMode();
                     Log.v(TAG, "Setup DarkMode toggle: Mode changed to dark ");
                     reset();
                 }
                 else
                 {
-                    prefs.edit().putBoolean(DARK_MODE, false).commit();
+                    viewModel.disableDarkMode();
                     Log.v(TAG, "Setup DarkMode toggle: Mode changed to light ");
                     reset();
                 }
@@ -203,7 +200,7 @@ public class FragmentOptions extends Fragment
     private void setupIDView()
     {
         TextView idTextView = view.findViewById(R.id.your_id_tv);
-        idTextView.setText(prefs.getString(SERVER_ID, ""));
+        idTextView.setText(viewModel.getUserID());
     }
 
 

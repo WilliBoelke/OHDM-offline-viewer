@@ -15,8 +15,8 @@ import de.htwBerlin.ois.serverCommunication.FtpTaskFileDownloading;
 import de.htwBerlin.ois.serverCommunication.FtpTaskFileListing;
 import de.htwBerlin.ois.serverCommunication.SftpClient;
 
-import static de.htwBerlin.ois.serverCommunication.Variables.FTP_ROOT_DIRECTORY;
-import static de.htwBerlin.ois.serverCommunication.Variables.MOST_RECENT_PATH;
+import static de.htwBerlin.ois.models.repositories.localRepositories.Variables.FTP_ROOT_DIRECTORY;
+import static de.htwBerlin.ois.models.repositories.localRepositories.Variables.MOST_RECENT_PATH;
 
 /**
  * This Repository manages all access to the ftp server

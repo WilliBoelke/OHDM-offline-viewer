@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import java.io.File;
 import java.util.ArrayList;
 
-import de.htwBerlin.ois.views.mainActivity.MainActivity;
+import static de.htwBerlin.ois.models.repositories.localRepositories.Variables.MAP_FILE_PATH;
 
 
 /**
@@ -54,7 +54,7 @@ public class LocalMapsRepository
         localMaps = new ArrayList<>();
         try
         {
-            for (File mapFile : new File(MainActivity.MAP_FILE_PATH).listFiles())
+            for (File mapFile : new File(MAP_FILE_PATH).listFiles())
             {
                 if (mapFile.getName().endsWith(".map"))
                 {

@@ -17,8 +17,8 @@ import de.htwBerlin.ois.models.fileStructure.RemoteDirectory;
 import de.htwBerlin.ois.models.fileStructure.RemoteFile;
 import de.htwBerlin.ois.serverCommunication.FtpClient;
 
-import static de.htwBerlin.ois.serverCommunication.Variables.USER_NAME;
-import static de.htwBerlin.ois.serverCommunication.Variables.USER_PASSWORD;
+import static de.htwBerlin.ois.models.repositories.localRepositories.Variables.USER_NAME;
+import static de.htwBerlin.ois.models.repositories.localRepositories.Variables.USER_PASSWORD;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;

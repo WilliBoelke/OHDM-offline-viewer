@@ -1,6 +1,5 @@
 package de.htwBerlin.ois.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,13 +71,25 @@ public class RecyclerAdapterRemoteFiles extends RecyclerView.Adapter<RecyclerAda
      * Should be used to refresh the displayed data when using
      * {@link androidx.lifecycle.LiveData} because i that case a simple
      * .notifyDataSetChanged wont work
+     *
      * @param remoteFiles
      */
     public void setData(ArrayList<RemoteFile> remoteFiles)
     {
-        this.remoteFiles = remoteFiles;
-        remoteFilesBackup = new ArrayList<>();
-        this.remoteFilesBackup.addAll(remoteFiles);
+        this.remoteFiles = new ArrayList<>();;
+        this.remoteFilesBackup = new ArrayList<>();
+        if (remoteFiles != null)
+        {
+            /*
+             * Here i got a NullPointerException sometimes
+             * I honestly couldn't find out why ....but this fixes it for now
+             *
+             * please try to make this better
+             *
+             */
+            this.remoteFiles = remoteFiles;
+            this.remoteFilesBackup.addAll(remoteFiles);
+        }
         this.notifyDataSetChanged();
     }
 
