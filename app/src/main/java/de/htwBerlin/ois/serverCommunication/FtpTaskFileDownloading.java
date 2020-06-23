@@ -1,11 +1,7 @@
 package de.htwBerlin.ois.serverCommunication;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
-
-import java.lang.ref.WeakReference;
 
 import de.htwBerlin.ois.models.fileStructure.RemoteFile;
 
@@ -59,8 +55,8 @@ public class FtpTaskFileDownloading extends AsyncTask<RemoteFile, Integer, Long>
     protected void onPostExecute(Long params)
     {
         // Context context = this.context.get();
-      //  TODO
-       // Toast.makeText(context, "Download Finished", Toast.LENGTH_SHORT).show();
+        //  TODO
+        // Toast.makeText(context, "Download Finished", Toast.LENGTH_SHORT).show();
     }
 
     public void insertMockSftpClient(SftpClient mockSftpClient)

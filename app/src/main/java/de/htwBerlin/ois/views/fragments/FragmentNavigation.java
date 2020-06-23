@@ -3,7 +3,6 @@ package de.htwBerlin.ois.views.fragments;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -32,12 +32,10 @@ import org.mapsforge.map.reader.header.MapFileException;
 import org.mapsforge.map.rendertheme.InternalRenderTheme;
 
 import java.io.File;
-import java.util.List;
 
 import de.htwBerlin.ois.R;
 import de.htwBerlin.ois.models.repositories.localRepositories.MapFileSingleton;
-
-import static android.content.Context.LOCATION_SERVICE;
+import de.htwBerlin.ois.viewModels.ViewModelNavigation;
 
 /**
  * Fragment to display a the map file
@@ -62,6 +60,10 @@ public class FragmentNavigation extends Fragment
      * The MapView
      */
     private MapView mapView;
+    /**
+     * The View model
+     */
+    private ViewModelNavigation viewModel;
 
 
     //------------Activity/Fragment Lifecycle------------
@@ -70,10 +72,11 @@ public class FragmentNavigation extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        viewModel = ViewModelProviders.of(this).get(ViewModelNavigation.class);
         view = inflater.inflate(R.layout.fragment_navigation, container, false);
         AndroidGraphicFactory.createInstance(getActivity().getApplication());
         setupLocateFab();
-        setupMap();
+        setupMapView();
         return view;
     }
 
@@ -90,7 +93,7 @@ public class FragmentNavigation extends Fragment
     /**
      * Initializes the mapView
      */
-    private void setupMap()
+    private void setupMapView()
     {
         Log.i(TAG, "setting up map");
         mapView = view.findViewById(R.id.map);
@@ -134,7 +137,7 @@ public class FragmentNavigation extends Fragment
                 if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
                 {
 
-                    Location location = getLastKnownLocation();
+                    Location location = viewModel.getLastKnownLocation();
                     try
                     {
                         double longitude = location.getLongitude();
@@ -155,40 +158,6 @@ public class FragmentNavigation extends Fragment
             }
         });
 
-    }
-
-
-    //------------Others------------
-
-    /**
-     * Gets the last know position of the device from the android LocationManager
-     *
-     * @return Location of the device
-     */
-    private Location getLastKnownLocation()
-    {
-        LocationManager mLocationManager = (LocationManager) getActivity().getApplicationContext().getApplicationContext().getSystemService(LOCATION_SERVICE);
-        List<String> providers = mLocationManager.getProviders(true);
-        Location bestLocation = null;
-        for (String provider : providers)
-        {
-            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-            {
-                //just here to dismiss the warning/error ...checked it before
-                return null;
-            }
-            Location l = mLocationManager.getLastKnownLocation(provider);
-            if (l == null)
-            {
-                continue;
-            }
-            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy())
-            {
-                // Found best last known location: %s", l);
-                bestLocation = l;
-            }
-        }
-        return bestLocation;
     }
 
 

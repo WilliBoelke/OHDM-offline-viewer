@@ -198,12 +198,11 @@ public class MainActivity extends AppCompatActivity
         {
             case R.id.ab_menu_about:
                 Log.d(TAG, "Options Menu : replacing current fragment with FragmentAbout");
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, FragmentAbout.class, new Bundle()).addToBackStack(FragmentAbout.ID).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, FragmentAbout.class, new Bundle()).addToBackStack(null).commit();
                 break;
-
             case R.id.ab_menu_faq:
                 Log.d(TAG, "Options Menu : replacing current fragment with FragmentFAQ");
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, FragmentFAQ.class, new Bundle()).addToBackStack(FragmentFAQ.ID).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, FragmentFAQ.class, new Bundle()).addToBackStack(null).commit();
                 break;
             case R.id.ab_menu_settings:
                 Log.d(TAG, "Options Menu : replacing current fragment with FragmentOptions");

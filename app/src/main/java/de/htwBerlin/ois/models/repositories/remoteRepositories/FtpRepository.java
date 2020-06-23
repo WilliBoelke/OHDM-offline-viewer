@@ -67,15 +67,17 @@ public class FtpRepository
 
     /**
      * GGetter for  the remoteDirectoryContents
+     *
      * @return remoteDirectoryContents
      */
-    public  MutableLiveData<HashMap<String, ArrayList<RemoteFile>>> getDirectoryContents()
+    public MutableLiveData<HashMap<String, ArrayList<RemoteFile>>> getDirectoryContents()
     {
         return remoteDirectoryContents;
     }
 
     /**
      * Returns the mostRecentMaps
+     *
      * @return mostRecentMaps
      */
     public MutableLiveData<ArrayList<RemoteFile>> getMostRecentMaps()
@@ -86,6 +88,7 @@ public class FtpRepository
 
     /**
      * Getter for the mostRecentMaps
+     *
      * @return mostRecentMaps
      */
     public MutableLiveData<ArrayList<RemoteFile>> getAllMaps()
@@ -95,6 +98,7 @@ public class FtpRepository
 
     /**
      * Getter for the directories
+     *
      * @return directories
      */
     public MutableLiveData<ArrayList<RemoteDirectory>> getDirectories()
@@ -207,7 +211,8 @@ public class FtpRepository
             {
                 //Not needed here
             }
-        }); ftpTaskFileListing.execute();
+        });
+        ftpTaskFileListing.execute();
     }
 
 
@@ -222,8 +227,8 @@ public class FtpRepository
     }
 
     /**
-     *Starts the executing of an AsyncTask witch downloads the passed remoteFile
-     *
+     * Starts the executing of an AsyncTask witch downloads the passed remoteFile
+     * <p>
      * Using a remoteFile instead of an index
      * because we are working with several different
      * lists an thou with different indices

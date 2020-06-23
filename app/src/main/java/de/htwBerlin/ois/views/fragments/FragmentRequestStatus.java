@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import de.htwBerlin.ois.R;
 import de.htwBerlin.ois.adapters.RecyclerAdapterRemoteFiles;
 import de.htwBerlin.ois.adapters.RecyclerAdapterRequestStatus;
-import de.htwBerlin.ois.serverCommunication.HttpClient;
 import de.htwBerlin.ois.viewModels.ViewModelRequestStatus;
 
 
@@ -115,8 +114,8 @@ public class FragmentRequestStatus extends FragmentWithServerConnection
             public void onChanged(Boolean bool)
             {
 
-                    changeVisibilities(STATE_NO_CONNECTION);
-                    Log.d(TAG, "onConnectionChangeObservers :  noConnection called");
+                changeVisibilities(STATE_NO_CONNECTION);
+                Log.d(TAG, "onConnectionChangeObservers :  noConnection called");
             }
         });
 
@@ -126,8 +125,8 @@ public class FragmentRequestStatus extends FragmentWithServerConnection
             @Override
             public void onChanged(Boolean bool)
             {
-                    onUnknownId();
-                    Log.d(TAG, "onConnectionChangeObservers :  noRequests called");
+                onUnknownId();
+                Log.d(TAG, "onConnectionChangeObservers :  noRequests called");
             }
         });
 
@@ -136,8 +135,8 @@ public class FragmentRequestStatus extends FragmentWithServerConnection
             @Override
             public void onChanged(Boolean bool)
             {
-                    changeVisibilities(STATE_CONNECTED);
-                    Log.d(TAG, "onConnectionChangeObservers :  requestsReceived called");
+                changeVisibilities(STATE_CONNECTED);
+                Log.d(TAG, "onConnectionChangeObservers :  requestsReceived called");
             }
         });
 
@@ -146,8 +145,8 @@ public class FragmentRequestStatus extends FragmentWithServerConnection
             @Override
             public void onChanged(Boolean bool)
             {
-                    changeVisibilities(STATE_CONNECTING);
-                    Log.d(TAG, "onConnectionChangeObservers :  requestsReceived called");
+                changeVisibilities(STATE_CONNECTING);
+                Log.d(TAG, "onConnectionChangeObservers :  requestsReceived called");
             }
         });
     }

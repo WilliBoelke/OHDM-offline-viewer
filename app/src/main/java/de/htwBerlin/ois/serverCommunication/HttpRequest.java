@@ -17,7 +17,7 @@ public class HttpRequest extends AsyncTask<Void, Void, String>
     public static final String REQUEST_TYPE_ID = "/id";
     public static final String REQUEST_TYPE_MAP_REQUEST = "/request";
     /**
-     * Ypu need to pass the id in the paramsString
+     * You need to pass the id in the paramsString
      * when using this request type
      * <p>
      * example :
@@ -52,7 +52,8 @@ public class HttpRequest extends AsyncTask<Void, Void, String>
     //------------Setter------------
 
     /**
-     * setter for the 
+     * setter for the
+     *
      * @param client
      */
     public void setHttpClient(HttpClient client)
@@ -82,7 +83,7 @@ public class HttpRequest extends AsyncTask<Void, Void, String>
     protected void onPreExecute()
     {
         int result = httpClient.connect(requestType);
-        if (result  != 0)
+        if (result != 0)
         {
             response = RESPONSE_NO_CONNECTION;
             this.onPostExecute("");
@@ -93,14 +94,14 @@ public class HttpRequest extends AsyncTask<Void, Void, String>
     protected String doInBackground(Void... params)
     {
         int result = httpClient.sendRequest(paramsString);
-        if(result == 0)
+        if (result == 0)
         {
             response = httpClient.getServerResponse();
             httpClient.closeConnection();
         }
         else
         {
-            response =RESPONSE_NO_CONNECTION;
+            response = RESPONSE_NO_CONNECTION;
         }
         return "";
     }

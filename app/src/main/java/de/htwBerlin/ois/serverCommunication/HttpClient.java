@@ -28,7 +28,7 @@ public class HttpClient
 {
 
     public static final String RESPONSE_NO_CONNECTION = "noconn";
-    public static final String RESPONSE_NO_REQUESTS= "[]";
+    public static final String RESPONSE_NO_REQUESTS = "[]";
 
     //------------Instance Variables------------
 
@@ -62,7 +62,7 @@ public class HttpClient
             url = new URL("http://" + SERVER_IP + ":" + HTTP_PORT + requestType);
             Log.d(TAG, "connect:  Url = " + url);
 
-            if(conn == null)
+            if (conn == null)
             {
                 Log.d(TAG, "connect: connecting with server " + url);
                 conn = (HttpURLConnection) url.openConnection();
@@ -165,7 +165,7 @@ public class HttpClient
             }
             Log.d(TAG, "sendRequest: server response : " + response);
         }
-        if(response == null)
+        if (response == null)
         {
             response = RESPONSE_NO_CONNECTION;
         }

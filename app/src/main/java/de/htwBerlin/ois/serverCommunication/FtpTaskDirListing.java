@@ -1,10 +1,8 @@
 package de.htwBerlin.ois.serverCommunication;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -50,7 +48,7 @@ public class FtpTaskDirListing extends AsyncTask<Void, Void, String>
      * @param path
      * @param asyncResponse
      */
-    public FtpTaskDirListing( String path, AsyncResponse asyncResponse)
+    public FtpTaskDirListing(String path, AsyncResponse asyncResponse)
     {
         Log.d(TAG, "Constructor : new FtpTaskDirListing with : path  = " + path);
         this.delegate = asyncResponse;

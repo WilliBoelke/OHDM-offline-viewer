@@ -53,7 +53,7 @@ public class ViewModelRequestStatus extends ViewModel
 
     public LiveData<String> getResponse()
     {
-        requestStatusRepository = requestStatusRepository.getInstance();
+        requestStatusRepository = HttpRequestsRepository.getInstance();
         this.response = requestStatusRepository.getRequests();
         Log.d(TAG, "getResponse called");
         return this.response;
@@ -100,22 +100,22 @@ public class ViewModelRequestStatus extends ViewModel
         if (s.equals(RESPONSE_NO_CONNECTION))
         {
             Log.e(TAG, "processString :  Server returned no connection ");
-            noConnection.postValue(! noConnection.getValue());
+            noConnection.postValue(!noConnection.getValue());
 
         }
         else if (s.equals(RESPONSE_NO_REQUESTS))
         {
             Log.e(TAG, "processString :  Server returned no requests for id ");
-            noRequests.postValue(! noRequests.getValue());
+            noRequests.postValue(!noRequests.getValue());
         }
         else if (s.equals(""))
         {
-            connecting.postValue(! connecting.getValue());
+            connecting.postValue(!connecting.getValue());
         }
         else
         {
             Log.d(TAG, "processString :  Server returned requests ");
-            requestReceived.postValue(! requestReceived.getValue());
+            requestReceived.postValue(!requestReceived.getValue());
             String formatted = s.replace("-", " ");
             formatted = formatted.replace("[", "");
             formatted = formatted.replace("]", "");
@@ -127,7 +127,7 @@ public class ViewModelRequestStatus extends ViewModel
                 temp.add(st.nextToken());
             }
             requests.setValue(temp);
-            Log.d(TAG, "processString :  Made reques list from string  = " +temp.toString());
+            Log.d(TAG, "processString :  Made reques list from string  = " + temp.toString());
         }
     }
 

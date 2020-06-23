@@ -76,7 +76,7 @@ public class RecyclerAdapterRemoteFiles extends RecyclerView.Adapter<RecyclerAda
      */
     public void setData(ArrayList<RemoteFile> remoteFiles)
     {
-        this.remoteFiles = new ArrayList<>();;
+        this.remoteFiles = new ArrayList<>();
         this.remoteFilesBackup = new ArrayList<>();
         if (remoteFiles != null)
         {

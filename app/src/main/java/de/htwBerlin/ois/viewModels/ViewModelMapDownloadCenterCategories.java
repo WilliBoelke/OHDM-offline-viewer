@@ -54,6 +54,7 @@ public class ViewModelMapDownloadCenterCategories extends ViewModel
 
     /**
      * Starts the download of a RemoteFile via the FtpRepository
+     *
      * @param fileToDownload
      */
     public void downloadMap(RemoteFile fileToDownload)
@@ -67,6 +68,6 @@ public class ViewModelMapDownloadCenterCategories extends ViewModel
      */
     public void refresh()
     {
-        ftpRepository.getInstance().refresh();
+        FtpRepository.getInstance().refresh();
     }
 }

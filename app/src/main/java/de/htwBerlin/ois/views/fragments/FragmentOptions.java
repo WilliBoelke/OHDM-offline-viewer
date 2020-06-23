@@ -189,7 +189,7 @@ public class FragmentOptions extends Fragment
                 }
                 else
                 {
-                 viewModel.disableDarkMode();
+                    viewModel.disableDarkMode();
                     Log.v(TAG, "Setup DarkMode toggle: Mode changed to light ");
                     reset();
                 }

@@ -67,7 +67,7 @@ public class ViewModelRequestNewMap extends ViewModel
      *
      * @return
      */
-    public  String getCoordinatesAsString(EditText latitudeMax, EditText latitudeMin, EditText longitudeMin, EditText longitudeMax)
+    public String getCoordinatesAsString(EditText latitudeMax, EditText latitudeMin, EditText longitudeMin, EditText longitudeMax)
     {
         String latMax = latitudeMax.getText().toString();
         String latMin = latitudeMin.getText().toString();
@@ -104,8 +104,6 @@ public class ViewModelRequestNewMap extends ViewModel
         Log.i(TAG, "getCoordinatesAsString: result: " + stringBuilder.toString());
         return stringBuilder.toString();
     }
-
-
 
 
     /**
@@ -191,7 +189,6 @@ public class ViewModelRequestNewMap extends ViewModel
     }
 
 
-
     //------------Check  User Input------------
 
     /**
@@ -235,11 +232,11 @@ public class ViewModelRequestNewMap extends ViewModel
             {
                 if (response == null)
                 {
-                  //  Toast.makeText(getActivity().getApplicationContext(), "The server doesn't respond, try it again later", Toast.LENGTH_SHORT).show();
+                    //  Toast.makeText(getActivity().getApplicationContext(), "The server doesn't respond, try it again later", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
-                  //  Toast.makeText(getActivity().getApplicationContext(), "The server received your request", Toast.LENGTH_SHORT).show();
+                    //  Toast.makeText(getActivity().getApplicationContext(), "The server received your request", Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -15,7 +15,7 @@ import de.htwBerlin.ois.models.repositories.remoteRepositories.FtpRepository;
  * ViewModel for the {@link de.htwBerlin.ois.views.fragments.FragmentDownloadCenterAll}
  * Communicates with the {@link FtpRepository} to retrieve the Data
  *
- * @author  WilliBoelke
+ * @author WilliBoelke
  */
 public class ViewModelDownloadCenterAll extends ViewModel
 {
@@ -37,8 +37,8 @@ public class ViewModelDownloadCenterAll extends ViewModel
     {
         Log.d(TAG, "init : initializing ");
         ftpRepository = FtpRepository.getInstance();
-        allMaps = ftpRepository.getInstance().getAllMaps();
-        mostRecentMaps = ftpRepository.getInstance().getMostRecentMaps();
+        allMaps = FtpRepository.getInstance().getAllMaps();
+        mostRecentMaps = FtpRepository.getInstance().getMostRecentMaps();
     }
 
 
@@ -59,6 +59,7 @@ public class ViewModelDownloadCenterAll extends ViewModel
 
     /**
      * Starts the download of a RemoteFile via the FtpRepository
+     *
      * @param fileToDownload
      */
     public void downloadMap(RemoteFile fileToDownload)
@@ -72,6 +73,6 @@ public class ViewModelDownloadCenterAll extends ViewModel
      */
     public void refresh()
     {
-         ftpRepository.refresh();
+        ftpRepository.refresh();
     }
 }

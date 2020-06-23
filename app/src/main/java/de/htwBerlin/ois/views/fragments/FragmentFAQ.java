@@ -19,6 +19,7 @@ import de.htwBerlin.ois.R;
 /**
  * Fragment to show some frequently asked questions or guides
  * TODO
+ *
  * @author WilliBoelke
  */
 public class FragmentFAQ extends Fragment

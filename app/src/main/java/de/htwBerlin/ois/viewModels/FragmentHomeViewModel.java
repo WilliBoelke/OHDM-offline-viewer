@@ -23,14 +23,14 @@ public class FragmentHomeViewModel extends ViewModel
      *
      */
     private MutableLiveData<ArrayList<File>> localMapFiles;
-    private final  String TAG = getClass().getSimpleName();
+    private final String TAG = getClass().getSimpleName();
     private LocalMapsRepository localMapsRepository;
 
 
     public void init()
     {
-        Log.d(TAG, "init : initializing " );
-        if(localMapFiles != null)
+        Log.d(TAG, "init : initializing ");
+        if (localMapFiles != null)
         {
             return;
         }

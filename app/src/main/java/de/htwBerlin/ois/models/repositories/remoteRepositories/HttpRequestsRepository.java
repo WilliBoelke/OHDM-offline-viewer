@@ -5,14 +5,12 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
 
-
 import de.htwBerlin.ois.models.fileStructure.RemoteDirectory;
 import de.htwBerlin.ois.models.fileStructure.RemoteFile;
 import de.htwBerlin.ois.models.repositories.localRepositories.UserPreferences;
 import de.htwBerlin.ois.serverCommunication.AsyncResponse;
 import de.htwBerlin.ois.serverCommunication.HttpClient;
 import de.htwBerlin.ois.serverCommunication.HttpRequest;
-
 
 import static de.htwBerlin.ois.serverCommunication.HttpRequest.REQUEST_TYP_STATUS_BY_ID;
 
@@ -55,7 +53,6 @@ public class HttpRequestsRepository
     //------------Getter------------
 
     /**
-     * 
      * @return
      */
     public MutableLiveData<String> getRequests()

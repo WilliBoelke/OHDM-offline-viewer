@@ -1,7 +1,6 @@
 package de.htwBerlin.ois.views.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,7 +26,6 @@ import java.util.HashMap;
 import de.htwBerlin.ois.R;
 import de.htwBerlin.ois.adapters.OnRecyclerItemDownloadButtonClick;
 import de.htwBerlin.ois.adapters.RecyclerAdapterRemoteDirectories;
-import de.htwBerlin.ois.models.fileStructure.RemoteDirectory;
 import de.htwBerlin.ois.models.fileStructure.RemoteFile;
 import de.htwBerlin.ois.serverCommunication.Client;
 import de.htwBerlin.ois.viewModels.ViewModelMapDownloadCenterCategories;
@@ -106,7 +104,7 @@ public class FragmentDownloadCenterCategories extends FragmentWithServerConnecti
                 else
                 {
                     changeVisibilities(STATE_CONNECTED);
-                    recyclerViewAdapter.setData(viewModel.getDirectories().getValue(), dirContents );
+                    recyclerViewAdapter.setData(viewModel.getDirectories().getValue(), dirContents);
                 }
             }
         });

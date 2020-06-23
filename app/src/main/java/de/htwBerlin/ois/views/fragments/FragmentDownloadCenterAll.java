@@ -187,7 +187,7 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
         RecyclerView.LayoutManager recyclerLayoutManager = new LinearLayoutManager(this.getContext());//layout manager vor vertical scrolling recycler
 
         //The recycler adapter
-        allRecyclerAdapter = new RecyclerAdapterRemoteFiles( viewModel.getAllMaps().getValue(), R.layout.recycler_item_vertical);
+        allRecyclerAdapter = new RecyclerAdapterRemoteFiles(viewModel.getAllMaps().getValue(), R.layout.recycler_item_vertical);
 
         //OnClickListener for the button inside the RecyclerView item layout
         allRecyclerAdapter.setOnItemButtonClickListener(new OnRecyclerItemDownloadButtonClick()

@@ -1,11 +1,9 @@
 package de.htwBerlin.ois.serverCommunication;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import java.io.IOException;
-import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -57,7 +55,7 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
      * @param path
      * @param asyncResponse
      */
-    public FtpTaskFileListing( String path, Client client, boolean includeSubDirs, AsyncResponse asyncResponse)
+    public FtpTaskFileListing(String path, Client client, boolean includeSubDirs, AsyncResponse asyncResponse)
     {
         Log.d(TAG, "Constructor : new FtpTaskFileListing with : path  = " + path + " includeSubDirs = " + includeSubDirs);
         this.includeSubDirs = includeSubDirs;

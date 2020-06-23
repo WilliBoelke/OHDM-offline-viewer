@@ -1,6 +1,5 @@
 package de.htwBerlin.ois.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +43,6 @@ public class RecyclerAdapterRequestStatus extends RecyclerView.Adapter<RecyclerA
 
     /**
      * Public constructor
-     *
      */
     public RecyclerAdapterRequestStatus(ArrayList<String> requests, int resource)
     {
@@ -60,6 +58,7 @@ public class RecyclerAdapterRequestStatus extends RecyclerView.Adapter<RecyclerA
      * Should be used to refresh the displayed data when using
      * {@link androidx.lifecycle.LiveData} because i that case a simple
      * .notifyDataSetChanged wont work
+     *
      * @param requests
      */
     public void setData(ArrayList<String> requests)
