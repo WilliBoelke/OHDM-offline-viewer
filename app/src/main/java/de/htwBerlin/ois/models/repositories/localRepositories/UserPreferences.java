@@ -3,8 +3,6 @@ package de.htwBerlin.ois.models.repositories.localRepositories;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import de.htwBerlin.ois.views.fragments.FragmentOptions;
-
 /**
  * This class is used to get all necessary values
  * (for example from the shared preferences) and
@@ -34,10 +32,9 @@ public class UserPreferences
     public static final String USER_ID = "server_id";
 
     private static UserPreferences instance;
-    private Context context;
     private boolean DarkMode;
     private String ID;
-    private    SharedPreferences prefs ;
+    private SharedPreferences prefs;
 
 
     public static UserPreferences getInstance()
@@ -52,10 +49,8 @@ public class UserPreferences
 
     public void init(Context context)
     {
-        this.context = context;
-         prefs = context.getSharedPreferences(SETTINGS_SHARED_PREFERENCES, 0);
-
-        ID = prefs.getString(USER_ID, "");
+        prefs = context.getSharedPreferences(SETTINGS_SHARED_PREFERENCES, 0);
+        ID = prefs.getString(USER_ID, null);
         DarkMode = prefs.getBoolean(DARK_MODE, false);
     }
 
@@ -72,14 +67,12 @@ public class UserPreferences
     public void setUserId(String id)
     {
         ID = id;
-        prefs.edit().putString(USER_ID, id);
-        prefs.edit().commit();
+        prefs.edit().putString(USER_ID, id).commit();
     }
 
     public void enableDarkmode(Boolean toggle)
     {
-        DarkMode = toggle ;
-        prefs.edit().putBoolean(DARK_MODE, toggle);
-        prefs.edit().commit();
+        DarkMode = toggle;
+        prefs.edit().putBoolean(DARK_MODE, toggle).commit();
     }
 }

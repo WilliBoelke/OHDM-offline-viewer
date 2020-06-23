@@ -24,7 +24,7 @@ public class ViewModelOptions extends ViewModel
 
     public String getUserID()
     {
-        return  prefs.getUserID();
+        return prefs.getUserID();
     }
 
     public boolean darkModeEnabled()

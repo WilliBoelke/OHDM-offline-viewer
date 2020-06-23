@@ -17,6 +17,8 @@ import androidx.fragment.app.Fragment;
 import de.htwBerlin.ois.R;
 
 /**
+ * Fragment to show some frequently asked questions or guides
+ * TODO
  * @author WilliBoelke
  */
 public class FragmentFAQ extends Fragment
@@ -25,14 +27,12 @@ public class FragmentFAQ extends Fragment
     //------------Instance Variables------------
 
     /**
-     * Fragment ID used to identify the fragment
-     * (for example by putting the ID into the Intent extra )
+     * log Tag
      */
-    public static String ID = "FAQ";
     private final String TAG = this.getClass().getSimpleName();
-
-
-    //------------Static Variables------------
+    /**
+     * The view
+     */
     private View view;
 
 

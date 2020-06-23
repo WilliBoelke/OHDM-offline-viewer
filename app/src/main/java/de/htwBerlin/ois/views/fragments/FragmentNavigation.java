@@ -51,11 +51,6 @@ public class FragmentNavigation extends Fragment
     //------------Instance Variables------------
 
     /**
-     * Fragment ID used to identify the fragment
-     * (for example by putting the ID into the Intent extra )
-     */
-    public static String ID = "Navigation";
-    /**
      * Log tag
      */
     private final String TAG = this.getClass().getSimpleName();
@@ -63,9 +58,6 @@ public class FragmentNavigation extends Fragment
      * The view
      */
     private View view;
-
-
-    //------------Static Variables------------
     /**
      * The MapView
      */
