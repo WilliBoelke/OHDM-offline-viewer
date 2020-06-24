@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+
 import de.htwBerlin.ois.model.models.fileStructure.RemoteDirectory;
 import de.htwBerlin.ois.model.models.fileStructure.RemoteFile;
 import de.htwBerlin.ois.model.repositories.localRepositories.Variables;
@@ -38,6 +39,7 @@ public class FtpClient implements Client
 
     //------------Instance Variables------------
 
+
     private static final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy");
     private final String TAG = getClass().getSimpleName();
     private FTPClient client;
@@ -52,6 +54,7 @@ public class FtpClient implements Client
     protected FtpClient()
     {
         this.client = new FTPClient();
+
         Log.d(TAG, "Constructor : new FtpClient ");
     }
 
@@ -64,7 +67,6 @@ public class FtpClient implements Client
         this.client = mockClient;
         Log.d(TAG, "Constructor : new FtpClient ");
     }
-
 
     //------------Connection-----------
 
@@ -88,6 +90,7 @@ public class FtpClient implements Client
             {
                 Log.d(TAG, "connect : connecting to " + Variables.SERVER_IP + " : " + Variables.FTP_PORT);
                 client.connect(Variables.SERVER_IP, Variables.FTP_PORT);
+                
                 // After connection attempt, you should check the reply code to verify
                 // success.
                 int reply = client.getReplyCode();
@@ -192,7 +195,6 @@ public class FtpClient implements Client
             return null;
         }
         Log.d(TAG, " getDirList : getting file list for " + path + " ...");
-
         FTPFile[] files = new FTPFile[0];
 
         try
@@ -313,6 +315,7 @@ public class FtpClient implements Client
         }
         Log.d(TAG, "downloadFile : trying to download " + remoteFileName + downloadPath);
         File downloadFile = new File(MAP_FILE_PATH, remoteFileName);
+
         try
         {
             client.changeWorkingDirectory(downloadPath);
@@ -344,8 +347,27 @@ public class FtpClient implements Client
         {
             e.printStackTrace();
         }
+        client.changeWorkingDirectory(downloadPath);
+        OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(downloadFile));
+        InputStream inputStream = client.retrieveFileStream(remoteFileName);
+        byte[] bytesArray = new byte[4096];
+
+        long total = 0;
+        int bytesRead;
+        double progress;
+
+        while (-1 != (bytesRead = inputStream.read(bytesArray)))
+        {
+            total += bytesRead;
+            progress = ((total * 100) / (23 * 1024));
+            outputStream.write(bytesArray, 0, bytesRead);
+            Log.i(TAG, "Download progress " + (int) progress);
+        }
+
+        if (client.completePendingCommand()) Log.i(TAG, "File Download successful");
+
+        outputStream.close();
+        inputStream.close();
         return true;
     }
-
-
 }

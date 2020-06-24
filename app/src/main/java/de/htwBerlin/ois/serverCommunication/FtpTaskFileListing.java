@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 import de.htwBerlin.ois.model.models.fileStructure.RemoteFile;
 
-
 /**
  * Async task that lists files hosted on FTP Remote Server
  *
@@ -36,22 +35,20 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
      * (To be implemented when initializing this class)
      */
     private AsyncResponse delegate;
-
+   
     private boolean includeSubDirs;
     /**
      * The path to the directory
      */
     private String path;
-
-
     private Client client;
-
 
     //------------Constructors------------
 
     /**
      * Public Constructor
      *
+
      * @param path
      * @param asyncResponse
      */
@@ -76,12 +73,12 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
 
         client.connect();
         Log.d(TAG, "doingInBackground : connected to FtpClient");
-
         try
         {
             if (includeSubDirs == true)
             {
                 Log.d(TAG, "doingInBackground : getting all files including sub dirs...");
+
                 remoteFiles.addAll(client.getAllFileList(path));
             }
             else
@@ -103,6 +100,7 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
 
         Log.d(TAG, "doingInBackground : finished - closing connection : ");
         client.closeConnection();
+
         return null;
     }
 

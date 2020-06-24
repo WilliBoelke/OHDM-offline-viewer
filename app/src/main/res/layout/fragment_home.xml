@@ -8,6 +8,7 @@
     android:background="?attr/backgroundColor"
     tools:context="de.htwBerlin.ois.views.fragments.FragmentHome">
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/local_maps_recycler"
         android:layout_width="0dp"

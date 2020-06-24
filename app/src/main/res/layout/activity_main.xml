@@ -10,6 +10,7 @@
     tools:context=".views.mainActivity.MainActivity">
 
 
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container"
         android:layout_width="0dp"

@@ -21,6 +21,7 @@
         <activity android:name="de.htwBerlin.ois.view.fragments.MainActivity"></activity>
         <activity android:name="de.htwBerlin.ois.views.fragments.FragmentRequestNewMap" />
         <activity android:name=".views.mainActivity.MainActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

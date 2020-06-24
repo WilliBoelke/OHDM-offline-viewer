@@ -6,3 +6,4 @@
     android:layout_height="match_parent"
     android:background="?attr/backgroundColor"
     tools:context="de.htwBerlin.ois.views.fragments.FragmentFAQ"></androidx.constraintlayout.widget.ConstraintLayout>
+

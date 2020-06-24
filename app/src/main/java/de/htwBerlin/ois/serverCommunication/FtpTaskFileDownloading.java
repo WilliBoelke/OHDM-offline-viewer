@@ -5,6 +5,7 @@ import android.util.Log;
 
 import de.htwBerlin.ois.model.models.fileStructure.RemoteFile;
 
+
 /**
  * Asynctask that downloads files from FTP Remote server
  *
