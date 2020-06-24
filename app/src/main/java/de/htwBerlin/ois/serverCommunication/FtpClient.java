@@ -90,7 +90,7 @@ public class FtpClient implements Client
             {
                 Log.d(TAG, "connect : connecting to " + Variables.SERVER_IP + " : " + Variables.FTP_PORT);
                 client.connect(Variables.SERVER_IP, Variables.FTP_PORT);
-                
+
                 // After connection attempt, you should check the reply code to verify
                 // success.
                 int reply = client.getReplyCode();
@@ -306,7 +306,7 @@ public class FtpClient implements Client
      * @param downloadPath   Path to write to
      * @throws IOException couldn't download from current dir
      */
-    public boolean downloadFile(String remoteFileName, String downloadPath)
+    public boolean downloadFile(String remoteFileName, String downloadPath) throws IOException
     {
         if (!client.isConnected())
         {
@@ -347,7 +347,14 @@ public class FtpClient implements Client
         {
             e.printStackTrace();
         }
-        client.changeWorkingDirectory(downloadPath);
+        try
+        {
+            client.changeWorkingDirectory(downloadPath);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
         OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(downloadFile));
         InputStream inputStream = client.retrieveFileStream(remoteFileName);
         byte[] bytesArray = new byte[4096];
@@ -364,8 +371,17 @@ public class FtpClient implements Client
             Log.i(TAG, "Download progress " + (int) progress);
         }
 
-        if (client.completePendingCommand()) Log.i(TAG, "File Download successful");
-
+        try
+        {
+            if (client.completePendingCommand())
+            {
+                Log.i(TAG, "File Download successful");
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
         outputStream.close();
         inputStream.close();
         return true;

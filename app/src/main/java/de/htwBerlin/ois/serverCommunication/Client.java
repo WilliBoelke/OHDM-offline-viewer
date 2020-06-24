@@ -35,6 +35,6 @@ public interface Client
 
     //------------Downloading------------
 
-    boolean downloadFile(String remoteFileName, String downloadPath);
+    boolean downloadFile(String remoteFileName, String downloadPath) throws IOException;
 
 }
