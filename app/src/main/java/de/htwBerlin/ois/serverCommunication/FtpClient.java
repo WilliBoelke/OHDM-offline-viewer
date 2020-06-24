@@ -18,28 +18,31 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import de.htwBerlin.ois.fileStructure.RemoteFile;
 
-import static de.htwBerlin.ois.mainActivity.MainActivity.MAP_FILE_PATH;
-import static de.htwBerlin.ois.serverCommunication.Variables.FTP_Port;
-import static de.htwBerlin.ois.serverCommunication.Variables.SERVER_IP;
-import static de.htwBerlin.ois.serverCommunication.Variables.USER_NAME;
-import static de.htwBerlin.ois.serverCommunication.Variables.USER_PASSWORD;
+import de.htwBerlin.ois.model.models.fileStructure.RemoteDirectory;
+import de.htwBerlin.ois.model.models.fileStructure.RemoteFile;
+import de.htwBerlin.ois.model.repositories.localRepositories.Variables;
+
+import static de.htwBerlin.ois.model.repositories.localRepositories.Variables.MAP_FILE_PATH;
+
 
 /**
  * Wraps the apache FTPClient
+ * This should not be used annymore
  *
  * @author NoteFox
  * @author WilliBoelke
  */
-public class FtpClient
+@Deprecated
+public class FtpClient implements Client
 {
 
     //------------Instance Variables------------
 
+
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy");
     private final String TAG = getClass().getSimpleName();
     private FTPClient client;
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy");
 
 
     //------------Constructors-----------
@@ -50,6 +53,8 @@ public class FtpClient
      */
     protected FtpClient()
     {
+        this.client = new FTPClient();
+
         Log.d(TAG, "Constructor : new FtpClient ");
     }
 
@@ -57,11 +62,12 @@ public class FtpClient
      * Constructor which takes a apache FTPClient
      * used for testing by inserting a mocked FTPClient
      */
-    protected FtpClient(FTPClient client)
+    public FtpClient(FTPClient mockClient)
     {
-        this.client = client;
+        this.client = mockClient;
         Log.d(TAG, "Constructor : new FtpClient ");
     }
+
     //------------Connection-----------
 
     /**
@@ -74,18 +80,17 @@ public class FtpClient
      * 4 = IO Exception
      * 5 = if already connected
      */
-    int connect()
+    public int connect()
     {
         Log.d(TAG, "connect : connecting to ftp client...");
-        if (client == null)
+        if (!client.isConnected())
         {
             Log.d(TAG, "connect : getting passive FTP client");
-            client = new FTPClient();
-
             try
             {
-                Log.d(TAG, "connect : connecting to " + SERVER_IP + " : " + FTP_Port);
-                client.connect(SERVER_IP, FTP_Port);
+                Log.d(TAG, "connect : connecting to " + Variables.SERVER_IP + " : " + Variables.FTP_PORT);
+                client.connect(Variables.SERVER_IP, Variables.FTP_PORT);
+                
                 // After connection attempt, you should check the reply code to verify
                 // success.
                 int reply = client.getReplyCode();
@@ -105,7 +110,7 @@ public class FtpClient
                 client.enterLocalPassiveMode();
                 //send username and password to login to the server
                 Log.d(TAG, "connect : trying to log in ...");
-                if (!client.login(USER_NAME, USER_PASSWORD))
+                if (!client.login(Variables.USER_NAME, Variables.USER_PASSWORD))
                 {
                     Log.e(TAG, "connect : Could not login to FTP Server");
                     return 2;
@@ -130,7 +135,8 @@ public class FtpClient
         else
         {
             Log.d(TAG, "was already connected ");
-            return 5;
+            this.closeConnection();
+            this.connect();
         }
         Log.d(TAG, "connect : successfully connected");
         return 0;
@@ -141,7 +147,7 @@ public class FtpClient
      *
      * @return true if connected, else false
      */
-    boolean isConnected()
+    public boolean isConnected()
     {
         return client.isConnected();
     }
@@ -150,10 +156,10 @@ public class FtpClient
      * closes connection
      * pls always use at the end !!!!
      */
-    protected void closeConnection()
+    public void closeConnection()
     {
-        Log.d(TAG, "closeConnection : trying to close connection with " + SERVER_IP + " : " + FTP_Port);
-        if (client == null)
+        Log.d(TAG, "closeConnection : trying to close connection with " + Variables.SERVER_IP + " : " + Variables.FTP_PORT);
+        if (!client.isConnected())
         {
             Log.d(TAG, "closeConnection : nothing to close, the FTPClient wasn't initialized");
             return;
@@ -181,22 +187,36 @@ public class FtpClient
      * @return all directories
      * @throws IOException
      */
-    protected FTPFile[] getDirList(String path) throws IOException
+    public ArrayList<RemoteDirectory> getDirList(String path)
     {
-        if (client == null)
+        if (!client.isConnected())
         {
             Log.e(TAG, "getDirList : wasnt connected to server, call connect() first");
             return null;
         }
         Log.d(TAG, " getDirList : getting file list for " + path + " ...");
-        FTPFile[] files = client.listFiles(path);
-        ArrayList<FTPFile> dirList = new ArrayList<>();
+        FTPFile[] files = new FTPFile[0];
+
+        try
+        {
+            files = client.listFiles(path);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        ArrayList<RemoteDirectory> dirList = new ArrayList<>();
         for (FTPFile f : files)
         {
-            if (f.isDirectory()) dirList.add(f);
+            if (f.isDirectory())
+            {
+                RemoteDirectory dir = new RemoteDirectory(path + f.getName(), f.getTimestamp().toString());
+                dirList.add(dir);
+            }
         }
         Log.d(TAG, " getDirList : got " + dirList.size() + "dirs  from " + path);
-        return dirList.toArray(new FTPFile[dirList.size()]);
+        return dirList;
     }
 
     /**
@@ -206,27 +226,28 @@ public class FtpClient
      * @return FTPFiles in current dir
      * @throws IOException couldn't read from current dir
      */
-    protected FTPFile[] getFileList(String path) throws IOException
+    public ArrayList<RemoteFile> getFileList(String path) throws IOException
     {
-        if (client == null)
+        if (!client.isConnected())
         {
-            Log.e(TAG, "getFileList : wasnt connected to server, call connect() first");
+            Log.e(TAG, "getFileList : wasn't connected to server, call connect() first");
             return null;
         }
 
         Log.d(TAG, " getFileList : getting file list for " + path + " ...");
         FTPFile[] filesAndDirs = client.listFiles(path);
-        ArrayList<FTPFile> files = new ArrayList<>();
+        ArrayList<RemoteFile> files = new ArrayList<>();
 
         for (FTPFile f : filesAndDirs)
         {
             if (!f.isDirectory())
             {
-                files.add(f);
+                RemoteFile file = new RemoteFile(f.getName(), path, f.getSize(), f.getTimestamp().toString());
+                files.add(file);
             }
         }
         Log.d(TAG, " getFileList : got " + files.size() + "files from " + path);
-        return files.toArray(new FTPFile[files.size()]);
+        return files;
     }
 
     /**
@@ -236,11 +257,11 @@ public class FtpClient
      * @return FTPFiles in current dir
      * @throws IOException couldn't read from current dir
      */
-    protected ArrayList<RemoteFile> getAllFileList(String path) throws IOException
+    public ArrayList<RemoteFile> getAllFileList(String path) throws IOException
     {
-        if (client == null)
+        if (!client.isConnected())
         {
-            Log.e(TAG, "getAllFileList : wasnt connected to server, call connect() first");
+            Log.e(TAG, "getAllFileList : wasn't connected to server, call connect() first");
             return null;
         }
         Log.d(TAG, " getAllFileList : getting file list for " + path + " ...");
@@ -253,7 +274,7 @@ public class FtpClient
             if (!f.isDirectory())
             {
                 Date date = f.getTimestamp().getTime();
-                RemoteFile ohdm = new RemoteFile(f.getName(), path,  (f.getSize() / 1024), sdf.format(date.getTime()));
+                RemoteFile ohdm = new RemoteFile(f.getName(), path, (f.getSize() / 1024), sdf.format(date.getTime()));
                 files.add(ohdm);
             }
             else
@@ -285,15 +306,47 @@ public class FtpClient
      * @param downloadPath   Path to write to
      * @throws IOException couldn't download from current dir
      */
-    protected boolean downloadFile(String remoteFileName, String downloadPath) throws IOException
+    public boolean downloadFile(String remoteFileName, String downloadPath)
     {
-        if (client == null)
+        if (!client.isConnected())
         {
             Log.e(TAG, "downloadFile : wasnt connected to server, call connect() first");
             return false;
         }
         Log.d(TAG, "downloadFile : trying to download " + remoteFileName + downloadPath);
         File downloadFile = new File(MAP_FILE_PATH, remoteFileName);
+
+        try
+        {
+            client.changeWorkingDirectory(downloadPath);
+            OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(downloadFile));
+            InputStream inputStream = null;
+
+            inputStream = client.retrieveFileStream(remoteFileName);
+
+            byte[] bytesArray = new byte[4096];
+
+            long total = 0;
+            int bytesRead;
+            double progress;
+
+            while (-1 != (bytesRead = inputStream.read(bytesArray)))
+            {
+                total += bytesRead;
+                progress = ((total * 100) / (23 * 1024));
+                outputStream.write(bytesArray, 0, bytesRead);
+                Log.i(TAG, "Download progress " + (int) progress);
+            }
+
+            if (client.completePendingCommand()) Log.i(TAG, "File Download successful");
+
+            outputStream.close();
+            inputStream.close();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
         client.changeWorkingDirectory(downloadPath);
         OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(downloadFile));
         InputStream inputStream = client.retrieveFileStream(remoteFileName);
@@ -315,9 +368,6 @@ public class FtpClient
 
         outputStream.close();
         inputStream.close();
-
         return true;
     }
-
-
 }

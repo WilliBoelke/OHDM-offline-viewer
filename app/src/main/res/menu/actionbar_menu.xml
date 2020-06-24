@@ -2,18 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:visible="false"
         android:id="@+id/ab_menu_search"
         android:icon="?attr/icon_search_toolbar"
         android:title="Search"
-        app:showAsAction="ifRoom|collapseActionView"
-        app:actionViewClass="android.support.v7.widget.SearchView"/>
+        android:visible="false"
+        app:actionViewClass="android.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView" />
     <item
         android:id="@+id/ab_menu_settings"
         android:title="@string/menu_settings" />
     <item
         android:id="@+id/ab_menu_faq"
-        android:title="FAQ" />
+        android:title="@string/menu_faq" />
     <item
         android:id="@+id/ab_menu_about"
         android:title="@string/menu_about" />

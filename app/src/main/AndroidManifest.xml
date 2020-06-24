@@ -18,14 +18,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".fragments.FragmentrequestNewMap"></activity>
-        <activity android:name=".mainActivity.MainActivity">
+        <activity android:name="de.htwBerlin.ois.view.fragments.MainActivity"></activity>
+        <activity android:name="de.htwBerlin.ois.views.fragments.FragmentRequestNewMap" />
+        <activity android:name=".views.mainActivity.MainActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <uses-library
+            android:name="android.test.runner"
+            android:required="false" />
     </application>
 
 </manifest>

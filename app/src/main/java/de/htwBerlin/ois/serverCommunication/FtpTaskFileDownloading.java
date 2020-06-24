@@ -1,14 +1,10 @@
 package de.htwBerlin.ois.serverCommunication;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
-import java.io.IOException;
-import java.lang.ref.WeakReference;
+import de.htwBerlin.ois.model.models.fileStructure.RemoteFile;
 
-import de.htwBerlin.ois.fileStructure.RemoteFile;
 
 /**
  * Asynctask that downloads files from FTP Remote server
@@ -22,48 +18,50 @@ public class FtpTaskFileDownloading extends AsyncTask<RemoteFile, Integer, Long>
     //------------Instance Variables------------
 
     private final String TAG = getClass().getSimpleName();
-    private WeakReference<Context> context;
-    private FtpClient ftpClient;
+    private SftpClient sftpClient;
 
 
     //------------Constructors------------
 
-    public FtpTaskFileDownloading(Context context)
+    public FtpTaskFileDownloading()
     {
         Log.d(TAG, "Constructor : new FtpTaskFileDownloading with");
-        this.context = new WeakReference<Context>(context);
     }
 
 
     //------------AsyncTask Implementation------------
 
     @Override
-    protected Long doInBackground(RemoteFile... ohdmFile)
+    public Long doInBackground(RemoteFile[] remoteFile)
     {
         Log.d(TAG, "doingInBackground : initializing new FtpClient ");
-        ftpClient = new FtpClient();
-        ftpClient.connect();
+        if (sftpClient == null)
+        {
+            //in case a mock object was inserted before that
+            sftpClient = new SftpClient();
+        }
+        sftpClient.connect();
         Log.d(TAG, "doingInBackground : connected to FtpClient");
-        try
-        {
-            Log.d(TAG, "doingInBackground : starting file download...");
-            ftpClient.downloadFile(ohdmFile[0].getFilename(), ohdmFile[0].getPath());
-            Log.d(TAG, "doingInBackground :  download finished successfully");
-        }
-        catch (IOException e)
-        {
-            Log.d(TAG, "doingInBackground :  something went wrong while downloading the file");
-            e.printStackTrace();
-        }
+
+        Log.d(TAG, "doingInBackground : starting file download...");
+        sftpClient.downloadFile(remoteFile[0].getFilename(), remoteFile[0].getPath());
+        Log.d(TAG, "doingInBackground :  download finished successfully");
+
         Log.d(TAG, "doingInBackground :  closing server connection");
-        ftpClient.closeConnection();
+        sftpClient.closeConnection();
         return null;
     }
 
     @Override
     protected void onPostExecute(Long params)
     {
-        Context context = this.context.get();
-        Toast.makeText(context, "Download Finished", Toast.LENGTH_SHORT).show();
+        // Context context = this.context.get();
+        //  TODO
+        // Toast.makeText(context, "Download Finished", Toast.LENGTH_SHORT).show();
+    }
+
+    public void insertMockSftpClient(SftpClient mockSftpClient)
+    {
+        this.sftpClient = mockSftpClient;
     }
 }

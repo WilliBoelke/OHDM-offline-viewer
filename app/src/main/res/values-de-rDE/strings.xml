@@ -25,5 +25,19 @@
         Diese wird dann von unserem Server generiert, was einige minuten dauern kann.
         Anschließend wird sie dir und allen anderen benutzern Angezeigt.
     </string>
+    <string name="lat_left">breite links</string>
+    <string name="long_top">läng. oben</string>
+    <string name="menu_faq">FAQ</string>
+    <string name="long_bottom">läng. unten</string>
+    <string name="name">gib einen namen ein</string>
+    <string name="lat_right">breite rechts</string>
+    <string name="coords_info">Gib  Längen- und Breitengrade an</string>
+    <string name="submit_request">Übermittle die Anfrage</string>
+    <string name="permission_access_location">Erlaube OHDM auf deinen Standort zuzugreifen</string>
+    <string name="status_info_done">Der Server hat deine Anfrage erfolgreich bearbeitet, du kannst die Karte nun im Download Tab herunterladen.</string>
+    <string name="status_info_error">Beim Verarbeiten deiner anfrage ist leider ein Fehler aufgetreten</string>
+    <string name="status_info_downloading">Der Server hat deine Anfrage erhalten un läd nun die entsprechenden Daten aus unserer Datenbank</string>
+    <string name="status_info_converting">Der server hat den download der daten abgeschlossen und wird nun eine Karte daraus generieren.</string>
+    <string name="status_info_requesting">Der server hat deine Anfrage erhalten</string>
 
 </resources>

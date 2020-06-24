@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/outer_constraint_layout"
+    android:id="@+id/menu_faq_parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/backgroundColor"
-    tools:context=".fragments.FragmentFAQ"></android.support.constraint.ConstraintLayout>
+    tools:context="de.htwBerlin.ois.views.fragments.FragmentFAQ"></androidx.constraintlayout.widget.ConstraintLayout>
+
