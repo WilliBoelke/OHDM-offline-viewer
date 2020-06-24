@@ -42,14 +42,6 @@ public class ViewModelMainActivity extends ViewModel
         Log.d(TAG, "createOhdmDirectory : Creating OHDM directory...");
         File dir = new File(MAP_FILE_PATH);
         boolean status;
-        if (!dir.exists())
-        {
-            status = dir.mkdirs();
-            if (status)
-                Toast.makeText(getApplicationContext(), "Created OHDM Directory.", Toast.LENGTH_SHORT).show();
-            else
-                Toast.makeText(getApplicationContext(), "Couldn't create OHDM Directory.", Toast.LENGTH_SHORT).show();
-        }
         Log.d(TAG, "createOhdmDirectory : OHDM directory created");
     }
 
@@ -83,13 +75,8 @@ public class ViewModelMainActivity extends ViewModel
                 public void getHttpResponse(String response)
                 {
 
-                    if (response == null)
+                    if (response != null)
                     {
-                        Toast.makeText(getApplicationContext(), "Something went Wrong", Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                    {
-                        Toast.makeText(getApplicationContext(), "Response = " + response, Toast.LENGTH_SHORT).show();
                         UserPreferences.getInstance().setUserId(response);
                         Log.d(TAG, "ID from server = " + response);
                     }

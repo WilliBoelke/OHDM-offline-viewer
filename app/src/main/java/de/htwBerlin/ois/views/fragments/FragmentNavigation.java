@@ -147,8 +147,7 @@ public class FragmentNavigation extends Fragment
             {
                 if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
                 {
-
-                    Location location = viewModel.getLastKnownLocation();
+                    Location location = viewModel.getLastKnownLocation(getActivity());
                     try
                     {
                         double longitude = location.getLongitude();
