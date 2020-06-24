@@ -1,6 +1,7 @@
 package de.htwBerlin.ois.viewModels;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -98,7 +99,7 @@ public class ViewModelMainActivity extends ViewModel
      * @param intent the intent which started the MainActivity
      * @return FragmentHome.class or FragmentOptions.class
      */
-    public Class getCorrectFragment(Intent intent)
+    public Class getCorrectFragment(Intent intent, Bundle savedInstanceState)
     {
 
         if (intent.getStringExtra("Fragment") != null)
@@ -110,9 +111,15 @@ public class ViewModelMainActivity extends ViewModel
                 return FragmentOptions.class;
             }
         }
-        return FragmentHome.class;
+        else
+        {
+            if (savedInstanceState == null)
+            {
+                return FragmentHome.class;
+            }
+        }
 
-
+        return null;
     }
 
     public boolean isDarkModeEnabled()

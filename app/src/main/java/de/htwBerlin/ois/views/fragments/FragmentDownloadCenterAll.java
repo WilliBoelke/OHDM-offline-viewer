@@ -65,12 +65,19 @@ public class FragmentDownloadCenterAll extends FragmentWithServerConnection
 
 
     //------------Static Variables------------
+
     /**
      * The view
      */
     private View view;
 
+
     //------------Constructor------------
+
+    public FragmentDownloadCenterAll()
+    {
+        // doesn't do anything special
+    }
 
     public FragmentDownloadCenterAll(Client client)
     {

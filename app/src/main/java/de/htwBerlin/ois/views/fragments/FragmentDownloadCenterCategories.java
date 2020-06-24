@@ -52,6 +52,14 @@ public class FragmentDownloadCenterCategories extends FragmentWithServerConnecti
     private Client client;
 
 
+    //------------Constructors------------
+
+    public FragmentDownloadCenterCategories()
+    {
+        // doesn't do anything special
+    }
+
+
     //------------Activity/Fragment Lifecycle------------
 
 

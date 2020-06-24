@@ -50,6 +50,14 @@ public class FragmentOptions extends Fragment
     public static String ID = "Options";
 
 
+    //------------Constructors------------
+
+    public FragmentOptions()
+    {
+        // doesn't do anything special
+    }
+
+
     //------------Instance Variables------------
 
     /**

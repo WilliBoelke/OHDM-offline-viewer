@@ -68,6 +68,13 @@ public class FragmentHome extends Fragment
     private RecyclerView localMapsRecyclerView;
 
 
+    //------------Constructors------------
+
+    public FragmentHome()
+    {
+        // doesn't do anything special
+    }
+
     //------------Activity/Fragment Lifecycle------------
 
     @Nullable

@@ -66,6 +66,14 @@ public class FragmentNavigation extends Fragment
     private ViewModelNavigation viewModel;
 
 
+    //------------Constructors------------
+
+    public FragmentNavigation()
+    {
+        // doesn't do anything special
+    }
+
+
     //------------Activity/Fragment Lifecycle------------
 
     @Override
@@ -93,7 +101,16 @@ public class FragmentNavigation extends Fragment
          * Whenever your activity exits, some cleanup operations have to be performed lest your app
          * runs out of memory.
          */
-        mapView.destroyAll();
+        try
+        {
+            //This sometimes throws a NullPointer
+            mapView.destroyAll();
+        }
+        catch(NullPointerException e)
+        {
+            e.printStackTrace();
+        }
+
         AndroidGraphicFactory.clearResourceMemoryCache();
         super.onDestroy();
     }

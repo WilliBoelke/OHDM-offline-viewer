@@ -92,8 +92,11 @@ public class MainActivity extends AppCompatActivity
 
         //Open the correct fragment
         Intent intent = getIntent();
-        Class frag = viewModel.getCorrectFragment(intent);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, frag, new Bundle()).addToBackStack(null).commit();
+        Class frag = viewModel.getCorrectFragment(intent, savedInstanceState);
+        if (frag != null) // Else the kast fragment will come into view again
+        {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, frag, new Bundle()).addToBackStack(null).commit();
+        }
 
         //creating the OHDM dir
         viewModel.createOhdmDirectory();
@@ -208,7 +211,7 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.ab_menu_settings:
                 Log.d(TAG, "Options Menu : replacing current fragment with FragmentOptions");
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, FragmentOptions.class, new Bundle()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, FragmentOptions.class, new Bundle()).addToBackStack(null).commit();
                 break;
             case R.id.ab_menu_search:
                 //no implemented here, to e implemented in fragments
@@ -260,7 +263,7 @@ public class MainActivity extends AppCompatActivity
             // ... also commit
             try
             {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment, new Bundle()).addToBackStack("").commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment, new Bundle()).addToBackStack(null).commit();
             }
             catch (NullPointerException e)
             {

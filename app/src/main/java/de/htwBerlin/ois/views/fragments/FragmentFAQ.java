@@ -37,6 +37,14 @@ public class FragmentFAQ extends Fragment
     private View view;
 
 
+    //------------Constructors------------
+
+    public FragmentFAQ()
+    {
+        // doesn't do anything special
+    }
+
+
     //------------Activity/Fragment Lifecycle------------
 
     @Nullable

@@ -38,6 +38,14 @@ public class FragmentRequestStatus extends FragmentWithServerConnection
     private ViewModelRequestStatus viewModel;
 
 
+    //------------Constructors------------
+
+    public FragmentRequestStatus()
+    {
+        // doesn't do anything special
+    }
+
+
     //------------Activity/Fragment Lifecycle------------
 
     @Override

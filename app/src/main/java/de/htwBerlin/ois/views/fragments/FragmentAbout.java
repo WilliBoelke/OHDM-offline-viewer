@@ -41,6 +41,14 @@ public class FragmentAbout extends Fragment
     private View view;
 
 
+    //------------Constructor------------
+
+    public FragmentAbout()
+    {
+        // doesn't do anything special
+    }
+
+
     //------------Activity/Fragment Lifecycle------------
 
     @Nullable

@@ -52,6 +52,11 @@ public class FragmentRequestNewMap extends Fragment
 
     //------------Constructors------------
 
+    public FragmentRequestNewMap()
+    {
+        // doesn't do anything special
+    }
+
     public FragmentRequestNewMap(HttpClient httpClient)
     {
         this.httpClient = httpClient;
