@@ -34,7 +34,7 @@ import org.mapsforge.map.rendertheme.InternalRenderTheme;
 import java.io.File;
 
 import de.htwBerlin.ois.R;
-import de.htwBerlin.ois.models.repositories.localRepositories.MapFileSingleton;
+import de.htwBerlin.ois.model.repositories.localRepositories.MapFileSingleton;
 import de.htwBerlin.ois.viewModels.ViewModelNavigation;
 
 /**
@@ -85,6 +85,17 @@ public class FragmentNavigation extends Fragment
     {
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onDestroy() {
+        /*
+         * Whenever your activity exits, some cleanup operations have to be performed lest your app
+         * runs out of memory.
+         */
+        mapView.destroyAll();
+        AndroidGraphicFactory.clearResourceMemoryCache();
+        super.onDestroy();
     }
 
 

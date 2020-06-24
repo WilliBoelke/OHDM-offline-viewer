@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.Map;
 
 import de.htwBerlin.ois.R;
-import de.htwBerlin.ois.models.repositories.localRepositories.MapFileSingleton;
-import de.htwBerlin.ois.models.repositories.localRepositories.UserPreferences;
+import de.htwBerlin.ois.model.repositories.localRepositories.MapFileSingleton;
+import de.htwBerlin.ois.model.repositories.localRepositories.UserPreferences;
 import de.htwBerlin.ois.serverCommunication.HttpClient;
 import de.htwBerlin.ois.serverCommunication.SftpClient;
 import de.htwBerlin.ois.viewModels.ViewModelMainActivity;
@@ -35,6 +35,8 @@ import de.htwBerlin.ois.views.fragments.FragmentHome;
 import de.htwBerlin.ois.views.fragments.FragmentNavigation;
 import de.htwBerlin.ois.views.fragments.FragmentOptions;
 import de.htwBerlin.ois.views.fragments.FragmentRequestStatus;
+
+import static de.htwBerlin.ois.model.repositories.localRepositories.UserPreferences.SETTINGS_SHARED_PREFERENCES;
 
 /**
  * @author WilliBoelke
@@ -70,7 +72,7 @@ public class MainActivity extends AppCompatActivity
 
         //Initializing the USerPreferences with Application context
         UserPreferences.getInstance();
-        UserPreferences.getInstance().init(getApplicationContext());
+        UserPreferences.getInstance().init(getApplicationContext().getSharedPreferences(SETTINGS_SHARED_PREFERENCES, 0));
 
         //Setting tthe app heme and contentView
         Log.d(TAG, "onCreate : setting app theme...");
@@ -102,7 +104,7 @@ public class MainActivity extends AppCompatActivity
         //Checking permissions
         this.checkPermissions();
 
-
+        this.setupBottomNav();
     }
 
 

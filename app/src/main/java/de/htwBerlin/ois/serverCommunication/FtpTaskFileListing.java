@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import de.htwBerlin.ois.models.fileStructure.RemoteFile;
+import de.htwBerlin.ois.model.models.fileStructure.RemoteFile;
 
 
 /**
@@ -69,7 +69,7 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
 
 
     @Override
-    protected String doInBackground(Void... params)
+    public String doInBackground(Void... params)
     {
         remoteFiles = new ArrayList<>();
         Log.d(TAG, "doingInBackground : initializing new FtpClient ");

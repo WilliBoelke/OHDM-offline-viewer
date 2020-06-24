@@ -17,7 +17,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import de.htwBerlin.ois.R;
-import de.htwBerlin.ois.models.repositories.localRepositories.MapFileSingleton;
+import de.htwBerlin.ois.model.repositories.localRepositories.MapFileSingleton;
 
 /**
  * @author WilliBoelke

@@ -1,4 +1,4 @@
-package de.htwBerlin.ois.models.fileStructure;
+package de.htwBerlin.ois.model.models.fileStructure;
 
 
 public class RemoteFile

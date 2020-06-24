@@ -24,7 +24,6 @@ class FragmentDownloadCenterCategoriesTest
         val scenario = launchFragmentInContainer<FragmentDownloadCenterAll>(themeResId = R.style.LightTheme, fragmentArgs = bundle, factory = fragmentFactory)
     }
 
-
     @Test
     fun viewsAreDisplayed() {
         val sftpClient = MockClient(false, false)
@@ -51,8 +50,6 @@ class FragmentDownloadCenterCategoriesTest
         Espresso.onView(ViewMatchers.withId(R.id.button_categories)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         Espresso.onView(ViewMatchers.withId(R.id.button_all_maps)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
-
-
 
     @Test
     fun recyclerViewTestIsDisplayed() {

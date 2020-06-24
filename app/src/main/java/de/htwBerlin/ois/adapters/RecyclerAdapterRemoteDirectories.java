@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import de.htwBerlin.ois.R;
-import de.htwBerlin.ois.models.fileStructure.RemoteDirectory;
-import de.htwBerlin.ois.models.fileStructure.RemoteFile;
+import de.htwBerlin.ois.model.models.fileStructure.RemoteDirectory;
+import de.htwBerlin.ois.model.models.fileStructure.RemoteFile;
 import de.htwBerlin.ois.views.fragments.FragmentDownloadCenterCategories;
 
 

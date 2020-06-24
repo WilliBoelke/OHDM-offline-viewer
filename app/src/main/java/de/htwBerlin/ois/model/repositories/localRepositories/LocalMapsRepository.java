@@ -1,4 +1,4 @@
-package de.htwBerlin.ois.models.repositories.localRepositories;
+package de.htwBerlin.ois.model.repositories.localRepositories;
 
 import android.util.Log;
 
@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import java.io.File;
 import java.util.ArrayList;
 
-import static de.htwBerlin.ois.models.repositories.localRepositories.Variables.MAP_FILE_PATH;
+import static de.htwBerlin.ois.model.repositories.localRepositories.Variables.MAP_FILE_PATH;
 
 
 /**
@@ -36,9 +36,9 @@ public class LocalMapsRepository
         data = new MutableLiveData<>();
     }
 
-    public MutableLiveData<ArrayList<File>> getLocalFiles()
+    public MutableLiveData<ArrayList<File>> getLocalFiles(File targetDir)
     {
-        readLocalMapFiles();
+        readLocalMapFiles(targetDir);
         data.setValue(localMaps);
 
         return data;
@@ -49,12 +49,12 @@ public class LocalMapsRepository
      *
      * @return a set of .map files
      */
-    private void readLocalMapFiles()
+    private void readLocalMapFiles(File targetDir)
     {
         localMaps = new ArrayList<>();
         try
         {
-            for (File mapFile : new File(MAP_FILE_PATH).listFiles())
+            for (File mapFile : targetDir.listFiles())
             {
                 if (mapFile.getName().endsWith(".map"))
                 {

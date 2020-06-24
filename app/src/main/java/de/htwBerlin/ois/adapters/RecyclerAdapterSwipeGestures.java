@@ -19,7 +19,6 @@ public class RecyclerAdapterSwipeGestures extends ItemTouchHelper.SimpleCallback
     private final ColorDrawable greenBackground;
     private SwipeCallbackLeft swipeCallbackLeft;
     private SwipeCallbackRight swipeCallbackRight;
-    private RecyclerView.Adapter mAdapter;
     private ColorDrawable actualIColor;
 
 
@@ -28,13 +27,11 @@ public class RecyclerAdapterSwipeGestures extends ItemTouchHelper.SimpleCallback
     /**
      * Public Constructor to just implement the LeftSwipe
      *
-     * @param adapter
      * @param onLeftSwipe
      */
-    public RecyclerAdapterSwipeGestures(RecyclerView.Adapter adapter, SwipeCallbackLeft onLeftSwipe)
+    public RecyclerAdapterSwipeGestures(SwipeCallbackLeft onLeftSwipe)
     {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
-        mAdapter = adapter;
         actualIColor = new ColorDrawable(Color.GREEN);
         redBackground = new ColorDrawable(Color.RED);
         greenBackground = new ColorDrawable(Color.GREEN);
@@ -44,13 +41,11 @@ public class RecyclerAdapterSwipeGestures extends ItemTouchHelper.SimpleCallback
     /**
      * Public Constructor to just implement the RightSwipe
      *
-     * @param adapter
      * @param onRightSwipe
      */
-    public RecyclerAdapterSwipeGestures(RecyclerView.Adapter adapter, SwipeCallbackRight onRightSwipe)
+    public RecyclerAdapterSwipeGestures(SwipeCallbackRight onRightSwipe)
     {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
-        mAdapter = adapter;
         actualIColor = new ColorDrawable(Color.GREEN);
         redBackground = new ColorDrawable(Color.RED);
         greenBackground = new ColorDrawable(Color.GREEN);
@@ -61,13 +56,11 @@ public class RecyclerAdapterSwipeGestures extends ItemTouchHelper.SimpleCallback
     /**
      * Public Constructor to implement both swipe directions
      *
-     * @param adapter
      * @param onLeftSwipe
      */
-    public RecyclerAdapterSwipeGestures(RecyclerView.Adapter adapter, SwipeCallbackRight onRightSwipe, SwipeCallbackLeft onLeftSwipe)
+    public RecyclerAdapterSwipeGestures( SwipeCallbackRight onRightSwipe, SwipeCallbackLeft onLeftSwipe)
     {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
-        mAdapter = adapter;
         actualIColor = new ColorDrawable(Color.GREEN);
         redBackground = new ColorDrawable(Color.RED);
         greenBackground = new ColorDrawable(Color.GREEN);

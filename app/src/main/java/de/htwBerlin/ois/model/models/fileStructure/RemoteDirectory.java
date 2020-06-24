@@ -1,8 +1,8 @@
-package de.htwBerlin.ois.models.fileStructure;
+package de.htwBerlin.ois.model.models.fileStructure;
 
 import java.io.Serializable;
 
-import static de.htwBerlin.ois.models.repositories.localRepositories.Variables.FTP_ROOT_DIRECTORY;
+import static de.htwBerlin.ois.model.repositories.localRepositories.Variables.FTP_ROOT_DIRECTORY;
 
 /**
  * Class do describe a directory from the FTP Server

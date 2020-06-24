@@ -26,7 +26,7 @@ import java.util.HashMap;
 import de.htwBerlin.ois.R;
 import de.htwBerlin.ois.adapters.OnRecyclerItemDownloadButtonClick;
 import de.htwBerlin.ois.adapters.RecyclerAdapterRemoteDirectories;
-import de.htwBerlin.ois.models.fileStructure.RemoteFile;
+import de.htwBerlin.ois.model.models.fileStructure.RemoteFile;
 import de.htwBerlin.ois.serverCommunication.Client;
 import de.htwBerlin.ois.viewModels.ViewModelMapDownloadCenterCategories;
 

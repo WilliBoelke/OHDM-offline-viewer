@@ -9,8 +9,8 @@ import org.mockito.Mockito;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import de.htwBerlin.ois.models.fileStructure.RemoteDirectory;
-import de.htwBerlin.ois.models.fileStructure.RemoteFile;
+import de.htwBerlin.ois.model.models.fileStructure.RemoteDirectory;
+import de.htwBerlin.ois.model.models.fileStructure.RemoteFile;
 import de.htwBerlin.ois.serverCommunication.AsyncResponse;
 import de.htwBerlin.ois.serverCommunication.FtpTaskFileListing;
 import de.htwBerlin.ois.serverCommunication.SftpClient;
@@ -47,7 +47,7 @@ public class FtpTaskFileListingTest
     @BeforeEach
     public void setup()
     {
-        fileListingTest = new FtpTaskFileListing(context, "path", mockSftpClient, false, asyncResponse);
+        fileListingTest = new FtpTaskFileListing( "path", mockSftpClient, false, asyncResponse);
     }
 
 

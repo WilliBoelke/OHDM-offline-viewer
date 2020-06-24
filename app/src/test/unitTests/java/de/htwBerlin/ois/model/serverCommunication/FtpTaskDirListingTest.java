@@ -1,7 +1,5 @@
 package de.htwBerlin.ois.model.serverCommunication;
 
-import android.content.Context;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -9,8 +7,8 @@ import org.mockito.Mockito;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import de.htwBerlin.ois.models.fileStructure.RemoteDirectory;
-import de.htwBerlin.ois.models.fileStructure.RemoteFile;
+import de.htwBerlin.ois.model.models.fileStructure.RemoteDirectory;
+import de.htwBerlin.ois.model.models.fileStructure.RemoteFile;
 import de.htwBerlin.ois.serverCommunication.AsyncResponse;
 import de.htwBerlin.ois.serverCommunication.FtpTaskDirListing;
 import de.htwBerlin.ois.serverCommunication.SftpClient;
@@ -26,7 +24,6 @@ class FtpTaskDirListingTest
 {
     private FtpTaskDirListing dirListingTest;
     private SftpClient mocksFtpClient = Mockito.mock(SftpClient.class);
-    private Context context = Mockito.mock(Context.class);
 
     private AsyncResponse asyncResponse = new AsyncResponse()
     {
@@ -52,7 +49,7 @@ class FtpTaskDirListingTest
     @BeforeEach
     public void setup()
     {
-        dirListingTest = new FtpTaskDirListing(context, "path", asyncResponse);
+        dirListingTest = new FtpTaskDirListing( "path", asyncResponse);
         dirListingTest.insertMockFtpClient(mocksFtpClient);
     }
 

@@ -1,9 +1,9 @@
-package de.htwBerlin.ois.model.fileStructure;
+package de.htwBerlin.ois.model.models;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import de.htwBerlin.ois.models.fileStructure.RemoteDirectory;
+import de.htwBerlin.ois.model.models.fileStructure.RemoteDirectory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

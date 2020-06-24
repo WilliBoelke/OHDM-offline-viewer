@@ -1,4 +1,4 @@
-package de.htwBerlin.ois.models.repositories.remoteRepositories;
+package de.htwBerlin.ois.model.repositories.remoteRepositories;
 
 import android.util.Log;
 
@@ -7,16 +7,16 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import de.htwBerlin.ois.models.fileStructure.RemoteDirectory;
-import de.htwBerlin.ois.models.fileStructure.RemoteFile;
+import de.htwBerlin.ois.model.models.fileStructure.RemoteDirectory;
+import de.htwBerlin.ois.model.models.fileStructure.RemoteFile;
 import de.htwBerlin.ois.serverCommunication.AsyncResponse;
 import de.htwBerlin.ois.serverCommunication.FtpTaskDirListing;
 import de.htwBerlin.ois.serverCommunication.FtpTaskFileDownloading;
 import de.htwBerlin.ois.serverCommunication.FtpTaskFileListing;
 import de.htwBerlin.ois.serverCommunication.SftpClient;
 
-import static de.htwBerlin.ois.models.repositories.localRepositories.Variables.FTP_ROOT_DIRECTORY;
-import static de.htwBerlin.ois.models.repositories.localRepositories.Variables.MOST_RECENT_PATH;
+import static de.htwBerlin.ois.model.repositories.localRepositories.Variables.FTP_ROOT_DIRECTORY;
+import static de.htwBerlin.ois.model.repositories.localRepositories.Variables.MOST_RECENT_PATH;
 
 /**
  * This Repository manages all access to the ftp server

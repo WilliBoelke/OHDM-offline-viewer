@@ -28,7 +28,6 @@ import de.htwBerlin.ois.adapters.RecyclerAdapterLocalFiles;
 import de.htwBerlin.ois.adapters.RecyclerAdapterSwipeGestures;
 import de.htwBerlin.ois.adapters.SwipeCallbackLeft;
 import de.htwBerlin.ois.adapters.SwipeCallbackRight;
-import de.htwBerlin.ois.models.repositories.localRepositories.MapFileSingleton;
 import de.htwBerlin.ois.viewModels.FragmentHomeViewModel;
 
 /**
@@ -134,7 +133,7 @@ public class FragmentHome extends Fragment
         recyclerAdapter = new RecyclerAdapterLocalFiles(this.getContext(), viewModel.getLocalMapFiles().getValue(), R.layout.recycler_item_vertical);
 
         //The itemTouchhelper for the swipe gestures on the recycler Items
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new RecyclerAdapterSwipeGestures(recyclerAdapter, this.swipeCallbackRight, this.swipeCallbackLeft));
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new RecyclerAdapterSwipeGestures(this.swipeCallbackRight, this.swipeCallbackLeft));
 
         //Putting everything together
         itemTouchHelper.attachToRecyclerView(localMapsRecyclerView);
@@ -214,9 +213,8 @@ public class FragmentHome extends Fragment
         @Override
         public void onLeftSwipe(int position)
         {
-            MapFileSingleton mapFile = MapFileSingleton.getInstance();
             viewModel.chooseMapAt(position);
-        }
+    }
     };
     private SwipeCallbackRight swipeCallbackRight = new SwipeCallbackRight()
     {

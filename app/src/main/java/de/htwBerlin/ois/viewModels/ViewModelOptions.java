@@ -2,11 +2,11 @@ package de.htwBerlin.ois.viewModels;
 
 import androidx.lifecycle.ViewModel;
 
-import de.htwBerlin.ois.models.repositories.localRepositories.UserPreferences;
+import de.htwBerlin.ois.model.repositories.localRepositories.UserPreferences;
 
 /**
  * ViewModel for the {@link de.htwBerlin.ois.views.fragments.FragmentOptions}
- * Communicates with {@link de.htwBerlin.ois.models.repositories.localRepositories.UserPreferences}
+ * Communicates with {@link de.htwBerlin.ois.model.repositories.localRepositories.UserPreferences}
  * to save and retrieve user settings
  *
  * @author WilliBoelke

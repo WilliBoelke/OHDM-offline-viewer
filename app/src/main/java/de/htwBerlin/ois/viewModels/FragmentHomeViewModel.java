@@ -9,7 +9,9 @@ import androidx.lifecycle.ViewModel;
 import java.io.File;
 import java.util.ArrayList;
 
-import de.htwBerlin.ois.models.repositories.localRepositories.LocalMapsRepository;
+import de.htwBerlin.ois.model.repositories.localRepositories.LocalMapsRepository;
+
+import static de.htwBerlin.ois.model.repositories.localRepositories.Variables.MAP_FILE_PATH;
 
 /**
  * ViewMode for the homeFragment
@@ -35,7 +37,7 @@ public class FragmentHomeViewModel extends ViewModel
             return;
         }
         localMapsRepository = LocalMapsRepository.getInstance();
-        localMapFiles = localMapsRepository.getLocalFiles();
+        localMapFiles = localMapsRepository.getLocalFiles( new File(MAP_FILE_PATH));
     }
 
 

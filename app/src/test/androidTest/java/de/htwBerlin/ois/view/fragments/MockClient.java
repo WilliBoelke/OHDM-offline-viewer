@@ -3,8 +3,8 @@ package de.htwBerlin.ois.view.fragments;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import de.htwBerlin.ois.models.fileStructure.RemoteDirectory;
-import de.htwBerlin.ois.models.fileStructure.RemoteFile;
+import de.htwBerlin.ois.model.models.fileStructure.RemoteDirectory;
+import de.htwBerlin.ois.model.models.fileStructure.RemoteFile;
 import de.htwBerlin.ois.serverCommunication.Client;
 
 /**

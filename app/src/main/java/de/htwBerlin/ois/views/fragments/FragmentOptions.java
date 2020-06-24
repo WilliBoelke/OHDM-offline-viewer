@@ -30,8 +30,8 @@ import de.htwBerlin.ois.R;
 import de.htwBerlin.ois.viewModels.ViewModelOptions;
 import de.htwBerlin.ois.views.mainActivity.MainActivity;
 
-import static de.htwBerlin.ois.models.repositories.localRepositories.Variables.REQUEST_CODE_ACCESS_LOCATION_PERMISSION;
-import static de.htwBerlin.ois.models.repositories.localRepositories.Variables.REQUEST_CODE_WRITE_STORAGE_PERMISSION;
+import static de.htwBerlin.ois.model.repositories.localRepositories.Variables.REQUEST_CODE_ACCESS_LOCATION_PERMISSION;
+import static de.htwBerlin.ois.model.repositories.localRepositories.Variables.REQUEST_CODE_WRITE_STORAGE_PERMISSION;
 
 /**
  * Fragment to show the applications settings

@@ -6,7 +6,7 @@ import android.util.Log;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import de.htwBerlin.ois.models.fileStructure.RemoteDirectory;
+import de.htwBerlin.ois.model.models.fileStructure.RemoteDirectory;
 
 /**
  * Async task that lists directories hosted on FTP Remote Server
@@ -59,7 +59,7 @@ public class FtpTaskDirListing extends AsyncTask<Void, Void, String>
     //------------AsyncTask Implementation------------
 
     @Override
-    protected String doInBackground(Void... params)
+    public String doInBackground(Void... params)
     {
         directoryList = new ArrayList<>();
         Log.d(TAG, "doingInBackground : initializing new FtpClient ");

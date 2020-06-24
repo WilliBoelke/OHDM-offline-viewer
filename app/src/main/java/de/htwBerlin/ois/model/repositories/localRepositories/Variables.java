@@ -1,4 +1,4 @@
-package de.htwBerlin.ois.models.repositories.localRepositories;
+package de.htwBerlin.ois.model.repositories.localRepositories;
 
 import android.os.Environment;
 

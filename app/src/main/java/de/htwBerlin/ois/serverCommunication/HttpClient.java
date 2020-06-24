@@ -16,8 +16,8 @@ import java.nio.charset.StandardCharsets;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import static de.htwBerlin.ois.models.repositories.localRepositories.Variables.HTTP_PORT;
-import static de.htwBerlin.ois.models.repositories.localRepositories.Variables.SERVER_IP;
+import static de.htwBerlin.ois.model.repositories.localRepositories.Variables.HTTP_PORT;
+import static de.htwBerlin.ois.model.repositories.localRepositories.Variables.SERVER_IP;
 
 /**
  * A simple wrapper class for the {@link java.net.HttpURLConnection}

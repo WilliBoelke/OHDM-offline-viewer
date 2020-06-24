@@ -2,8 +2,8 @@ package de.htwBerlin.ois.serverCommunication;
 
 import java.util.ArrayList;
 
-import de.htwBerlin.ois.models.fileStructure.RemoteDirectory;
-import de.htwBerlin.ois.models.fileStructure.RemoteFile;
+import de.htwBerlin.ois.model.models.fileStructure.RemoteDirectory;
+import de.htwBerlin.ois.model.models.fileStructure.RemoteFile;
 
 public interface AsyncResponse
 {

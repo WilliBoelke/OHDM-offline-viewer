@@ -9,9 +9,9 @@ import androidx.lifecycle.ViewModel;
 import java.io.File;
 import java.util.ArrayList;
 
-import de.htwBerlin.ois.models.fileStructure.RemoteDirectory;
-import de.htwBerlin.ois.models.fileStructure.RemoteFile;
-import de.htwBerlin.ois.models.repositories.localRepositories.UserPreferences;
+import de.htwBerlin.ois.model.models.fileStructure.RemoteDirectory;
+import de.htwBerlin.ois.model.models.fileStructure.RemoteFile;
+import de.htwBerlin.ois.model.repositories.localRepositories.UserPreferences;
 import de.htwBerlin.ois.serverCommunication.AsyncResponse;
 import de.htwBerlin.ois.serverCommunication.HttpClient;
 import de.htwBerlin.ois.serverCommunication.HttpRequest;
@@ -19,7 +19,7 @@ import de.htwBerlin.ois.views.fragments.FragmentHome;
 import de.htwBerlin.ois.views.fragments.FragmentOptions;
 
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
-import static de.htwBerlin.ois.models.repositories.localRepositories.Variables.MAP_FILE_PATH;
+import static de.htwBerlin.ois.model.repositories.localRepositories.Variables.MAP_FILE_PATH;
 import static de.htwBerlin.ois.serverCommunication.HttpRequest.REQUEST_TYPE_ID;
 
 /**

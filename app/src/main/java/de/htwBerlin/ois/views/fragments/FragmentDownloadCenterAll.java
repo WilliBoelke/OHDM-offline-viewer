@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import de.htwBerlin.ois.R;
 import de.htwBerlin.ois.adapters.OnRecyclerItemDownloadButtonClick;
 import de.htwBerlin.ois.adapters.RecyclerAdapterRemoteFiles;
-import de.htwBerlin.ois.models.fileStructure.RemoteFile;
+import de.htwBerlin.ois.model.models.fileStructure.RemoteFile;
 import de.htwBerlin.ois.serverCommunication.Client;
 import de.htwBerlin.ois.viewModels.ViewModelDownloadCenterAll;
 

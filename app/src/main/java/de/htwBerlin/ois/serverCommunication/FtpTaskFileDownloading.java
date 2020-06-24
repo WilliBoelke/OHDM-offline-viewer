@@ -3,7 +3,7 @@ package de.htwBerlin.ois.serverCommunication;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import de.htwBerlin.ois.models.fileStructure.RemoteFile;
+import de.htwBerlin.ois.model.models.fileStructure.RemoteFile;
 
 /**
  * Asynctask that downloads files from FTP Remote server
@@ -31,7 +31,7 @@ public class FtpTaskFileDownloading extends AsyncTask<RemoteFile, Integer, Long>
     //------------AsyncTask Implementation------------
 
     @Override
-    protected Long doInBackground(RemoteFile[] remoteFile)
+    public Long doInBackground(RemoteFile[] remoteFile)
     {
         Log.d(TAG, "doingInBackground : initializing new FtpClient ");
         if (sftpClient == null)

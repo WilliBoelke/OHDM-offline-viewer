@@ -1,12 +1,10 @@
-package de.htwBerlin.ois.model.fileStructure;
+package de.htwBerlin.ois.model.repositories.localRepositories;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.io.File;
-
-import de.htwBerlin.ois.models.repositories.localRepositories.MapFileSingleton;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;

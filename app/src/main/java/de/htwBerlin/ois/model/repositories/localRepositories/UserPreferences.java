@@ -1,4 +1,4 @@
-package de.htwBerlin.ois.models.repositories.localRepositories;
+package de.htwBerlin.ois.model.repositories.localRepositories;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -47,9 +47,9 @@ public class UserPreferences
     }
 
 
-    public void init(Context context)
+    public void init( SharedPreferences prefs)
     {
-        prefs = context.getSharedPreferences(SETTINGS_SHARED_PREFERENCES, 0);
+        this.prefs = prefs;
         ID = prefs.getString(USER_ID, null);
         DarkMode = prefs.getBoolean(DARK_MODE, false);
     }

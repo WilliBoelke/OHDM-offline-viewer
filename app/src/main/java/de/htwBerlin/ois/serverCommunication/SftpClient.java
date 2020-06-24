@@ -13,11 +13,11 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import de.htwBerlin.ois.models.fileStructure.RemoteDirectory;
-import de.htwBerlin.ois.models.fileStructure.RemoteFile;
-import de.htwBerlin.ois.models.repositories.localRepositories.Variables;
+import de.htwBerlin.ois.model.models.fileStructure.RemoteDirectory;
+import de.htwBerlin.ois.model.models.fileStructure.RemoteFile;
+import de.htwBerlin.ois.model.repositories.localRepositories.Variables;
 
-import static de.htwBerlin.ois.models.repositories.localRepositories.Variables.MAP_FILE_PATH;
+import static de.htwBerlin.ois.model.repositories.localRepositories.Variables.MAP_FILE_PATH;
 
 
 public class SftpClient implements Client
