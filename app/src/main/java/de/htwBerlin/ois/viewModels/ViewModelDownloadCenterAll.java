@@ -44,11 +44,19 @@ public class ViewModelDownloadCenterAll extends ViewModel
 
     //------------Getter------------
 
+    /**
+     * Returns the allMaps LiveData Object
+     * @return
+     */
     public LiveData<ArrayList<RemoteFile>> getAllMaps()
     {
         return allMaps;
     }
 
+    /**
+     * Returns the mostRecentMaps LiveData object
+     * @return
+     */
     public LiveData<ArrayList<RemoteFile>> getMostRecentMaps()
     {
         return mostRecentMaps;

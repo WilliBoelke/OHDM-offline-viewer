@@ -28,7 +28,7 @@ import de.htwBerlin.ois.adapters.OnRecyclerItemDownloadButtonClick;
 import de.htwBerlin.ois.adapters.RecyclerAdapterRemoteDirectories;
 import de.htwBerlin.ois.model.models.fileStructure.RemoteFile;
 import de.htwBerlin.ois.serverCommunication.Client;
-import de.htwBerlin.ois.viewModels.ViewModelMapDownloadCenterCategories;
+import de.htwBerlin.ois.viewModels.ViewModelDownloadCenterCategories;
 
 
 public class FragmentDownloadCenterCategories extends FragmentWithServerConnection
@@ -48,7 +48,7 @@ public class FragmentDownloadCenterCategories extends FragmentWithServerConnecti
      * The RecyclerAdapter
      */
     private RecyclerAdapterRemoteDirectories recyclerViewAdapter;
-    private ViewModelMapDownloadCenterCategories viewModel;
+    private ViewModelDownloadCenterCategories viewModel;
     private Client client;
 
 
@@ -81,7 +81,7 @@ public class FragmentDownloadCenterCategories extends FragmentWithServerConnecti
     public void onActivityCreated(@Nullable Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
-        viewModel = ViewModelProviders.of(this).get(ViewModelMapDownloadCenterCategories.class);
+        viewModel = ViewModelProviders.of(this).get(ViewModelDownloadCenterCategories.class);
         viewModel.init();
         setHasOptionsMenu(true);
 

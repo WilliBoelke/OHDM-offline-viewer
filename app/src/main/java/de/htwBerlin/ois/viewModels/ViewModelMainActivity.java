@@ -3,7 +3,6 @@ package de.htwBerlin.ois.viewModels;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.lifecycle.ViewModel;
 
@@ -15,13 +14,12 @@ import de.htwBerlin.ois.model.models.fileStructure.RemoteFile;
 import de.htwBerlin.ois.model.repositories.localRepositories.UserPreferences;
 import de.htwBerlin.ois.serverCommunication.AsyncResponse;
 import de.htwBerlin.ois.serverCommunication.HttpClient;
-import de.htwBerlin.ois.serverCommunication.HttpRequest;
+import de.htwBerlin.ois.serverCommunication.HttpTaskRequest;
 import de.htwBerlin.ois.views.fragments.FragmentHome;
 import de.htwBerlin.ois.views.fragments.FragmentOptions;
 
-import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static de.htwBerlin.ois.model.repositories.localRepositories.Variables.MAP_FILE_PATH;
-import static de.htwBerlin.ois.serverCommunication.HttpRequest.REQUEST_TYPE_ID;
+import static de.htwBerlin.ois.serverCommunication.HttpTaskRequest.REQUEST_TYPE_ID;
 
 /**
  * The ViewModel for the MainActivity
@@ -42,7 +40,6 @@ public class ViewModelMainActivity extends ViewModel
     {
         Log.d(TAG, "createOhdmDirectory : Creating OHDM directory...");
         File dir = new File(MAP_FILE_PATH);
-        boolean status;
         Log.d(TAG, "createOhdmDirectory : OHDM directory created");
     }
 
@@ -55,7 +52,7 @@ public class ViewModelMainActivity extends ViewModel
     {
         if (UserPreferences.getInstance().getUserID() == null)
         {
-            HttpRequest httpRequest = new HttpRequest();
+            HttpTaskRequest httpRequest = new HttpTaskRequest();
             httpRequest.setRequestType(REQUEST_TYPE_ID);
             httpRequest.setHttpClient(new HttpClient());
             httpRequest.setAsyncResponse(new AsyncResponse()

@@ -17,10 +17,16 @@ import static de.htwBerlin.ois.model.repositories.localRepositories.Variables.MA
  */
 public class LocalMapsRepository
 {
+
+    //------------Instance Variables------------
+
     private static LocalMapsRepository instance;
     private final String TAG = getClass().getSimpleName();
-    MutableLiveData<ArrayList<File>> data;
+    private MutableLiveData<ArrayList<File>> data;
     private ArrayList<File> localMaps;
+
+
+    //------------Constructors------------
 
     public static LocalMapsRepository getInstance()
     {
@@ -31,11 +37,19 @@ public class LocalMapsRepository
         return instance;
     }
 
+    /**
+     * Private constructor
+     */
     private LocalMapsRepository()
     {
         data = new MutableLiveData<>();
     }
 
+    /**
+     * Getter for the localMaps list inside a LiveData object
+     * @param targetDir
+     * @return
+     */
     public MutableLiveData<ArrayList<File>> getLocalFiles(File targetDir)
     {
         readLocalMapFiles(targetDir);
@@ -69,6 +83,11 @@ public class LocalMapsRepository
         }
     }
 
+    /**
+     * Delete the File at "position"  from the OHDM directory and from the
+     * localMaps ArrayList
+     * @param position
+     */
     public void deleteLocalMapFile(int position)
     {
         localMaps.get(position).delete();

@@ -15,9 +15,9 @@ import de.htwBerlin.ois.model.models.fileStructure.RemoteFile;
 import de.htwBerlin.ois.model.repositories.localRepositories.UserPreferences;
 import de.htwBerlin.ois.serverCommunication.AsyncResponse;
 import de.htwBerlin.ois.serverCommunication.HttpClient;
-import de.htwBerlin.ois.serverCommunication.HttpRequest;
+import de.htwBerlin.ois.serverCommunication.HttpTaskRequest;
 
-import static de.htwBerlin.ois.serverCommunication.HttpRequest.REQUEST_TYPE_MAP_REQUEST;
+import static de.htwBerlin.ois.serverCommunication.HttpTaskRequest.REQUEST_TYPE_MAP_REQUEST;
 
 public class ViewModelRequestNewMap extends ViewModel
 {
@@ -43,7 +43,7 @@ public class ViewModelRequestNewMap extends ViewModel
 
 
     /**
-     * Building a formatted string (jjjj-mm-dd), as its needed by the server
+     *c
      *
      * @return Date as string
      */
@@ -63,7 +63,6 @@ public class ViewModelRequestNewMap extends ViewModel
 
     /**
      * Building a String out of the coordinates
-     * Format: Top,Left_Top,Right_Bottom, Right_Bottom,Left_Top,Left
      *
      * @return
      */
@@ -132,6 +131,23 @@ public class ViewModelRequestNewMap extends ViewModel
     }
 
 
+    //------------Check  User Input------------
+
+    /**
+     * Check if a name was entered by the user
+     *
+     * @return
+     */
+    public boolean checkForNullName(Context context, EditText name)
+    {
+        if (name.getText().toString().length() == 0)
+        {
+            Toast.makeText(context.getApplicationContext(), "Please enter a name ", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
     /**
      * Check if the user entered all necessary coordinates
      *
@@ -189,27 +205,13 @@ public class ViewModelRequestNewMap extends ViewModel
     }
 
 
-    //------------Check  User Input------------
-
     /**
-     * Check if a name was entered by the user
-     *
-     * @return
+     * Todo put this into a repository
+     * @param request
      */
-    public boolean checkForNullName(Context context, EditText name)
-    {
-        if (name.getText().toString().length() == 0)
-        {
-            Toast.makeText(context.getApplicationContext(), "Please enter a name ", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        return true;
-    }
-
-
     public void RequestMap(String request)
     {
-        HttpRequest httpRequest = new HttpRequest();
+        HttpTaskRequest httpRequest = new HttpTaskRequest();
         httpRequest.setRequestType(REQUEST_TYPE_MAP_REQUEST);
         httpRequest.setParams(request);
         httpRequest.setHttpClient(new HttpClient());

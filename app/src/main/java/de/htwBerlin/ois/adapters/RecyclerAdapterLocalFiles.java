@@ -60,8 +60,51 @@ public class RecyclerAdapterLocalFiles extends RecyclerView.Adapter<RecyclerAdap
 
     //------------Constructors------------
 
+    public RecyclerAdapterLocalFiles(Context context, ArrayList<File> localMapFiles, int resource)
+    {
+        this.mapArrayListBackup = new ArrayList<>(localMapFiles); // need to be initialized like that
+        this.resource = resource;
+        this.mapArrayList = localMapFiles;
+        this.context = context;
+    }
+
 
     //------------RecyclerViewAdapter Methods------------
+
+    @Override
+    public int getItemCount()
+    {
+        return mapArrayList.size();
+    }
+
+
+    //------------OnItemClickListener------------
+
+    /**
+     * An interface to define the
+     * onItemClick method
+     * <p>
+     * can be implemented and set as on itemClickListener through the
+     * {@link this#setOnItemClickListener} method
+     */
+    public interface OnItemClickListener
+    {
+        void onItemClick(int position);
+    }
+
+    /**
+     * Setter for the implemented onItemClick method
+     *
+     * @param listener
+     */
+    public void setOnItemClickListener(RecyclerAdapterLocalFiles.OnItemClickListener listener)
+    {
+        this.onItemClickListener = listener;
+    }
+
+
+    //------------Filter (Name)------------
+
     private Filter nameFilter = new Filter()
     {
         @Override
@@ -97,13 +140,15 @@ public class RecyclerAdapterLocalFiles extends RecyclerView.Adapter<RecyclerAdap
         }
     };
 
-    public RecyclerAdapterLocalFiles(Context context, ArrayList<File> localMapFiles, int ressource)
+    @Override
+    public Filter getFilter()
     {
-        this.mapArrayListBackup = new ArrayList<>(localMapFiles); // need to be initialized like that
-        this.resource = ressource;
-        this.mapArrayList = localMapFiles;
-        this.context = context;
+        return nameFilter;
     }
+
+
+
+    //------------View Holder------------
 
     @NonNull
     @Override
@@ -113,9 +158,6 @@ public class RecyclerAdapterLocalFiles extends RecyclerView.Adapter<RecyclerAdap
         LocalMapsViewHolder localMapsViewHolder = new LocalMapsViewHolder(view, this.onItemClickListener);
         return localMapsViewHolder;
     }
-
-
-    //------------OnItemClickListener------------
 
     @Override
     public void onBindViewHolder(@NonNull LocalMapsViewHolder localMapsViewHolder, int position)
@@ -142,46 +184,6 @@ public class RecyclerAdapterLocalFiles extends RecyclerView.Adapter<RecyclerAdap
             Log.e(TAG, "MapFileSingelton was null");
         }
     }
-
-    @Override
-    public int getItemCount()
-    {
-        return mapArrayList.size();
-    }
-
-
-    //------------Filter (Name)------------
-
-    /**
-     * Setter for the implemented onItemClick method
-     *
-     * @param listener
-     */
-    public void setOnItemClickListener(RecyclerAdapterLocalFiles.OnItemClickListener listener)
-    {
-        this.onItemClickListener = listener;
-    }
-
-    @Override
-    public Filter getFilter()
-    {
-        return nameFilter;
-    }
-
-    /**
-     * An interface to define the
-     * onItemClick method
-     * <p>
-     * can be implemented and set as on itemClickListener through the
-     * {@link this#setOnItemClickListener} method
-     */
-    public interface OnItemClickListener
-    {
-        void onItemClick(int position);
-    }
-
-
-    //------------View Holder------------
 
     protected static class LocalMapsViewHolder extends RecyclerView.ViewHolder
     {

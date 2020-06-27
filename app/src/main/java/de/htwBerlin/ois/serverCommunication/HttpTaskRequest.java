@@ -12,7 +12,7 @@ import static de.htwBerlin.ois.serverCommunication.HttpClient.RESPONSE_NO_CONNEC
  *
  * @author WilliBoelke
  */
-public class HttpRequest extends AsyncTask<Void, Void, String>
+public class HttpTaskRequest extends AsyncTask<Void, Void, String>
 {
     public static final String REQUEST_TYPE_ID = "/id";
     public static final String REQUEST_TYPE_MAP_REQUEST = "/request";
@@ -42,7 +42,7 @@ public class HttpRequest extends AsyncTask<Void, Void, String>
      *
      * @param
      */
-    public HttpRequest()
+    public HttpTaskRequest()
     {
         Log.d(TAG, "Constructor:  new HttpRequestNewMap ");
         this.paramsString = "";
@@ -53,7 +53,7 @@ public class HttpRequest extends AsyncTask<Void, Void, String>
 
     /**
      * setter for the
-     *
+     * TODO put this in the constructor
      * @param client
      */
     public void setHttpClient(HttpClient client)

@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity
         Log.d(TAG, "onActivityCreated : initializing ViewModel");
         viewModel = ViewModelProviders.of(this).get(ViewModelMainActivity.class);
 
-        //Setting the FragmentFatoryy
+        //Setting the FragmentFactory
         getSupportFragmentManager().setFragmentFactory(new FragmentFactory(new SftpClient(), new HttpClient()));
 
         //Initializing the USerPreferences with Application context

@@ -16,7 +16,7 @@ import static de.htwBerlin.ois.model.repositories.localRepositories.Variables.MA
 /**
  * ViewMode for the homeFragment
  */
-public class FragmentHomeViewModel extends ViewModel
+public class ViewModelHome extends ViewModel
 {
 
     //------------Instance Variables------------

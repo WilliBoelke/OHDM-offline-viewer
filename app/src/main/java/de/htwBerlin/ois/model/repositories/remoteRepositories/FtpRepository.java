@@ -29,8 +29,6 @@ public class FtpRepository
     private static FtpRepository instance;
 
 
-    //------------Instance Variables------------
-
     private final String TAG = this.getClass().getSimpleName();
     private MutableLiveData<ArrayList<RemoteFile>> allMaps;
     private MutableLiveData<ArrayList<RemoteFile>> mostRecentMaps;

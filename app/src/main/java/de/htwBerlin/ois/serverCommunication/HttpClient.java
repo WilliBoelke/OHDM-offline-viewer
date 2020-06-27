@@ -51,6 +51,7 @@ public class HttpClient
      */
     private String response;
 
+
     //------------Connection------------
 
     public int connect(String requestType)
@@ -82,6 +83,7 @@ public class HttpClient
         {
             Log.e(TAG, "connect : Already connected");
             e.printStackTrace();
+            //close connection and try it again
             closeConnection();
             return connect(requestType);
         }
@@ -180,6 +182,7 @@ public class HttpClient
     {
         return this.response;
     }
+
 
 
     //------------Test------------

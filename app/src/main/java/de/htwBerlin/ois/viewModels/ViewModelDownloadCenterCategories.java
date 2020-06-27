@@ -13,7 +13,7 @@ import de.htwBerlin.ois.model.models.fileStructure.RemoteDirectory;
 import de.htwBerlin.ois.model.models.fileStructure.RemoteFile;
 import de.htwBerlin.ois.model.repositories.remoteRepositories.FtpRepository;
 
-public class ViewModelMapDownloadCenterCategories extends ViewModel
+public class ViewModelDownloadCenterCategories extends ViewModel
 {
     //------------Instance Variables------------
 
@@ -39,11 +39,19 @@ public class ViewModelMapDownloadCenterCategories extends ViewModel
 
     //------------Getter------------
 
+    /**
+     * Returns the directories LiveData Object
+     * @return
+     */
     public LiveData<ArrayList<RemoteDirectory>> getDirectories()
     {
         return directories;
     }
 
+    /**
+     * Returns the directoriesContents LiveData Object
+     * @return
+     */
     public LiveData<HashMap<String, ArrayList<RemoteFile>>> getDirectoriesContents()
     {
         return directoriesContents;

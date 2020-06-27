@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModel;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-import de.htwBerlin.ois.model.repositories.remoteRepositories.HttpRequestsRepository;
+import de.htwBerlin.ois.model.repositories.remoteRepositories.HttpRepository;
 
 import static de.htwBerlin.ois.serverCommunication.HttpClient.RESPONSE_NO_CONNECTION;
 import static de.htwBerlin.ois.serverCommunication.HttpClient.RESPONSE_NO_REQUESTS;
@@ -19,7 +19,7 @@ public class ViewModelRequestStatus extends ViewModel
     //------------Instance Variables------------
 
     private final String TAG = getClass().getSimpleName();
-    HttpRequestsRepository requestStatusRepository;
+    HttpRepository requestStatusRepository;
     MutableLiveData<String> response;
     MutableLiveData<Boolean> requestReceived;
     MutableLiveData<Boolean> noConnection;
@@ -51,15 +51,26 @@ public class ViewModelRequestStatus extends ViewModel
         Log.d(TAG, "init : finished ");
     }
 
-
+    /**
+     * Gets the response from the HttpRequest as String, this will e observed by the view.
+     * As soon as the value changes the View will call processString() with it and the which will the
+     * alter the value of {@link requests}, and/or the Booleans which again are observed by the views
+     *
+     * @return the Server response as String
+     */
     public LiveData<String> getResponse()
     {
-        requestStatusRepository = HttpRequestsRepository.getInstance();
+        requestStatusRepository = HttpRepository.getInstance();
         this.response = requestStatusRepository.getRequests();
         Log.d(TAG, "getResponse called");
         return this.response;
     }
 
+    /**
+     * Provides a Live Data object to the view, which  will get notified as soon as it changes.
+     * It will change when there came a valid response from the server by the processString() method
+     * @return
+     */
     public LiveData<ArrayList<String>> getRequests()
     {
         Log.d(TAG, "getRequests called");
@@ -96,6 +107,17 @@ public class ViewModelRequestStatus extends ViewModel
         this.requestStatusRepository.getRequests();
     }
 
+    /**
+     * Processes the String the server returned as response
+     * Checks if its valid , the builds an ArrayList from it which can be displayed by the view.
+     * the string also can be :
+     * {@link RESPONSE_NO_CONNECTION} when the server didn't respond
+     * {@link RESPONSE_NO_REQUESTS} when the server responded but there weren't any requests made yet
+     * "" before a request was made
+     *
+     * In all cases this method will changes the value of the corresponding boolean so the view can react to it
+     * @param s
+     */
     public void processString(String s)
     {
         if (s.equals(RESPONSE_NO_CONNECTION))

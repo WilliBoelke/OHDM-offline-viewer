@@ -35,6 +35,85 @@ public class SftpClient implements Client
 
     //------------Connection------------
 
+    public int connect()
+    {
+        try
+        {
+            Log.d(TAG, "connect :  trying to open SSh connection to " + Variables.SERVER_IP + ":" + Variables.SFTP_PORT + " ...");
+
+            //Opens ssh connection
+            session = (new JSch()).getSession(Variables.USER_NAME, Variables.SERVER_IP, Variables.SFTP_PORT);
+            session.setPassword(Variables.USER_PASSWORD);
+            session.setConfig("StrictHostKeyChecking", "no");
+            session.connect();
+
+            Log.d(TAG, "connect :  established SSH connection " + Variables.SERVER_IP + ":" + Variables.SFTP_PORT);
+        }
+        catch (JSchException ex)
+        {
+            Log.e(TAG, "connect :  failed to establish SSH connection " + Variables.SERVER_IP + ":" + Variables.SFTP_PORT + " maybe the loin credentials where wrong - check them in Variables");
+            ex.printStackTrace();
+            return 2;
+        }
+        try
+        {
+            //SFTP channel from ssh session
+            Log.d(TAG, "connect :  trying to open  sftp channel .... ");
+            channel = (ChannelSftp) session.openChannel("sftp");
+            if (channel == null)
+            {
+                //Trying to close existing channel and try again
+                channel.exit();
+            }
+            channel.connect();
+        }
+        catch (JSchException ex)
+        {
+            channel.exit();
+            Log.e(TAG, "connect :  couldnt open the channel ");
+            ex.printStackTrace();
+            return 3;
+        }
+        Log.d(TAG, "connect :  Successfully connected and opened SFTP channel ");
+        return 0;
+    }
+
+    public boolean isConnected()
+    {
+        return session.isConnected() && channel.isConnected();
+    }
+
+    public void closeConnection()
+    {
+        Log.d(TAG, "closeConnection :  tring to close the connection .... ");
+        try
+        {
+            channel.exit();
+            session.disconnect();
+        }
+        catch (NullPointerException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+
+    //------------Processing Data From Server------------
+
+    /**
+     * We are getting a string from the Server and need to make it readable/ usable
+     *
+     * @param path
+     * @throws SftpException
+     */
+    private void updateOutput(String path) throws SftpException
+    {
+        Log.d(TAG, "updateOutput :  updating output ... ");
+        output = channel.ls(path).toString();
+        usableOutput = analyseOutput();
+        Log.d(TAG, "updateOutput :  output updated");
+    }
+
     private static String readDate(String[] currentSplit)
     {
         //Log.d(TAG, "readDate :  reading and formatting date ... ");
@@ -100,85 +179,6 @@ public class SftpClient implements Client
         return date;
     }
 
-    public int connect()
-    {
-        try
-        {
-            Log.d(TAG, "connect :  trying to open SSh connection to " + Variables.SERVER_IP + ":" + Variables.SFTP_PORT + " ...");
-
-            //Opens ssh connection
-            session = (new JSch()).getSession(Variables.USER_NAME, Variables.SERVER_IP, Variables.SFTP_PORT);
-            session.setPassword(Variables.USER_PASSWORD);
-            session.setConfig("StrictHostKeyChecking", "no");
-            session.connect();
-
-            Log.d(TAG, "connect :  established SSH connection " + Variables.SERVER_IP + ":" + Variables.SFTP_PORT);
-        }
-        catch (JSchException ex)
-        {
-            Log.e(TAG, "connect :  failed to establish SSH connection " + Variables.SERVER_IP + ":" + Variables.SFTP_PORT + " maybe the loin credentials where wrong - check them in Variables");
-            ex.printStackTrace();
-            return 2;
-        }
-        try
-        {
-            //SFTP channel from ssh session
-            Log.d(TAG, "connect :  trying to open  sftp channel .... ");
-            channel = (ChannelSftp) session.openChannel("sftp");
-            if (channel == null)
-            {
-                //Trying to close existing channel and try again
-                channel.exit();
-            }
-            channel.connect();
-        }
-        catch (JSchException ex)
-        {
-            channel.exit();
-            Log.e(TAG, "connect :  couldnt open the channel ");
-            ex.printStackTrace();
-            return 3;
-        }
-        Log.d(TAG, "connect :  Successfully connected and opened SFTP channel ");
-        return 0;
-    }
-
-    public boolean isConnected()
-    {
-        return session.isConnected() && channel.isConnected();
-    }
-
-
-    //------------Processing Data From Server------------
-
-    public void closeConnection()
-    {
-        Log.d(TAG, "closeConnection :  tring to close the connection .... ");
-        try
-        {
-            channel.exit();
-            session.disconnect();
-        }
-        catch (NullPointerException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * We are getting a string from the Server and need to make it readable/ usable
-     *
-     * @param path
-     * @throws SftpException
-     */
-    private void updateOutput(String path) throws SftpException
-    {
-        Log.d(TAG, "updateOutput :  updating output ... ");
-        output = channel.ls(path).toString();
-        usableOutput = analyseOutput();
-        Log.d(TAG, "updateOutput :  output updated");
-    }
-
     private String[] analyseOutput()
     {
         Log.d(TAG, "analyseOutput :  abalysing server output ... ");
@@ -214,7 +214,7 @@ public class SftpClient implements Client
 
     //------------Listing------------
 
-    public ArrayList<RemoteFile> getAllFileList(String path) throws IOException
+    public ArrayList<RemoteFile> getAllFileList(String path)
     {
         Log.d(TAG, " getAllFileList ");
         if (!this.isConnected())
@@ -295,7 +295,7 @@ public class SftpClient implements Client
      * @return
      * @throws IOException
      */
-    public ArrayList<RemoteFile> getFileList(String path) throws IOException
+    public ArrayList<RemoteFile> getFileList(String path)
     {
         Log.d(TAG, " getFileList ");
         if (!this.isConnected())

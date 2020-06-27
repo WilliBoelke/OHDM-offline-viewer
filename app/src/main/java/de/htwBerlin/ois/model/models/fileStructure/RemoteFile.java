@@ -25,24 +25,25 @@ public class RemoteFile
 
     //------------Setter------------
 
-    public String getPath()
-    {
-        return this.path;
-    }
 
     public void setPath(String path)
     {
         this.path = path;
     }
 
-    public Long getFileSize()
+    public void setFilename(String filename)
     {
-        return fileSize;
+        this.filename = filename.trim();
     }
 
     public void setFileSize(Long fileSize)
     {
         this.fileSize = fileSize;
+    }
+
+    public void setCreationDate(String creationDate)
+    {
+        this.creationDate = creationDate;
     }
 
     //------------Getter------------
@@ -52,9 +53,9 @@ public class RemoteFile
         return creationDate;
     }
 
-    public void setCreationDate(String creationDate)
+    public String getPath()
     {
-        this.creationDate = creationDate;
+        return this.path;
     }
 
     public String getFilename()
@@ -62,8 +63,8 @@ public class RemoteFile
         return filename;
     }
 
-    public void setFilename(String filename)
+    public Long getFileSize()
     {
-        this.filename = filename.trim();
+        return fileSize;
     }
 }

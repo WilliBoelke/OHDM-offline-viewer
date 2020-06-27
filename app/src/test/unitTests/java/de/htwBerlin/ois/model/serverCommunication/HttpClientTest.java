@@ -14,7 +14,7 @@ import java.net.HttpURLConnection;
 
 import de.htwBerlin.ois.serverCommunication.HttpClient;
 
-import static de.htwBerlin.ois.serverCommunication.HttpRequest.REQUEST_TYPE_MAP_REQUEST;
+import static de.htwBerlin.ois.serverCommunication.HttpTaskRequest.REQUEST_TYPE_MAP_REQUEST;
 import static org.junit.Assert.assertEquals;
 
 class HttpClientTest

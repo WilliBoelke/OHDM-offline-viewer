@@ -82,9 +82,9 @@ public class RecyclerAdapterRequestStatus extends RecyclerView.Adapter<RecyclerA
     }
 
 
-    //------------Filter (Name)------------
+    //------------Filter------------
 
-    private Filter nameFilter = new Filter()
+    private Filter filter = new Filter()
     {
         @Override
         protected FilterResults performFiltering(CharSequence constraint)
@@ -122,7 +122,7 @@ public class RecyclerAdapterRequestStatus extends RecyclerView.Adapter<RecyclerA
     @Override
     public Filter getFilter()
     {
-        return nameFilter;
+        return filter;
     }
 
 

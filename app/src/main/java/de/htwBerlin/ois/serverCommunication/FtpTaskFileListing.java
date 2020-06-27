@@ -21,7 +21,6 @@ public class FtpTaskFileListing extends AsyncTask<Void, Void, String>
 
     //------------Instance Variables------------
 
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy");
     /**
      * Log Tag
      */

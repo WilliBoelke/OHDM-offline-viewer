@@ -28,7 +28,7 @@ import de.htwBerlin.ois.adapters.RecyclerAdapterLocalFiles;
 import de.htwBerlin.ois.adapters.RecyclerAdapterSwipeGestures;
 import de.htwBerlin.ois.adapters.SwipeCallbackLeft;
 import de.htwBerlin.ois.adapters.SwipeCallbackRight;
-import de.htwBerlin.ois.viewModels.FragmentHomeViewModel;
+import de.htwBerlin.ois.viewModels.ViewModelHome;
 
 /**
  * Represents the HOME Tab and thus, the starting point for the OHDM Offline Viewer application
@@ -44,7 +44,7 @@ public class FragmentHome extends Fragment
     /**
      * The ViewModel of this Fragment
      */
-    private FragmentHomeViewModel viewModel;
+    private ViewModelHome viewModel;
     /**
      * Fragment ID used to identify the fragment
      * (for example by putting the ID into the Intent extra )
@@ -92,7 +92,7 @@ public class FragmentHome extends Fragment
     {
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
-        viewModel = ViewModelProviders.of(this).get(FragmentHomeViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(ViewModelHome.class);
         viewModel.init();
         //Views
         this.setupRecycler();
@@ -139,16 +139,23 @@ public class FragmentHome extends Fragment
         RecyclerView.LayoutManager recyclerLayoutManager = new LinearLayoutManager(this.getContext());
         recyclerAdapter = new RecyclerAdapterLocalFiles(this.getContext(), viewModel.getLocalMapFiles().getValue(), R.layout.recycler_item_vertical);
 
-        //The itemTouchhelper for the swipe gestures on the recycler Items
+        //The itemTouchHelper for the swipe gestures on the recycler Items
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new RecyclerAdapterSwipeGestures(this.swipeCallbackRight, this.swipeCallbackLeft));
 
         //Putting everything together
         itemTouchHelper.attachToRecyclerView(localMapsRecyclerView);
-
-        //Putting everything together
         localMapsRecyclerView.setLayoutManager(recyclerLayoutManager);
         localMapsRecyclerView.setAdapter(recyclerAdapter);
         recyclerAdapter.notifyDataSetChanged();
+
+        recyclerAdapter.setOnItemClickListener(new RecyclerAdapterLocalFiles.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(int position)
+            {
+
+            }
+        });
     }
 
     /**

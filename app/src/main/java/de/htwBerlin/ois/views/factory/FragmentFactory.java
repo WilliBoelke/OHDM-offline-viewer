@@ -24,6 +24,11 @@ public class FragmentFactory extends androidx.fragment.app.FragmentFactory
     private String TAG = getClass().getSimpleName();
     private Client client;
 
+    /**
+     * Public constructor
+     * @param client
+     * @param httpClient
+     */
     public FragmentFactory(Client client, HttpClient httpClient)
     {
         this.httpClient = httpClient;

@@ -10,16 +10,16 @@ import de.htwBerlin.ois.model.models.fileStructure.RemoteFile;
 import de.htwBerlin.ois.model.repositories.localRepositories.UserPreferences;
 import de.htwBerlin.ois.serverCommunication.AsyncResponse;
 import de.htwBerlin.ois.serverCommunication.HttpClient;
-import de.htwBerlin.ois.serverCommunication.HttpRequest;
+import de.htwBerlin.ois.serverCommunication.HttpTaskRequest;
 
-import static de.htwBerlin.ois.serverCommunication.HttpRequest.REQUEST_TYP_STATUS_BY_ID;
+import static de.htwBerlin.ois.serverCommunication.HttpTaskRequest.REQUEST_TYP_STATUS_BY_ID;
 
 
-public class HttpRequestsRepository
+public class HttpRepository
 {
     //------------Static Variables------------
 
-    private static HttpRequestsRepository instance;
+    private static HttpRepository instance;
 
 
     //------------Instance Variables------------
@@ -34,21 +34,20 @@ public class HttpRequestsRepository
     /**
      * Private constructor
      */
-    private HttpRequestsRepository()
+    private HttpRepository()
     {
         data = new MutableLiveData<>();
         requests = "";
     }
 
-    public static HttpRequestsRepository getInstance()
+    public static HttpRepository getInstance()
     {
         if (instance == null)
         {
-            instance = new HttpRequestsRepository();
+            instance = new HttpRepository();
         }
         return instance;
     }
-
 
     //------------Getter------------
 
@@ -72,7 +71,7 @@ public class HttpRequestsRepository
      */
     private void retrieveRequests()
     {
-        HttpRequest httpRequest = new HttpRequest();
+        HttpTaskRequest httpRequest = new HttpTaskRequest();
         httpRequest.setParams("id=" + UserPreferences.getInstance().getUserID());
         httpRequest.setRequestType(REQUEST_TYP_STATUS_BY_ID);
         httpRequest.setHttpClient(new HttpClient());
