@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity
         viewModel.createOhdmDirectory();
 
         //Getting a User ID from the server
-        viewModel.HttpGetIdFromServer();
+        viewModel.httpGetIdFromServer();
 
         //Checking permissions
         this.checkPermissions();
