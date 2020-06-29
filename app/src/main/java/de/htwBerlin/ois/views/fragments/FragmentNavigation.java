@@ -22,6 +22,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.mapsforge.core.model.LatLong;
 import org.mapsforge.map.android.graphics.AndroidGraphicFactory;
+import org.mapsforge.map.android.graphics.AndroidResourceBitmap;
 import org.mapsforge.map.android.util.AndroidUtil;
 import org.mapsforge.map.android.view.MapView;
 import org.mapsforge.map.datastore.MapDataStore;
@@ -67,6 +68,10 @@ public class FragmentNavigation extends Fragment
      */
     private ViewModelNavigation viewModel;
 
+    /**
+     * Tile cache
+     */
+    private TileCache tileCache;
 
     //------------Constructors------------
 
@@ -98,24 +103,18 @@ public class FragmentNavigation extends Fragment
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroyView()
+    {
         /*
          * Whenever your activity exits, some cleanup operations have to be performed lest your app
          * runs out of memory.
          */
-        try
-        {
-            //This sometimes throws a NullPointer
-            mapView.destroyAll();
-        }
-        catch(NullPointerException e)
-        {
-            e.printStackTrace();
-        }
-
-        AndroidGraphicFactory.clearResourceMemoryCache();
-        super.onDestroy();
+        super.onDestroyView();
+        this.tileCache.destroy();
+        this.mapView.destroyAll();
+        AndroidResourceBitmap.clearResourceBitmaps();
     }
+
 
 
     //------------Setup Views------------
@@ -131,7 +130,7 @@ public class FragmentNavigation extends Fragment
         mapView.setClickable(true);
         mapView.getMapScaleBar().setVisible(true);
 
-        TileCache tileCache = AndroidUtil.createTileCache(getActivity().getApplicationContext(), "mapcache", mapView.getModel().displayModel.getTileSize(), 1f, mapView.getModel().frameBufferModel.getOverdrawFactor());
+        tileCache = AndroidUtil.createTileCache(getActivity().getApplicationContext(), "mapcache", mapView.getModel().displayModel.getTileSize(), 1f, mapView.getModel().frameBufferModel.getOverdrawFactor());
 
         File ohdmFile = MapFileSingleton.getInstance().getFile();
         MapDataStore mapDataStore = null;
