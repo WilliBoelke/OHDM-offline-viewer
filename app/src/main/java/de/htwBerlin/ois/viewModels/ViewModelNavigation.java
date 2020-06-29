@@ -7,6 +7,8 @@ import android.location.Location;
 import android.location.LocationManager;
 
 import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.List;
@@ -18,6 +20,14 @@ public class ViewModelNavigation extends ViewModel
 {
 
     //------------Others------------
+
+
+    MutableLiveData<Integer> zoomLevel;
+
+    public void init()
+    {
+        zoomLevel.setValue(50);
+    }
 
     /**
      * Gets the last know position of the device from the android LocationManager
@@ -50,4 +60,17 @@ public class ViewModelNavigation extends ViewModel
         return bestLocation;
     }
 
+    public LiveData<Integer> getZoomLevel()
+    {
+        return zoomLevel;
+    }
+    public void zoomIn(int currentZoom)
+    {
+        zoomLevel.setValue(currentZoom - 1);
+    }
+
+    public void zoomOut(int currentZoom)
+    {
+        zoomLevel.setValue(currentZoom+1);
+    }
 }

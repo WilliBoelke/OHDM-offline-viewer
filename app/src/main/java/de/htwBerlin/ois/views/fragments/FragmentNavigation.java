@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -90,8 +91,11 @@ public class FragmentNavigation extends Fragment
         viewModel = ViewModelProviders.of(this).get(ViewModelNavigation.class);
         view = inflater.inflate(R.layout.fragment_navigation, container, false);
         AndroidGraphicFactory.createInstance(getActivity().getApplication());
-        setupLocateFab();
-        setupMapView();
+        //Observers
+        this.onZoomLevelChangeObserver();
+        //Views
+        this.setupLocateFab();
+        this.setupMapView();
         return view;
     }
 
@@ -116,6 +120,19 @@ public class FragmentNavigation extends Fragment
     }
 
 
+    //------------Setup Views------------
+
+    private void onZoomLevelChangeObserver()
+    {
+        viewModel.getZoomLevel().observe(this.getViewLifecycleOwner(), new Observer<Integer>()
+        {
+            @Override
+            public void onChanged(Integer zoomLevel)
+            {
+                mapView.setZoomLevel(zoomLevel.byteValue());
+            }
+        });
+    }
 
     //------------Setup Views------------
 
@@ -129,6 +146,7 @@ public class FragmentNavigation extends Fragment
 
         mapView.setClickable(true);
         mapView.getMapScaleBar().setVisible(true);
+        mapView.getMapZoomControls().setVisibility(View.INVISIBLE);
 
         tileCache = AndroidUtil.createTileCache(getActivity().getApplicationContext(), "mapcache", mapView.getModel().displayModel.getTileSize(), 1f, mapView.getModel().frameBufferModel.getOverdrawFactor());
 
@@ -227,5 +245,6 @@ public class FragmentNavigation extends Fragment
         }
         return super.onOptionsItemSelected(item);
     }
+
 
 }
