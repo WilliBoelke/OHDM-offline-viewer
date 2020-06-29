@@ -54,7 +54,9 @@ public class ViewModelRequestNewMap extends ViewModel
         //Building a string in format JJJJJ-MM-TT
         stringBuilder.append(datePicker.getYear());
         stringBuilder.append("-");
-        stringBuilder.append(datePicker.getMonth());
+        // This NEEDS to be +1
+        // It seems like google uses the months 0 to 11 instead 1 to 12
+        stringBuilder.append(datePicker.getMonth()+1);
         stringBuilder.append("-");
         stringBuilder.append(datePicker.getDayOfMonth());
 

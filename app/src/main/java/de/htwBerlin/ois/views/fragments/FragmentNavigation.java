@@ -68,7 +68,6 @@ public class FragmentNavigation extends Fragment
      * The View model
      */
     private ViewModelNavigation viewModel;
-
     /**
      * Tile cache
      */

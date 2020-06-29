@@ -19,15 +19,23 @@ import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 public class ViewModelNavigation extends ViewModel
 {
 
-    //------------Others------------
+    //------------Instance Variables------------
+
+    private MutableLiveData<Integer> zoomLevel;
 
 
-    MutableLiveData<Integer> zoomLevel;
+    //------------Constructors------------
 
+    /**
+     *
+     */
     public void init()
     {
         zoomLevel = new MutableLiveData<>(20);
     }
+
+
+    //------------Location------------
 
     /**
      * Gets the last know position of the device from the android LocationManager
@@ -60,16 +68,34 @@ public class ViewModelNavigation extends ViewModel
         return bestLocation;
     }
 
+
+    //------------Zoom Level------------
+
+    /**
+     * Getter for teh zoomLevel LiveData which will be observed by {@link de.htwBerlin.ois.views.fragments.FragmentNavigation}
+     */
     public LiveData<Integer> getZoomLevel()
     {
         return  zoomLevel;
     }
 
+    /**
+     * increments  the parameter zoomLevel by one and sets it as value of the LiveData
+     * the parameter zoomLevel is needed because the MapsView has its of zoomLevel
+     * which may have changed while the value of the LiveData stayed the same
+     * @param zoomLevel
+     */
     public void zoomIn(byte zoomLevel)
     {
         this.zoomLevel.setValue(zoomLevel  + 1);
     }
 
+    /**
+     * decrements the parameter zoomLevel by one and sets it as value of the LiveData
+     * the parameter zoomLevel is needed because the MapsView has its of zoomLevel
+     * which may have changed while the value of the LiveData stayed the same
+     * @param zoomLevel
+     */
     public void zoomOut(byte zoomLevel)
     {
         this.zoomLevel.setValue(  zoomLevel - 1);
