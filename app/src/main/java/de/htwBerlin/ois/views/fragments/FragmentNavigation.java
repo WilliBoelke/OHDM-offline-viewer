@@ -89,12 +89,13 @@ public class FragmentNavigation extends Fragment
     {
         super.onCreate(savedInstanceState);
         viewModel = ViewModelProviders.of(this).get(ViewModelNavigation.class);
+        viewModel.init();
         view = inflater.inflate(R.layout.fragment_navigation, container, false);
         AndroidGraphicFactory.createInstance(getActivity().getApplication());
         //Observers
         this.onZoomLevelChangeObserver();
         //Views
-        this.setupLocateFab();
+        this.setupControlButtons();
         this.setupMapView();
         return view;
     }
@@ -146,7 +147,8 @@ public class FragmentNavigation extends Fragment
 
         mapView.setClickable(true);
         mapView.getMapScaleBar().setVisible(true);
-        mapView.getMapZoomControls().setVisibility(View.INVISIBLE);
+        mapView.getMapZoomControls().setShowMapZoomControls(false);
+
 
         tileCache = AndroidUtil.createTileCache(getActivity().getApplicationContext(), "mapcache", mapView.getModel().displayModel.getTileSize(), 1f, mapView.getModel().frameBufferModel.getOverdrawFactor());
 
@@ -183,9 +185,53 @@ public class FragmentNavigation extends Fragment
      * On Click for the LocateFAb
      * Sets the map center to the last know position of the device
      */
-    private void setupLocateFab()
+    private void setupControlButtons()
     {
         FloatingActionButton locateFab = view.findViewById(R.id.locate_fab);
+        FloatingActionButton settingsFab = view.findViewById(R.id.settings_fab);
+        FloatingActionButton zoomOutFab = view.findViewById(R.id.zoom_out_fab);
+        FloatingActionButton zoomInFab = view.findViewById(R.id.zoom_in_fab);
+
+
+        settingsFab.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+
+                if (locateFab.getVisibility() == View.VISIBLE)
+                {
+                    view.findViewById(R.id.zoom_out_fab).setVisibility(View.INVISIBLE);
+                    view.findViewById(R.id.zoom_in_fab).setVisibility(View.INVISIBLE);
+                    view.findViewById(R.id.locate_fab).setVisibility(View.INVISIBLE);
+                }
+                else
+                {
+                    view.findViewById(R.id.zoom_out_fab).setVisibility(View.VISIBLE);
+                    view.findViewById(R.id.zoom_in_fab).setVisibility(View.VISIBLE);
+                    view.findViewById(R.id.locate_fab).setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        zoomInFab.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                viewModel.zoomIn(mapView.getModel().mapViewPosition.getZoomLevel());
+            }
+        });
+
+        zoomOutFab.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                viewModel.zoomOut(mapView.getModel().mapViewPosition.getZoomLevel());
+            }
+        });
+
         locateFab.setOnClickListener(new View.OnClickListener()
         {
             @Override

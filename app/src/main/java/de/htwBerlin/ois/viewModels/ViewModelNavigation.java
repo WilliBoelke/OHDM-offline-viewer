@@ -26,7 +26,7 @@ public class ViewModelNavigation extends ViewModel
 
     public void init()
     {
-        zoomLevel.setValue(50);
+        zoomLevel = new MutableLiveData<>(20);
     }
 
     /**
@@ -62,15 +62,17 @@ public class ViewModelNavigation extends ViewModel
 
     public LiveData<Integer> getZoomLevel()
     {
-        return zoomLevel;
-    }
-    public void zoomIn(int currentZoom)
-    {
-        zoomLevel.setValue(currentZoom - 1);
+        return  zoomLevel;
     }
 
-    public void zoomOut(int currentZoom)
+    public void zoomIn(byte zoomLevel)
     {
-        zoomLevel.setValue(currentZoom+1);
+        this.zoomLevel.setValue(zoomLevel  + 1);
     }
+
+    public void zoomOut(byte zoomLevel)
+    {
+        this.zoomLevel.setValue(  zoomLevel - 1);
+    }
+
 }
