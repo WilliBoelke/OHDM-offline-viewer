@@ -25,8 +25,10 @@ import org.mapsforge.map.android.graphics.AndroidGraphicFactory;
 import org.mapsforge.map.android.util.AndroidUtil;
 import org.mapsforge.map.android.view.MapView;
 import org.mapsforge.map.datastore.MapDataStore;
+import org.mapsforge.map.layer.Layers;
 import org.mapsforge.map.layer.cache.TileCache;
 import org.mapsforge.map.layer.renderer.TileRendererLayer;
+import org.mapsforge.map.model.IMapViewPosition;
 import org.mapsforge.map.reader.MapFile;
 import org.mapsforge.map.reader.header.MapFileException;
 import org.mapsforge.map.rendertheme.InternalRenderTheme;
@@ -142,13 +144,23 @@ public class FragmentNavigation extends Fragment
 
             mapView.getLayerManager().getLayers().add(tileRendererLayer);
             mapView.setZoomLevel((byte) 12);
-            mapView.setCenter(new LatLong(52.517037, 13.38886));
+
+            Layers layers = mapView.getLayerManager().getLayers();
+            IMapViewPosition position = mapView.getModel().mapViewPosition;
+
+            TileRendererLayer trl = AndroidUtil.createTileRendererLayer(tileCache, position, mapDataStore, InternalRenderTheme.OSMARENDER, false, true, false);
+            layers.add(trl);
+
+            position = mapView.getModel().mapViewPosition;
+            position.setCenter(trl.getMapDataStore().startPosition());
+
         }
         catch (MapFileException e)
         {
             Toast.makeText(getActivity().getApplicationContext(), "Your map file is invalid", Toast.LENGTH_LONG).show();
         }
     }
+
 
     /**
      * On Click for the LocateFAb
