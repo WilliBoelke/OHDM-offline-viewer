@@ -48,7 +48,7 @@ public class ViewModelMainActivity extends ViewModel
      * from the server, to identify the user /  his requests,
      * - but completely anonymous
      */
-    public void HttpGetIdFromServer()
+    public void httpGetIdFromServer()
     {
         if (UserPreferences.getInstance().getUserID() == null)
         {
@@ -72,13 +72,11 @@ public class ViewModelMainActivity extends ViewModel
                 @Override
                 public void getHttpResponse(String response)
                 {
-
-                    if (response != null)
+                    if (response != null && response != HttpClient.RESPONSE_NO_CONNECTION)
                     {
                         UserPreferences.getInstance().setUserId(response);
                         Log.d(TAG, "ID from server = " + response);
                     }
-
                 }
             });
 
