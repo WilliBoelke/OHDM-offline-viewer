@@ -13,6 +13,7 @@
         <item name="bottom_nav_icon_map_download">@drawable/bottom_nav_icon_download_white</item>
         <item name="bottom_nav_icon_home">@drawable/bottom_nav_icon_home_white</item>
         <item name="bottom_nav_icon_navigation">@drawable/bottom_nav_icon_navigation_white</item>
+        <item name="bottom_nav_icon_request">@drawable/bottom_nav_icon_request_white</item>
     </style>
 
     <!-- Light/Day theme. -->
@@ -27,6 +28,7 @@
         <item name="bottom_nav_icon_map_download">@drawable/bottom_nav_icon_download_black</item>
         <item name="bottom_nav_icon_home">@drawable/bottom_nav_icon_home_black</item>
         <item name="bottom_nav_icon_navigation">@drawable/bottom_nav_icon_navigation_black</item>
+        <item name="bottom_nav_icon_request">@drawable/bottom_nav_icon_request_black</item>
         <item name="edit_text_background">@drawable/edit_text_background_white</item>
         <item name="switch_primary">@drawable/switch_primary_white</item>
         <item name="icon_search_toolbar">@drawable/icon_search_black</item>
@@ -44,6 +46,7 @@
         <item name="bottom_nav_icon_map_download">@drawable/bottom_nav_icon_download_white</item>
         <item name="bottom_nav_icon_home">@drawable/bottom_nav_icon_home_white</item>
         <item name="bottom_nav_icon_navigation">@drawable/bottom_nav_icon_navigation_white</item>
+        <item name="bottom_nav_icon_request">@drawable/bottom_nav_icon_request_white</item>
         <item name="edit_text_background">@drawable/edit_text_background_black</item>
         <item name="switch_primary">@drawable/switch_primary_black</item>
         <item name="icon_search_toolbar">@drawable/ic_search_white</item>

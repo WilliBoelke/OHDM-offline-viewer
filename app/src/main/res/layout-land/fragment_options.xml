@@ -1,217 +1,313 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/outer_constraint_layout"
+    android:id="@+id/fragment_options_parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/backgroundColor"
     android:backgroundTintMode="add">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/content_card_darkmode"
-        android:layout_width="0dp"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        app:cardCornerRadius="5dp"
-        app:cardElevation="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/inner_constraint_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="?attr/foreground"
-            android:elevation="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/info_tv"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/content_card_darkmode"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/card_inner_margin"
-                android:layout_marginTop="@dimen/card_inner_margin"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="@dimen/card_inner_margin"
-                android:fontFamily="@font/comfortaa"
-                android:gravity="center"
-                android:text="@string/dark_mode"
-                android:textAlignment="viewStart"
-                android:textAllCaps="false"
-                android:textColor="?attr/textColorPrimary"
-                android:textSize="@dimen/primary_font_size"
-                android:typeface="normal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/dark_mode_switch"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
-            <Switch
-                android:id="@+id/dark_mode_switch"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?attr/foreground"
+                    android:elevation="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/info_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/card_inner_margin"
+                        android:layout_marginTop="@dimen/card_inner_margin"
+                        android:layout_marginBottom="@dimen/card_inner_margin"
+                        android:fontFamily="@font/comfortaa"
+                        android:gravity="center"
+                        android:text="@string/dark_mode"
+                        android:textAllCaps="false"
+                        android:textColor="?attr/textColorPrimary"
+                        android:textSize="@dimen/primary_font_size"
+                        android:typeface="normal"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Switch
+                        android:id="@+id/dark_mode_switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="@dimen/card_inner_margin"
+                        app:layout_constraintBottom_toBottomOf="@+id/info_tv"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/info_tv" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/content_card_allow_access_location"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/content_card_darkmode">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/foreground"
+                    android:elevation="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/allow_access_location_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/card_inner_margin"
+                        android:layout_marginTop="@dimen/card_inner_margin"
+                        android:fontFamily="@font/comfortaa"
+                        android:gravity="center"
+                        android:text="@string/permission_access_location"
+                        android:textAllCaps="false"
+                        android:textColor="?attr/textColorPrimary"
+                        android:textSize="@dimen/primary_font_size"
+                        android:typeface="normal"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/further_info_access_location"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:fontFamily="@font/comfortaa"
+                        android:gravity="center"
+                        android:text="@string/permission_access_location_further_info"
+                        android:textAllCaps="false"
+                        android:textColor="?attr/textColorPrimary"
+                        android:textSize="@dimen/secondary_font_size"
+                        android:typeface="normal"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/allow_access_location_tv"
+                        app:layout_constraintVertical_bias="0.894" />
+
+                    <Switch
+                        android:id="@+id/allow_access_location_switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="@dimen/card_inner_margin"
+                        app:layout_constraintBottom_toBottomOf="@+id/allow_access_location_tv"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/allow_access_location_tv" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/content_card_allow_write_storage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/content_card_allow_access_location">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?attr/foreground"
+                    android:elevation="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/allow_write_storage_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/card_inner_margin"
+                        android:layout_marginTop="@dimen/card_inner_margin"
+                        android:fontFamily="@font/comfortaa"
+                        android:gravity="center"
+                        android:text="@string/permission_write_local_storage"
+                        android:textAllCaps="false"
+                        android:textColor="?attr/textColorPrimary"
+                        android:textSize="@dimen/primary_font_size"
+                        android:typeface="normal"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Switch
+                        android:id="@+id/allow_write_storage_switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="@dimen/card_inner_margin"
+                        app:layout_constraintBottom_toBottomOf="@+id/allow_write_storage_tv"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/allow_write_storage_tv" />
+
+                    <TextView
+                        android:id="@+id/further_info_allow_write_storage"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:gravity="center"
+                        android:text="@string/permission_write_local_storage_further_info"
+                        android:textAllCaps="false"
+                        android:textColor="?attr/textColorPrimary"
+                        android:textSize="@dimen/secondary_font_size"
+                        android:typeface="normal"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/allow_write_storage_tv"
+                        app:layout_constraintVertical_bias="0.894" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/content_card_server_id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/content_card_allow_write_storage">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?attr/foreground"
+                    android:elevation="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+
+                    <TextView
+                        android:id="@+id/your_id"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/card_inner_margin"
+                        android:layout_marginTop="@dimen/card_inner_margin"
+                        android:layout_marginEnd="8dp"
+                        android:fontFamily="@font/comfortaa"
+                        android:gravity="center"
+                        android:text="Your Personal ID : "
+                        android:textAllCaps="false"
+                        android:textColor="?attr/textColorPrimary"
+                        android:textSize="@dimen/primary_font_size"
+                        android:typeface="normal"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/your_id_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="@dimen/card_inner_margin"
+                        android:layout_marginEnd="16dp"
+                        android:fontFamily="@font/comfortaa"
+                        android:text=""
+                        android:textAlignment="viewStart"
+                        android:textAllCaps="false"
+                        android:textColor="?attr/textColorPrimary"
+                        android:textSize="@dimen/primary_font_size"
+                        android:textStyle="bold"
+                        android:typeface="normal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/your_id"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/further_info_id"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="We generated a personal ID for you. With this id you can track your requested maps in the App and on the Website.
+Don't worry the we can't and we wont track any personal information with that"
+                        android:textAlignment="viewStart"
+                        android:textAllCaps="false"
+                        android:textColor="?attr/textColorPrimary"
+                        android:textSize="@dimen/secondary_font_size"
+                        android:typeface="normal"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/your_id"
+                        app:layout_constraintVertical_bias="0.894" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <View
+                android:id="@+id/space"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginEnd="@dimen/card_inner_margin"
-                app:layout_constraintBottom_toBottomOf="@+id/info_tv"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/info_tv" />
-
-        </android.support.constraint.ConstraintLayout>
-    </android.support.v7.widget.CardView>
-
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/content_card_allow_access_location"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        app:cardCornerRadius="5dp"
-        app:cardElevation="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/content_card_darkmode">
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/foreground"
-            android:elevation="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/allow_access_location_tv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/card_inner_margin"
-                android:layout_marginTop="@dimen/card_inner_margin"
-                android:layout_marginEnd="8dp"
-                android:fontFamily="@font/comfortaa"
-                android:gravity="center"
-                android:text="@string/permission_access_location"
-                android:textAlignment="viewStart"
-                android:textAllCaps="false"
-                android:textColor="?attr/textColorPrimary"
-                android:textSize="@dimen/primary_font_size"
-                android:typeface="normal"
-                app:layout_constraintEnd_toStartOf="@+id/allow_access_location_switch"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/further_info_access_location"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="@font/comfortaa"
-                android:gravity="center"
-                android:text="@string/permission_access_location_further_info"
-                android:textAlignment="viewStart"
-                android:textAllCaps="false"
-                android:textColor="?attr/textColorPrimary"
-                android:textSize="@dimen/secondary_font_size"
-                android:typeface="normal"
+                android:layout_height="50dp"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/allow_access_location_tv"
-                app:layout_constraintVertical_bias="0.894" />
-
-            <Switch
-                android:id="@+id/allow_access_location_switch"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginEnd="@dimen/card_inner_margin"
-                app:layout_constraintBottom_toBottomOf="@+id/allow_access_location_tv"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/allow_access_location_tv" />
-
-        </android.support.constraint.ConstraintLayout>
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/content_card_allow_write_storage"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        app:cardCornerRadius="5dp"
-        app:cardElevation="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/content_card_allow_access_location">
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="?attr/foreground"
-            android:elevation="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/allow_write_storage_tv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/card_inner_margin"
-                android:layout_marginTop="@dimen/card_inner_margin"
-                android:layout_marginEnd="8dp"
-                android:fontFamily="@font/comfortaa"
-                android:gravity="center"
-                android:text="@string/permission_write_local_storage"
-                android:textAlignment="viewStart"
-                android:textAllCaps="false"
-                android:textColor="?attr/textColorPrimary"
-                android:textSize="@dimen/primary_font_size"
-                android:typeface="normal"
-                app:layout_constraintEnd_toStartOf="@+id/allow_write_storage_switch"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Switch
-                android:id="@+id/allow_write_storage_switch"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginEnd="@dimen/card_inner_margin"
-                app:layout_constraintBottom_toBottomOf="@+id/allow_write_storage_tv"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/allow_write_storage_tv" />
-
-            <TextView
-                android:id="@+id/further_info_allow_write_storage"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:gravity="center"
-                android:text="@string/permission_write_local_storage_further_info"
-                android:textAlignment="viewStart"
-                android:textAllCaps="false"
-                android:textColor="?attr/textColorPrimary"
-                android:textSize="@dimen/secondary_font_size"
-                android:typeface="normal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/allow_write_storage_tv"
-                app:layout_constraintVertical_bias="0.894" />
-
-        </android.support.constraint.ConstraintLayout>
-    </android.support.v7.widget.CardView>
-</android.support.constraint.ConstraintLayout>
+                app:layout_constraintTop_toBottomOf="@+id/content_card_server_id" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

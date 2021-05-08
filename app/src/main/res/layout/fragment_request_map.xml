@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/scroll_view"
+    android:id="@+id/fragment_request_new_map_parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/backgroundColor"
     android:backgroundTintMode="add">
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@id/outer_constraint_layout"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@id/inner_constraint_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/content_card_info"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
             app:cardCornerRadius="5dp"
             app:cardElevation="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/info_inner_constraint_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="?attr/foreground"
@@ -54,17 +54,17 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-            </android.support.constraint.ConstraintLayout>
-        </android.support.v7.widget.CardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
 
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/content_card_coordinates"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
-            android:layout_marginEnd="24dp"
+            android:layout_marginEnd="16dp"
             android:background="?attr/foreground"
             app:cardCornerRadius="5dp"
             app:cardElevation="10dp"
@@ -73,13 +73,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/name_et">
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/coordinates_inner_constraint_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/foreground">
 
                 <EditText
-                    android:id="@+id/long_bottom_et"
+                    android:id="@+id/lat_min_et"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="100dp"
@@ -89,7 +90,7 @@
                     android:background="?attr/edit_text_background"
                     android:ems="10"
                     android:fontFamily="@font/comfortaa"
-                    android:hint="Long  Bottom"
+                    android:hint="@string/lat_min"
                     android:inputType="numberSigned|numberDecimal"
                     android:textAlignment="center"
                     android:textColor="?attr/textColorPrimary"
@@ -98,29 +99,29 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.498"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView" />
+                    app:layout_constraintTop_toBottomOf="@+id/coords_info_tv" />
 
                 <EditText
-                    android:id="@+id/lat_left_et"
+                    android:id="@+id/long_min_et"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="8dp"
                     android:background="?attr/edit_text_background"
                     android:ems="10"
                     android:fontFamily="@font/comfortaa"
-                    android:hint="Lat Left"
+                    android:hint="@string/long_min"
                     android:inputType="numberSigned|numberDecimal"
                     android:textAlignment="center"
                     android:textColor="?attr/textColorPrimary"
                     android:textColorHint="?attr/textColorSecondary"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/textView"
+                    app:layout_constraintBottom_toBottomOf="@+id/long_max_et"
+                    app:layout_constraintEnd_toStartOf="@+id/coords_info_tv"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="@+id/long_max_et" />
 
                 <EditText
-                    android:id="@+id/long_top_et"
+                    android:id="@+id/lat_max_et"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="100dp"
@@ -130,38 +131,38 @@
                     android:background="?attr/edit_text_background"
                     android:ems="10"
                     android:fontFamily="@font/comfortaa"
-                    android:hint="Long Top"
+                    android:hint="@string/lat_max"
                     android:inputType="numberSigned|numberDecimal"
                     android:textAlignment="center"
                     android:textColor="?attr/textColorPrimary"
                     android:textColorHint="?attr/textColorSecondary"
-                    app:layout_constraintBottom_toTopOf="@+id/textView"
+                    app:layout_constraintBottom_toTopOf="@+id/coords_info_tv"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
-                    android:id="@+id/lat_right_et"
+                    android:id="@+id/long_max_et"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="24dp"
                     android:background="?attr/edit_text_background"
                     android:ems="10"
                     android:fontFamily="@font/comfortaa"
-                    android:hint="Lat Right"
+                    android:hint="@string/long_max"
                     android:inputType="numberSigned|numberDecimal"
                     android:textAlignment="center"
                     android:textColor="?attr/textColorPrimary"
                     android:textColorHint="?attr/textColorSecondary"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/lat_min_et"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/textView"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintStart_toEndOf="@+id/coords_info_tv"
+                    app:layout_constraintTop_toBottomOf="@+id/lat_max_et" />
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/coords_info_tv"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -171,31 +172,31 @@
                     android:background="?attr/foreground"
                     android:fontFamily="@font/comfortaa"
                     android:gravity="center"
-                    android:text="Enter longitude and latitude"
+                    android:text="@string/coords_info"
                     android:textAlignment="center"
                     android:textAllCaps="false"
                     android:textColor="?attr/textColorPrimary"
                     android:textSize="@dimen/primary_font_size"
                     android:typeface="normal"
-                    app:layout_constraintBottom_toTopOf="@+id/long_bottom_et"
-                    app:layout_constraintEnd_toStartOf="@+id/lat_right_et"
-                    app:layout_constraintStart_toEndOf="@+id/lat_left_et"
-                    app:layout_constraintTop_toBottomOf="@+id/long_top_et"
-                    app:layout_constraintVertical_bias="0.666" />
-            </android.support.constraint.ConstraintLayout>
-        </android.support.v7.widget.CardView>
+                    app:layout_constraintBottom_toTopOf="@+id/lat_min_et"
+                    app:layout_constraintEnd_toStartOf="@+id/long_max_et"
+                    app:layout_constraintStart_toEndOf="@+id/long_min_et"
+                    app:layout_constraintTop_toBottomOf="@+id/lat_max_et"
+                    app:layout_constraintVertical_bias="0.0" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
 
         <EditText
             android:id="@+id/name_et"
             android:layout_width="0dp"
             android:layout_height="40dp"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
-            android:layout_marginEnd="24dp"
+            android:layout_marginEnd="16dp"
             android:background="?attr/edit_text_background"
             android:ems="10"
             android:fontFamily="@font/comfortaa"
-            android:hint="enter a name"
+            android:hint="@string/name"
             android:inputType="textPersonName"
             android:textAlignment="center"
             android:textColor="?attr/textColorPrimary"
@@ -205,13 +206,13 @@
             app:layout_constraintTop_toBottomOf="@+id/content_card_info" />
 
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/content_card_date_picer"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/content_card_date_picker"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
-            android:layout_marginEnd="24dp"
+            android:layout_marginEnd="16dp"
             app:cardCornerRadius="5dp"
             app:cardElevation="10dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -219,7 +220,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/content_card_coordinates">
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="?attr/foreground"
@@ -228,7 +229,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <DatePicker
-                    android:id="@+id/simpleDatePicker"
+                    android:id="@+id/date_picker"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -244,8 +245,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0" />
-            </android.support.constraint.ConstraintLayout>
-        </android.support.v7.widget.CardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
 
         <Button
             android:id="@+id/request_button"
@@ -258,13 +259,14 @@
             android:elevation="10dp"
             android:fontFamily="@font/comfortaa"
             android:gravity="center"
-            android:text="Submit Request"
+            android:text="@string/submit_request"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/content_card_date_picer" />
+            app:layout_constraintTop_toBottomOf="@+id/content_card_date_picker" />
 
         <View
+            android:id="@+id/space"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginTop="0dp"
@@ -274,7 +276,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/request_button"></View>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </ScrollView>
